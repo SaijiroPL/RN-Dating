@@ -1,60 +1,49 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import {
+  createStackNavigator,
+  createBottomTabNavigator,
+  createAppContainer
+} from 'react-navigation';
 
-import TabBarIcon from '../components/TabBarIcon';
+// Screens
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import SearchScreen from '../screens/SearchScreen';
+import MyPlanScreen from '../screens/MyPlanScreen';
+import NotificationScreen from '../screens/NotificationScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
+/** ホームタブ */
 const HomeStack = createStackNavigator({
-  Home: HomeScreen,
+    home: HomeScreen,
 });
 
-HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
-    />
-  ),
-};
-
-const LinksStack = createStackNavigator({
-  Links: LinksScreen,
+/** 検索タブ */
+const SearchStack = createStackNavigator({
+  search: SearchScreen,
 });
 
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
-    />
-  ),
-};
-
-const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen,
+/** マイプランタブ */
+const MyPlanStack = createStackNavigator({
+  myPlan: MyPlanScreen,
 });
 
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
-    />
-  ),
-};
-
-export default createBottomTabNavigator({
-  HomeStack,
-  LinksStack,
-  SettingsStack,
+/** 通知タブ */
+const NotificationStack = createStackNavigator({
+  notification: NotificationScreen,
 });
+
+/** プロフィールタブ */
+const ProfileStack = createStackNavigator({
+  profile: ProfileScreen,
+});
+
+const BottomTabNavigator = createBottomTabNavigator({
+  homeStack: { screen: HomeStack},
+  searchStack: { screen: SearchStack },
+  myPlanStack: { screen: MyPlanStack },
+  notificationStack: { screen: NotificationStack },
+  profileStack: { screen: ProfileStack },
+});
+
+export default createAppContainer(BottomTabNavigator);

@@ -2,36 +2,37 @@ import React from 'react';
 import { StyleSheet, Text, View, ScrollView, Image, Dimensions } from 'react-native';
 import { Button } from 'react-native-elements';
 
+// Constants
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SLIDE_DATA = [
   {
     step: 'Step: 1',
     title: '日時の入力',
     text: 'デート当日の日付と時間、移動手段を入力します',
-    uri: require('../../assets/images/robot-dev.png')
+    uri: require('../../../assets/images/robot-dev.png')
   },
   {
     step: 'Step: 2',
     title: '場所とピン付け',
     text: 'マップで大まかな行動範囲を設定します',
-    uri: require('../../assets/images/robot-dev.png')
+    uri: require('../../../assets/images/robot-dev.png')
   },
   {
     step: 'Step: 3',
     title: 'フリックでリストアップ',
     text: 'デートスポット候補をフリックで選択します',
-    uri: require('../../assets/images/robot-dev.png') },
+    uri: require('../../../assets/images/robot-dev.png') },
   {
     step: 'Step: 4',
     title: 'スポット厳選',
     text: 'リストアップした候補を厳選します',
-    uri: require('../../assets/images/robot-dev.png')
+    uri: require('../../../assets/images/robot-dev.png')
   },
   {
     step: 'Step: 5',
     title: '順番とプラン名',
     text: '訪れる順番とデートプラン名を決定します',
-    uri: require('../../assets/images/robot-dev.png')
+    uri: require('../../../assets/images/robot-dev.png')
   },
 ];
 
@@ -39,6 +40,13 @@ const SLIDE_DATA = [
  * ウェルカム画面
  */
 class WelcomeScreen extends React.Component {
+  /**
+   * 完了ボタン押下でホーム画面に遷移する
+   */
+  onStartButtonPress = () => {
+    this.props.navigation.navigate('main');
+  }
+
   /**
    * 最後のページに完了ボタンを配置する
    * @param index ページのインデックス
@@ -55,6 +63,7 @@ class WelcomeScreen extends React.Component {
             }}
             buttonStyle={{ backgroundColor: 'orange' }}
             title="完了"
+            onPress={this.onStartButtonPress}
           />
         </View>
       );

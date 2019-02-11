@@ -1,10 +1,19 @@
 import React from 'react';
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createSwitchNavigator, createAppContainer } from 'react-navigation';
 
+// Navigator
 import MainTabNavigator from './MainTabNavigator';
 
-export default createAppContainer(createSwitchNavigator({
-  // You could add another route here for authentication.
-  // Read more at https://reactnavigation.org/docs/en/auth-flow.html
-  Main: MainTabNavigator,
-}));
+// Screens
+import WelcomeScreen from '../screens/WelcomeScreen';
+
+const SwitchNavigator = createSwitchNavigator(
+  {
+    // ウェルカム画面
+    welcome: { screen: WelcomeScreen },
+    // メイン画面
+    main: { screen: MainTabNavigator },
+  }
+);
+
+export default createAppContainer(SwitchNavigator);

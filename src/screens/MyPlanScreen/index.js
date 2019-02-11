@@ -1,14 +1,14 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-// Navigator
-import AppNavigator from './src/navigation/AppNavigator';
-
-export default class App extends React.Component {
+/**
+ * マイプラン画面トップ
+ */
+class MyPlanScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <AppNavigator />
+        <Text>マイプラン画面</Text>
       </View>
     );
   }
@@ -17,7 +17,10 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 15,
     backgroundColor: '#fff',
     justifyContent: 'center',
   },
 });
+
+export default MyPlanScreen ;
