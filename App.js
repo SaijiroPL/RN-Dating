@@ -28,6 +28,7 @@ export default class App extends React.Component {
     await Font.loadAsync(fonts);
     return true;
   }
+  //test
 
   render() {
     const { isLoadingComplete } = this.state;
