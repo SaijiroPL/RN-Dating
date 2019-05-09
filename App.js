@@ -3,11 +3,11 @@ import { StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
 
 // Navigator
-import AppNavigator from './src/navigation/AppNavigator';
+import AppNavigator from 'app/src/navigation/AppNavigator';
 
 // from app
-import images from './src/images';
-import fonts from './src/fonts';
+import images from 'app/src/images';
+import fonts from 'app/src/fonts';
 
 export default class App extends React.Component {
   static defaultProps = {

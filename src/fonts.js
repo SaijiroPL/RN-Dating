@@ -1,9 +1,8 @@
-const genjuMenium = require('../assets/fonts/GenJyuuGothic-Medium.ttf')
-const genjuLight = require('../assets/fonts/GenJyuuGothic-Light.ttf')
+const genjuMenium = require('app/assets/fonts/GenJyuuGothic-Medium.ttf');
+const genjuLight = require('app/assets/fonts/GenJyuuGothic-Light.ttf');
 
 /**
  * フォントをまとめてrequireしてexportしておく
- * 
  * @author tanakakota
  */
 const fonts = {
