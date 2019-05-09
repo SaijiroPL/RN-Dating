@@ -1,21 +1,19 @@
-import React from 'react';
-import { Platform } from 'react-native';
 import {
   createStackNavigator,
   createBottomTabNavigator,
-  createAppContainer
+  createAppContainer,
 } from 'react-navigation';
 
 // Screens
-import HomeScreen from '../screens/HomeScreen';
-import SearchScreen from '../screens/SearchScreen';
-import MyPlanScreen from '../screens/MyPlanScreen';
-import NotificationScreen from '../screens/NotificationScreen';
-import ProfileScreen from '../screens/ProfileScreen';
+import HomeScreen from 'app/src/screens/HomeScreen';
+import SearchScreen from 'app/src/screens/SearchScreen';
+import MyPlanScreen from 'app/src/screens/MyPlanScreen';
+import NotificationScreen from 'app/src/screens/NotificationScreen';
+import ProfileScreen from 'app/src/screens/ProfileScreen';
 
 /** ホームタブ */
 const HomeStack = createStackNavigator({
-    home: HomeScreen,
+  home: HomeScreen,
 });
 
 /** 検索タブ */
@@ -39,7 +37,7 @@ const ProfileStack = createStackNavigator({
 });
 
 const BottomTabNavigator = createBottomTabNavigator({
-  homeStack: { screen: HomeStack},
+  homeStack: { screen: HomeStack },
   searchStack: { screen: SearchStack },
   myPlanStack: { screen: MyPlanStack },
   notificationStack: { screen: NotificationStack },

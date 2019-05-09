@@ -1,11 +1,10 @@
-import React from 'react';
 import { createSwitchNavigator, createAppContainer } from 'react-navigation';
 
 // Navigator
-import MainTabNavigator from './MainTabNavigator';
+import MainTabNavigator from 'app/src/navigation/MainTabNavigator';
 
 // Screens
-import WelcomeScreen from '../screens/WelcomeScreen';
+import WelcomeScreen from 'app/src/screens/WelcomeScreen';
 
 const SwitchNavigator = createSwitchNavigator(
   {
@@ -13,7 +12,7 @@ const SwitchNavigator = createSwitchNavigator(
     welcome: { screen: WelcomeScreen },
     // メイン画面
     main: { screen: MainTabNavigator },
-  }
+  },
 );
 
 export default createAppContainer(SwitchNavigator);
