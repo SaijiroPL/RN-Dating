@@ -5,7 +5,6 @@ const SCREEN_WIDTH = Dimensions.get('window').width;
 
 /**
  * WelcomeScreenのスタイリング
- * 
  * @author tanakakota
  */
 const styles = StyleSheet.create({
@@ -46,7 +45,7 @@ const styles = StyleSheet.create({
     color: '#666',
     fontSize: 15,
     padding: 10,
-  }
+  },
 });
 
 export default styles;
