@@ -1,3 +1,5 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable consistent-return */
 import React from 'react';
 import {
   Text,
@@ -9,7 +11,7 @@ import { Button } from 'react-native-elements';
 
 // from app
 import images from 'app/src/images';
-import styles from 'app/src/screens/WelcomeScreen/styles';
+import styles from './styles';
 
 // Constants
 const SLIDE_DATA = [
@@ -62,7 +64,7 @@ export default class WelcomeScreen extends React.Component {
             buttonStyle={{
               backgroundColor: 'orange',
               paddingVertical: 10,
-              paddingHorizontal: 50
+              paddingHorizontal: 50,
             }}
             title="完了"
             onPress={this.onStartButtonPress}
