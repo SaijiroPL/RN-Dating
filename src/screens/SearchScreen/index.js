@@ -1,10 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
+
+// from app
+import styles from './styles';
 
 /**
  * 検索画面トップ
  */
-class SearchScreen extends React.Component {
+export default class SearchScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
@@ -13,14 +16,3 @@ class SearchScreen extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 15,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-  },
-});
-
-export default SearchScreen;

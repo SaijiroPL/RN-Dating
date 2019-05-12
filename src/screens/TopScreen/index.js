@@ -5,13 +5,13 @@ import { Text, View } from 'react-native';
 import styles from './styles';
 
 /**
- * マイプラン画面トップ
+ * 初回起動時の画面
  */
-export default class MyPlanScreen extends React.Component {
+export default class TopScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>マイプラン画面</Text>
+        <Text>初期画面</Text>
       </View>
     );
   }
