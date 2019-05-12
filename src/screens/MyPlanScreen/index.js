@@ -1,10 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
+
+// from app
+import styles from './styles';
 
 /**
  * マイプラン画面トップ
  */
-class MyPlanScreen extends React.Component {
+export default class MyPlanScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
@@ -13,14 +16,3 @@ class MyPlanScreen extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 15,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-  },
-});
-
-export default MyPlanScreen;
