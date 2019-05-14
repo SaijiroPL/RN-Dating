@@ -88,4 +88,5 @@ const BottomTabNavigator = createBottomTabNavigator(
   },
 );
 
+// export default BottomTabNavigator;
 export default createAppContainer(BottomTabNavigator);
