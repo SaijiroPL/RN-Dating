@@ -2,10 +2,8 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
 
-// Navigator
-import AppNavigator from 'app/src/navigation/AppNavigator';
-
 // from app
+import Navigation from 'app/src';
 import images from 'app/src/images';
 import fonts from 'app/src/fonts';
 
@@ -28,7 +26,6 @@ export default class App extends React.Component {
     await Font.loadAsync(fonts);
     return true;
   }
-  //test
 
   render() {
     const { isLoadingComplete } = this.state;
@@ -47,7 +44,7 @@ export default class App extends React.Component {
 
     return (
       <View style={styles.container}>
-        <AppNavigator />
+        <Navigation />
       </View>
     );
   }

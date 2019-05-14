@@ -30,7 +30,9 @@ export default class TopScreen extends React.Component {
     super(props);
 
     this.state = {
+      // [0]初回画面 [1]メールアドレスログイン画面 [2]新規登録画面
       screenPhase: 0,
+
       mailAddress: '',
       password: '',
       rePassword: '',
@@ -50,28 +52,6 @@ export default class TopScreen extends React.Component {
   /** 新規登録ボタン押下時の処理 */
   onSignUpButtonPress = () => {
     this.props.navigation.navigate('welcome');
-  }
-
-  /**
-   * 表示する画面を判断する
-   * @param screenPhase [0]初回画面 [1]メールアドレスログイン画面 [2]新規登録画面
-   */
-  renderEachView(screenPhase) {
-    this.renderTopScreen();
-    switch (screenPhase) {
-      case 0:
-        this.renderTopScreen();
-        break;
-      case 1:
-        this.renderSignInScreen();
-        break;
-      case 2:
-        this.renderSignUpScreen();
-        break;
-      default:
-        this.renderTopScreen();
-        break;
-    }
   }
 
   /** 初期画面を描画する */
