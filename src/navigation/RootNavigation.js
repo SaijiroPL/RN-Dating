@@ -2,13 +2,17 @@ import React from 'react';
 import { BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
-import { reduxifyNavigator } from 'react-navigation-redux-helpers';
+import { createReduxContainer } from 'react-navigation-redux-helpers';
 
 // from app
 import AppNavigator from 'app/src/navigation/AppNavigator';
 
-const App = reduxifyNavigator(AppNavigator, 'root');
+const App = createReduxContainer(AppNavigator, 'root');
 
+/**
+ * ルーティングの大元となるクラス
+ * @author tanakakota
+ */
 @connect(state => ({ navigation: state.navigation }))
 export default class AppWithNavigationState extends React.Component {
   constructor(props) {

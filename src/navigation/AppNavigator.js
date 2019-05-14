@@ -1,7 +1,7 @@
 import {
-  createSwitchNavigator,
-  createAppContainer,
-  // createStackNavigator,
+  // createSwitchNavigator,
+  // createAppContainer,
+  createStackNavigator,
   NavigationActions,
 } from 'react-navigation';
 
@@ -11,11 +11,11 @@ import TopScreen from 'app/src/screens/TopScreen';
 import WelcomeScreen from 'app/src/screens/WelcomeScreen';
 
 /**
- * アプリケーション全体のSwitchNavigator
+ * アプリケーション全体のNavigator
  * @author tanakakota
  */
-// const AppNavigator = createStackNavigator(
-const SwitchNavigator = createSwitchNavigator(
+// const SwitchNavigator = createSwitchNavigator(
+const AppNavigator = createStackNavigator(
   {
     // トップ画面
     top: { screen: TopScreen },
@@ -53,8 +53,8 @@ export const getActiveRouteName = (navigationState) => {
 };
 
 // ルーティングの際にStoreのStateを取得する
-// AppNavigator.router.getStateForAction = navigateOnce(AppNavigator.router.getStateForAction);
-SwitchNavigator.router.getStateForAction = navigateOnce(SwitchNavigator.router.getStateForAction);
+// SwitchNavigator.router.getStateForAction = navigateOnce(SwitchNavigator.router.getStateForAction);
+AppNavigator.router.getStateForAction = navigateOnce(AppNavigator.router.getStateForAction);
 
-// export default AppNavigator;
-export default createAppContainer(SwitchNavigator);
+// export default createAppContainer(SwitchNavigator);
+export default AppNavigator;

@@ -9,9 +9,7 @@ import reducers from 'app/src/reducers';
 const logger = () => next => (action) => {
   if (__DEV__) {
     // 'Navigation'が含まれていなければログ出力(開発環境のみ)
-    if (action.type.indexOf('Navigation') === -1) {
-      console.log(action);
-    }
+    if (action.type.indexOf('Navigation') === -1) console.log(action);
   }
   next(action);
 };
@@ -40,7 +38,10 @@ const screenTracking = store => next => (action) => {
   return result;
 };
 
-/* Storeの作成 */
+/**
+ * Storeの作成
+ * @author tanakakota
+ */
 const store = createStore(
   // 1つのReducerにまとめる
   combineReducers({ ...reducers }),
@@ -48,8 +49,9 @@ const store = createStore(
   // ActionがReducerに到達する前にMiddlewareがキャッチできるようにする関数
   applyMiddleware(
     // react-navigationにおいてreduxのMiddlewareを作るために必要な関数
+    // 第一パラメータはオプショナルなので抜く
     createReactNavigationReduxMiddleware(
-      'root',
+      // 'root',
       state => state.navigation,
     ),
     logger,
