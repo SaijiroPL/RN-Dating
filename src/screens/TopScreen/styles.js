@@ -12,6 +12,9 @@ const styles = StyleSheet.create({
   emptySpaceStyle: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   topImageStyle: { flex: 2, justifyContent: 'center', alignItems: 'center' },
   linkGroupStyle: { flex: 3, justifyContent: 'center', alignItems: 'center' },
+  sexGroupStyle: { flex: 1, flexDirection: 'row', alignItems: 'center' },
+  ageGroupStyle: { flex: 1, flexDirection: 'row', alignItems: 'center' },
+  addressGroupStyle: { flex: 2, justifyContent: 'center', alignItems: 'center' },
   inputFormStyle: {
     width: SCREEN_WIDTH * 0.75,
     marginBottom: 20,
@@ -35,6 +38,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     textDecorationLine: 'underline',
     textDecorationColor: 'orange',
+  },
+  entryTextStyle: {
+    fontFamily: 'genju-medium',
+    color: '#666',
+    fontSize: 20,
+    textAlign: 'center',
+  },
+  dividerStyle: {
+    backgroundColor: 'orange',
+    width: SCREEN_WIDTH * 0.75,
+    marginVertical: 30,
   },
 });
 
