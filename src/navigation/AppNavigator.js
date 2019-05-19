@@ -9,7 +9,7 @@ import {
 import MainTabNavigator from 'app/src/navigation/MainTabNavigator';
 import TopScreen from 'app/src/screens/TopScreen';
 import EntryScreen from 'app/src/screens/TopScreen/entry';
-import WelcomeScreen from 'app/src/screens/WelcomeScreen';
+import WelcomeScreen from 'app/src/screens/TopScreen/welcome';
 
 /**
  * アプリケーション全体のNavigator

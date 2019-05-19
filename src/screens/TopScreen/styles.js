@@ -4,10 +4,11 @@ import { StyleSheet, Dimensions } from 'react-native';
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
 /**
- * TopScreenのスタイリング
+ * TopScreen, EntryScreen, WelcomeScreen のスタイリング
  * @author tanakakota
  */
 const styles = StyleSheet.create({
+  // コンテナ
   containerStyle: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   emptySpaceStyle: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   topImageStyle: { flex: 2, justifyContent: 'center', alignItems: 'center' },
@@ -15,6 +16,11 @@ const styles = StyleSheet.create({
   sexGroupStyle: { flex: 1, flexDirection: 'row', alignItems: 'center' },
   ageGroupStyle: { flex: 1, flexDirection: 'row', alignItems: 'center' },
   addressGroupStyle: { flex: 2, justifyContent: 'center', alignItems: 'center' },
+  slideStyle: { flex: 1, alignItems: 'center', width: SCREEN_WIDTH },
+  headerStyle: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  footerStyle: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+
+  // コンポーネント
   inputFormStyle: {
     width: SCREEN_WIDTH * 0.75,
     marginBottom: 20,
@@ -24,6 +30,13 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     width: SCREEN_WIDTH * 0.75,
   },
+  dividerStyle: {
+    backgroundColor: 'orange',
+    width: SCREEN_WIDTH * 0.75,
+    marginVertical: 30,
+  },
+
+  // テキスト
   welcomeTextStyle: {
     fontFamily: 'genju-medium',
     color: '#666',
@@ -45,10 +58,23 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
   },
-  dividerStyle: {
-    backgroundColor: 'orange',
-    width: SCREEN_WIDTH * 0.75,
-    marginVertical: 30,
+  headerTextStyle: {
+    fontFamily: 'genju-medium',
+    color: '#666',
+    fontSize: 20,
+    paddingVertical: 20,
+  },
+  titleStyle: {
+    fontFamily: 'genju-medium',
+    color: '#666',
+    fontSize: 20,
+    padding: 10,
+  },
+  descriptionStyle: {
+    fontFamily: 'genju-medium',
+    color: '#666',
+    fontSize: 15,
+    padding: 10,
   },
 });
 
