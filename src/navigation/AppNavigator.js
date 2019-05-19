@@ -8,7 +8,8 @@ import {
 // from app
 import MainTabNavigator from 'app/src/navigation/MainTabNavigator';
 import TopScreen from 'app/src/screens/TopScreen';
-import WelcomeScreen from 'app/src/screens/WelcomeScreen';
+import EntryScreen from 'app/src/screens/TopScreen/entry';
+import WelcomeScreen from 'app/src/screens/TopScreen/welcome';
 
 /**
  * アプリケーション全体のNavigator
@@ -21,6 +22,8 @@ const AppNavigator = createStackNavigator(
     top: { screen: TopScreen },
     // ウェルカム画面
     welcome: { screen: WelcomeScreen },
+    // 基本情報入力画面
+    entry: { screen: EntryScreen },
     // メイン画面
     main: { screen: MainTabNavigator },
   },
