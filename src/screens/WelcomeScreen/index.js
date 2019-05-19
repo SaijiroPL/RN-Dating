@@ -47,9 +47,9 @@ const SLIDE_DATA = [
  * @author tanakakota
  */
 export default class WelcomeScreen extends React.Component {
-  /** 完了ボタン押下でホーム画面に遷移する */
+  /** 完了ボタン押下で基本情報入力画面に遷移する */
   onStartButtonPress = () => {
-    this.props.navigation.navigate('main');
+    this.props.navigation.navigate('entry');
   }
 
   /**
