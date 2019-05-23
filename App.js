@@ -1,11 +1,15 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
+// import axiosBase from 'axios';
 
 // from app
 import Navigation from 'app/src';
 import images from 'app/src/images';
 import fonts from 'app/src/fonts';
+
+// const userApiBaseUrl = `${process.env.ONEDATE_SERVER_URL}/user`;
+// const axios = axiosBase.create({ baseURL: userApiBaseUrl });
 
 export default class App extends React.Component {
   static defaultProps = {
