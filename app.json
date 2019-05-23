@@ -24,6 +24,17 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "extra": {
+      "firebase": {
+        "apiKey": "AIzaSyBIn8a--atK3_ytI61BIjZktqamvpFDTD4",
+        "authDomain": "one-date-planning-app.firebaseapp.com",
+        "databaseURL": "https://one-date-planning-app.firebaseio.com",
+        "projectId": "one-date-planning-app",
+        "storageBucket": "one-date-planning-app.appspot.com",
+        "messagingSenderId": "821178705436",
+        "appId": "1:821178705436:web:c38596c8f71344a5"
+      }
     }
   }
 }
