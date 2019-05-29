@@ -46,7 +46,7 @@ const SLIDE_DATA = [
  * ウェルカム画面
  * @author tanakakota
  */
-export default class WelcomeScreen extends React.Component {
+export default class WelcomeScreen extends React.Component<any, any> {
   /** 完了ボタン押下で基本情報入力画面に遷移する */
   onStartButtonPress = () => {
     this.props.navigation.navigate('entry');

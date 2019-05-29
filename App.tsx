@@ -11,7 +11,7 @@ import fonts from 'app/src/fonts';
 // const userApiBaseUrl = `${process.env.ONEDATE_SERVER_URL}/user`;
 // const axios = axiosBase.create({ baseURL: userApiBaseUrl });
 
-export default class App extends React.Component {
+export default class App extends React.Component<any, any> {
   static defaultProps = {
     skipLoadingScreen: false,
   }

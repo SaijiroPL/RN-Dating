@@ -7,7 +7,7 @@ import styles from './styles';
 /**
  * 通知画面トップ
  */
-export default class NotificationScreen extends React.Component {
+export default class NotificationScreen extends React.Component<any, any> {
   render() {
     return (
       <View style={styles.container}>

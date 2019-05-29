@@ -14,7 +14,7 @@ const App = createReduxContainer(AppNavigator, 'root');
  * @author tanakakota
  */
 @connect(state => ({ navigation: state.navigation }))
-export default class AppWithNavigationState extends React.Component {
+export default class AppWithNavigationState extends React.Component<any, any> {
   constructor(props) {
     super(props);
 

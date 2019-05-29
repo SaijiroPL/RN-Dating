@@ -7,7 +7,7 @@ import styles from './styles';
 /**
  * マイプラン画面トップ
  */
-export default class MyPlanScreen extends React.Component {
+export default class MyPlanScreen extends React.Component<any, any> {
   render() {
     return (
       <View style={styles.container}>

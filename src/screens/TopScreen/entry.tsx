@@ -19,7 +19,7 @@ import styles from './styles';
  * ユーザー基本情報入力画面
  * @author tanakakota
  */
-export default class EntryScreen extends React.Component {
+export default class EntryScreen extends React.Component<any, any> {
   constructor(props) {
     super(props);
 

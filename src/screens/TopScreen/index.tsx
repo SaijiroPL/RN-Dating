@@ -25,7 +25,7 @@ const SCREEN_WIDTH = Dimensions.get('window').width;
  * 初回起動時の画面
  * @author tanakakota
  */
-export default class TopScreen extends React.Component {
+export default class TopScreen extends React.Component<any, any> {
   constructor(props) {
     super(props);
 

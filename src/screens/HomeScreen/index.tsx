@@ -7,7 +7,7 @@ import styles from './styles';
 /**
  * ホーム画面トップ
  */
-export default class HomeScreen extends React.Component {
+export default class HomeScreen extends React.Component<any, any> {
   render() {
     return (
       <View style={styles.container}>

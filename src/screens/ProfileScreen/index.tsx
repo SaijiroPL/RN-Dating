@@ -7,7 +7,7 @@ import styles from './styles';
 /**
  * プロフィール画面トップ
  */
-export default class ProfileScreen extends React.Component {
+export default class ProfileScreen extends React.Component<any, any> {
   render() {
     return (
       <View style={styles.container}>
