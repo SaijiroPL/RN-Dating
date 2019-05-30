@@ -15,7 +15,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 // from app
-import images from 'app/src/images';
+import images from 'src/images';
 import styles from './styles';
 
 // Constants

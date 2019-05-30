@@ -5,11 +5,11 @@ import {
 } from 'react-navigation';
 
 // from app
-import HomeScreen from 'app/src/screens/HomeScreen';
-import SearchScreen from 'app/src/screens/SearchScreen';
-import MyPlanScreen from 'app/src/screens/MyPlanScreen';
-import NotificationScreen from 'app/src/screens/NotificationScreen';
-import ProfileScreen from 'app/src/screens/ProfileScreen';
+import HomeScreen from 'src/screens/HomeScreen';
+import SearchScreen from 'src/screens/SearchScreen';
+import MyPlanScreen from 'src/screens/MyPlanScreen';
+import NotificationScreen from 'src/screens/NotificationScreen';
+import ProfileScreen from 'src/screens/ProfileScreen';
 import {
   HomeTabIcon,
   SearchTabIcon,
@@ -17,7 +17,7 @@ import {
   NotificationTabIcon,
   ProfileTabIcon,
   TabBar,
-} from 'app/src/components/Tab';
+} from 'src/components/Tab';
 
 /**
  * StackNavigatorを作成する関数

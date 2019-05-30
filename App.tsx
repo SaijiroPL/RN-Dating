@@ -4,9 +4,9 @@ import { AppLoading, Asset, Font } from 'expo';
 // import axiosBase from 'axios';
 
 // from app
-import Navigation from 'app/src';
-import images from 'app/src/images';
-import fonts from 'app/src/fonts';
+import Navigation from 'src';
+import images from 'src/images';
+import fonts from 'src/fonts';
 
 // const userApiBaseUrl = `${process.env.ONEDATE_SERVER_URL}/user`;
 // const axios = axiosBase.create({ baseURL: userApiBaseUrl });

@@ -2,8 +2,8 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers';
 
 /* from app */
-import { getActiveRouteName } from 'app/src/navigation/AppNavigator';
-import reducers from 'app/src/reducers';
+import { getActiveRouteName } from 'src/navigation/AppNavigator';
+import reducers from 'src/reducers';
 
 /** Stateのデバッグ用のMiddleware */
 const logger = () => next => (action) => {

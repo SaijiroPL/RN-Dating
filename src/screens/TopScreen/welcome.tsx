@@ -10,7 +10,7 @@ import {
 import { Button } from 'react-native-elements';
 
 // from app
-import images from 'app/src/images';
+import images from 'src/images';
 import styles from './styles';
 
 // Constants
