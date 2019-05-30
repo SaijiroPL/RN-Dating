@@ -1,8 +1,8 @@
-import React from 'react';
-import { Text, View } from 'react-native';
+import React from "react";
+import { Text, View } from "react-native";
 
 // from app
-import styles from './styles';
+import styles from "./styles";
 
 /**
  * プロフィール画面トップ

@@ -1,19 +1,12 @@
 /* eslint-disable react/destructuring-assignment */
-import React from 'react';
-import {
-  Text,
-  View,
-  Picker,
-} from 'react-native';
-import {
-  Button,
-  Divider,
-} from 'react-native-elements';
-import DatePicker from 'react-native-datepicker';
-import { SimpleLineIcons } from 'react-native-vector-icons';
+import React from "react";
+import { Text, View, Picker } from "react-native";
+import { Button, Divider } from "react-native-elements";
+import DatePicker from "react-native-datepicker";
+import { SimpleLineIcons } from "react-native-vector-icons";
 
 // from app
-import styles from './styles';
+import styles from "./styles";
 
 /**
  * ユーザー基本情報入力画面
@@ -24,16 +17,16 @@ export default class EntryScreen extends React.Component<any, any> {
     super(props);
 
     this.state = {
-      sex: '',
-      date: '1995-01-01',
-      prefecture: 'tokyo',
+      sex: "",
+      date: "1995-01-01",
+      prefecture: "tokyo"
     };
   }
 
   /** 完了ボタン押下でホーム画面に遷移する */
   onCompleteButtonPress = () => {
-    this.props.navigation.navigate('main');
-  }
+    this.props.navigation.navigate("main");
+  };
 
   /** 性別選択ボタンを描画する */
   renderSexButtons() {
@@ -43,40 +36,64 @@ export default class EntryScreen extends React.Component<any, any> {
       <View style={styles.sexGroupStyle}>
         <Text style={styles.entryTextStyle}>性別</Text>
         {/* 選択したボタンの色を変える */}
-        { sex === 'man'
-          ? (
-            <Button
-              title="男性"
-              icon={<SimpleLineIcons name="user" color="orange" size={15} style={{ paddingRight: 5 }} />}
-              buttonStyle={{ marginHorizontal: 20 }}
-              onPress={() => this.setState({ sex: 'man' })}
-            />
-          ) : (
-            <Button
-              type="outline"
-              title="男性"
-              icon={<SimpleLineIcons name="user" color="orange" size={15} style={{ paddingRight: 5 }} />}
-              buttonStyle={{ marginHorizontal: 20 }}
-              onPress={() => this.setState({ sex: 'man' })}
-            />
-          )
-        }
-        { sex === 'woman'
-          ? (
-            <Button
-              title="女性"
-              icon={<SimpleLineIcons name="user-female" color="orange" size={15} style={{ paddingRight: 5 }} />}
-              onPress={() => this.setState({ sex: 'woman' })}
-            />
-          ) : (
-            <Button
-              type="outline"
-              title="女性"
-              icon={<SimpleLineIcons name="user-female" color="orange" size={15} style={{ paddingRight: 5 }} />}
-              onPress={() => this.setState({ sex: 'woman' })}
-            />
-          )
-        }
+        {sex === "man" ? (
+          <Button
+            title="男性"
+            icon={
+              <SimpleLineIcons
+                name="user"
+                color="orange"
+                size={15}
+                style={{ paddingRight: 5 }}
+              />
+            }
+            buttonStyle={{ marginHorizontal: 20 }}
+            onPress={() => this.setState({ sex: "man" })}
+          />
+        ) : (
+          <Button
+            type="outline"
+            title="男性"
+            icon={
+              <SimpleLineIcons
+                name="user"
+                color="orange"
+                size={15}
+                style={{ paddingRight: 5 }}
+              />
+            }
+            buttonStyle={{ marginHorizontal: 20 }}
+            onPress={() => this.setState({ sex: "man" })}
+          />
+        )}
+        {sex === "woman" ? (
+          <Button
+            title="女性"
+            icon={
+              <SimpleLineIcons
+                name="user-female"
+                color="orange"
+                size={15}
+                style={{ paddingRight: 5 }}
+              />
+            }
+            onPress={() => this.setState({ sex: "woman" })}
+          />
+        ) : (
+          <Button
+            type="outline"
+            title="女性"
+            icon={
+              <SimpleLineIcons
+                name="user-female"
+                color="orange"
+                size={15}
+                style={{ paddingRight: 5 }}
+              />
+            }
+            onPress={() => this.setState({ sex: "woman" })}
+          />
+        )}
       </View>
     );
   }
@@ -88,10 +105,19 @@ export default class EntryScreen extends React.Component<any, any> {
     return (
       <View style={styles.emptySpaceStyle}>
         {/* 未入力項目がある場合はボタン押下不可 */}
-        { sex !== ''
-          ? <Button buttonStyle={styles.completeButtonStyle} title="決定" onPress={this.onCompleteButtonPress} />
-          : <Button buttonStyle={styles.completeButtonStyle} title="決定" disabled />
-        }
+        {sex !== "" ? (
+          <Button
+            buttonStyle={styles.completeButtonStyle}
+            title="決定"
+            onPress={this.onCompleteButtonPress}
+          />
+        ) : (
+          <Button
+            buttonStyle={styles.completeButtonStyle}
+            title="決定"
+            disabled
+          />
+        )}
       </View>
     );
   }
@@ -132,8 +158,10 @@ export default class EntryScreen extends React.Component<any, any> {
             <Picker
               selectedValue={prefecture}
               style={{ width: 200 }}
-              itemStyle={{ fontSize: 15, color: 'orange' }}
-              onValueChange={itemValue => this.setState({ prefecture: itemValue })}
+              itemStyle={{ fontSize: 15, color: "orange" }}
+              onValueChange={itemValue =>
+                this.setState({ prefecture: itemValue })
+              }
             >
               {/* TODO 47都道府県分(別ファイルに吐き出したい) */}
               <Picker.Item label="埼玉" value="saitama" />

@@ -1,5 +1,5 @@
-import navigation from './navigation';
-import screen from './screen';
+import navigation from "./navigation";
+import screen from "./screen";
 
 /**
  * 各Reducerをまとめてexportする
@@ -7,5 +7,5 @@ import screen from './screen';
  */
 export default {
   navigation,
-  screen,
+  screen
 };

@@ -1,25 +1,16 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/destructuring-assignment */
-import React from 'react';
-import {
-  Text,
-  View,
-  Image,
-  Dimensions,
-} from 'react-native';
-import {
-  Button,
-  SocialIcon,
-  Input,
-} from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import React from "react";
+import { Text, View, Image, Dimensions } from "react-native";
+import { Button, SocialIcon, Input } from "react-native-elements";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 // from app
-import images from 'src/images';
-import styles from './styles';
+import images from "src/images";
+import styles from "./styles";
 
 // Constants
-const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_WIDTH = Dimensions.get("window").width;
 
 /**
  * 初回起動時の画面
@@ -33,34 +24,49 @@ export default class TopScreen extends React.Component<any, any> {
       // [0]初回画面 [1]メールアドレスログイン画面 [2]新規登録画面
       screenPhase: 0,
 
-      mailAddress: '',
-      password: '',
-      rePassword: '',
+      mailAddress: "",
+      password: "",
+      rePassword: ""
     };
   }
 
   /** Facebookログインボタン押下時の処理 */
   onFacebookButtonPress = () => {
-    this.props.navigation.navigate('welcome');
-  }
+    this.props.navigation.navigate("welcome");
+  };
 
   /** メールアドレスログインボタン押下時の処理 */
   onSignInButtonPress = () => {
-    this.props.navigation.navigate('main');
-  }
+    this.props.navigation.navigate("main");
+  };
 
   /** 新規登録ボタン押下時の処理 */
   onSignUpButtonPress = () => {
-    this.props.navigation.navigate('welcome');
-  }
+    this.props.navigation.navigate("welcome");
+  };
 
   /** 初期画面を描画する */
   renderTopScreen() {
     return (
       <View>
-        <SocialIcon title="Facebookでログイン" button type="facebook" onPress={this.onFacebookButtonPress} />
-        <Text style={styles.linkStyle} onPress={() => this.setState({ screenPhase: 1 })}>メールアドレスでログイン</Text>
-        <Text style={styles.linkStyle} onPress={() => this.setState({ screenPhase: 2 })}>新規登録はこちら</Text>
+        <SocialIcon
+          title="Facebookでログイン"
+          button
+          type="facebook"
+          onPress={this.onFacebookButtonPress}
+        />
+        <Text
+          style={styles.linkStyle}
+          onPress={() => this.setState({ screenPhase: 1 })}
+        >
+          メールアドレスでログイン
+        </Text>
+        <Text
+          style={styles.linkStyle}
+          onPress={() => this.setState({ screenPhase: 2 })}
+        >
+          新規登録はこちら
+        </Text>
       </View>
     );
   }
@@ -137,7 +143,12 @@ export default class TopScreen extends React.Component<any, any> {
       <View style={styles.containerStyle}>
         <View style={styles.emptySpaceStyle} />
         <View style={styles.topImageStyle}>
-          <Image resizeMode="contain" source={images.logo} style={{ flex: 1 }} width={SCREEN_WIDTH * 0.8} />
+          <Image
+            resizeMode="contain"
+            source={images.logo}
+            style={{ flex: 1 }}
+            width={SCREEN_WIDTH * 0.8}
+          />
           <Text style={styles.welcomeTextStyle}>1Dateへようこそ</Text>
         </View>
         <View style={styles.linkGroupStyle}>

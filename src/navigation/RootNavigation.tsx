@@ -1,13 +1,13 @@
-import React from 'react';
-import { BackHandler } from 'react-native';
-import { connect } from 'react-redux';
-import { NavigationActions } from 'react-navigation';
-import { createReduxContainer } from 'react-navigation-redux-helpers';
+import React from "react";
+import { BackHandler } from "react-native";
+import { connect } from "react-redux";
+import { NavigationActions } from "react-navigation";
+import { createReduxContainer } from "react-navigation-redux-helpers";
 
 // from app
-import AppNavigator from 'src/navigation/AppNavigator';
+import AppNavigator from "src/navigation/AppNavigator";
 
-const App = createReduxContainer(AppNavigator, 'root');
+const App = createReduxContainer(AppNavigator, "root");
 
 /**
  * ルーティングの大元となるクラス
@@ -19,20 +19,20 @@ export default class AppWithNavigationState extends React.Component<any, any> {
     super(props);
 
     this.state = {
-      loading: false,
+      loading: false
     };
   }
 
   // マウントされた時に1度だけ呼ばれる
   async componentDidMount() {
     // this.onBackPressがAndroidのバックボタンで呼び出されるようにする
-    BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+    BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
   }
 
   // ComponentたDOMから削除される時に呼ばれる
   componentWillUnmount() {
     // this.onBackPressがAndroidのバックボタンで呼び出されないようにする
-    BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+    BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
   }
 
   onBackPress = () => {

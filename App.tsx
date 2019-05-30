@@ -1,26 +1,26 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { AppLoading, Asset, Font } from 'expo';
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { AppLoading, Asset, Font } from "expo";
 // import axiosBase from 'axios';
 
 // from app
-import Navigation from 'src';
-import images from 'src/images';
-import fonts from 'src/fonts';
+import Navigation from "src";
+import images from "src/images";
+import fonts from "src/fonts";
 
 // const userApiBaseUrl = `${process.env.ONEDATE_SERVER_URL}/user`;
 // const axios = axiosBase.create({ baseURL: userApiBaseUrl });
 
 export default class App extends React.Component<any, any> {
   static defaultProps = {
-    skipLoadingScreen: false,
-  }
+    skipLoadingScreen: false
+  };
 
   constructor(props) {
     super(props);
 
     this.state = {
-      isLoadingComplete: false,
+      isLoadingComplete: false
     };
   }
 
@@ -29,7 +29,7 @@ export default class App extends React.Component<any, any> {
     await Asset.loadAsync(Object.keys(images).map(key => images[key]));
     await Font.loadAsync(fonts);
     return true;
-  }
+  };
 
   render() {
     const { isLoadingComplete } = this.state;
@@ -57,7 +57,7 @@ export default class App extends React.Component<any, any> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-  },
+    backgroundColor: "#fff",
+    justifyContent: "center"
+  }
 });
