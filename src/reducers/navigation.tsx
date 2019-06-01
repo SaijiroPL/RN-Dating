@@ -6,7 +6,7 @@ const initialState = null;
  * state.navigationを扱うReducer
  * @author tanakakota
  */
-export default (state = initialState, action) => {
+export default (state = initialState, action: any) => {
   const nextState = AppNavigator.router.getStateForAction(action, state);
   return nextState || state;
 };

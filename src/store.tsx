@@ -5,8 +5,21 @@ import { createReactNavigationReduxMiddleware } from "react-navigation-redux-hel
 import { getActiveRouteName } from "src/navigation/AppNavigator";
 import reducers from "src/reducers";
 
+interface Action {
+  type: { indexOf: (arg0: string) => number };
+}
+
+interface Dispatch {
+  type: string;
+  payload: { current: any; next: any };
+}
+
+interface Nav {
+  navigation: any;
+}
+
 /** Stateのデバッグ用のMiddleware */
-const logger = () => next => action => {
+const logger = () => (next: (arg0: any) => void) => (action: Action) => {
   if (__DEV__) {
     // 'Navigation'が含まれていなければログ出力(開発環境のみ)
     if (action.type.indexOf("Navigation") === -1) console.log(action);
@@ -15,7 +28,12 @@ const logger = () => next => action => {
 };
 
 /** 画面遷移を追跡するMiddleware */
-const screenTracking = store => next => action => {
+const screenTracking = (store: {
+  getState: { (): Nav; (): Nav };
+  dispatch: (arg0: Dispatch) => void;
+}) => (next: { (arg0: any): void; (arg0: any): void }) => (action: {
+  type: { indexOf: (arg0: string) => number };
+}) => {
   // 'Navigation'が含まれていない場合は無視する
   if (action.type.indexOf("Navigation") === -1) return next(action);
 
@@ -52,7 +70,7 @@ const store = createStore(
     // 第一パラメータはオプショナルなので抜く
     createReactNavigationReduxMiddleware(
       // 'root',
-      state => state.navigation
+      (state: any) => state.navigation
     ),
     logger,
     screenTracking

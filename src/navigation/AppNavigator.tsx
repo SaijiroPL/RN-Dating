@@ -2,7 +2,8 @@ import {
   // createSwitchNavigator,
   // createAppContainer,
   createStackNavigator,
-  NavigationActions
+  // NavigationActions,
+  NavigationAction
 } from "react-navigation";
 
 // from app
@@ -28,20 +29,25 @@ const AppNavigator = createStackNavigator({
 });
 
 /** 同じスクリーンに遷移しないようにする */
-const navigateOnce = getStateForAction => (action, state) => {
-  const { type, routeName } = action;
+const navigateOnce = (getStateForAction: any) => (
+  // action: { type: any; routeName: any },
+  action: NavigationAction,
+  state: { routes: { routeName: any }[] }
+) => {
+  // const { type, routeName } = action;
+  const { type } = action;
 
-  if (state && type === NavigationActions.NAVIGATE) {
-    // 直前のrouteNameと遷移先のrouteNameが同じであれば遷移を無効化
-    if (routeName === state.routes[state.routes.length - 1].routeName)
-      return null;
-  }
+  // 直前のrouteNameと遷移先のrouteNameが同じであれば遷移を無効化
+  // if (state && type === NavigationActions.NAVIGATE) {
+  //   if (routeName === state.routes[state.routes.length - 1].routeName)
+  //     return null;
+  // }
 
   return getStateForAction(action, state);
 };
 
 /** アクティブになっているrouteNameを取得する */
-export const getActiveRouteName = navigationState => {
+export const getActiveRouteName = (navigationState: any) => () => {
   if (!navigateOnce) return null;
 
   // アクティブな子routeを取得する

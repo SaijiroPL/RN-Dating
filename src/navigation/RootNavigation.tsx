@@ -9,19 +9,24 @@ import AppNavigator from "src/navigation/AppNavigator";
 
 const App = createReduxContainer(AppNavigator, "root");
 
+interface Props {
+  navigation?: any;
+  dispatch?: any;
+}
+
+interface State {
+  loading: boolean;
+}
+
 /**
  * ルーティングの大元となるクラス
  * @author tanakakota
  */
-@connect(state => ({ navigation: state.navigation }))
-export default class AppWithNavigationState extends React.Component<any, any> {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      loading: false
-    };
-  }
+@connect((state: any) => ({ navigation: state.navigation }))
+class AppWithNavigationState extends React.Component<Props, State> {
+  public state: State = {
+    loading: false
+  };
 
   // マウントされた時に1度だけ呼ばれる
   async componentDidMount() {
@@ -54,3 +59,5 @@ export default class AppWithNavigationState extends React.Component<any, any> {
     return <App dispatch={dispatch} state={navigation} />;
   }
 }
+
+export default AppWithNavigationState;

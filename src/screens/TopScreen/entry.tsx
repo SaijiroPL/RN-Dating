@@ -3,25 +3,31 @@ import React from "react";
 import { Text, View, Picker } from "react-native";
 import { Button, Divider } from "react-native-elements";
 import DatePicker from "react-native-datepicker";
-import { SimpleLineIcons } from "react-native-vector-icons";
+import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 
 // from app
 import styles from "./styles";
+
+interface Props {
+  navigation: any;
+}
+
+interface State {
+  sex: string;
+  date: string;
+  prefecture: string;
+}
 
 /**
  * ユーザー基本情報入力画面
  * @author tanakakota
  */
-export default class EntryScreen extends React.Component<any, any> {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      sex: "",
-      date: "1995-01-01",
-      prefecture: "tokyo"
-    };
-  }
+export default class EntryScreen extends React.Component<Props, State> {
+  public state: State = {
+    sex: "",
+    date: "1995-01-01",
+    prefecture: "tokyo"
+  };
 
   /** 完了ボタン押下でホーム画面に遷移する */
   onCompleteButtonPress = () => {

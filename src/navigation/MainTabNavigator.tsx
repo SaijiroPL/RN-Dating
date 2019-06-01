@@ -1,8 +1,9 @@
 import {
   createStackNavigator,
-  createBottomTabNavigator,
+  // createBottomTabNavigator,
   createAppContainer
 } from "react-navigation";
+import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
 
 // from app
 import HomeScreen from "src/screens/HomeScreen";
@@ -15,8 +16,8 @@ import {
   SearchTabIcon,
   MyPlanTabIcon,
   NotificationTabIcon,
-  ProfileTabIcon,
-  TabBar
+  ProfileTabIcon
+  // TabBar
 } from "src/components/Tab";
 
 /**
@@ -24,7 +25,7 @@ import {
  * @param title タブのタイトル
  * @param screen 対象画面
  */
-const createTabStack = (title, screen) =>
+const createTabStack = (title: string, screen: typeof HomeScreen) =>
   createStackNavigator({
     [title]: { screen }
   });
@@ -33,7 +34,8 @@ const createTabStack = (title, screen) =>
  * メイン画面のBottomTabNavigator
  * @author tanakakota
  */
-const BottomTabNavigator = createBottomTabNavigator(
+// const BottomTabNavigator = createBottomTabNavigator(
+const BottomTabNavigator = createMaterialBottomTabNavigator(
   {
     // ホームタブの設定
     // TODO ホームタブをボトムバーの真ん中に配置
@@ -74,18 +76,21 @@ const BottomTabNavigator = createBottomTabNavigator(
   },
   // タブナビゲーション全体の設定
   {
-    tabBarOptions: {
-      showLabel: false,
-      activeTintColor: "orange",
-      inactiveTintColor: "#bbb",
-      style: {
-        backgroundColor: "#fff"
-      }
-    },
-    tabBarComponent: TabBar,
-    tabBarPosition: "bottom",
-    animationEnabled: false,
-    swipeEnabled: false
+    // tabBarOptions: {
+    //   showLabel: false,
+    //   activeTintColor: "orange",
+    //   inactiveTintColor: "#bbb",
+    //   style: {
+    //     backgroundColor: "#fff"
+    //   }
+    // },
+    // tabBarComponent: TabBar,
+    // tabBarPosition: "bottom",
+    // animationEnabled: false,
+    // swipeEnabled: false
+    shifting: true,
+    activeTintColor: "orange",
+    inactiveTintColor: "#bbb"
   }
 );
 

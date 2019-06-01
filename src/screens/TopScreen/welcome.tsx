@@ -37,11 +37,15 @@ const SLIDE_DATA = [
   }
 ];
 
+interface Props {
+  navigation: any;
+}
+
 /**
  * ウェルカム画面
  * @author tanakakota
  */
-export default class WelcomeScreen extends React.Component<any, any> {
+export default class WelcomeScreen extends React.Component<Props> {
   /** 完了ボタン押下で基本情報入力画面に遷移する */
   onStartButtonPress = () => {
     this.props.navigation.navigate("entry");
@@ -51,7 +55,7 @@ export default class WelcomeScreen extends React.Component<any, any> {
    * 最後のページに完了ボタンを配置する
    * @param index ページのインデックス
    */
-  renderLastButton(index) {
+  renderLastButton(index: number) {
     if (index === SLIDE_DATA.length - 1) {
       return (
         <View>

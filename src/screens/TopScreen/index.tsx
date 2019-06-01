@@ -12,23 +12,29 @@ import styles from "./styles";
 // Constants
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
+interface Props {
+  navigation: any;
+}
+
+interface State {
+  screenPhase: number;
+  mailAddress: string;
+  password: string;
+  rePassword: string;
+}
+
 /**
  * 初回起動時の画面
  * @author tanakakota
  */
-export default class TopScreen extends React.Component<any, any> {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      // [0]初回画面 [1]メールアドレスログイン画面 [2]新規登録画面
-      screenPhase: 0,
-
-      mailAddress: "",
-      password: "",
-      rePassword: ""
-    };
-  }
+export default class TopScreen extends React.Component<Props, State> {
+  public state: State = {
+    // [0]初回画面 [1]メールアドレスログイン画面 [2]新規登録画面
+    screenPhase: 0,
+    mailAddress: "",
+    password: "",
+    rePassword: ""
+  };
 
   /** Facebookログインボタン押下時の処理 */
   onFacebookButtonPress = () => {

@@ -4,25 +4,29 @@ import { AppLoading, Asset, Font } from "expo";
 // import axiosBase from 'axios';
 
 // from app
-import Navigation from "src";
-import images from "src/images";
-import fonts from "src/fonts";
+import Navigation from "./src";
+import images from "./src/images";
+import fonts from "./src/fonts";
 
 // const userApiBaseUrl = `${process.env.ONEDATE_SERVER_URL}/user`;
 // const axios = axiosBase.create({ baseURL: userApiBaseUrl });
 
-export default class App extends React.Component<any, any> {
-  static defaultProps = {
+interface Props {
+  skipLoadingScreen: boolean;
+}
+
+interface State {
+  isLoadingComplete: boolean;
+}
+
+export default class App extends React.Component<Props, State> {
+  public defaultProps: Props = {
     skipLoadingScreen: false
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isLoadingComplete: false
-    };
-  }
+  public state: State = {
+    isLoadingComplete: false
+  };
 
   /** ローカルリソースの読み込み */
   loadResourcesAsync = async () => {
