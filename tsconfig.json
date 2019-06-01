@@ -13,8 +13,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "preserve",
-    "baseUrl": "./",
+    "jsx": "react-native",
+    "baseUrl": ".",
+    "paths": {
+      "app/*": ["./*"]
+    },
     "experimentalDecorators": true
   },
   "include": ["src"]

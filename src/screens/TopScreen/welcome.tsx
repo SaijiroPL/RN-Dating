@@ -5,7 +5,7 @@ import { Text, View, ScrollView, Image } from "react-native";
 import { Button } from "react-native-elements";
 
 // from app
-import images from "src/images";
+import images from "app/src/images";
 import styles from "./styles";
 
 // Constants

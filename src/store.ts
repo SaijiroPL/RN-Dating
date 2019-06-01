@@ -2,8 +2,8 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import { createReactNavigationReduxMiddleware } from "react-navigation-redux-helpers";
 
 /* from app */
-import { getActiveRouteName } from "src/navigation/AppNavigator";
-import reducers from "src/reducers";
+import { getActiveRouteName } from "app/src/navigation/AppNavigator";
+import reducers from "app/src/reducers";
 
 interface Action {
   type: { indexOf: (arg0: string) => number };

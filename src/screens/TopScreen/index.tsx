@@ -6,7 +6,7 @@ import { Button, SocialIcon, Input } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 // from app
-import images from "src/images";
+import images from "app/src/images";
 import styles from "./styles";
 
 // Constants

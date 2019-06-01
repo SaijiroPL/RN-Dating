@@ -7,10 +7,10 @@ import {
 } from "react-navigation";
 
 // from app
-import MainTabNavigator from "src/navigation/MainTabNavigator";
-import TopScreen from "src/screens/TopScreen";
-import EntryScreen from "src/screens/TopScreen/entry";
-import WelcomeScreen from "src/screens/TopScreen/welcome";
+import MainTabNavigator from "app/src/navigation/MainTabNavigator";
+import TopScreen from "app/src/screens/TopScreen";
+import EntryScreen from "app/src/screens/TopScreen/entry";
+import WelcomeScreen from "app/src/screens/TopScreen/welcome";
 
 /**
  * アプリケーション全体のNavigator
