@@ -49,6 +49,7 @@
     "babel-preset-expo": "^5.0.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-react-native": "^4.0.1",
+    "babel-preset-typescript": "^7.0.0-alpha.19",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^4.3.0",

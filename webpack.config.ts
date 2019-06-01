@@ -9,7 +9,10 @@ module.exports = {
         test: /\.tsx?$/,
         exclude: /node_modules/,
         use: {
-          oader: "ts-loader"
+          loader: "ts-loader",
+          options: {
+            presets: [["@babel/preset-typescript", { modules: false }]]
+          }
         }
       }
     ]
