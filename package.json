@@ -33,6 +33,7 @@
     "react-native-typescript-transformer": "^1.2.12",
     "react-native-vector-icons": "^6.4.2",
     "react-navigation": "^3.0.9",
+    "react-navigation-material-bottom-tabs": "^1.0.0",
     "react-navigation-redux-helpers": "^3.0.2",
     "react-navigation-tabs": "^0.8.4",
     "react-redux": "^5.0.7",
