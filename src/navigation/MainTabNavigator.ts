@@ -18,7 +18,7 @@ import {
   NotificationTabIcon,
   ProfileTabIcon
   // TabBar
-} from "src/components/Tab";
+} from "app/src/components/Tab";
 
 /**
  * StackNavigatorを作成する関数
