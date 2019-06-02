@@ -11,22 +11,18 @@ import fonts from "./src/fonts";
 // const userApiBaseUrl = `${process.env.ONEDATE_SERVER_URL}/user`;
 // const axios = axiosBase.create({ baseURL: userApiBaseUrl });
 
-interface Props {
-  skipLoadingScreen: boolean;
-}
-
-interface State {
-  isLoadingComplete: boolean;
-}
-
-export default class App extends React.Component<Props, State> {
-  public defaultProps: Props = {
+export default class App extends React.Component {
+  static defaultProps = {
     skipLoadingScreen: false
   };
 
-  public state: State = {
-    isLoadingComplete: false
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLoadingComplete: false
+    };
+  }
 
   /** ローカルリソースの読み込み */
   loadResourcesAsync = async () => {
