@@ -41,6 +41,7 @@
     "typescript": "^3.4.5"
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.3.3",
     "@typescript-eslint/eslint-plugin": "^1.9.0",
     "@typescript-eslint/parser": "^1.9.0",
     "babel-core": "^6.26.3",
