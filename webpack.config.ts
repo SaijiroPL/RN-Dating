@@ -1,5 +1,5 @@
 module.exports = {
-  entry: "./App.tsx",
+  entry: "./App.js",
   resolve: {
     extensions: [".ts", ".tsx", ".js"]
   },
@@ -11,7 +11,11 @@ module.exports = {
         use: {
           loader: "ts-loader",
           options: {
-            presets: [["@babel/preset-typescript", { modules: false }]]
+            presets: [
+              ["@babel/preset-env", { modules: false }],
+              ["@babel/preset-typescript", { modules: false }],
+              ["@babel/preset-react", { modules: false }]
+            ]
           }
         }
       }
