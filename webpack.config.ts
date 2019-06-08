@@ -13,7 +13,6 @@ module.exports = {
           options: {
             presets: [
               ["@babel/preset-env", { modules: false }],
-              ["@babel/preset-typescript", { modules: false }],
               ["@babel/preset-react", { modules: false }]
             ]
           }
