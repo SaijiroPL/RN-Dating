@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { Provider } from "react-redux";
 import { StatusBar, Platform, View } from "react-native";
 

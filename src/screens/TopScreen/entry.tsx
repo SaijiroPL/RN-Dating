@@ -1,5 +1,5 @@
 /* eslint-disable react/destructuring-assignment */
-import React from "react";
+import * as React from "react";
 import { Text, View, Picker } from "react-native";
 import { Button, Divider } from "react-native-elements";
 import DatePicker from "react-native-datepicker";

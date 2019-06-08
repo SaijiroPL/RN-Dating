@@ -1,6 +1,6 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/destructuring-assignment */
-import React from "react";
+import * as React from "react";
 import { Text, View, Image, Dimensions } from "react-native";
 import { Button, SocialIcon, Input } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
