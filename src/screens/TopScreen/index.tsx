@@ -1,9 +1,7 @@
-/* eslint-disable no-shadow */
-/* eslint-disable react/destructuring-assignment */
 import * as React from "react";
 import { Text, View, Image, Dimensions } from "react-native";
-import { Button, SocialIcon, Input } from "react-native-elements";
-import Icon from "react-native-vector-icons/FontAwesome";
+import { Button, Input } from "react-native-elements";
+import { Ionicons } from "@expo/vector-icons";
 
 // from app
 import images from "app/src/images";
@@ -55,9 +53,9 @@ export default class TopScreen extends React.Component<Props, State> {
   renderTopScreen() {
     return (
       <View>
-        <SocialIcon
+        {/* TODO Facebookログインボタン */}
+        <Ionicons.Button
           title="Facebookでログイン"
-          button
           type="facebook"
           onPress={this.onFacebookButtonPress}
         />
@@ -86,14 +84,12 @@ export default class TopScreen extends React.Component<Props, State> {
         <Input
           placeholder="メールアドレスを入力"
           onChangeText={mailAddress => this.setState({ mailAddress })}
-          leftIcon={<Icon name="envelope-o" size={24} color="black" />}
           value={mailAddress}
           containerStyle={styles.inputFormStyle}
         />
         <Input
           placeholder="パスワードを入力"
           onChangeText={password => this.setState({ password })}
-          leftIcon={<Icon name="unlock-alt" size={24} color="black" />}
           value={password}
           containerStyle={styles.inputFormStyle}
         />
@@ -115,21 +111,18 @@ export default class TopScreen extends React.Component<Props, State> {
         <Input
           placeholder="メールアドレスを入力"
           onChangeText={mailAddress => this.setState({ mailAddress })}
-          leftIcon={<Icon name="envelope-o" size={24} color="black" />}
           value={mailAddress}
           containerStyle={styles.inputFormStyle}
         />
         <Input
           placeholder="パスワードを入力"
           onChangeText={password => this.setState({ password })}
-          leftIcon={<Icon name="unlock-alt" size={24} color="black" />}
           value={password}
           containerStyle={styles.inputFormStyle}
         />
         <Input
           placeholder="パスワードを再入力"
           onChangeText={rePassword => this.setState({ rePassword })}
-          leftIcon={<Icon name="unlock-alt" size={24} color="black" />}
           value={rePassword}
           containerStyle={styles.inputFormStyle}
         />

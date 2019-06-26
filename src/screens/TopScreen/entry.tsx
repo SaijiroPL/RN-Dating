@@ -3,7 +3,7 @@ import * as React from "react";
 import { Text, View, Picker } from "react-native";
 import { Button, Divider } from "react-native-elements";
 import DatePicker from "react-native-datepicker";
-import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
+import { SimpleLineIcons } from "@expo/vector-icons";
 
 // from app
 import styles from "./styles";
