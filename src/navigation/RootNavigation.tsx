@@ -18,11 +18,14 @@ interface State {
   loading: boolean;
 }
 
+const mapStateToProps = (state: any) => ({
+  navigation: state.navigation
+});
+
 /**
  * ルーティングの大元となるクラス
  * @author tanakakota
  */
-@connect((state: any) => ({ navigation: state.navigation }))
 class AppWithNavigationState extends React.Component<Props, State> {
   public state: State = {
     loading: false
@@ -60,4 +63,4 @@ class AppWithNavigationState extends React.Component<Props, State> {
   }
 }
 
-export default AppWithNavigationState;
+export default connect(mapStateToProps)(AppWithNavigationState);
