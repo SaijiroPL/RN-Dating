@@ -1,23 +1,18 @@
-import {
-  createStackNavigator,
-  // createBottomTabNavigator,
-  createAppContainer
-} from "react-navigation";
+import { createStackNavigator, createAppContainer } from "react-navigation";
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
 
 // from app
-import HomeScreen from "app/src/screens/HomeScreen";
-import SearchScreen from "app/src/screens/SearchScreen";
-import MyPlanScreen from "app/src/screens/MyPlanScreen";
-import NotificationScreen from "app/src/screens/NotificationScreen";
-import ProfileScreen from "app/src/screens/ProfileScreen";
+import HomeScreen from "app/src/screens/HomeScreen/HomeTop";
+import SearchScreen from "app/src/screens/SearchScreen/SearchTop";
+import MyPlanScreen from "app/src/screens/MyPlanScreen/MyPlanTop";
+import NotificationScreen from "app/src/screens/NotificationScreen/NotificationTop";
+import ProfileScreen from "app/src/screens/ProfileScreen/ProfileTop";
 import {
   HomeTabIcon,
   SearchTabIcon,
   MyPlanTabIcon,
   NotificationTabIcon,
   ProfileTabIcon
-  // TabBar
 } from "app/src/components/Tab";
 
 /**
@@ -34,17 +29,8 @@ const createTabStack = (title: string, screen: typeof HomeScreen) =>
  * メイン画面のBottomTabNavigator
  * @author tanakakota
  */
-// const BottomTabNavigator = createBottomTabNavigator(
 const BottomTabNavigator = createMaterialBottomTabNavigator(
   {
-    // ホームタブの設定
-    // TODO ホームタブをボトムバーの真ん中に配置
-    HomeTab: {
-      screen: createTabStack("HomeTab", HomeScreen),
-      navigationOptions: () => ({
-        tabBarIcon: HomeTabIcon
-      })
-    },
     // 検索タブの設定
     SearchTab: {
       screen: createTabStack("SearchTab", SearchScreen),
@@ -57,6 +43,13 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
       screen: createTabStack("MyPlanTab", MyPlanScreen),
       navigationOptions: () => ({
         tabBarIcon: MyPlanTabIcon
+      })
+    },
+    // ホームタブの設定
+    HomeTab: {
+      screen: createTabStack("HomeTab", HomeScreen),
+      navigationOptions: () => ({
+        tabBarIcon: HomeTabIcon
       })
     },
     // 通知タブの設定
@@ -76,23 +69,13 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
   },
   // タブナビゲーション全体の設定
   {
-    // tabBarOptions: {
-    //   showLabel: false,
-    //   activeTintColor: "orange",
-    //   inactiveTintColor: "#bbb",
-    //   style: {
-    //     backgroundColor: "#fff"
-    //   }
-    // },
-    // tabBarComponent: TabBar,
-    // tabBarPosition: "bottom",
-    // animationEnabled: false,
-    // swipeEnabled: false
     shifting: true,
     activeTintColor: "orange",
-    inactiveTintColor: "#bbb"
+    inactiveTintColor: "#bbb",
+    barStyle: {
+      backgroundColor: "#fff"
+    }
   }
 );
 
-// export default BottomTabNavigator;
 export default createAppContainer(BottomTabNavigator);

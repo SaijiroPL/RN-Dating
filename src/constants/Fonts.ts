@@ -2,12 +2,10 @@ const genjuMenium = require("app/assets/fonts/GenJyuuGothic-Medium.ttf");
 const genjuLight = require("app/assets/fonts/GenJyuuGothic-Light.ttf");
 
 /**
- * フォントをまとめてrequireしてexportしておく
+ * フォント定数
  * @author tanakakota
  */
-const fonts = {
+export default {
   "genju-medium": genjuMenium,
   "genju-light": genjuLight
 };
-
-export default fonts;

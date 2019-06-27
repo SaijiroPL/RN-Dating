@@ -1,12 +1,14 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { View, StatusBar, Platform } from "react-native";
 import { AppLoading, Asset, Font } from "expo";
+import { Provider } from "react-redux";
 // import axiosBase from 'axios';
 
 // from app
-import Navigation from ".";
-import images from "./images";
-import fonts from "./fonts";
+import images from "app/src/constants/images";
+import fonts from "app/src/constants/fonts";
+import store from "app/src/store";
+import AppWithNavigationState from "app/src/navigation/RootNavigation";
 
 // const userApiBaseUrl = `${process.env.ONEDATE_SERVER_URL}/user`;
 // const axios = axiosBase.create({ baseURL: userApiBaseUrl });
@@ -51,17 +53,14 @@ export default class App extends React.Component<Props, State> {
     }
 
     return (
-      <View style={styles.container}>
-        <Navigation />
+      <View
+        style={{ flex: 1, justifyContent: "center", backgroundColor: "#fff" }}
+      >
+        {Platform.OS === "ios" && <StatusBar barStyle="default" />}
+        <Provider store={store}>
+          <AppWithNavigationState />
+        </Provider>
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    justifyContent: "center"
-  }
-});

@@ -1,5 +1,4 @@
 import * as React from "react";
-// import { BottomTabBar } from "react-navigation-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
 // from app
@@ -36,6 +35,3 @@ export const NotificationTabIcon = ({ tintColor }: { tintColor: string }) => (
 export const ProfileTabIcon = ({ tintColor }: { tintColor: string }) => (
   <Ionicons name="md-person" size={26} style={styles.icon} color={tintColor} />
 );
-
-/** BottomTabBar */
-// export const TabBar = BottomTabBar;

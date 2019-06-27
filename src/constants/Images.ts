@@ -6,7 +6,7 @@ const welcome04 = require("app/assets/images/welcome/welcome04-min.png");
 const welcome05 = require("app/assets/images/welcome/welcome05-min.png");
 
 /**
- * 画像をまとめてrequireしてexportしておく
+ * 画像定数
  * @author tanakakota
  */
 const images: any = {
