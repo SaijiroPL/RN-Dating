@@ -5,10 +5,8 @@ import { Ionicons } from "@expo/vector-icons";
 
 // from app
 import images from "app/src/constants/images";
+import layout from "app/src/constants/layout";
 import styles from "./styles";
-
-// Constants
-const SCREEN_WIDTH = Dimensions.get("window").width;
 
 interface Props {
   navigation: any;
@@ -146,7 +144,7 @@ export default class TopScreen extends React.Component<Props, State> {
             resizeMode="contain"
             source={images.logo}
             style={{ flex: 1 }}
-            width={SCREEN_WIDTH * 0.8}
+            width={layout.window.width * 0.8}
           />
           <Text style={styles.welcomeTextStyle}>1Dateへようこそ</Text>
         </View>

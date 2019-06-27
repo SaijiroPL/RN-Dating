@@ -1,7 +1,7 @@
 import { StyleSheet, Dimensions } from "react-native";
 
-// Constants
-const SCREEN_WIDTH = Dimensions.get("window").width;
+// from app
+import layout from "app/src/constants/layout";
 
 /**
  * TopScreen, EntryScreen, WelcomeScreen のスタイリング
@@ -20,23 +20,23 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center"
   },
-  slideStyle: { flex: 1, alignItems: "center", width: SCREEN_WIDTH },
+  slideStyle: { flex: 1, alignItems: "center", width: layout.window.width },
   headerStyle: { flex: 1, justifyContent: "center", alignItems: "center" },
   footerStyle: { flex: 1, justifyContent: "center", alignItems: "center" },
 
   // コンポーネント
   inputFormStyle: {
-    width: SCREEN_WIDTH * 0.75,
+    width: layout.window.width * 0.75,
     marginBottom: 20
   },
   completeButtonStyle: {
     backgroundColor: "orange",
     paddingVertical: 10,
-    width: SCREEN_WIDTH * 0.75
+    width: layout.window.width * 0.75
   },
   dividerStyle: {
     backgroundColor: "orange",
-    width: SCREEN_WIDTH * 0.75,
+    width: layout.window.width * 0.75,
     marginVertical: 30
   },
 
