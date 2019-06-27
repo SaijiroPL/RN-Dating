@@ -6,11 +6,11 @@ import {
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
 
 // from app
-import HomeScreen from "app/src/screens/HomeScreen";
-import SearchScreen from "app/src/screens/SearchScreen";
-import MyPlanScreen from "app/src/screens/MyPlanScreen";
-import NotificationScreen from "app/src/screens/NotificationScreen";
-import ProfileScreen from "app/src/screens/ProfileScreen";
+import HomeScreen from "app/src/screens/HomeScreen/HomeTop";
+import SearchScreen from "app/src/screens/SearchScreen/SearchTop";
+import MyPlanScreen from "app/src/screens/MyPlanScreen/MyPlanTop";
+import NotificationScreen from "app/src/screens/NotificationScreen/NotificationTop";
+import ProfileScreen from "app/src/screens/ProfileScreen/ProfileTop";
 import {
   HomeTabIcon,
   SearchTabIcon,

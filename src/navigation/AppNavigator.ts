@@ -8,9 +8,9 @@ import {
 
 // from app
 import MainTabNavigator from "app/src/navigation/MainTabNavigator";
-import TopScreen from "app/src/screens/TopScreen";
-import EntryScreen from "app/src/screens/TopScreen/entry";
-import WelcomeScreen from "app/src/screens/TopScreen/welcome";
+import TopScreen from "app/src/screens/TopScreen/Top";
+import EntryScreen from "app/src/screens/TopScreen/Entry";
+import WelcomeScreen from "app/src/screens/TopScreen/Welcome";
 
 /**
  * アプリケーション全体のNavigator
