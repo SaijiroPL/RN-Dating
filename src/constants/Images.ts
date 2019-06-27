@@ -6,10 +6,10 @@ const welcome04 = require("app/assets/images/welcome/welcome04-min.png");
 const welcome05 = require("app/assets/images/welcome/welcome05-min.png");
 
 /**
- * 画像をまとめてrequireしてexportしておく
+ * 画像定数
  * @author tanakakota
  */
-const images: any = {
+const Images: any = {
   logo,
   welcome01,
   welcome02,
@@ -18,4 +18,4 @@ const images: any = {
   welcome05
 };
 
-export default images;
+export default Images;

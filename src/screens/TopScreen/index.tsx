@@ -4,7 +4,7 @@ import { Button, Input } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
 
 // from app
-import images from "app/src/images";
+import Images from "app/src/constants/Images";
 import styles from "./styles";
 
 // Constants
@@ -144,7 +144,7 @@ export default class TopScreen extends React.Component<Props, State> {
         <View style={styles.topImageStyle}>
           <Image
             resizeMode="contain"
-            source={images.logo}
+            source={Images.logo}
             style={{ flex: 1 }}
             width={SCREEN_WIDTH * 0.8}
           />

@@ -5,8 +5,8 @@ import { AppLoading, Asset, Font } from "expo";
 
 // from app
 import Navigation from ".";
-import images from "./images";
-import fonts from "./fonts";
+import Images from "./constants/Images";
+import Fonts from "./constants/Fonts";
 
 // const userApiBaseUrl = `${process.env.ONEDATE_SERVER_URL}/user`;
 // const axios = axiosBase.create({ baseURL: userApiBaseUrl });
@@ -30,8 +30,8 @@ export default class App extends React.Component<Props, State> {
 
   /** ローカルリソースの読み込み */
   loadResourcesAsync: any = async () => {
-    await Asset.loadAsync(Object.keys(images).map(key => images[key]));
-    await Font.loadAsync(fonts);
+    await Asset.loadAsync(Object.keys(Images).map(key => Images[key]));
+    await Font.loadAsync(Fonts);
     return true;
   };
 

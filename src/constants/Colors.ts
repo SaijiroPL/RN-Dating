@@ -1,5 +1,9 @@
 const tintColor: string = "#2f95dc";
 
+/**
+ * カラー定数
+ * @author tanakakota
+ */
 export default {
   tintColor,
   tabIconDefault: "#ccc",
