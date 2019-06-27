@@ -5,8 +5,8 @@ import { Provider } from "react-redux";
 // import axiosBase from 'axios';
 
 // from app
-import Images from "app/src/constants/Images";
-import Fonts from "app/src/constants/Fonts";
+import images from "app/src/constants/images";
+import fonts from "app/src/constants/fonts";
 import store from "app/src/redux/store";
 import AppWithNavigationState from "app/src/navigation/RootNavigation";
 
@@ -32,8 +32,8 @@ export default class App extends React.Component<Props, State> {
 
   /** ローカルリソースの読み込み */
   loadResourcesAsync: any = async () => {
-    await Asset.loadAsync(Object.keys(Images).map(key => Images[key]));
-    await Font.loadAsync(Fonts);
+    await Asset.loadAsync(Object.keys(images).map(key => images[key]));
+    await Font.loadAsync(fonts);
     return true;
   };
 

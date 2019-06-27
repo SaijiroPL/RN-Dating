@@ -5,7 +5,7 @@ import { Text, View, ScrollView, Image } from "react-native";
 import { Button } from "react-native-elements";
 
 // from app
-import Images from "app/src/constants/Images";
+import images from "app/src/constants/images";
 import styles from "./styles";
 
 // Constants
@@ -13,27 +13,27 @@ const SLIDE_DATA = [
   {
     title: "日時の入力",
     description: "デート当日の日付と時間、移動手段を入力します。",
-    uri: Images.welcome01
+    uri: images.welcome01
   },
   {
     title: "場所とピン付け",
     description: "マップで大まかな行動範囲を設定します。",
-    uri: Images.welcome02
+    uri: images.welcome02
   },
   {
     title: "フリックでリストアップ",
     description: "デートスポット候補をフリックで選択します。",
-    uri: Images.welcome03
+    uri: images.welcome03
   },
   {
     title: "スポット厳選",
     description: "リストアップした候補を厳選します。",
-    uri: Images.welcome04
+    uri: images.welcome04
   },
   {
     title: "順番とプラン名",
     description: "訪れる順番とデートプラン名を決定します。",
-    uri: Images.welcome05
+    uri: images.welcome05
   }
 ];
 
