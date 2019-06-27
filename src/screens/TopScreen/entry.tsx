@@ -1,4 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
 import * as React from "react";
 import { Text, View, Picker } from "react-native";
 import { Button, Divider } from "react-native-elements";
@@ -152,7 +151,6 @@ export default class EntryScreen extends React.Component<Props, State> {
               confirmBtnText="決定"
               cancelBtnText="キャンセル"
               customStyles={{ dateInput: { marginLeft: 20 } }}
-              // eslint-disable-next-line no-shadow
               onDateChange={date => this.setState({ date })}
             />
           </View>

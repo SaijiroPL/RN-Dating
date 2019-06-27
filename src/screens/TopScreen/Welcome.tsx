@@ -1,5 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable consistent-return */
 import * as React from "react";
 import { Text, View, ScrollView, Image } from "react-native";
 import { Button } from "react-native-elements";
