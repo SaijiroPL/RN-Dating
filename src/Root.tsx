@@ -7,7 +7,7 @@ import { Provider } from "react-redux";
 // from app
 import Images from "app/src/constants/Images";
 import Fonts from "app/src/constants/Fonts";
-import store from "app/src/store";
+import store from "app/src/redux/store";
 import AppWithNavigationState from "app/src/navigation/RootNavigation";
 
 // const userApiBaseUrl = `${process.env.ONEDATE_SERVER_URL}/user`;
