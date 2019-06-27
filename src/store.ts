@@ -3,7 +3,7 @@ import { createReactNavigationReduxMiddleware } from "react-navigation-redux-hel
 
 /* from app */
 import { getActiveRouteName } from "app/src/navigation/AppNavigator";
-import reducers from "app/src/redux/reducers";
+import reducers from "app/src/reducers";
 
 interface Action {
   type: { indexOf: (arg0: string) => number };
