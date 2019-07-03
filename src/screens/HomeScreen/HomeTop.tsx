@@ -3,6 +3,7 @@ import { Text, View, FlatList } from "react-native";
 import axiosBase from "axios";
 
 // from app
+import { HomePlan } from "app/src/components/Plan";
 import styles from "./styles";
 
 interface State {
@@ -41,17 +42,12 @@ export default class HomeScreen extends React.Component<State> {
     errors: []
   };
 
-  /** デートプランリストを描画する */
-  renderPlanList = ({ item }: { item: Plan }) => (
-    <View>
-      <Text>{item.title}</Text>
-      <Text>{item.description}</Text>
-      <Text>{item.create_date}</Text>
-    </View>
-  );
-
   componentDidMount() {
-    // デートプラン一覧取得
+    this.getPlanList();
+  }
+
+  /** デートプラン一覧取得 */
+  getPlanList() {
     axios
       .get("")
       .then((response: { data: PlanList }) => {
@@ -62,12 +58,15 @@ export default class HomeScreen extends React.Component<State> {
       });
   }
 
+  /** デートプランリストを描画する */
+  renderPlanList = ({ item }: { item: Plan }) => HomePlan(item);
+
   render() {
     const { plans } = this.state;
 
     return (
       <View style={styles.container}>
-        <Text>デートプランの数 {plans.total}</Text>
+        <Text>デートプラン数 {plans.total}</Text>
         <FlatList
           data={plans.plan_list}
           renderItem={this.renderPlanList}
