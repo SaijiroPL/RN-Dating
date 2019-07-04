@@ -8,7 +8,6 @@ import {
   Thumbnail,
   Text,
   Button,
-  Icon,
   Left,
   Body,
   Right
@@ -45,7 +44,7 @@ export const HomePlan = (plan: Plan) => (
         </Left>
         <Right>
           <Text note style={{ fontSize: 12 }}>
-            {plan.create_date}
+            {plan.create_date.substr(0, 10)}
           </Text>
         </Right>
       </CardItem>
