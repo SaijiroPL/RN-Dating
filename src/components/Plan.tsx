@@ -15,6 +15,8 @@ import {
 
 // from app
 import { Plan } from "app/src/constants/interfaces";
+import images from "app/src/constants/images";
+import layout from "app/src/constants/layout";
 
 /**
  * ホーム画面で使用するデートプランコンポーネント
@@ -25,7 +27,7 @@ export const HomePlan = (plan: Plan) => (
     <Card>
       <CardItem>
         <Left>
-          <Thumbnail source={{ uri: "Image URL" }} />
+          <Thumbnail source={images.noImage} />
           <Body>
             <Text>{plan.user_name}</Text>
             <Text note>一般ユーザー</Text>
@@ -34,8 +36,8 @@ export const HomePlan = (plan: Plan) => (
       </CardItem>
       <CardItem cardBody>
         <Image
-          source={{ uri: "Image URL" }}
-          style={{ height: 200, width: null }}
+          source={images.noImage}
+          style={{ height: 200, width: layout.window.width }}
         />
       </CardItem>
       <CardItem>
