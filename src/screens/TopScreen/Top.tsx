@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Text, View, Image, Dimensions } from "react-native";
 import { Button, Input } from "react-native-elements";
-import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 
 // from app
 import images from "app/src/constants/images";
@@ -51,12 +51,16 @@ export default class TopScreen extends React.Component<Props, State> {
   renderTopScreen() {
     return (
       <View>
-        {/* TODO Facebookログインボタン */}
-        <Ionicons.Button
-          title="Facebookでログイン"
-          type="facebook"
+        <FontAwesome.Button
+          name="facebook"
+          size={30}
+          backgroundColor="#3b5998"
+          borderRadius={30}
+          iconStyle={{ marginLeft: 30 }}
           onPress={this.onFacebookButtonPress}
-        />
+        >
+          Facebookでログイン
+        </FontAwesome.Button>
         <Text
           style={styles.linkStyle}
           onPress={() => this.setState({ screenPhase: 1 })}

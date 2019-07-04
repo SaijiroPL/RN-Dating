@@ -3,6 +3,7 @@ import { Text, View, FlatList } from "react-native";
 import axiosBase from "axios";
 
 // from app
+import { PlanList, Plan } from "app/src/constants/interfaces";
 import { HomePlan } from "app/src/components/Plan";
 import styles from "./styles";
 
@@ -10,22 +11,6 @@ interface State {
   // plans: PlanList;
   plans: any;
   errors: any;
-}
-
-interface PlanList {
-  total: number;
-  plan_list: Array<Plan>;
-}
-
-interface Plan {
-  plan_id: string;
-  title: string;
-  description: string;
-  create_date: string;
-  representative_spot: string;
-  user_name: string;
-  user_image_url: string;
-  like_count: number;
 }
 
 // FIXME 設定ファイルに定義する

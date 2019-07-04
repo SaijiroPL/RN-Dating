@@ -2,33 +2,21 @@ import React from "react";
 
 import { Image } from "react-native";
 import {
-  Container,
-  Header,
   Content,
   Card,
   CardItem,
   Thumbnail,
   Text,
   Button,
-  Icon,
   Left,
   Body,
   Right
 } from "native-base";
 
 // from app
-import styles from "./styles";
-
-interface Plan {
-  plan_id: string;
-  title: string;
-  description: string;
-  create_date: string;
-  representative_spot: string;
-  user_name: string;
-  user_image_url: string;
-  like_count: number;
-}
+import { Plan } from "app/src/constants/interfaces";
+import images from "app/src/constants/images";
+import layout from "app/src/constants/layout";
 
 /**
  * ホーム画面で使用するデートプランコンポーネント
@@ -39,7 +27,7 @@ export const HomePlan = (plan: Plan) => (
     <Card>
       <CardItem>
         <Left>
-          <Thumbnail source={{ uri: "Image URL" }} />
+          <Thumbnail source={images.noImage} />
           <Body>
             <Text>{plan.user_name}</Text>
             <Text note>一般ユーザー</Text>
@@ -48,8 +36,8 @@ export const HomePlan = (plan: Plan) => (
       </CardItem>
       <CardItem cardBody>
         <Image
-          source={{ uri: "Image URL" }}
-          style={{ height: 200, width: null }}
+          source={images.noImage}
+          style={{ height: 200, width: layout.window.width }}
         />
       </CardItem>
       <CardItem>
@@ -58,7 +46,7 @@ export const HomePlan = (plan: Plan) => (
         </Left>
         <Right>
           <Text note style={{ fontSize: 12 }}>
-            {plan.create_date}
+            {plan.create_date.substr(0, 10)}
           </Text>
         </Right>
       </CardItem>
