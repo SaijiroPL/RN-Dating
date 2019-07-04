@@ -2,8 +2,6 @@ import React from "react";
 
 import { Image } from "react-native";
 import {
-  Container,
-  Header,
   Content,
   Card,
   CardItem,
@@ -17,18 +15,7 @@ import {
 } from "native-base";
 
 // from app
-import styles from "./styles";
-
-interface Plan {
-  plan_id: string;
-  title: string;
-  description: string;
-  create_date: string;
-  representative_spot: string;
-  user_name: string;
-  user_image_url: string;
-  like_count: number;
-}
+import { Plan } from "app/src/constants/interfaces";
 
 /**
  * ホーム画面で使用するデートプランコンポーネント
