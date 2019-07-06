@@ -13,7 +13,7 @@ import {
   MyPlanTabIcon,
   NotificationTabIcon,
   ProfileTabIcon
-} from "app/src/components/Tab";
+} from "app/src/components/TabIcons";
 import colors from "app/src/constants/colors";
 
 /**

@@ -46,11 +46,7 @@ export const topStyle = StyleSheet.create({
 export const entryStyle = StyleSheet.create({
   sexGroup: { flex: 1, flexDirection: "row", alignItems: "center" },
   ageGroup: { flex: 1, flexDirection: "row", alignItems: "center" },
-  addressGroup: {
-    flex: 2,
-    justifyContent: "center",
-    alignItems: "center"
-  },
+  addressGroup: { flex: 1, flexDirection: "row", alignItems: "center" },
   divider: {
     backgroundColor: colors.tintColor,
     width: layout.window.width * 0.75,

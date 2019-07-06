@@ -1,11 +1,13 @@
 import * as React from "react";
-import { Text, View, Picker } from "react-native";
-import { Button, Divider } from "react-native-elements";
+import { Text, View } from "react-native";
+import { Picker } from "native-base";
+import { Button } from "react-native-elements";
 import DatePicker from "react-native-datepicker";
 import { SimpleLineIcons } from "@expo/vector-icons";
 
 // from app
 import colors from "app/src/constants/colors";
+import appStyle from "app/src/styles/common-style";
 import { topStyle, entryStyle } from "app/src/styles/top-style";
 
 interface Props {
@@ -26,7 +28,7 @@ export default class EntryScreen extends React.Component<Props, State> {
   public state: State = {
     sex: "",
     date: "1995-01-01",
-    prefecture: "tokyo"
+    prefecture: ""
   };
 
   /** 完了ボタン押下でホーム画面に遷移する */
@@ -104,6 +106,59 @@ export default class EntryScreen extends React.Component<Props, State> {
     );
   }
 
+  /** 生年月日選択フォームを描画する */
+  renderBirthdayForm() {
+    const { date } = this.state;
+
+    return (
+      <View style={entryStyle.ageGroup}>
+        <Text style={entryStyle.entryText}>生年月日</Text>
+        <DatePicker
+          style={{ width: 200 }}
+          date={date}
+          mode="date"
+          format="YYYY-MM-DD"
+          minDate="1980-01-01"
+          maxDate="2018-12-31"
+          confirmBtnText="決定"
+          cancelBtnText="キャンセル"
+          customStyles={{ dateInput: { marginLeft: 20 } }}
+          onDateChange={date => this.setState({ date })}
+        />
+      </View>
+    );
+  }
+
+  /** 都道府県選択フォームを描画する */
+  renderAddressForm() {
+    const { prefecture } = this.state;
+
+    return (
+      <View style={entryStyle.addressGroup}>
+        <Text style={entryStyle.entryText}>住まい</Text>
+        <Picker
+          mode="dropdown"
+          placeholder="都道府県を選択"
+          placeholderStyle={{ color: colors.tintColor, marginLeft: 10 }}
+          style={{ width: 160, marginLeft: 10 }}
+          textStyle={appStyle.defaultText}
+          note={false}
+          selectedValue={prefecture}
+          onValueChange={itemValue => this.setState({ prefecture: itemValue })}
+        >
+          {/* 47都道府県分(別ファイルに吐き出したい) */}
+          <Picker.Item label="埼玉" value="saitama" />
+          <Picker.Item label="千葉" value="chiba" />
+          <Picker.Item label="東京" value="tokyo" />
+          <Picker.Item label="神奈川" value="kanagawa" />
+          <Picker.Item label="愛知" value="aichi" />
+          <Picker.Item label="大阪" value="osaka" />
+          <Picker.Item label="福岡" value="fukuoka" />
+        </Picker>
+      </View>
+    );
+  }
+
   /** 入力完了ボタンを描画する */
   renderCompleteButton() {
     const { sex } = this.state;
@@ -134,47 +189,10 @@ export default class EntryScreen extends React.Component<Props, State> {
 
           {/* 性別選択 */}
           {this.renderSexButtons()}
-
           {/* 生年月日選択 */}
-          <View style={entryStyle.ageGroup}>
-            <Text style={entryStyle.entryText}>生年月日</Text>
-            <DatePicker
-              style={{ width: 200 }}
-              date={date}
-              mode="date"
-              format="YYYY-MM-DD"
-              minDate="1980-01-01"
-              maxDate="2018-12-31"
-              confirmBtnText="決定"
-              cancelBtnText="キャンセル"
-              customStyles={{ dateInput: { marginLeft: 20 } }}
-              onDateChange={date => this.setState({ date })}
-            />
-          </View>
-
+          {this.renderBirthdayForm()}
           {/* 住まい選択 */}
-          <View style={entryStyle.addressGroup}>
-            {/* <Divider style={entryStyle.divider} /> */}
-            <Text style={entryStyle.entryText}>住まい</Text>
-            <Picker
-              selectedValue={prefecture}
-              style={{ width: 200 }}
-              itemStyle={{ fontSize: 15, color: colors.tintColor }}
-              onValueChange={itemValue =>
-                this.setState({ prefecture: itemValue })
-              }
-            >
-              {/* TODO 47都道府県分(別ファイルに吐き出したい) */}
-              <Picker.Item label="埼玉" value="saitama" />
-              <Picker.Item label="千葉" value="chiba" />
-              <Picker.Item label="東京" value="tokyo" />
-              <Picker.Item label="神奈川" value="kanagawa" />
-              <Picker.Item label="愛知" value="aichi" />
-              <Picker.Item label="大阪" value="osaka" />
-              <Picker.Item label="福岡" value="fukuoka" />
-            </Picker>
-          </View>
-
+          {this.renderAddressForm()}
           {/* 決定ボタン */}
           {this.renderCompleteButton()}
 

@@ -76,10 +76,7 @@ export default class WelcomeScreen extends React.Component<Props> {
   renderSlides() {
     return SLIDE_DATA.map((slide, index) => (
       <View key={index} style={welocomeStyle.slide}>
-        {/* TODO 固定ヘッダーにする */}
-        <View style={welocomeStyle.header}>
-          <Text style={welocomeStyle.headerText}>プラン作成方法</Text>
-        </View>
+        <View style={topStyle.emptySpace} />
 
         <Image style={{ flex: 3 }} resizeMode="contain" source={slide.uri} />
 
