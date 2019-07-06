@@ -2,11 +2,11 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
 
 // from app
-import HomeScreen from "app/src/screens/HomeScreen/HomeTop";
-import SearchScreen from "app/src/screens/SearchScreen/SearchTop";
-import MyPlanScreen from "app/src/screens/MyPlanScreen/MyPlanTop";
-import NotificationScreen from "app/src/screens/NotificationScreen/NotificationTop";
-import ProfileScreen from "app/src/screens/ProfileScreen/ProfileTop";
+import HomeNavigator from "app/src/navigators/HomeNavigator";
+import SearchNavigator from "app/src/navigators/SearchNavigator";
+import MyPlanNavigator from "app/src/navigators/MyPlanNavigator";
+import NotificationNavigator from "app/src/navigators/NotificationNavigator";
+import ProfileNavigator from "app/src/navigators/ProfileNavigator";
 import {
   HomeTabIcon,
   SearchTabIcon,
@@ -17,24 +17,14 @@ import {
 import colors from "app/src/constants/colors";
 
 /**
- * StackNavigatorを作成する関数
- * @param title タブのタイトル
- * @param screen 対象画面
- */
-const createTabStack = (title: string, screen: any) =>
-  createStackNavigator({
-    [title]: { screen }
-  });
-
-/**
- * メイン画面のBottomTabNavigator
- * @author tanakakota
+ * メイン画面のタブナビゲーター
+ * @author kotatanaka
  */
 const BottomTabNavigator = createMaterialBottomTabNavigator(
   {
     // 検索タブの設定
     SearchTab: {
-      screen: createTabStack("SearchTab", SearchScreen),
+      screen: SearchNavigator,
       navigationOptions: () => ({
         title: "検索",
         tabBarIcon: SearchTabIcon
@@ -42,7 +32,7 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
     },
     // マイプランタブの設定
     MyPlanTab: {
-      screen: createTabStack("MyPlanTab", MyPlanScreen),
+      screen: MyPlanNavigator,
       navigationOptions: () => ({
         title: "マイプラン",
         tabBarIcon: MyPlanTabIcon
@@ -50,7 +40,7 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
     },
     // ホームタブの設定
     HomeTab: {
-      screen: createTabStack("HomeTab", HomeScreen),
+      screen: HomeNavigator,
       navigationOptions: () => ({
         title: "ホーム",
         tabBarIcon: HomeTabIcon
@@ -58,7 +48,7 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
     },
     // 通知タブの設定
     NotificationTab: {
-      screen: createTabStack("NotificationTab", NotificationScreen),
+      screen: NotificationNavigator,
       navigationOptions: () => ({
         title: "通知",
         tabBarIcon: NotificationTabIcon
@@ -66,7 +56,7 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
     },
     // プロフィールタブの設定
     ProfileTab: {
-      screen: createTabStack("ProfileTab", ProfileScreen),
+      screen: ProfileNavigator,
       navigationOptions: () => ({
         title: "プロフィール",
         tabBarIcon: ProfileTabIcon
@@ -75,7 +65,6 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
   },
   // タブナビゲーション全体の設定
   {
-    shifting: true,
     activeTintColor: colors.tintColor,
     inactiveTintColor: colors.inactiveColor,
     barStyle: {

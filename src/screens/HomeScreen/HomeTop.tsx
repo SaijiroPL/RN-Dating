@@ -4,7 +4,7 @@ import axiosBase from "axios";
 
 // from app
 import { PlanList, Plan } from "app/src/constants/interfaces";
-import { HomePlan } from "app/src/components/Plan";
+import PlanCard from "app/src/components/PlanCard";
 import { homeStyle } from "app/src/styles/home-style";
 
 interface State {
@@ -44,7 +44,7 @@ export default class HomeScreen extends React.Component<State> {
   }
 
   /** デートプランリストを描画する */
-  renderPlanList = ({ item }: { item: Plan }) => HomePlan(item);
+  renderPlanList = ({ item }: { item: Plan }) => PlanCard(item);
 
   render() {
     const { plans } = this.state;
