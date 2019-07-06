@@ -20,7 +20,7 @@ import {
  * @param title タブのタイトル
  * @param screen 対象画面
  */
-const createTabStack = (title: string, screen: typeof HomeScreen) =>
+const createTabStack = (title: string, screen: any) =>
   createStackNavigator({
     [title]: { screen }
   });
@@ -35,6 +35,7 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
     SearchTab: {
       screen: createTabStack("SearchTab", SearchScreen),
       navigationOptions: () => ({
+        title: "検索",
         tabBarIcon: SearchTabIcon
       })
     },
@@ -42,6 +43,7 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
     MyPlanTab: {
       screen: createTabStack("MyPlanTab", MyPlanScreen),
       navigationOptions: () => ({
+        title: "マイプラン",
         tabBarIcon: MyPlanTabIcon
       })
     },
@@ -49,6 +51,7 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
     HomeTab: {
       screen: createTabStack("HomeTab", HomeScreen),
       navigationOptions: () => ({
+        title: "ホーム",
         tabBarIcon: HomeTabIcon
       })
     },
@@ -56,6 +59,7 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
     NotificationTab: {
       screen: createTabStack("NotificationTab", NotificationScreen),
       navigationOptions: () => ({
+        title: "通知",
         tabBarIcon: NotificationTabIcon
       })
     },
@@ -63,6 +67,7 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
     ProfileTab: {
       screen: createTabStack("ProfileTab", ProfileScreen),
       navigationOptions: () => ({
+        title: "プロフィール",
         tabBarIcon: ProfileTabIcon
       })
     }
