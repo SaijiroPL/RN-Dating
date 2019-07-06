@@ -8,26 +8,26 @@ import layout from "app/src/constants/layout";
  * @author kotatanaka
  */
 export const topStyle = StyleSheet.create({
-  containerStyle: { flex: 1, justifyContent: "center", alignItems: "center" },
-  emptySpaceStyle: { flex: 1, justifyContent: "center", alignItems: "center" },
-  topImageStyle: { flex: 2, justifyContent: "center", alignItems: "center" },
-  linkGroupStyle: { flex: 3, justifyContent: "center", alignItems: "center" },
-  inputFormStyle: {
+  topContainer: { flex: 1, justifyContent: "center", alignItems: "center" },
+  emptySpace: { flex: 1, justifyContent: "center", alignItems: "center" },
+  topImage: { flex: 2, justifyContent: "center", alignItems: "center" },
+  linkGroup: { flex: 3, justifyContent: "center", alignItems: "center" },
+  inputForm: {
     width: layout.window.width * 0.75,
     marginBottom: 20
   },
-  completeButtonStyle: {
+  completeButton: {
     backgroundColor: "orange",
     paddingVertical: 10,
     width: layout.window.width * 0.75
   },
-  welcomeTextStyle: {
+  welcomeText: {
     fontFamily: "genju-medium",
     color: "#666",
     fontSize: 20,
     padding: 10
   },
-  linkStyle: {
+  link: {
     fontFamily: "genju-medium",
     color: "#666",
     fontSize: 20,
@@ -43,19 +43,19 @@ export const topStyle = StyleSheet.create({
  * @author kotatanaka
  */
 export const entryStyle = StyleSheet.create({
-  sexGroupStyle: { flex: 1, flexDirection: "row", alignItems: "center" },
-  ageGroupStyle: { flex: 1, flexDirection: "row", alignItems: "center" },
-  addressGroupStyle: {
+  sexGroup: { flex: 1, flexDirection: "row", alignItems: "center" },
+  ageGroup: { flex: 1, flexDirection: "row", alignItems: "center" },
+  addressGroup: {
     flex: 2,
     justifyContent: "center",
     alignItems: "center"
   },
-  dividerStyle: {
+  divider: {
     backgroundColor: "orange",
     width: layout.window.width * 0.75,
     marginVertical: 30
   },
-  entryTextStyle: {
+  entryText: {
     fontFamily: "genju-medium",
     color: "#666",
     fontSize: 20,
@@ -68,22 +68,22 @@ export const entryStyle = StyleSheet.create({
  * @author kotatanaka
  */
 export const welocomeStyle = StyleSheet.create({
-  slideStyle: { flex: 1, alignItems: "center", width: layout.window.width },
-  headerStyle: { flex: 1, justifyContent: "center", alignItems: "center" },
-  footerStyle: { flex: 1, justifyContent: "center", alignItems: "center" },
-  headerTextStyle: {
+  slide: { flex: 1, alignItems: "center", width: layout.window.width },
+  header: { flex: 1, justifyContent: "center", alignItems: "center" },
+  footer: { flex: 1, justifyContent: "center", alignItems: "center" },
+  headerText: {
     fontFamily: "genju-medium",
     color: "#666",
     fontSize: 20,
     paddingVertical: 20
   },
-  titleStyle: {
+  title: {
     fontFamily: "genju-medium",
     color: "#666",
     fontSize: 20,
     padding: 10
   },
-  descriptionStyle: {
+  description: {
     fontFamily: "genju-medium",
     color: "#666",
     fontSize: 15,

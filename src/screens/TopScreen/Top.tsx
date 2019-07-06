@@ -62,13 +62,13 @@ export default class TopScreen extends React.Component<Props, State> {
           Facebookでログイン
         </FontAwesome.Button>
         <Text
-          style={topStyle.linkStyle}
+          style={topStyle.link}
           onPress={() => this.setState({ screenPhase: 1 })}
         >
           メールアドレスでログイン
         </Text>
         <Text
-          style={topStyle.linkStyle}
+          style={topStyle.link}
           onPress={() => this.setState({ screenPhase: 2 })}
         >
           新規登録はこちら
@@ -87,16 +87,16 @@ export default class TopScreen extends React.Component<Props, State> {
           placeholder="メールアドレスを入力"
           onChangeText={mailAddress => this.setState({ mailAddress })}
           value={mailAddress}
-          containerStyle={topStyle.inputFormStyle}
+          containerStyle={topStyle.inputForm}
         />
         <Input
           placeholder="パスワードを入力"
           onChangeText={password => this.setState({ password })}
           value={password}
-          containerStyle={topStyle.inputFormStyle}
+          containerStyle={topStyle.inputForm}
         />
         <Button
-          buttonStyle={topStyle.completeButtonStyle}
+          buttonStyle={topStyle.completeButton}
           title="ログイン"
           onPress={this.onSignInButtonPress}
         />
@@ -114,22 +114,22 @@ export default class TopScreen extends React.Component<Props, State> {
           placeholder="メールアドレスを入力"
           onChangeText={mailAddress => this.setState({ mailAddress })}
           value={mailAddress}
-          containerStyle={topStyle.inputFormStyle}
+          containerStyle={topStyle.inputForm}
         />
         <Input
           placeholder="パスワードを入力"
           onChangeText={password => this.setState({ password })}
           value={password}
-          containerStyle={topStyle.inputFormStyle}
+          containerStyle={topStyle.inputForm}
         />
         <Input
           placeholder="パスワードを再入力"
           onChangeText={rePassword => this.setState({ rePassword })}
           value={rePassword}
-          containerStyle={topStyle.inputFormStyle}
+          containerStyle={topStyle.inputForm}
         />
         <Button
-          buttonStyle={topStyle.completeButtonStyle}
+          buttonStyle={topStyle.completeButton}
           title="新規登録"
           onPress={this.onSignUpButtonPress}
         />
@@ -141,18 +141,18 @@ export default class TopScreen extends React.Component<Props, State> {
     const { screenPhase } = this.state;
 
     return (
-      <View style={topStyle.containerStyle}>
-        <View style={topStyle.emptySpaceStyle} />
-        <View style={topStyle.topImageStyle}>
+      <View style={topStyle.topContainer}>
+        <View style={topStyle.emptySpace} />
+        <View style={topStyle.topImage}>
           <Image
             resizeMode="contain"
             source={images.logo}
             style={{ flex: 1 }}
             width={layout.window.width * 0.8}
           />
-          <Text style={topStyle.welcomeTextStyle}>1Dateへようこそ</Text>
+          <Text style={topStyle.welcomeText}>1Dateへようこそ</Text>
         </View>
-        <View style={topStyle.linkGroupStyle}>
+        <View style={topStyle.linkGroup}>
           {screenPhase === 0 && this.renderTopScreen()}
           {screenPhase === 1 && this.renderSignInScreen()}
           {screenPhase === 2 && this.renderSignUpScreen()}

@@ -74,25 +74,23 @@ export default class WelcomeScreen extends React.Component<Props> {
   /** 各ステップページの描画 */
   renderSlides() {
     return SLIDE_DATA.map((slide, index) => (
-      <View key={index} style={welocomeStyle.slideStyle}>
+      <View key={index} style={welocomeStyle.slide}>
         {/* TODO 固定ヘッダーにする */}
-        <View style={welocomeStyle.headerStyle}>
-          <Text style={welocomeStyle.headerTextStyle}>プラン作成方法</Text>
+        <View style={welocomeStyle.header}>
+          <Text style={welocomeStyle.headerText}>プラン作成方法</Text>
         </View>
 
         <Image style={{ flex: 3 }} resizeMode="contain" source={slide.uri} />
 
         {/* TODO 画像と説明の間にボーダーを入れる */}
-        <View style={topStyle.containerStyle}>
-          <Text style={welocomeStyle.titleStyle}>{slide.title}</Text>
-          <Text style={welocomeStyle.descriptionStyle}>
-            {slide.description}
-          </Text>
+        <View style={topStyle.topContainer}>
+          <Text style={welocomeStyle.title}>{slide.title}</Text>
+          <Text style={welocomeStyle.description}>{slide.description}</Text>
         </View>
 
-        <View style={welocomeStyle.footerStyle}>
+        <View style={welocomeStyle.footer}>
           {this.renderLastButton(index)}
-          <Text style={welocomeStyle.descriptionStyle}>{index + 1} / 5</Text>
+          <Text style={welocomeStyle.description}>{index + 1} / 5</Text>
         </View>
       </View>
     ));
