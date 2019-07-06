@@ -4,6 +4,7 @@ import { Button } from "react-native-elements";
 
 // from app
 import images from "app/src/constants/images";
+import colors from "app/src/constants/colors";
 import { topStyle, welocomeStyle } from "app/src/styles/top-style";
 
 // Constants
@@ -59,7 +60,7 @@ export default class WelcomeScreen extends React.Component<Props> {
         <View>
           <Button
             buttonStyle={{
-              backgroundColor: "orange",
+              backgroundColor: colors.tintColor,
               paddingVertical: 10,
               paddingHorizontal: 50
             }}

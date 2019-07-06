@@ -14,6 +14,7 @@ import {
   NotificationTabIcon,
   ProfileTabIcon
 } from "app/src/components/Tab";
+import colors from "app/src/constants/colors";
 
 /**
  * StackNavigatorを作成する関数
@@ -75,10 +76,10 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
   // タブナビゲーション全体の設定
   {
     shifting: true,
-    activeTintColor: "orange",
-    inactiveTintColor: "#bbb",
+    activeTintColor: colors.tintColor,
+    inactiveTintColor: colors.inactiveColor,
     barStyle: {
-      backgroundColor: "#fff"
+      backgroundColor: colors.backgroundColor
     }
   }
 );

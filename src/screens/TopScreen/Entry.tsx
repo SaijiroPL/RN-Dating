@@ -5,6 +5,7 @@ import DatePicker from "react-native-datepicker";
 import { SimpleLineIcons } from "@expo/vector-icons";
 
 // from app
+import colors from "app/src/constants/colors";
 import { topStyle, entryStyle } from "app/src/styles/top-style";
 
 interface Props {
@@ -47,7 +48,7 @@ export default class EntryScreen extends React.Component<Props, State> {
             icon={
               <SimpleLineIcons
                 name="user"
-                color="orange"
+                color={colors.tintColor}
                 size={15}
                 style={{ paddingRight: 5 }}
               />
@@ -62,7 +63,7 @@ export default class EntryScreen extends React.Component<Props, State> {
             icon={
               <SimpleLineIcons
                 name="user"
-                color="orange"
+                color={colors.tintColor}
                 size={15}
                 style={{ paddingRight: 5 }}
               />
@@ -77,7 +78,7 @@ export default class EntryScreen extends React.Component<Props, State> {
             icon={
               <SimpleLineIcons
                 name="user-female"
-                color="orange"
+                color={colors.tintColor}
                 size={15}
                 style={{ paddingRight: 5 }}
               />
@@ -91,7 +92,7 @@ export default class EntryScreen extends React.Component<Props, State> {
             icon={
               <SimpleLineIcons
                 name="user-female"
-                color="orange"
+                color={colors.tintColor}
                 size={15}
                 style={{ paddingRight: 5 }}
               />
@@ -153,12 +154,12 @@ export default class EntryScreen extends React.Component<Props, State> {
 
           {/* 住まい選択 */}
           <View style={entryStyle.addressGroup}>
-            <Divider style={entryStyle.divider} />
+            {/* <Divider style={entryStyle.divider} /> */}
             <Text style={entryStyle.entryText}>住まい</Text>
             <Picker
               selectedValue={prefecture}
               style={{ width: 200 }}
-              itemStyle={{ fontSize: 15, color: "orange" }}
+              itemStyle={{ fontSize: 15, color: colors.tintColor }}
               onValueChange={itemValue =>
                 this.setState({ prefecture: itemValue })
               }

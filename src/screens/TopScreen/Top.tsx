@@ -6,6 +6,7 @@ import { FontAwesome } from "@expo/vector-icons";
 // from app
 import images from "app/src/constants/images";
 import layout from "app/src/constants/layout";
+import colors from "app/src/constants/colors";
 import { topStyle } from "app/src/styles/top-style";
 
 interface Props {
@@ -54,7 +55,7 @@ export default class TopScreen extends React.Component<Props, State> {
         <FontAwesome.Button
           name="facebook"
           size={30}
-          backgroundColor="#3b5998"
+          backgroundColor={colors.facebookColor}
           borderRadius={30}
           iconStyle={{ marginLeft: 30 }}
           onPress={this.onFacebookButtonPress}

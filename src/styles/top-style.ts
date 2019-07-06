@@ -2,6 +2,7 @@ import { StyleSheet, Dimensions } from "react-native";
 
 // from app
 import layout from "app/src/constants/layout";
+import colors from "app/src/constants/colors";
 
 /**
  * 初回起動時画面のスタイリング
@@ -17,24 +18,24 @@ export const topStyle = StyleSheet.create({
     marginBottom: 20
   },
   completeButton: {
-    backgroundColor: "orange",
+    backgroundColor: colors.tintColor,
     paddingVertical: 10,
     width: layout.window.width * 0.75
   },
   welcomeText: {
     fontFamily: "genju-medium",
-    color: "#666",
+    color: colors.textTintColor,
     fontSize: 20,
     padding: 10
   },
   link: {
     fontFamily: "genju-medium",
-    color: "#666",
+    color: colors.textTintColor,
     fontSize: 20,
     padding: 10,
     textAlign: "center",
     textDecorationLine: "underline",
-    textDecorationColor: "orange"
+    textDecorationColor: colors.tintColor
   }
 });
 
@@ -51,13 +52,13 @@ export const entryStyle = StyleSheet.create({
     alignItems: "center"
   },
   divider: {
-    backgroundColor: "orange",
+    backgroundColor: colors.tintColor,
     width: layout.window.width * 0.75,
     marginVertical: 30
   },
   entryText: {
     fontFamily: "genju-medium",
-    color: "#666",
+    color: colors.textTintColor,
     fontSize: 20,
     textAlign: "center"
   }
@@ -73,19 +74,19 @@ export const welocomeStyle = StyleSheet.create({
   footer: { flex: 1, justifyContent: "center", alignItems: "center" },
   headerText: {
     fontFamily: "genju-medium",
-    color: "#666",
+    color: colors.textTintColor,
     fontSize: 20,
     paddingVertical: 20
   },
   title: {
     fontFamily: "genju-medium",
-    color: "#666",
+    color: colors.textTintColor,
     fontSize: 20,
     padding: 10
   },
   description: {
     fontFamily: "genju-medium",
-    color: "#666",
+    color: colors.textTintColor,
     fontSize: 15,
     padding: 10
   }
