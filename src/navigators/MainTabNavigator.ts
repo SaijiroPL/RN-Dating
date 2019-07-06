@@ -2,11 +2,11 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
 
 // from app
-import HomeNavigator from "app/src/navigation/HomeNavigator";
-import SearchNavigator from "app/src/navigation/SearchNavigator";
-import MyPlanNavigator from "app/src/navigation/MyPlanNavigator";
-import NotificationNavigator from "app/src/navigation/NotificationNavigator";
-import ProfileNavigator from "app/src/navigation/ProfileNavigator";
+import HomeNavigator from "app/src/navigators/HomeNavigator";
+import SearchNavigator from "app/src/navigators/SearchNavigator";
+import MyPlanNavigator from "app/src/navigators/MyPlanNavigator";
+import NotificationNavigator from "app/src/navigators/NotificationNavigator";
+import ProfileNavigator from "app/src/navigators/ProfileNavigator";
 import {
   HomeTabIcon,
   SearchTabIcon,

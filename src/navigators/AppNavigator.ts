@@ -1,7 +1,7 @@
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 // from app
-import MainTabNavigator from "app/src/navigation/MainTabNavigator";
+import MainTabNavigator from "app/src/navigators/MainTabNavigator";
 import Top from "app/src/screens/TopScreen/Top";
 import Entry from "app/src/screens/TopScreen/Entry";
 import Welcome from "app/src/screens/TopScreen/Welcome";
