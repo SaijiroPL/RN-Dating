@@ -65,7 +65,6 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
   },
   // タブナビゲーション全体の設定
   {
-    shifting: true,
     activeTintColor: colors.tintColor,
     inactiveTintColor: colors.inactiveColor,
     barStyle: {

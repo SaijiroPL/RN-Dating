@@ -9,7 +9,12 @@ import MyPlanTop from "app/src/screens/MyPlanScreen/MyPlanTop";
  */
 const MyPlanNavigator = createStackNavigator({
   // マイプラン画面トップ
-  top: { screen: MyPlanTop }
+  top: {
+    screen: MyPlanTop,
+    navigationOptions: () => ({
+      header: null
+    })
+  }
 });
 
 export default createAppContainer(MyPlanNavigator);

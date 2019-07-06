@@ -9,7 +9,12 @@ import SearchScreen from "app/src/screens/SearchScreen/SearchTop";
  */
 const SearchNavigator = createStackNavigator({
   // 検索画面トップ
-  top: { screen: SearchScreen }
+  top: {
+    screen: SearchScreen,
+    navigationOptions: () => ({
+      header: null
+    })
+  }
 });
 
 export default createAppContainer(SearchNavigator);

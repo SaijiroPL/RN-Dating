@@ -9,7 +9,12 @@ import NotificationTop from "app/src/screens/NotificationScreen/NotificationTop"
  */
 const NotificationNavigator = createStackNavigator({
   // 通知画面トップ
-  top: { screen: NotificationTop }
+  top: {
+    screen: NotificationTop,
+    navigationOptions: () => ({
+      header: null
+    })
+  }
 });
 
 export default createAppContainer(NotificationNavigator);

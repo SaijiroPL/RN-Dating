@@ -9,7 +9,12 @@ import HomeTop from "app/src/screens/HomeScreen/HomeTop";
  */
 const HomeNavigator = createStackNavigator({
   // ホーム画面トップ
-  top: { screen: HomeTop }
+  top: {
+    screen: HomeTop,
+    navigationOptions: () => ({
+      header: null
+    })
+  }
 });
 
 export default createAppContainer(HomeNavigator);
