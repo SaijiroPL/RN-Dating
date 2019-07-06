@@ -4,27 +4,14 @@ import { StyleSheet, Dimensions } from "react-native";
 import layout from "app/src/constants/layout";
 
 /**
- * TopScreen, EntryScreen, WelcomeScreen のスタイリング
- * @author tanakakota
+ * 初回起動時画面のスタイリング
+ * @author kotatanaka
  */
-const styles = StyleSheet.create({
-  // コンテナ
+export const topStyle = StyleSheet.create({
   containerStyle: { flex: 1, justifyContent: "center", alignItems: "center" },
   emptySpaceStyle: { flex: 1, justifyContent: "center", alignItems: "center" },
   topImageStyle: { flex: 2, justifyContent: "center", alignItems: "center" },
   linkGroupStyle: { flex: 3, justifyContent: "center", alignItems: "center" },
-  sexGroupStyle: { flex: 1, flexDirection: "row", alignItems: "center" },
-  ageGroupStyle: { flex: 1, flexDirection: "row", alignItems: "center" },
-  addressGroupStyle: {
-    flex: 2,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  slideStyle: { flex: 1, alignItems: "center", width: layout.window.width },
-  headerStyle: { flex: 1, justifyContent: "center", alignItems: "center" },
-  footerStyle: { flex: 1, justifyContent: "center", alignItems: "center" },
-
-  // コンポーネント
   inputFormStyle: {
     width: layout.window.width * 0.75,
     marginBottom: 20
@@ -34,13 +21,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     width: layout.window.width * 0.75
   },
-  dividerStyle: {
-    backgroundColor: "orange",
-    width: layout.window.width * 0.75,
-    marginVertical: 30
-  },
-
-  // テキスト
   welcomeTextStyle: {
     fontFamily: "genju-medium",
     color: "#666",
@@ -55,13 +35,42 @@ const styles = StyleSheet.create({
     textAlign: "center",
     textDecorationLine: "underline",
     textDecorationColor: "orange"
+  }
+});
+
+/**
+ * ユーザー情報入力画面のスタイリング
+ * @author kotatanaka
+ */
+export const entryStyle = StyleSheet.create({
+  sexGroupStyle: { flex: 1, flexDirection: "row", alignItems: "center" },
+  ageGroupStyle: { flex: 1, flexDirection: "row", alignItems: "center" },
+  addressGroupStyle: {
+    flex: 2,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  dividerStyle: {
+    backgroundColor: "orange",
+    width: layout.window.width * 0.75,
+    marginVertical: 30
   },
   entryTextStyle: {
     fontFamily: "genju-medium",
     color: "#666",
     fontSize: 20,
     textAlign: "center"
-  },
+  }
+});
+
+/**
+ * ウェルカム画面のスタイリング
+ * @author kotatanaka
+ */
+export const welocomeStyle = StyleSheet.create({
+  slideStyle: { flex: 1, alignItems: "center", width: layout.window.width },
+  headerStyle: { flex: 1, justifyContent: "center", alignItems: "center" },
+  footerStyle: { flex: 1, justifyContent: "center", alignItems: "center" },
   headerTextStyle: {
     fontFamily: "genju-medium",
     color: "#666",
@@ -81,5 +90,3 @@ const styles = StyleSheet.create({
     padding: 10
   }
 });
-
-export default styles;

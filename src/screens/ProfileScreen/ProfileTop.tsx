@@ -2,7 +2,7 @@ import * as React from "react";
 import { Text, View } from "react-native";
 
 // from app
-import styles from "./styles";
+import { appStyle } from "app/src/styles/common-style";
 
 /**
  * プロフィール画面トップ
@@ -10,7 +10,7 @@ import styles from "./styles";
 export default class ProfileScreen extends React.Component<any, any> {
   render() {
     return (
-      <View style={styles.container}>
+      <View style={appStyle.defaultContainer}>
         <Text>設定画面</Text>
       </View>
     );

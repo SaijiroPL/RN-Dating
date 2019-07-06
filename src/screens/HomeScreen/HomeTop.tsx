@@ -5,7 +5,7 @@ import axiosBase from "axios";
 // from app
 import { PlanList, Plan } from "app/src/constants/interfaces";
 import { HomePlan } from "app/src/components/Plan";
-import styles from "./styles";
+import { appStyle } from "app/src/styles/common-style";
 
 interface State {
   // plans: PlanList;
@@ -50,7 +50,7 @@ export default class HomeScreen extends React.Component<State> {
     const { plans } = this.state;
 
     return (
-      <View style={styles.container}>
+      <View style={appStyle.defaultContainer}>
         <Text>デートプラン数 {plans.total}</Text>
         <FlatList
           data={plans.plan_list}

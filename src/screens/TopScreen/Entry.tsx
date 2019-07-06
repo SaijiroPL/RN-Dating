@@ -5,7 +5,7 @@ import DatePicker from "react-native-datepicker";
 import { SimpleLineIcons } from "@expo/vector-icons";
 
 // from app
-import styles from "./styles";
+import { topStyle, entryStyle } from "app/src/styles/top-style";
 
 interface Props {
   navigation: any;
@@ -19,7 +19,7 @@ interface State {
 
 /**
  * ユーザー基本情報入力画面
- * @author tanakakota
+ * @author kotatanaka
  */
 export default class EntryScreen extends React.Component<Props, State> {
   public state: State = {
@@ -38,8 +38,8 @@ export default class EntryScreen extends React.Component<Props, State> {
     const { sex } = this.state;
 
     return (
-      <View style={styles.sexGroupStyle}>
-        <Text style={styles.entryTextStyle}>性別</Text>
+      <View style={entryStyle.sexGroupStyle}>
+        <Text style={entryStyle.entryTextStyle}>性別</Text>
         {/* 選択したボタンの色を変える */}
         {sex === "man" ? (
           <Button
@@ -108,17 +108,17 @@ export default class EntryScreen extends React.Component<Props, State> {
     const { sex } = this.state;
 
     return (
-      <View style={styles.emptySpaceStyle}>
+      <View style={topStyle.emptySpaceStyle}>
         {/* 未入力項目がある場合はボタン押下不可 */}
         {sex !== "" ? (
           <Button
-            buttonStyle={styles.completeButtonStyle}
+            buttonStyle={topStyle.completeButtonStyle}
             title="決定"
             onPress={this.onCompleteButtonPress}
           />
         ) : (
           <Button
-            buttonStyle={styles.completeButtonStyle}
+            buttonStyle={topStyle.completeButtonStyle}
             title="決定"
             disabled
           />
@@ -131,16 +131,16 @@ export default class EntryScreen extends React.Component<Props, State> {
     const { date, prefecture } = this.state;
 
     return (
-      <View style={styles.containerStyle}>
-        <View style={styles.linkGroupStyle}>
-          <View style={styles.emptySpaceStyle} />
+      <View style={topStyle.containerStyle}>
+        <View style={topStyle.linkGroupStyle}>
+          <View style={topStyle.emptySpaceStyle} />
 
           {/* 性別選択 */}
           {this.renderSexButtons()}
 
           {/* 生年月日選択 */}
-          <View style={styles.ageGroupStyle}>
-            <Text style={styles.entryTextStyle}>生年月日</Text>
+          <View style={entryStyle.ageGroupStyle}>
+            <Text style={entryStyle.entryTextStyle}>生年月日</Text>
             <DatePicker
               style={{ width: 200 }}
               date={date}
@@ -156,9 +156,9 @@ export default class EntryScreen extends React.Component<Props, State> {
           </View>
 
           {/* 住まい選択 */}
-          <View style={styles.addressGroupStyle}>
-            <Divider style={styles.dividerStyle} />
-            <Text style={styles.entryTextStyle}>住まい</Text>
+          <View style={entryStyle.addressGroupStyle}>
+            <Divider style={entryStyle.dividerStyle} />
+            <Text style={entryStyle.entryTextStyle}>住まい</Text>
             <Picker
               selectedValue={prefecture}
               style={{ width: 200 }}
@@ -181,7 +181,7 @@ export default class EntryScreen extends React.Component<Props, State> {
           {/* 決定ボタン */}
           {this.renderCompleteButton()}
 
-          <View style={styles.emptySpaceStyle} />
+          <View style={topStyle.emptySpaceStyle} />
         </View>
       </View>
     );
