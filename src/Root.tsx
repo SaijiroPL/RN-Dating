@@ -1,18 +1,12 @@
 import React from "react";
 import { View, StatusBar, Platform } from "react-native";
 import { AppLoading, Asset, Font } from "expo";
-import { Provider } from "react-redux";
-// import axiosBase from 'axios';
 
 // from app
 import images from "app/src/constants/images";
 import fonts from "app/src/constants/fonts";
 import appStyle from "app/src/styles/common-style";
-import store from "app/src/store";
-import AppWithNavigationState from "app/src/navigation/RootNavigation";
-
-// const userApiBaseUrl = `${process.env.ONEDATE_SERVER_URL}/user`;
-// const axios = axiosBase.create({ baseURL: userApiBaseUrl });
+import AppNavigator from "app/src/navigation/AppNavigator";
 
 interface Props {
   skipLoadingScreen: boolean;
@@ -22,6 +16,10 @@ interface State {
   isLoadingComplete: boolean;
 }
 
+/**
+ * アプリケーションの大元となるコンポーネント
+ * @author kotatanaka
+ */
 export default class App extends React.Component<Props, State> {
   static defaultProps: Props = {
     skipLoadingScreen: false
@@ -56,9 +54,7 @@ export default class App extends React.Component<Props, State> {
     return (
       <View style={appStyle.defaultContainer}>
         {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-        <Provider store={store}>
-          <AppWithNavigationState />
-        </Provider>
+        <AppNavigator />
       </View>
     );
   }
