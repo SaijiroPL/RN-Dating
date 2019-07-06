@@ -5,7 +5,8 @@ import DatePicker from "react-native-datepicker";
 import { SimpleLineIcons } from "@expo/vector-icons";
 
 // from app
-import styles from "./styles";
+import colors from "app/src/constants/colors";
+import { topStyle, entryStyle } from "app/src/styles/top-style";
 
 interface Props {
   navigation: any;
@@ -19,7 +20,7 @@ interface State {
 
 /**
  * ユーザー基本情報入力画面
- * @author tanakakota
+ * @author kotatanaka
  */
 export default class EntryScreen extends React.Component<Props, State> {
   public state: State = {
@@ -38,8 +39,8 @@ export default class EntryScreen extends React.Component<Props, State> {
     const { sex } = this.state;
 
     return (
-      <View style={styles.sexGroupStyle}>
-        <Text style={styles.entryTextStyle}>性別</Text>
+      <View style={entryStyle.sexGroup}>
+        <Text style={entryStyle.entryText}>性別</Text>
         {/* 選択したボタンの色を変える */}
         {sex === "man" ? (
           <Button
@@ -47,7 +48,7 @@ export default class EntryScreen extends React.Component<Props, State> {
             icon={
               <SimpleLineIcons
                 name="user"
-                color="orange"
+                color={colors.tintColor}
                 size={15}
                 style={{ paddingRight: 5 }}
               />
@@ -62,7 +63,7 @@ export default class EntryScreen extends React.Component<Props, State> {
             icon={
               <SimpleLineIcons
                 name="user"
-                color="orange"
+                color={colors.tintColor}
                 size={15}
                 style={{ paddingRight: 5 }}
               />
@@ -77,7 +78,7 @@ export default class EntryScreen extends React.Component<Props, State> {
             icon={
               <SimpleLineIcons
                 name="user-female"
-                color="orange"
+                color={colors.tintColor}
                 size={15}
                 style={{ paddingRight: 5 }}
               />
@@ -91,7 +92,7 @@ export default class EntryScreen extends React.Component<Props, State> {
             icon={
               <SimpleLineIcons
                 name="user-female"
-                color="orange"
+                color={colors.tintColor}
                 size={15}
                 style={{ paddingRight: 5 }}
               />
@@ -108,20 +109,16 @@ export default class EntryScreen extends React.Component<Props, State> {
     const { sex } = this.state;
 
     return (
-      <View style={styles.emptySpaceStyle}>
+      <View style={topStyle.emptySpace}>
         {/* 未入力項目がある場合はボタン押下不可 */}
         {sex !== "" ? (
           <Button
-            buttonStyle={styles.completeButtonStyle}
+            buttonStyle={topStyle.completeButton}
             title="決定"
             onPress={this.onCompleteButtonPress}
           />
         ) : (
-          <Button
-            buttonStyle={styles.completeButtonStyle}
-            title="決定"
-            disabled
-          />
+          <Button buttonStyle={topStyle.completeButton} title="決定" disabled />
         )}
       </View>
     );
@@ -131,16 +128,16 @@ export default class EntryScreen extends React.Component<Props, State> {
     const { date, prefecture } = this.state;
 
     return (
-      <View style={styles.containerStyle}>
-        <View style={styles.linkGroupStyle}>
-          <View style={styles.emptySpaceStyle} />
+      <View style={topStyle.topContainer}>
+        <View style={topStyle.linkGroup}>
+          <View style={topStyle.emptySpace} />
 
           {/* 性別選択 */}
           {this.renderSexButtons()}
 
           {/* 生年月日選択 */}
-          <View style={styles.ageGroupStyle}>
-            <Text style={styles.entryTextStyle}>生年月日</Text>
+          <View style={entryStyle.ageGroup}>
+            <Text style={entryStyle.entryText}>生年月日</Text>
             <DatePicker
               style={{ width: 200 }}
               date={date}
@@ -156,13 +153,13 @@ export default class EntryScreen extends React.Component<Props, State> {
           </View>
 
           {/* 住まい選択 */}
-          <View style={styles.addressGroupStyle}>
-            <Divider style={styles.dividerStyle} />
-            <Text style={styles.entryTextStyle}>住まい</Text>
+          <View style={entryStyle.addressGroup}>
+            {/* <Divider style={entryStyle.divider} /> */}
+            <Text style={entryStyle.entryText}>住まい</Text>
             <Picker
               selectedValue={prefecture}
               style={{ width: 200 }}
-              itemStyle={{ fontSize: 15, color: "orange" }}
+              itemStyle={{ fontSize: 15, color: colors.tintColor }}
               onValueChange={itemValue =>
                 this.setState({ prefecture: itemValue })
               }
@@ -181,7 +178,7 @@ export default class EntryScreen extends React.Component<Props, State> {
           {/* 決定ボタン */}
           {this.renderCompleteButton()}
 
-          <View style={styles.emptySpaceStyle} />
+          <View style={topStyle.emptySpace} />
         </View>
       </View>
     );

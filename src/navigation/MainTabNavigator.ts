@@ -14,13 +14,14 @@ import {
   NotificationTabIcon,
   ProfileTabIcon
 } from "app/src/components/Tab";
+import colors from "app/src/constants/colors";
 
 /**
  * StackNavigatorを作成する関数
  * @param title タブのタイトル
  * @param screen 対象画面
  */
-const createTabStack = (title: string, screen: typeof HomeScreen) =>
+const createTabStack = (title: string, screen: any) =>
   createStackNavigator({
     [title]: { screen }
   });
@@ -35,6 +36,7 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
     SearchTab: {
       screen: createTabStack("SearchTab", SearchScreen),
       navigationOptions: () => ({
+        title: "検索",
         tabBarIcon: SearchTabIcon
       })
     },
@@ -42,6 +44,7 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
     MyPlanTab: {
       screen: createTabStack("MyPlanTab", MyPlanScreen),
       navigationOptions: () => ({
+        title: "マイプラン",
         tabBarIcon: MyPlanTabIcon
       })
     },
@@ -49,6 +52,7 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
     HomeTab: {
       screen: createTabStack("HomeTab", HomeScreen),
       navigationOptions: () => ({
+        title: "ホーム",
         tabBarIcon: HomeTabIcon
       })
     },
@@ -56,6 +60,7 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
     NotificationTab: {
       screen: createTabStack("NotificationTab", NotificationScreen),
       navigationOptions: () => ({
+        title: "通知",
         tabBarIcon: NotificationTabIcon
       })
     },
@@ -63,6 +68,7 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
     ProfileTab: {
       screen: createTabStack("ProfileTab", ProfileScreen),
       navigationOptions: () => ({
+        title: "プロフィール",
         tabBarIcon: ProfileTabIcon
       })
     }
@@ -70,10 +76,10 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
   // タブナビゲーション全体の設定
   {
     shifting: true,
-    activeTintColor: "orange",
-    inactiveTintColor: "#bbb",
+    activeTintColor: colors.tintColor,
+    inactiveTintColor: colors.inactiveColor,
     barStyle: {
-      backgroundColor: "#fff"
+      backgroundColor: colors.backgroundColor
     }
   }
 );

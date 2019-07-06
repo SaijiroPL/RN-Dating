@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 // from app
 import images from "app/src/constants/images";
 import fonts from "app/src/constants/fonts";
+import appStyle from "app/src/styles/common-style";
 import store from "app/src/store";
 import AppWithNavigationState from "app/src/navigation/RootNavigation";
 
@@ -53,9 +54,7 @@ export default class App extends React.Component<Props, State> {
     }
 
     return (
-      <View
-        style={{ flex: 1, justifyContent: "center", backgroundColor: "#fff" }}
-      >
+      <View style={appStyle.defaultContainer}>
         {Platform.OS === "ios" && <StatusBar barStyle="default" />}
         <Provider store={store}>
           <AppWithNavigationState />

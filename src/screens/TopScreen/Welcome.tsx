@@ -4,7 +4,8 @@ import { Button } from "react-native-elements";
 
 // from app
 import images from "app/src/constants/images";
-import styles from "./styles";
+import colors from "app/src/constants/colors";
+import { topStyle, welocomeStyle } from "app/src/styles/top-style";
 
 // Constants
 const SLIDE_DATA = [
@@ -41,7 +42,7 @@ interface Props {
 
 /**
  * ウェルカム画面
- * @author tanakakota
+ * @author kotatanaka
  */
 export default class WelcomeScreen extends React.Component<Props> {
   /** 完了ボタン押下で基本情報入力画面に遷移する */
@@ -59,7 +60,7 @@ export default class WelcomeScreen extends React.Component<Props> {
         <View>
           <Button
             buttonStyle={{
-              backgroundColor: "orange",
+              backgroundColor: colors.tintColor,
               paddingVertical: 10,
               paddingHorizontal: 50
             }}
@@ -74,23 +75,23 @@ export default class WelcomeScreen extends React.Component<Props> {
   /** 各ステップページの描画 */
   renderSlides() {
     return SLIDE_DATA.map((slide, index) => (
-      <View key={index} style={styles.slideStyle}>
+      <View key={index} style={welocomeStyle.slide}>
         {/* TODO 固定ヘッダーにする */}
-        <View style={styles.headerStyle}>
-          <Text style={styles.headerTextStyle}>プラン作成方法</Text>
+        <View style={welocomeStyle.header}>
+          <Text style={welocomeStyle.headerText}>プラン作成方法</Text>
         </View>
 
         <Image style={{ flex: 3 }} resizeMode="contain" source={slide.uri} />
 
         {/* TODO 画像と説明の間にボーダーを入れる */}
-        <View style={styles.containerStyle}>
-          <Text style={styles.titleStyle}>{slide.title}</Text>
-          <Text style={styles.descriptionStyle}>{slide.description}</Text>
+        <View style={topStyle.topContainer}>
+          <Text style={welocomeStyle.title}>{slide.title}</Text>
+          <Text style={welocomeStyle.description}>{slide.description}</Text>
         </View>
 
-        <View style={styles.footerStyle}>
+        <View style={welocomeStyle.footer}>
           {this.renderLastButton(index)}
-          <Text style={styles.descriptionStyle}>{index + 1} / 5</Text>
+          <Text style={welocomeStyle.description}>{index + 1} / 5</Text>
         </View>
       </View>
     ));
