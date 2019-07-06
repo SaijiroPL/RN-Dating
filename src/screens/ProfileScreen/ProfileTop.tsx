@@ -2,7 +2,7 @@ import * as React from "react";
 import { Text, View } from "react-native";
 
 // from app
-import { appStyle } from "app/src/styles/common-style";
+import appStyle  from "app/src/styles/common-style";
 
 /**
  * プロフィール画面トップ

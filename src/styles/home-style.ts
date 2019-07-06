@@ -1,16 +1,13 @@
 import { StyleSheet } from "react-native";
 
 /**
- * 共通のスタイリング
+ * ホーム画面のスタイリング
  * @author kotatanaka
  */
-const appStyle = StyleSheet.create({
-  defaultContainer: {
+export const homeStyle = StyleSheet.create({
+  container: {
     flex: 1,
-    paddingTop: 15,
     backgroundColor: "#fff",
     justifyContent: "center"
   }
 });
-
-export default appStyle;
