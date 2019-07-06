@@ -12,6 +12,10 @@ const appStyle = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.backgroundColor,
     justifyContent: "center"
+  },
+  defaultText: {
+    fontFamily: "genju-medium",
+    color: colors.textTintColor
   }
 });
 
