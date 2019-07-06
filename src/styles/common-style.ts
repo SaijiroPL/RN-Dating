@@ -12,9 +12,3 @@ export const appStyle = StyleSheet.create({
     justifyContent: "center"
   }
 });
-
-/**
- * 共通のスタイリング(ボタン)
- * @author kotatanaka
- */
-export const buttonStyle = StyleSheet.create({});
