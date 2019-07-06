@@ -10,15 +10,20 @@ import Welcome from "app/src/screens/TopScreen/Welcome";
  * アプリケーション全体のナビゲーター
  * @author kotatanaka
  */
-const AppNavigator = createStackNavigator({
-  // トップ画面
-  top: { screen: Top },
-  // ウェルカム画面
-  welcome: { screen: Welcome },
-  // 基本情報入力画面
-  entry: { screen: Entry },
-  // メイン画面
-  main: { screen: MainTabNavigator }
-});
+const AppNavigator = createStackNavigator(
+  {
+    // トップ画面
+    top: { screen: Top },
+    // ウェルカム画面
+    welcome: { screen: Welcome },
+    // 基本情報入力画面
+    entry: { screen: Entry },
+    // メイン画面
+    main: { screen: MainTabNavigator }
+  },
+  {
+    headerMode: "none"
+  }
+);
 
 export default createAppContainer(AppNavigator);
