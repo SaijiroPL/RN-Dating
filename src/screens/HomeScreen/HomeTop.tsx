@@ -24,7 +24,7 @@ const axios = axiosBase.create({ baseURL: plansApiBaseUrl });
  * ホーム画面トップ
  * @author kotatanaka
  */
-export default class HomeScreen extends React.Component<Props, State> {
+export default class HomeTopScreen extends React.Component<Props, State> {
   public state: State = {
     plans: { total: 0, plan_list: [] },
     errors: []

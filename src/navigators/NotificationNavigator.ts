@@ -1,7 +1,7 @@
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 // from app
-import NotificationTop from "app/src/screens/NotificationScreen/NotificationTop";
+import NotificationTopScreen from "app/src/screens/NotificationScreen/NotificationTop";
 
 /**
  * 通知タブのナビゲーター
@@ -11,7 +11,7 @@ const NotificationNavigator = createStackNavigator(
   {
     // 通知画面トップ
     top: {
-      screen: NotificationTop,
+      screen: NotificationTopScreen,
       navigationOptions: () => ({
         headerTitle: "通知"
       })

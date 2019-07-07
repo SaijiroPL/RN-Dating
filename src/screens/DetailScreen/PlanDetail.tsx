@@ -34,7 +34,7 @@ const axios = axiosBase.create({ baseURL: plansApiBaseUrl });
  * デートプラン詳細画面
  * @author kotatanaka
  */
-export default class PlanDetail extends React.Component<Props, State> {
+export default class PlanDetailScreen extends React.Component<Props, State> {
   public state: State = {
     plan: {
       plan_id: "",

@@ -1,7 +1,7 @@
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 // from app
-import ProfileTop from "app/src/screens/ProfileScreen/ProfileTop";
+import ProfileTopScreen from "app/src/screens/ProfileScreen/ProfileTop";
 
 /**
  * プロフィールタブのナビゲーター
@@ -11,7 +11,7 @@ const ProfileNavigator = createStackNavigator(
   {
     // プロフィール画面トップ
     top: {
-      screen: ProfileTop,
+      screen: ProfileTopScreen,
       navigationOptions: () => ({
         headerTitle: "プロフィール"
       })

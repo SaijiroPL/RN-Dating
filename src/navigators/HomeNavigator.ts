@@ -1,8 +1,8 @@
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 // from app
-import HomeTop from "app/src/screens/HomeScreen/HomeTop";
-import PlanDetail from "app/src/screens/DetailScreen/PlanDetail";
+import HomeTopScreen from "app/src/screens/HomeScreen/HomeTop";
+import PlanDetailScreen from "app/src/screens/DetailScreen/PlanDetail";
 
 /**
  * ホームタブのナビゲーター
@@ -12,14 +12,14 @@ const HomeNavigator = createStackNavigator(
   {
     // ホーム画面トップ
     top: {
-      screen: HomeTop,
+      screen: HomeTopScreen,
       navigationOptions: () => ({
         headerTitle: "ホーム"
       })
     },
     // デートプラン詳細画面
     detail: {
-      screen: PlanDetail,
+      screen: PlanDetailScreen,
       navigationOptions: () => ({
         headerTitle: "プラン詳細"
       })
