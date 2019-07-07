@@ -21,3 +21,32 @@ export interface Plan {
   user_image_url: string;
   like_count: number;
 }
+
+/**
+ * デートプラン詳細取得レスポンスインタフェース
+ * @author kotatanaka
+ */
+export interface PlanFull {
+  plan_id: string;
+  title: string;
+  description: string;
+  date: string;
+  transportation: Array<string>;
+  need_time: number;
+  create_date: string;
+  spots: Array<Spot>;
+  user_name: string;
+  user_image_url: string;
+  like_count: number;
+  is_liked: boolean;
+}
+
+/**
+ * デートスポットインタフェース
+ * @author kotatanak
+ */
+export interface Spot {
+  google_maps_key: string;
+  order: number;
+  need_time: number;
+}
