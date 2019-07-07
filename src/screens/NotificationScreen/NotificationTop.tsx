@@ -7,7 +7,7 @@ import appStyle from "app/src/styles/common-style";
 /**
  * 通知画面トップ
  */
-export default class NotificationScreen extends React.Component<any, any> {
+export default class NotificationTopScreen extends React.Component<any, any> {
   render() {
     return (
       <View style={appStyle.defaultContainer}>

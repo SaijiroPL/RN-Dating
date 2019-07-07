@@ -7,7 +7,7 @@ import appStyle from "app/src/styles/common-style";
 /**
  * 検索画面トップ
  */
-export default class SearchScreen extends React.Component<any, any> {
+export default class SearchTopScreen extends React.Component<any, any> {
   render() {
     return (
       <View style={appStyle.defaultContainer}>

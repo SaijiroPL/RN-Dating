@@ -1,7 +1,8 @@
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 // from app
-import SearchScreen from "app/src/screens/SearchScreen/SearchTop";
+import SearchTopScreen from "app/src/screens/SearchScreen/SearchTop";
+import appStyle from "app/src/styles/common-style";
 
 /**
  * 検索タブのナビゲーター
@@ -11,14 +12,15 @@ const SearchNavigator = createStackNavigator(
   {
     // 検索画面トップ
     top: {
-      screen: SearchScreen,
+      screen: SearchTopScreen,
       navigationOptions: () => ({
-        header: null
+        headerTitle: "検索",
+        headerTitleStyle: appStyle.defaultText
       })
     }
   },
   {
-    headerMode: "none"
+    headerBackTitleVisible: false
   }
 );
 

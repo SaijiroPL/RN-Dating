@@ -2,9 +2,9 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 
 // from app
 import MainTabNavigator from "app/src/navigators/MainTabNavigator";
-import Top from "app/src/screens/TopScreen/Top";
-import Entry from "app/src/screens/TopScreen/Entry";
-import Welcome from "app/src/screens/TopScreen/Welcome";
+import TopScreen from "app/src/screens/TopScreen/Top";
+import WelcomeScreen from "app/src/screens/TopScreen/Welcome";
+import EntryScreen from "app/src/screens/TopScreen/Entry";
 
 /**
  * アプリケーション全体のナビゲーター
@@ -13,11 +13,11 @@ import Welcome from "app/src/screens/TopScreen/Welcome";
 const AppNavigator = createStackNavigator(
   {
     // トップ画面
-    top: { screen: Top },
+    top: { screen: TopScreen },
     // ウェルカム画面
-    welcome: { screen: Welcome },
+    welcome: { screen: WelcomeScreen },
     // 基本情報入力画面
-    entry: { screen: Entry },
+    entry: { screen: EntryScreen },
     // メイン画面
     main: { screen: MainTabNavigator }
   },
