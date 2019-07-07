@@ -13,12 +13,12 @@ const NotificationNavigator = createStackNavigator(
     top: {
       screen: NotificationTop,
       navigationOptions: () => ({
-        header: null
+        headerTitle: "通知"
       })
     }
   },
   {
-    headerMode: "none"
+    headerBackTitleVisible: false
   }
 );
 

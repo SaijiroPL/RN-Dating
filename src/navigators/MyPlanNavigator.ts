@@ -13,12 +13,12 @@ const MyPlanNavigator = createStackNavigator(
     top: {
       screen: MyPlanTop,
       navigationOptions: () => ({
-        header: null
+        headerTitle: "マイプラン"
       })
     }
   },
   {
-    headerMode: "none"
+    headerBackTitleVisible: false
   }
 );
 

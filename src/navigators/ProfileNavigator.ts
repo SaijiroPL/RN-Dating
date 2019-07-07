@@ -13,12 +13,12 @@ const ProfileNavigator = createStackNavigator(
     top: {
       screen: ProfileTop,
       navigationOptions: () => ({
-        header: null
+        headerTitle: "プロフィール"
       })
     }
   },
   {
-    headerMode: "none"
+    headerBackTitleVisible: false
   }
 );
 

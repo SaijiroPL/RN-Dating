@@ -13,12 +13,12 @@ const SearchNavigator = createStackNavigator(
     top: {
       screen: SearchScreen,
       navigationOptions: () => ({
-        header: null
+        headerTitle: "検索"
       })
     }
   },
   {
-    headerMode: "none"
+    headerBackTitleVisible: false
   }
 );
 
