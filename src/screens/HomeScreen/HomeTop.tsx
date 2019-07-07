@@ -7,8 +7,11 @@ import { PlanList, Plan } from "app/src/constants/interfaces";
 import PlanCard from "app/src/components/PlanCard";
 import { homeStyle } from "app/src/styles/home-style";
 
+interface Props {
+  navigation: any;
+}
+
 interface State {
-  // plans: PlanList;
   plans: any;
   errors: any;
 }
@@ -21,7 +24,7 @@ const axios = axiosBase.create({ baseURL: plansApiBaseUrl });
  * ホーム画面トップ
  * @author kotatanaka
  */
-export default class HomeScreen extends React.Component<State> {
+export default class HomeScreen extends React.Component<Props, State> {
   public state: State = {
     plans: { total: 0, plan_list: [] },
     errors: []
@@ -44,7 +47,9 @@ export default class HomeScreen extends React.Component<State> {
   }
 
   /** デートプランリストを描画する */
-  renderPlanList = ({ item }: { item: Plan }) => PlanCard(item);
+  renderPlanList = ({ item }: { item: Plan }) => {
+    return <PlanCard navigation={this.props.navigation} plan={item} />;
+  };
 
   render() {
     const { plans } = this.state;
