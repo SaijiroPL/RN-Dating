@@ -2,6 +2,7 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 
 // from app
 import ProfileTopScreen from "app/src/screens/ProfileScreen/ProfileTop";
+import appStyle from "app/src/styles/common-style";
 
 /**
  * プロフィールタブのナビゲーター
@@ -13,7 +14,8 @@ const ProfileNavigator = createStackNavigator(
     top: {
       screen: ProfileTopScreen,
       navigationOptions: () => ({
-        headerTitle: "プロフィール"
+        headerTitle: "プロフィール",
+        headerTitleStyle: appStyle.defaultText
       })
     }
   },

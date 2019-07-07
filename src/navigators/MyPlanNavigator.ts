@@ -2,6 +2,7 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 
 // from app
 import MyPlanTopScreen from "app/src/screens/MyPlanScreen/MyPlanTop";
+import appStyle from "app/src/styles/common-style";
 
 /**
  * マイプランタブのナビゲーター
@@ -13,7 +14,8 @@ const MyPlanNavigator = createStackNavigator(
     top: {
       screen: MyPlanTopScreen,
       navigationOptions: () => ({
-        headerTitle: "マイプラン"
+        headerTitle: "マイプラン",
+        headerTitleStyle: appStyle.defaultText
       })
     }
   },
