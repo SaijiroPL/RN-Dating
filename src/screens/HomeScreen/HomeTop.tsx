@@ -1,5 +1,10 @@
-import * as React from "react";
+import React from "react";
 import { Text, View, FlatList } from "react-native";
+import {
+  NavigationParams,
+  NavigationScreenProp,
+  NavigationState
+} from "react-navigation";
 import axiosBase from "axios";
 
 // from app
@@ -8,7 +13,7 @@ import PlanCard from "app/src/components/PlanCard";
 import { homeStyle } from "app/src/styles/home-style";
 
 interface Props {
-  navigation: any;
+  navigation: NavigationScreenProp<NavigationState, NavigationParams>;
 }
 
 interface State {

@@ -1,6 +1,11 @@
 import React from "react";
 import { Image } from "react-native";
 import {
+  NavigationParams,
+  NavigationScreenProp,
+  NavigationState
+} from "react-navigation";
+import {
   Content,
   Item,
   Thumbnail,
@@ -18,7 +23,7 @@ import images from "app/src/constants/images";
 import layout from "app/src/constants/layout";
 
 interface Props {
-  navigation: any;
+  navigation: NavigationScreenProp<NavigationState, NavigationParams>;
 }
 
 interface State {

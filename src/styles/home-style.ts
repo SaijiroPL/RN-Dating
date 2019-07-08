@@ -9,8 +9,8 @@ import colors from "app/src/constants/colors";
  */
 export const homeStyle = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: colors.backgroundColor,
+    flex: 1,
     justifyContent: "center"
   }
 });

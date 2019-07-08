@@ -5,7 +5,7 @@ import colors from "app/src/constants/colors";
 import layout from "app/src/constants/layout";
 
 /**
- * デートプランプラン関連画面のスタイリング
+ * デートプラン関連画面のスタイリング
  * @author kotatanaka
  */
 export const planCardStyle = StyleSheet.create({

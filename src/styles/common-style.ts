@@ -9,13 +9,13 @@ import colors from "app/src/constants/colors";
  */
 const appStyle = StyleSheet.create({
   defaultContainer: {
-    flex: 1,
     backgroundColor: colors.backgroundColor,
+    flex: 1,
     justifyContent: "center"
   },
   defaultText: {
-    fontFamily: "genju-medium",
-    color: colors.textTintColor
+    color: colors.textTintColor,
+    fontFamily: "genju-medium"
   }
 });
 
