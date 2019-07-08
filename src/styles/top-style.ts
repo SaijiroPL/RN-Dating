@@ -9,33 +9,48 @@ import colors from "app/src/constants/colors";
  * @author kotatanaka
  */
 export const topStyle = StyleSheet.create({
-  topContainer: { flex: 1, justifyContent: "center", alignItems: "center" },
-  emptySpace: { flex: 1, justifyContent: "center", alignItems: "center" },
-  topImage: { flex: 2, justifyContent: "center", alignItems: "center" },
-  linkGroup: { flex: 3, justifyContent: "center", alignItems: "center" },
+  topContainer: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center"
+  },
+  emptySpace: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center"
+  },
+  topImage: {
+    alignItems: "center",
+    flex: 2,
+    justifyContent: "center"
+  },
+  linkGroup: {
+    alignItems: "center",
+    flex: 3,
+    justifyContent: "center"
+  },
   inputForm: {
-    width: layout.window.width * 0.75,
-    marginBottom: 20
+    marginBottom: 20,
+    width: layout.window.width * 0.75
   },
   completeButton: {
     backgroundColor: colors.tintColor,
-    paddingVertical: 10,
     width: layout.window.width * 0.75
   },
   welcomeText: {
-    fontFamily: "genju-medium",
     color: colors.textTintColor,
+    fontFamily: "genju-medium",
     fontSize: 20,
     padding: 10
   },
   link: {
-    fontFamily: "genju-medium",
     color: colors.textTintColor,
+    fontFamily: "genju-medium",
     fontSize: 20,
     padding: 10,
     textAlign: "center",
-    textDecorationLine: "underline",
-    textDecorationColor: colors.tintColor
+    textDecorationColor: colors.tintColor,
+    textDecorationLine: "underline"
   }
 });
 
@@ -44,17 +59,24 @@ export const topStyle = StyleSheet.create({
  * @author kotatanaka
  */
 export const entryStyle = StyleSheet.create({
-  sexGroup: { flex: 1, flexDirection: "row", alignItems: "center" },
-  ageGroup: { flex: 1, flexDirection: "row", alignItems: "center" },
-  addressGroup: { flex: 1, flexDirection: "row", alignItems: "center" },
-  divider: {
-    backgroundColor: colors.tintColor,
-    width: layout.window.width * 0.75,
-    marginVertical: 30
+  sexGroup: {
+    alignItems: "center",
+    flex: 1,
+    flexDirection: "row"
+  },
+  ageGroup: {
+    alignItems: "center",
+    flex: 1,
+    flexDirection: "row"
+  },
+  addressGroup: {
+    alignItems: "center",
+    flex: 1,
+    flexDirection: "row"
   },
   entryText: {
-    fontFamily: "genju-medium",
     color: colors.textTintColor,
+    fontFamily: "genju-medium",
     fontSize: 20,
     textAlign: "center"
   }
@@ -65,24 +87,25 @@ export const entryStyle = StyleSheet.create({
  * @author kotatanaka
  */
 export const welocomeStyle = StyleSheet.create({
-  slide: { flex: 1, alignItems: "center", width: layout.window.width },
-  header: { flex: 1, justifyContent: "center", alignItems: "center" },
-  footer: { flex: 1, justifyContent: "center", alignItems: "center" },
-  headerText: {
-    fontFamily: "genju-medium",
-    color: colors.textTintColor,
-    fontSize: 20,
-    paddingVertical: 20
+  slide: {
+    alignItems: "center",
+    flex: 1,
+    width: layout.window.width
+  },
+  footer: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center"
   },
   title: {
-    fontFamily: "genju-medium",
     color: colors.textTintColor,
+    fontFamily: "genju-medium",
     fontSize: 20,
     padding: 10
   },
   description: {
-    fontFamily: "genju-medium",
     color: colors.textTintColor,
+    fontFamily: "genju-medium",
     fontSize: 15,
     padding: 10
   }
