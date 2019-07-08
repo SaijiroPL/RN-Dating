@@ -8,6 +8,17 @@ export interface PlanList {
 }
 
 /**
+ * APIエラーレスポンスインターフェース
+ * @author kotatanaka
+ */
+export interface Error {
+  code: number;
+  message: string;
+  // 配列または文字列
+  detail_massage: any;
+}
+
+/**
  * デートプラン一覧取得レスポンス要素インターフェース
  * @author kotatanaka
  */
