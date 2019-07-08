@@ -1,5 +1,10 @@
 import * as React from "react";
-import { Text, View, Image, Dimensions } from "react-native";
+import { Text, View, Image } from "react-native";
+import {
+  NavigationParams,
+  NavigationScreenProp,
+  NavigationState
+} from "react-navigation";
 import { Button, Input } from "react-native-elements";
 import { FontAwesome } from "@expo/vector-icons";
 
@@ -10,7 +15,7 @@ import colors from "app/src/constants/colors";
 import { topStyle } from "app/src/styles/top-style";
 
 interface Props {
-  navigation: any;
+  navigation: NavigationScreenProp<NavigationState, NavigationParams>;
 }
 
 interface State {

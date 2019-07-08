@@ -1,5 +1,10 @@
 import * as React from "react";
 import { Text, View } from "react-native";
+import {
+  NavigationParams,
+  NavigationScreenProp,
+  NavigationState
+} from "react-navigation";
 import { Picker } from "native-base";
 import { Button } from "react-native-elements";
 import DatePicker from "react-native-datepicker";
@@ -11,7 +16,7 @@ import appStyle from "app/src/styles/common-style";
 import { topStyle, entryStyle } from "app/src/styles/top-style";
 
 interface Props {
-  navigation: any;
+  navigation: NavigationScreenProp<NavigationState, NavigationParams>;
 }
 
 interface State {

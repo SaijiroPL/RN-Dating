@@ -1,5 +1,10 @@
 import * as React from "react";
 import { Text, View, ScrollView, Image } from "react-native";
+import {
+  NavigationParams,
+  NavigationScreenProp,
+  NavigationState
+} from "react-navigation";
 import { Button } from "react-native-elements";
 
 // from app
@@ -37,7 +42,7 @@ const SLIDE_DATA = [
 ];
 
 interface Props {
-  navigation: any;
+  navigation: NavigationScreenProp<NavigationState, NavigationParams>;
 }
 
 /**

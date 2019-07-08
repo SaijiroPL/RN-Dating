@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-
 import { Image, TouchableOpacity } from "react-native";
 import {
   Card,
@@ -11,6 +10,11 @@ import {
   Body,
   Right
 } from "native-base";
+import {
+  NavigationParams,
+  NavigationScreenProp,
+  NavigationState
+} from "react-navigation";
 
 // from app
 import { Plan } from "app/src/constants/interfaces";
@@ -18,7 +22,7 @@ import images from "app/src/constants/images";
 import { planCardStyle } from "app/src/styles/plan-style";
 
 interface Props {
-  navigation: any;
+  navigation: NavigationScreenProp<NavigationState, NavigationParams>;
   plan: Plan;
 }
 
