@@ -38,7 +38,8 @@ export default class EntryScreen extends React.Component<Props, State> {
 
   /** 完了ボタン押下でホーム画面に遷移する */
   onCompleteButtonPress = () => {
-    this.props.navigation.navigate("main");
+    const { navigation } = this.props;
+    navigation.navigate("main");
   };
 
   /** 性別選択ボタンを描画する */

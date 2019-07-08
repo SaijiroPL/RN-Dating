@@ -40,17 +40,20 @@ export default class TopScreen extends React.Component<Props, State> {
 
   /** Facebookログインボタン押下時の処理 */
   onFacebookButtonPress = () => {
-    this.props.navigation.navigate("welcome");
+    const { navigation } = this.props;
+    navigation.navigate("welcome");
   };
 
   /** メールアドレスログインボタン押下時の処理 */
   onSignInButtonPress = () => {
-    this.props.navigation.navigate("main");
+    const { navigation } = this.props;
+    navigation.navigate("main");
   };
 
   /** 新規登録ボタン押下時の処理 */
   onSignUpButtonPress = () => {
-    this.props.navigation.navigate("welcome");
+    const { navigation } = this.props;
+    navigation.navigate("welcome");
   };
 
   /** 初期画面を描画する */
