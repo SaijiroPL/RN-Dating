@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { Text, View, Image } from "react-native";
 import {
   NavigationParams,
