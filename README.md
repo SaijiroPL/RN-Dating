@@ -39,4 +39,20 @@ $ npm i
 $ expo start
 ```
 
-→ 表示されるQRコードをスマホで読み取り Expo Client で開くと、アプリが起動します。
+→ 表示されるQRコードをスマホで読み取り Expo Client で開くと、アプリが起動します。  
+※ PCとスマホは同一LANに繋がっている必要があります。
+
+### サーバーURL(APIのエンドポイント)設定方法
+
+Expo Client アプリ内部でAPIを利用するためにはローカルサーバーのURLを指定する必要があります。  
+`expo start` 時にQRコードとともに `exp://xxx.xxx.xxx.xxx:19000` というURLが表示されるので、  
+このホスト名を `app.json` に記述している `apiEndpoint` のホスト名に設定します。
+
+```
+"extra": {
+  ...
+  "apiEndpoint": "http://xxx.xxx.xxx.xxx:3000"
+}
+```
+
+`rails s` でローカルサーバーを起動した上で改めて `expo start` すればアプリ内でAPIを使用している箇所も動作するようになります。

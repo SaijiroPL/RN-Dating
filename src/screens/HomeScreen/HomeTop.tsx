@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, View, FlatList } from "react-native";
+import { Constants } from "expo";
 import {
   NavigationParams,
   NavigationScreenProp,
@@ -8,7 +9,7 @@ import {
 import axiosBase from "axios";
 
 // from app
-import { PlanList, Plan } from "app/src/constants/interfaces";
+import { PlanList, Plan, Error } from "app/src/constants/interfaces";
 import PlanCard from "app/src/components/PlanCard";
 import { homeStyle } from "app/src/styles/home-style";
 
@@ -17,13 +18,13 @@ interface Props {
 }
 
 interface State {
-  plans: any;
-  errors: any;
+  plans: PlanList;
+  errors: Error;
 }
 
-// FIXME 設定ファイルに定義する
-const plansApiBaseUrl = "http://localhost:3000/plans";
-const axios = axiosBase.create({ baseURL: plansApiBaseUrl });
+const axios = axiosBase.create({
+  baseURL: Constants.manifest.extra.apiEndpoint + "/plans"
+});
 
 /**
  * ホーム画面トップ
@@ -32,7 +33,7 @@ const axios = axiosBase.create({ baseURL: plansApiBaseUrl });
 export default class HomeTopScreen extends React.Component<Props, State> {
   public state: State = {
     plans: { total: 0, plan_list: [] },
-    errors: []
+    errors: { code: 0, message: "", detail_massage: [] }
   };
 
   componentDidMount() {
@@ -46,14 +47,15 @@ export default class HomeTopScreen extends React.Component<Props, State> {
       .then((response: { data: PlanList }) => {
         this.setState({ plans: response.data });
       })
-      .catch((error: any) => {
+      .catch((error: Error) => {
         this.setState({ errors: error });
       });
   }
 
   /** デートプランリストを描画する */
   renderPlanList = ({ item }: { item: Plan }) => {
-    return <PlanCard navigation={this.props.navigation} plan={item} />;
+    const { navigation } = this.props;
+    return <PlanCard navigation={navigation} plan={item} />;
   };
 
   render() {

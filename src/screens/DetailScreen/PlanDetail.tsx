@@ -1,5 +1,6 @@
 import React from "react";
 import { Image } from "react-native";
+import { Constants } from "expo";
 import {
   NavigationParams,
   NavigationScreenProp,
@@ -18,7 +19,7 @@ import {
 import axiosBase from "axios";
 
 // from app
-import { PlanFull } from "app/src/constants/interfaces";
+import { PlanFull, Error } from "app/src/constants/interfaces";
 import images from "app/src/constants/images";
 import layout from "app/src/constants/layout";
 
@@ -27,13 +28,13 @@ interface Props {
 }
 
 interface State {
-  plan: any;
-  errors: any;
+  plan: PlanFull;
+  errors: Error;
 }
 
-// FIXME 設定ファイルに定義する
-const plansApiBaseUrl = "http://localhost:3000/plans";
-const axios = axiosBase.create({ baseURL: plansApiBaseUrl });
+const axios = axiosBase.create({
+  baseURL: Constants.manifest.extra.apiEndpoint + "/plans"
+});
 
 /**
  * デートプラン詳細画面
@@ -47,7 +48,7 @@ export default class PlanDetailScreen extends React.Component<Props, State> {
       description: "",
       date: "",
       transportation: [],
-      need_time: "",
+      need_time: 0,
       create_date: "",
       spots: [],
       user_name: "",
@@ -55,7 +56,7 @@ export default class PlanDetailScreen extends React.Component<Props, State> {
       like_count: 0,
       is_liked: false
     },
-    errors: []
+    errors: { code: 0, message: "", detail_massage: [] }
   };
 
   componentDidMount() {
@@ -64,12 +65,14 @@ export default class PlanDetailScreen extends React.Component<Props, State> {
 
   /** デートプラン詳細取得 */
   getPlanDetail() {
+    const { navigation } = this.props;
+
     axios
-      .get("/" + this.props.navigation.state.params.id)
+      .get("/" + navigation.state.params.id)
       .then((response: { data: PlanFull }) => {
         this.setState({ plan: response.data });
       })
-      .catch((error: any) => {
+      .catch((error: Error) => {
         this.setState({ errors: error });
       });
   }

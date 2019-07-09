@@ -52,7 +52,8 @@ interface Props {
 export default class WelcomeScreen extends React.Component<Props> {
   /** 完了ボタン押下で基本情報入力画面に遷移する */
   onStartButtonPress = () => {
-    this.props.navigation.navigate("entry");
+    const { navigation } = this.props;
+    navigation.navigate("entry");
   };
 
   /**
