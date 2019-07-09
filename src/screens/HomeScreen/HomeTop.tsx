@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, View, FlatList } from "react-native";
+import { Constants } from "expo";
 import {
   NavigationParams,
   NavigationScreenProp,
@@ -21,9 +22,9 @@ interface State {
   errors: Error;
 }
 
-// FIXME 設定ファイルに定義する
-const plansApiBaseUrl = "http://localhost:3000/plans";
-const axios = axiosBase.create({ baseURL: plansApiBaseUrl });
+const axios = axiosBase.create({
+  baseURL: Constants.manifest.extra.apiEndpoint + "/plans"
+});
 
 /**
  * ホーム画面トップ

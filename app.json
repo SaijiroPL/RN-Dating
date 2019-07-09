@@ -33,7 +33,8 @@
         "storageBucket": "one-date-planning-app.appspot.com",
         "messagingSenderId": "821178705436",
         "appId": "1:821178705436:web:c38596c8f71344a5"
-      }
+      },
+      "apiEndpoint": "http://localhost:3000"
     }
   }
 }
