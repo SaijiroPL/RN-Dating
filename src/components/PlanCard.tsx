@@ -15,9 +15,10 @@ import {
   NavigationScreenProp,
   NavigationState
 } from "react-navigation";
+import MapView from "react-native-maps";
 
 // from app
-import { Plan } from "app/src/constants/interfaces";
+import { Plan, Region } from "app/src/constants/interfaces";
 import images from "app/src/constants/images";
 import { planCardStyle } from "app/src/styles/plan-style";
 
@@ -25,6 +26,14 @@ interface Props {
   navigation: NavigationScreenProp<NavigationState, NavigationParams>;
   plan: Plan;
 }
+
+/** デフォルトの位置情報(東京タワー) */
+const INITIAL_REGION: Region = {
+  latitude: 35.658581,
+  longitude: 139.745433,
+  latitudeDelta: 0.02,
+  longitudeDelta: 0.05
+};
 
 /**
  * ホーム画面で使用するデートプランコンポーネント
@@ -53,22 +62,18 @@ const PlanCard: FC<Props> = ({ navigation, plan }) => {
         <CardItem cardBody>
           <Image source={images.noImage} style={planCardStyle.image} />
         </CardItem>
+        <CardItem cardBody>
+          <MapView region={INITIAL_REGION} style={planCardStyle.map} />
+        </CardItem>
         <CardItem>
           <Left>
             <Text style={planCardStyle.mainText}>{plan.title}</Text>
           </Left>
           <Right>
             <Text note style={planCardStyle.descriptionText}>
-              {plan.create_date.substr(0, 10)}
-            </Text>
-          </Right>
-        </CardItem>
-        <CardItem>
-          <Left>
-            <Text note style={planCardStyle.descriptionText}>
               {plan.description}
             </Text>
-          </Left>
+          </Right>
         </CardItem>
         <CardItem>
           <Left>

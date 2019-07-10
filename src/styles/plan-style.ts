@@ -13,8 +13,12 @@ export const planCardStyle = StyleSheet.create({
     // borderRadius: 10
   },
   image: {
-    height: 200,
-    width: layout.window.width
+    flex: 1,
+    height: 150
+  },
+  map: {
+    flex: 1,
+    height: 150
   },
   mainText: {
     fontFamily: "genju-medium"
