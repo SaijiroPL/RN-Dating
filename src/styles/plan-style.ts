@@ -26,5 +26,18 @@ export const planCardStyle = StyleSheet.create({
   descriptionText: {
     fontFamily: "genju-medium",
     fontSize: 12
+  },
+  linkButtonGroup: {
+    backgroundColor: colors.baseBackgroundColor
+  },
+  linkButtonText: {
+    color: colors.tintColor
+  },
+  linkButton: {
+    flex: 1,
+    justifyContent: "center"
+  },
+  linkIcon: {
+    // marginRight: 0
   }
 });

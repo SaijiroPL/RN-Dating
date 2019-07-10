@@ -8,7 +8,8 @@ import {
   Button,
   Left,
   Body,
-  Right
+  Right,
+  Item
 } from "native-base";
 import {
   NavigationParams,
@@ -16,10 +17,12 @@ import {
   NavigationState
 } from "react-navigation";
 import MapView from "react-native-maps";
+import { FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 
 // from app
 import { Plan, Region } from "app/src/constants/interfaces";
 import images from "app/src/constants/images";
+import colors from "app/src/constants/colors";
 import { planCardStyle } from "app/src/styles/plan-style";
 
 interface Props {
@@ -75,20 +78,26 @@ const PlanCard: FC<Props> = ({ navigation, plan }) => {
             </Text>
           </Right>
         </CardItem>
-        <CardItem>
-          <Left>
-            <Button transparent>
-              <Text style={planCardStyle.mainText}>
-                {plan.like_count} Likes
-              </Text>
-            </Button>
-          </Left>
-          <Body>
-            <Button transparent>
-              <Text style={planCardStyle.mainText}>4 Comments</Text>
-            </Button>
-          </Body>
-        </CardItem>
+        <Item style={planCardStyle.linkButtonGroup}>
+          <Button transparent style={planCardStyle.linkButton}>
+            <SimpleLineIcons
+              name="like"
+              size={20}
+              style={planCardStyle.linkIcon}
+              color={colors.tintColor}
+            />
+            <Text style={planCardStyle.linkButtonText}>{plan.like_count}</Text>
+          </Button>
+          <Button transparent style={planCardStyle.linkButton}>
+            <FontAwesome
+              name="comment-o"
+              size={20}
+              style={planCardStyle.linkIcon}
+              color={colors.tintColor}
+            />
+            <Text style={planCardStyle.linkButtonText}>4</Text>
+          </Button>
+        </Item>
       </TouchableOpacity>
     </Card>
   );

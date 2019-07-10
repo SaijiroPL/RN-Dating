@@ -7,5 +7,6 @@ export default {
   textTintColor: "#666",
   inactiveColor: "#bbb",
   backgroundColor: "white",
-  facebookColor: "#3b5998"
+  facebookColor: "#3b5998",
+  baseBackgroundColor: "#faf0e6"
 };
