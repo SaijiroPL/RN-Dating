@@ -52,6 +52,7 @@ export default class PlanDetailScreen extends React.Component<Props, State> {
       create_date: "",
       spots: [],
       user_name: "",
+      user_attr: "",
       user_image_url: "",
       like_count: 0,
       is_liked: false
