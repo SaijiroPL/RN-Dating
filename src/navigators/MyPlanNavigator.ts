@@ -1,7 +1,7 @@
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 // from app
-import MyPlanTopScreen from "app/src/screens/MyPlanScreen/MyPlanTop";
+import MyPlanTopScreen from "app/src/screens/MyPlanScreen/MyPlanTopScreen";
 import appStyle from "app/src/styles/common-style";
 
 /**

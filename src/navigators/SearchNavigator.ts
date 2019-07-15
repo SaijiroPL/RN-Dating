@@ -1,7 +1,7 @@
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 // from app
-import SearchTopScreen from "app/src/screens/SearchScreen/SearchTop";
+import SearchTopScreen from "app/src/screens/SearchScreen/SearchTopScreen";
 import appStyle from "app/src/styles/common-style";
 
 /**
