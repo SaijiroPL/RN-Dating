@@ -27,8 +27,9 @@ export interface Plan {
   title: string;
   description: string;
   create_date: string;
-  representative_spot: string;
+  representative_spot: Spot;
   user_name: string;
+  user_attr: string;
   user_image_url: string;
   like_count: number;
 }
@@ -45,21 +46,56 @@ export interface PlanFull {
   transportation: Array<string>;
   need_time: number;
   create_date: string;
-  spots: Array<Spot>;
+  spots: Array<SpotFull>;
   user_name: string;
+  user_attr: string;
   user_image_url: string;
   like_count: number;
   is_liked: boolean;
 }
 
 /**
- * デートスポットインタフェース
- * @author kotatanak
+ * デートスポットインタフェース(簡易)
+ * @author kotatanaka
  */
 export interface Spot {
-  google_maps_key: string;
+  spot_name: string;
+  latitude: number;
+  longitude: number;
+}
+
+/**
+ * デートスポットインタフェース(詳細)
+ * @author kotatanaka
+ */
+export interface SpotFull {
+  spot_name: string;
+  latitude: number;
+  longitude: number;
   order: number;
   need_time: number;
+}
+
+/**
+ * コメント一覧取得レスポンスインタフェース
+ * @author kotatanaka
+ */
+export interface CommentList {
+  total: number;
+  comment_list: Array<Comment>;
+}
+
+/**
+ * コメント一覧取得レスポンス要素インタフェース
+ * @author kotatanaka
+ */
+export interface Comment {
+  comment_id: string;
+  comment: string;
+  create_date: string;
+  user_name: string;
+  user_attr: string;
+  user_image_url: string;
 }
 
 /**

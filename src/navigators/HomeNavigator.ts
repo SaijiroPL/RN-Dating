@@ -3,6 +3,7 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 // from app
 import HomeTopScreen from "app/src/screens/HomeScreen/HomeTop";
 import PlanDetailScreen from "app/src/screens/DetailScreen/PlanDetail";
+import CommentScreen from "app/src/screens/HomeScreen/Comment";
 import appStyle from "app/src/styles/common-style";
 
 /**
@@ -23,7 +24,16 @@ const HomeNavigator = createStackNavigator(
     detail: {
       screen: PlanDetailScreen,
       navigationOptions: () => ({
-        headerTitle: "プラン詳細"
+        headerTitle: "プラン詳細",
+        headerTitleStyle: appStyle.defaultText
+      })
+    },
+    // コメント一覧画面
+    comment: {
+      screen: CommentScreen,
+      navigationOptions: () => ({
+        headerTitle: "コメント",
+        headerTitleStyle: appStyle.defaultText
       })
     }
   },
