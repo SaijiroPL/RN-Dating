@@ -1,7 +1,7 @@
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 // from app
-import NotificationTopScreen from "app/src/screens/NotificationScreen/NotificationTop";
+import NotificationTopScreen from "app/src/screens/NotificationScreen/NotificationTopScreen";
 import appStyle from "app/src/styles/common-style";
 
 /**

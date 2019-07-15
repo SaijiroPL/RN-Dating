@@ -29,7 +29,7 @@ interface State {
  * 初回起動時の画面
  * @author kotatanaka
  */
-export default class TopScreen extends React.Component<Props, State> {
+export default class AppTopScreen extends React.Component<Props, State> {
   public state: State = {
     // [0]初回画面 [1]メールアドレスログイン画面 [2]新規登録画面
     screenPhase: 0,

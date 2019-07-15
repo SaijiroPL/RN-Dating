@@ -1,7 +1,7 @@
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 // from app
-import ProfileTopScreen from "app/src/screens/ProfileScreen/ProfileTop";
+import ProfileTopScreen from "app/src/screens/ProfileScreen/ProfileTopScreen";
 import appStyle from "app/src/styles/common-style";
 
 /**
