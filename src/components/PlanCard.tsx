@@ -30,14 +30,6 @@ interface Props {
   plan: Plan;
 }
 
-/** デフォルトの位置情報(東京タワー) */
-const INITIAL_REGION: Region = {
-  latitude: 35.658581,
-  longitude: 139.745433,
-  latitudeDelta: 0.02,
-  longitudeDelta: 0.05
-};
-
 /**
  * ホーム画面で使用するデートプランコンポーネント
  * @author kotatanaka
@@ -57,7 +49,7 @@ const PlanCard: FC<Props> = ({ navigation, plan }) => {
             <Body>
               <Text style={planCardStyle.mainText}>{plan.user_name}</Text>
               <Text note style={planCardStyle.mainText}>
-                一般ユーザー
+                {plan.user_attr}
               </Text>
             </Body>
           </Left>
@@ -66,7 +58,15 @@ const PlanCard: FC<Props> = ({ navigation, plan }) => {
           <Image source={images.noImage} style={planCardStyle.image} />
         </CardItem>
         <CardItem cardBody>
-          <MapView region={INITIAL_REGION} style={planCardStyle.map} />
+          <MapView
+            region={{
+              latitude: plan.representative_spot.latitude,
+              longitude: plan.representative_spot.longitude,
+              latitudeDelta: 0.02,
+              longitudeDelta: 0.05
+            }}
+            style={planCardStyle.map}
+          />
         </CardItem>
         <CardItem>
           <Left>
