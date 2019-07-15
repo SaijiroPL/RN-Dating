@@ -39,6 +39,10 @@ const PlanCard: FC<Props> = ({ navigation, plan }) => {
     navigation.navigate("detail", { id: plan.plan_id });
   };
 
+  const onCommentPress = () => {
+    navigation.navigate("comment", { id: plan.plan_id });
+  };
+
   return (
     // TODO カードレイアウトにする
     <Card style={planCardStyle.card}>
@@ -88,7 +92,11 @@ const PlanCard: FC<Props> = ({ navigation, plan }) => {
             />
             <Text style={planCardStyle.linkButtonText}>{plan.like_count}</Text>
           </Button>
-          <Button transparent style={planCardStyle.linkButton}>
+          <Button
+            transparent
+            style={planCardStyle.linkButton}
+            onPress={onCommentPress}
+          >
             <FontAwesome
               name="comment-o"
               size={20}
