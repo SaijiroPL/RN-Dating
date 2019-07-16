@@ -3,7 +3,7 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 // from app
 import HomeTopScreen from "app/src/screens/HomeScreen/HomeTopScreen";
 import PlanDetailScreen from "app/src/screens/DetailScreen/PlanDetailScreen";
-import CommentScreen from "app/src/screens/HomeScreen/CommentScreen";
+import CommentScreen from "app/src/screens/DetailScreen/CommentScreen";
 import appStyle from "app/src/styles/common-style";
 
 /**
