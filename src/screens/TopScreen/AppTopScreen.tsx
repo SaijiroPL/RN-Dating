@@ -12,7 +12,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import images from "app/src/constants/images";
 import layout from "app/src/constants/layout";
 import colors from "app/src/constants/colors";
-import { topStyle } from "app/src/styles/top-style";
+import { topStyle } from "app/src/styles/top-screen-style";
 
 interface Props {
   navigation: NavigationScreenProp<NavigationState, NavigationParams>;

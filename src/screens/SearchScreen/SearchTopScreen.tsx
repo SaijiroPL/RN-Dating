@@ -13,7 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 // from app
 import { PlanList, Error } from "app/src/constants/interfaces";
 import PlanCardList from "app/src/components/PlanCardList";
-import { searchStyle } from "app/src/styles/search-style";
+import { searchStyle } from "app/src/styles/search-screen-style";
 import colors from "app/src/constants/colors";
 
 interface Props {

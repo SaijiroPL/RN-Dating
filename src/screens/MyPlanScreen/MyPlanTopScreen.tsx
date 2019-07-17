@@ -11,7 +11,7 @@ import axiosBase from "axios";
 // from app
 import { PlanList, Error } from "app/src/constants/interfaces";
 import PlanCardList from "app/src/components/PlanCardList";
-import { myPlanStyle } from "app/src/styles/myplan-style";
+import { myPlanStyle } from "app/src/styles/myplan-screen-style";
 
 interface Props {
   navigation: NavigationScreenProp<NavigationState, NavigationParams>;
@@ -40,13 +40,13 @@ export default class MyPlanTopScreen extends React.Component<Props> {
     this.getPlanList();
   }
 
-  /** デートプラン一覧取得 */
-  // TODO ユーザーID繋ぎこみ
+  /** ユーザーに紐付くデートプラン一覧取得 */
   getPlanList() {
     axios
       .get("", {
         params: {
-          user_id: "hoge"
+          // TODO ユーザーID繋ぎこみ
+          user_id: "259fdf82-bb88-4e8a-be9d-4335592e8e41"
         }
       })
       .then((response: { data: PlanList }) => {

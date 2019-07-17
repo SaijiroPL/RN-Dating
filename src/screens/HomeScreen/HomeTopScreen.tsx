@@ -11,7 +11,7 @@ import axiosBase from "axios";
 // from app
 import { PlanList, Error } from "app/src/constants/interfaces";
 import PlanCardList from "app/src/components/PlanCardList";
-import { homeStyle } from "app/src/styles/home-style";
+import { homeStyle } from "app/src/styles/home-screen-style";
 
 interface Props {
   navigation: NavigationScreenProp<NavigationState, NavigationParams>;
@@ -41,6 +41,7 @@ export default class HomeTopScreen extends React.Component<Props, State> {
   }
 
   /** デートプラン一覧取得 */
+  // TODO 自分のエリアで人気のデートプランを取得する
   getPlanList() {
     axios
       .get("")

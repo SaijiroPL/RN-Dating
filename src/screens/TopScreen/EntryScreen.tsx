@@ -13,7 +13,7 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 // from app
 import colors from "app/src/constants/colors";
 import appStyle from "app/src/styles/common-style";
-import { topStyle, entryStyle } from "app/src/styles/top-style";
+import { topStyle, entryStyle } from "app/src/styles/top-screen-style";
 
 interface Props {
   navigation: NavigationScreenProp<NavigationState, NavigationParams>;

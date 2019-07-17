@@ -23,7 +23,7 @@ import { FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 import { Plan } from "app/src/constants/interfaces";
 import images from "app/src/constants/images";
 import colors from "app/src/constants/colors";
-import { planCardStyle } from "app/src/styles/plan-style";
+import { planCardStyle } from "app/src/styles/plan-component-style";
 
 interface Props {
   navigation: NavigationScreenProp<NavigationState, NavigationParams>;
