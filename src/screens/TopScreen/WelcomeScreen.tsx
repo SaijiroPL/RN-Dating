@@ -10,7 +10,7 @@ import { Button } from "react-native-elements";
 // from app
 import images from "app/src/constants/images";
 import colors from "app/src/constants/colors";
-import { topStyle, welocomeStyle } from "app/src/styles/top-style";
+import { topStyle, welocomeStyle } from "app/src/styles/top-screen-style";
 
 // Constants
 const SLIDE_DATA = [

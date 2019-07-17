@@ -32,6 +32,7 @@ export interface Plan {
   user_attr: string;
   user_image_url: string;
   like_count: number;
+  comment_count: number;
 }
 
 /**
@@ -51,6 +52,7 @@ export interface PlanFull {
   user_attr: string;
   user_image_url: string;
   like_count: number;
+  comment_count: number;
   is_liked: boolean;
 }
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, FlatList } from "react-native";
+import { Text, View } from "react-native";
 import { Constants } from "expo";
 import {
   NavigationParams,
@@ -9,9 +9,9 @@ import {
 import axiosBase from "axios";
 
 // from app
-import { PlanList, Plan, Error } from "app/src/constants/interfaces";
-import PlanCard from "app/src/components/PlanCard";
-import { homeStyle } from "app/src/styles/home-style";
+import { PlanList, Error } from "app/src/constants/interfaces";
+import PlanCardList from "app/src/components/PlanCardList";
+import { homeStyle } from "app/src/styles/home-screen-style";
 
 interface Props {
   navigation: NavigationScreenProp<NavigationState, NavigationParams>;
@@ -41,6 +41,7 @@ export default class HomeTopScreen extends React.Component<Props, State> {
   }
 
   /** デートプラン一覧取得 */
+  // TODO 自分のエリアで人気のデートプランを取得する
   getPlanList() {
     axios
       .get("")
@@ -52,23 +53,14 @@ export default class HomeTopScreen extends React.Component<Props, State> {
       });
   }
 
-  /** デートプランリストを描画する */
-  renderPlanList = ({ item }: { item: Plan }) => {
-    const { navigation } = this.props;
-    return <PlanCard navigation={navigation} plan={item} />;
-  };
-
   render() {
+    const { navigation } = this.props;
     const { plans } = this.state;
 
     return (
       <View style={homeStyle.container}>
         <Text>デートプラン数 {plans.total}</Text>
-        <FlatList
-          data={plans.plan_list}
-          renderItem={this.renderPlanList}
-          keyExtractor={(item, index) => item.plan_id}
-        />
+        <PlanCardList navigation={navigation} planList={plans.plan_list} />
       </View>
     );
   }

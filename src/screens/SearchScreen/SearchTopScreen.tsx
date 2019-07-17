@@ -1,15 +1,19 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { Constants } from "expo";
 import { SearchBar } from "react-native-elements";
 import {
   NavigationParams,
   NavigationScreenProp,
   NavigationState
 } from "react-navigation";
+import axiosBase from "axios";
 import { Ionicons } from "@expo/vector-icons";
 
 // from app
-import { searchStyle } from "app/src/styles/search-style";
+import { PlanList, Error } from "app/src/constants/interfaces";
+import PlanCardList from "app/src/components/PlanCardList";
+import { searchStyle } from "app/src/styles/search-screen-style";
 import colors from "app/src/constants/colors";
 
 interface Props {
@@ -18,7 +22,13 @@ interface Props {
 
 interface State {
   searchWord: string;
+  plans: PlanList;
+  errors: Error;
 }
+
+const axios = axiosBase.create({
+  baseURL: Constants.manifest.extra.apiEndpoint + "/plans"
+});
 
 /**
  * 検索画面トップ
@@ -26,8 +36,27 @@ interface State {
  */
 export default class SearchTopScreen extends React.Component<Props, State> {
   public state: State = {
-    searchWord: ""
+    searchWord: "",
+    plans: { total: 0, plan_list: [] },
+    errors: { code: 0, message: "", detail_massage: [] }
   };
+
+  componentDidMount() {
+    this.getPlanList();
+  }
+
+  /** デートプラン一覧取得 */
+  // TODO デートプラン検索APIに置き換える
+  getPlanList() {
+    axios
+      .get("")
+      .then((response: { data: PlanList }) => {
+        this.setState({ plans: response.data });
+      })
+      .catch((error: Error) => {
+        this.setState({ errors: error });
+      });
+  }
 
   updateSearchWord = (searchWord: string) => {
     this.setState({ searchWord });
@@ -52,10 +81,13 @@ export default class SearchTopScreen extends React.Component<Props, State> {
   }
 
   render() {
+    const { navigation } = this.props;
+    const { plans } = this.state;
+
     return (
       <View style={searchStyle.container}>
         {this.renderSearchBar()}
-        <Text>検索画面</Text>
+        <PlanCardList navigation={navigation} planList={plans.plan_list} />
       </View>
     );
   }
