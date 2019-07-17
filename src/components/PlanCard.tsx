@@ -20,7 +20,7 @@ import MapView from "react-native-maps";
 import { FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 
 // from app
-import { Plan, Region } from "app/src/constants/interfaces";
+import { Plan } from "app/src/constants/interfaces";
 import images from "app/src/constants/images";
 import colors from "app/src/constants/colors";
 import { planCardStyle } from "app/src/styles/plan-style";
@@ -31,7 +31,7 @@ interface Props {
 }
 
 /**
- * ホーム画面で使用するデートプランコンポーネント
+ * デートプランコンポーネント
  * @author kotatanaka
  */
 const PlanCard: FC<Props> = ({ navigation, plan }) => {
@@ -44,7 +44,6 @@ const PlanCard: FC<Props> = ({ navigation, plan }) => {
   };
 
   return (
-    // TODO カードレイアウトにする
     <Card style={planCardStyle.card}>
       <TouchableOpacity onPress={onPlanPress}>
         <CardItem>
