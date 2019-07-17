@@ -28,7 +28,7 @@ const PlanCardList: FC<Props> = ({ navigation, planList }) => {
     <FlatList
       data={planList}
       renderItem={renderPlanList}
-      keyExtractor={(item, index) => item.plan_id}
+      keyExtractor={item => item.plan_id}
     />
   );
 };
