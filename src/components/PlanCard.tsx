@@ -102,7 +102,9 @@ const PlanCard: FC<Props> = ({ navigation, plan }) => {
               style={planCardStyle.linkIcon}
               color={colors.tintColor}
             />
-            <Text style={planCardStyle.linkButtonText}>4</Text>
+            <Text style={planCardStyle.linkButtonText}>
+              {plan.comment_count}
+            </Text>
           </Button>
         </Item>
       </TouchableOpacity>
