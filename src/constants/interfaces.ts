@@ -27,7 +27,7 @@ export interface Plan {
   title: string;
   description: string;
   create_date: string;
-  representative_spot: Spot;
+  spots: Array<Spot>;
   user_name: string;
   user_attr: string;
   user_image_url: string;
