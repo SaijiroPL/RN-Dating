@@ -55,6 +55,7 @@ export default class PlanDetailScreen extends React.Component<Props, State> {
       user_attr: "",
       user_image_url: "",
       like_count: 0,
+      comment_count: 0,
       is_liked: false
     },
     errors: { code: 0, message: "", detail_massage: [] }
@@ -86,7 +87,7 @@ export default class PlanDetailScreen extends React.Component<Props, State> {
         <Text>デートプラン詳細</Text>
         <Item>
           <Left>
-            <Thumbnail source={images.noImage} />
+            <Thumbnail source={images.noUserImage} />
             <Body>
               <Text>{plan.user_name}</Text>
               <Text note>一般ユーザー</Text>

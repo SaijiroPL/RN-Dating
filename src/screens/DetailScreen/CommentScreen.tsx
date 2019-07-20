@@ -72,7 +72,7 @@ export default class CommentScreen extends React.Component<Props> {
         <List>
           <ListItem avatar>
             <Left>
-              <Thumbnail source={images.noImage} />
+              <Thumbnail source={images.noUserImage} />
             </Left>
             <Body>
               <Text note>{item.user_name}</Text>
