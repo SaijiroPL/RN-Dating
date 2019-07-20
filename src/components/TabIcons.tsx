@@ -1,14 +1,17 @@
 import React from "react";
+import { Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+
+// from app
+import images from "app/src/constants/images";
 
 /** ホームタブ */
 // TODO 1Dateのロゴに変更
 export const HomeTabIcon = ({ tintColor }: { tintColor: string }) => (
-  <Ionicons
-    name="md-home"
-    size={26}
-    style={{ marginBottom: -3 }}
-    color={tintColor}
+  <Image
+    source={images.logo}
+    fadeDuration={0}
+    style={{ width: 20, height: 20 }}
   />
 );
 

@@ -48,7 +48,7 @@ const PlanCard: FC<Props> = ({ navigation, plan }) => {
       <TouchableOpacity onPress={onPlanPress}>
         <CardItem>
           <Left>
-            <Thumbnail source={images.noImage} />
+            <Thumbnail source={images.noUserImage} />
             <Body>
               <Text style={planCardStyle.mainText}>{plan.user_name}</Text>
               <Text note style={planCardStyle.mainText}>
@@ -63,8 +63,8 @@ const PlanCard: FC<Props> = ({ navigation, plan }) => {
         <CardItem cardBody>
           <MapView
             region={{
-              latitude: plan.representative_spot.latitude,
-              longitude: plan.representative_spot.longitude,
+              latitude: plan.spots[0].latitude,
+              longitude: plan.spots[0].longitude,
               latitudeDelta: 0.02,
               longitudeDelta: 0.05
             }}
@@ -77,7 +77,7 @@ const PlanCard: FC<Props> = ({ navigation, plan }) => {
           </Left>
           <Right>
             <Text note style={planCardStyle.descriptionText}>
-              {plan.description}
+              {plan.spots.map(spot => spot.spot_name).join(" > ")}
             </Text>
           </Right>
         </CardItem>
