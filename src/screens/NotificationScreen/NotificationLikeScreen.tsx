@@ -14,13 +14,13 @@ interface Props {
 }
 
 /**
- * 通知画面トップ
+ * お気に入り通知一覧画面
  */
-export default class NotificationTopScreen extends React.Component<Props> {
+export default class NotificationLikeScreen extends React.Component<Props> {
   render() {
     return (
-      <View style={appStyle.defaultContainer}>
-        <Text>通知画面</Text>
+      <View>
+        <Text style={appStyle.defaultText}>お気に入り通知はありません。</Text>
       </View>
     );
   }

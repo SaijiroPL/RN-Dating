@@ -1,18 +1,57 @@
-import { createStackNavigator, createAppContainer } from "react-navigation";
+import {
+  createMaterialTopTabNavigator,
+  createStackNavigator,
+  createAppContainer
+} from "react-navigation";
 
 // from app
-import NotificationTopScreen from "app/src/screens/NotificationScreen/NotificationTopScreen";
+import NotificationFollowScreen from "app/src/screens/NotificationScreen/NotificationFollowScreen";
+import NotificationLikeScreen from "app/src/screens/NotificationScreen/NotificationLikeScreen";
+import colors from "app/src/constants/colors";
 import appStyle from "app/src/styles/common-style";
 
 /**
- * 通知タブのナビゲーター
+ * 通知タブのタブナビゲーター
  * @author kotatanaka
  */
+const NotificationTabNavigator = createMaterialTopTabNavigator(
+  {
+    // フォロー通知一覧画面
+    FollowTab: {
+      screen: NotificationFollowScreen,
+      navigationOptions: () => ({
+        title: "フォロー",
+        titleStyle: appStyle.defaultText
+      })
+    },
+    // お気に入り通知一覧画面
+    LikeTab: {
+      screen: NotificationLikeScreen,
+      navigationOptions: () => ({
+        title: "お気に入り",
+        titleStyle: appStyle.defaultText
+      })
+    }
+  },
+  // タブナビゲーション全体の設定
+  {
+    initialRouteName: "FollowTab",
+    tabBarOptions: {
+      activeTintColor: colors.tintColor,
+      inactiveTintColor: colors.inactiveColor,
+      style: {
+        backgroundColor: colors.backgroundColor
+      }
+    },
+    animationEnabled: false
+  }
+);
+
+/** 通知ヘッダを表示するためにStackNavigatorでラップする */
 const NotificationNavigator = createStackNavigator(
   {
-    // 通知画面トップ
     top: {
-      screen: NotificationTopScreen,
+      screen: NotificationTabNavigator,
       navigationOptions: () => ({
         headerTitle: "通知",
         headerTitleStyle: appStyle.defaultText
