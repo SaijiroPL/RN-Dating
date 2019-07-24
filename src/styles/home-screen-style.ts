@@ -12,5 +12,8 @@ export const homeStyle = StyleSheet.create({
     backgroundColor: colors.backgroundColor,
     flex: 1,
     justifyContent: "center"
+  },
+  createPlanFab: {
+    backgroundColor: colors.tintColor
   }
 });

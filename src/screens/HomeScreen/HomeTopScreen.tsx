@@ -11,6 +11,7 @@ import axiosBase from "axios";
 // from app
 import { PlanList, BadRequestError } from "app/src/constants/interfaces";
 import PlanCardList from "app/src/components/PlanCardList";
+import CreatePlanFab from "app/src/components/CreatePlanFab";
 import { homeStyle } from "app/src/styles/home-screen-style";
 
 interface Props {
@@ -61,6 +62,7 @@ export default class HomeTopScreen extends React.Component<Props, State> {
       <View style={homeStyle.container}>
         <Text>デートプラン数 {plans.total}</Text>
         <PlanCardList navigation={navigation} planList={plans.plan_list} />
+        <CreatePlanFab navigation={navigation} />
       </View>
     );
   }
