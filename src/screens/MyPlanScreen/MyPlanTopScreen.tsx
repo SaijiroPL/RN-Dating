@@ -9,6 +9,7 @@ import {
 import axiosBase from "axios";
 
 // from app
+import globals from "app/src/globals";
 import { PlanList, BadRequestError } from "app/src/constants/interfaces";
 import PlanCardList from "app/src/components/PlanCardList";
 import { myPlanStyle } from "app/src/styles/myplan-screen-style";
@@ -45,8 +46,7 @@ export default class MyPlanTopScreen extends React.Component<Props> {
     axios
       .get("", {
         params: {
-          // TODO ユーザーID繋ぎこみ
-          user_id: "259fdf82-bb88-4e8a-be9d-4335592e8e41"
+          user_id: globals.loginUser.id
         }
       })
       .then((response: { data: PlanList }) => {

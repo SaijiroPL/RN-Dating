@@ -9,6 +9,7 @@ import { Button, Input } from "react-native-elements";
 import { FontAwesome } from "@expo/vector-icons";
 
 // from app
+import globals from "app/src/globals";
 import images from "app/src/constants/images";
 import layout from "app/src/constants/layout";
 import colors from "app/src/constants/colors";
@@ -24,6 +25,9 @@ interface State {
   password: string;
   rePassword: string;
 }
+
+// 仮置き定数
+const loginUserId = "ab097f77-9f49-4b5e-9b83-e5419bc11d0d";
 
 /**
  * 初回起動時の画面
@@ -47,6 +51,7 @@ export default class AppTopScreen extends React.Component<Props, State> {
   /** メールアドレスログインボタン押下時の処理 */
   onSignInButtonPress = () => {
     const { navigation } = this.props;
+    globals.loginUser.id = loginUserId;
     navigation.navigate("main");
   };
 

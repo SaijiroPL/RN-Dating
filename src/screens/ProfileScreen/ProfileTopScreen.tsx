@@ -9,6 +9,7 @@ import {
 import axiosBase from "axios";
 
 // from app
+import globals from "app/src/globals";
 import { UserDetail, BadRequestError } from "app/src/constants/interfaces";
 import UserProfile from "app/src/components/UserProfile";
 import { profileStyle } from "app/src/styles/profile-screen-style";
@@ -52,10 +53,8 @@ export default class HomeTopScreen extends React.Component<Props, State> {
 
   /** ユーザー詳細取得 */
   getUserDetail() {
-    // TODO ユーザーID繋ぎこみ
-    const userId = "ab097f77-9f49-4b5e-9b83-e5419bc11d0d";
     axios
-      .get("" + "/" + userId)
+      .get("" + "/" + globals.loginUser.id)
       .then((response: { data: UserDetail }) => {
         this.setState({ user: response.data });
       })
