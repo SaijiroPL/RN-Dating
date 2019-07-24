@@ -4,6 +4,7 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 import HomeTopScreen from "app/src/screens/HomeScreen/HomeTopScreen";
 import PlanDetailScreen from "app/src/screens/DetailScreen/PlanDetailScreen";
 import CommentScreen from "app/src/screens/DetailScreen/CommentScreen";
+import CreatePlanNavigator from "app/src/navigators/CreatePlanNavigator";
 import appStyle from "app/src/styles/common-style";
 
 /**
@@ -34,6 +35,14 @@ const HomeNavigator = createStackNavigator(
       navigationOptions: () => ({
         headerTitle: "コメント",
         headerTitleStyle: appStyle.defaultText
+      })
+    },
+    // プラン作成画面
+    create: {
+      screen: CreatePlanNavigator,
+      navigationOptions: () => ({
+        // headerTransparent: true
+        header: null
       })
     }
   },
