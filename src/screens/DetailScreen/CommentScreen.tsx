@@ -20,7 +20,11 @@ import {
 import axiosBase from "axios";
 
 // from app
-import { CommentList, Comment, Error } from "app/src/constants/interfaces";
+import {
+  CommentList,
+  Comment,
+  BadRequestError
+} from "app/src/constants/interfaces";
 import images from "app/src/constants/images";
 import appStyle from "app/src/styles/common-style";
 
@@ -30,7 +34,7 @@ interface Props {
 
 interface State {
   comments: CommentList;
-  errors: Error;
+  errors: BadRequestError;
 }
 
 const axios = axiosBase.create({
@@ -60,7 +64,7 @@ export default class CommentScreen extends React.Component<Props> {
       .then((response: { data: CommentList }) => {
         this.setState({ comments: response.data });
       })
-      .catch((error: Error) => {
+      .catch((error: BadRequestError) => {
         this.setState({ errors: error });
       });
   }

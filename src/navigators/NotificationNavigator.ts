@@ -47,7 +47,10 @@ const NotificationTabNavigator = createMaterialTopTabNavigator(
   }
 );
 
-/** 通知ヘッダを表示するためにStackNavigatorでラップする */
+/**
+ * 通知タブのタブナビゲーター
+ * @author kotatanaka
+ */
 const NotificationNavigator = createStackNavigator(
   {
     top: {

@@ -9,7 +9,7 @@ import {
 import axiosBase from "axios";
 
 // from app
-import { PlanList, Error } from "app/src/constants/interfaces";
+import { PlanList, BadRequestError } from "app/src/constants/interfaces";
 import PlanCardList from "app/src/components/PlanCardList";
 import { myPlanStyle } from "app/src/styles/myplan-screen-style";
 
@@ -19,7 +19,7 @@ interface Props {
 
 interface State {
   plans: PlanList;
-  errors: Error;
+  errors: BadRequestError;
 }
 
 const axios = axiosBase.create({
@@ -52,7 +52,7 @@ export default class MyPlanTopScreen extends React.Component<Props> {
       .then((response: { data: PlanList }) => {
         this.setState({ plans: response.data });
       })
-      .catch((error: Error) => {
+      .catch((error: BadRequestError) => {
         this.setState({ errors: error });
       });
   }
