@@ -11,11 +11,10 @@ export interface PlanList {
  * APIエラーレスポンスインターフェース
  * @author kotatanaka
  */
-export interface Error {
+export interface BadRequestError {
   code: number;
   message: string;
-  // 配列または文字列
-  detail_massage: any;
+  detail_massage: Array<String>;
 }
 
 /**
@@ -98,6 +97,22 @@ export interface Comment {
   user_name: string;
   user_attr: string;
   user_image_url: string;
+}
+
+/**
+ * ユーザー情報取得レスポンスインターフェース
+ * @author kotatanaka
+ */
+export interface UserDetail {
+  user_id: string;
+  name: string;
+  sex: string;
+  age: number;
+  area: string;
+  mail_address: string;
+  user_attr: string;
+  user_image_url: string;
+  plan_count: number;
 }
 
 /**

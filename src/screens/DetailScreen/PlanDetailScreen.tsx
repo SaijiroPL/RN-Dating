@@ -19,7 +19,7 @@ import {
 import axiosBase from "axios";
 
 // from app
-import { PlanFull, Error } from "app/src/constants/interfaces";
+import { PlanFull, BadRequestError } from "app/src/constants/interfaces";
 import images from "app/src/constants/images";
 import layout from "app/src/constants/layout";
 
@@ -29,7 +29,7 @@ interface Props {
 
 interface State {
   plan: PlanFull;
-  errors: Error;
+  errors: BadRequestError;
 }
 
 const axios = axiosBase.create({
@@ -74,7 +74,7 @@ export default class PlanDetailScreen extends React.Component<Props, State> {
       .then((response: { data: PlanFull }) => {
         this.setState({ plan: response.data });
       })
-      .catch((error: Error) => {
+      .catch((error: BadRequestError) => {
         this.setState({ errors: error });
       });
   }
