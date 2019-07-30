@@ -1,10 +1,6 @@
 import React from "react";
 import { Text, View, ScrollView, Image } from "react-native";
-import {
-  NavigationParams,
-  NavigationScreenProp,
-  NavigationState
-} from "react-navigation";
+import { useNavigation } from "react-navigation-hooks";
 import { Button } from "react-native-elements";
 
 // from app
@@ -41,26 +37,20 @@ const SLIDE_DATA = [
   }
 ];
 
-interface Props {
-  navigation: NavigationScreenProp<NavigationState, NavigationParams>;
-}
-
 /**
  * ウェルカム画面
  * @author kotatanaka
  */
-export default class WelcomeScreen extends React.Component<Props> {
+const WelcomeScreen: React.FC = () => {
+  const { navigate } = useNavigation();
+
   /** 完了ボタン押下で基本情報入力画面に遷移する */
-  onStartButtonPress = () => {
-    const { navigation } = this.props;
-    navigation.navigate("entry");
+  const onStartButtonPress = () => {
+    navigate("entry");
   };
 
-  /**
-   * 最後のページに完了ボタンを配置する
-   * @param index ページのインデックス
-   */
-  renderLastButton(index: number) {
+  /** 最後のページに完了ボタンを配置する */
+  const renderLastButton = (index: number) => {
     if (index === SLIDE_DATA.length - 1) {
       return (
         <View>
@@ -71,15 +61,15 @@ export default class WelcomeScreen extends React.Component<Props> {
               paddingHorizontal: 50
             }}
             title="完了"
-            onPress={this.onStartButtonPress}
+            onPress={onStartButtonPress}
           />
         </View>
       );
     }
-  }
+  };
 
   /** 各ステップページの描画 */
-  renderSlides() {
+  const renderSlides = () => {
     return SLIDE_DATA.map((slide, index) => (
       <View key={index} style={welocomeStyle.slide}>
         <View style={topStyle.emptySpace} />
@@ -93,19 +83,19 @@ export default class WelcomeScreen extends React.Component<Props> {
         </View>
 
         <View style={welocomeStyle.footer}>
-          {this.renderLastButton(index)}
+          {renderLastButton(index)}
           <Text style={welocomeStyle.description}>{index + 1} / 5</Text>
         </View>
       </View>
     ));
-  }
+  };
 
   /** スクロールビューの描画 */
-  render() {
-    return (
-      <ScrollView horizontal pagingEnabled style={{ flex: 1 }}>
-        {this.renderSlides()}
-      </ScrollView>
-    );
-  }
-}
+  return (
+    <ScrollView horizontal pagingEnabled style={{ flex: 1 }}>
+      {renderSlides()}
+    </ScrollView>
+  );
+};
+
+export default WelcomeScreen;
