@@ -64,7 +64,7 @@ export default class MyPlanTopScreen extends React.Component<Props> {
     return (
       <View style={myPlanStyle.container}>
         <Text>作成したデートプランの数 {plans.total}</Text>
-        <PlanCardList navigation={navigation} planList={plans.plan_list} />
+        <PlanCardList planList={plans.plan_list} />
       </View>
     );
   }

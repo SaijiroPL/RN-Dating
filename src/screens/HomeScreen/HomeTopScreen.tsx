@@ -61,8 +61,8 @@ export default class HomeTopScreen extends React.Component<Props, State> {
     return (
       <View style={homeStyle.container}>
         <Text>デートプラン数 {plans.total}</Text>
-        <PlanCardList navigation={navigation} planList={plans.plan_list} />
-        <CreatePlanFab navigation={navigation} />
+        <PlanCardList planList={plans.plan_list} />
+        <CreatePlanFab />
       </View>
     );
   }

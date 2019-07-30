@@ -1,17 +1,11 @@
-import React, { FC } from "react";
+import React from "react";
 import { FlatList } from "react-native";
-import {
-  NavigationParams,
-  NavigationScreenProp,
-  NavigationState
-} from "react-navigation";
 
 // from app
 import { Plan } from "app/src/constants/interfaces";
 import PlanCard from "app/src/components/PlanCard";
 
 interface Props {
-  navigation: NavigationScreenProp<NavigationState, NavigationParams>;
   planList: Array<Plan>;
 }
 
@@ -19,9 +13,9 @@ interface Props {
  * デートプランリストコンポーネント
  * @author kotatanaka
  */
-const PlanCardList: FC<Props> = ({ navigation, planList }) => {
+const PlanCardList: React.FC<Props> = ({ planList }) => {
   const renderPlanList = ({ item }: { item: Plan }) => {
-    return <PlanCard navigation={navigation} plan={item} />;
+    return <PlanCard plan={item} />;
   };
 
   return (

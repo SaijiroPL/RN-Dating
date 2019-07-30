@@ -87,7 +87,7 @@ export default class SearchTopScreen extends React.Component<Props, State> {
     return (
       <View style={searchStyle.container}>
         {this.renderSearchBar()}
-        <PlanCardList navigation={navigation} planList={plans.plan_list} />
+        <PlanCardList planList={plans.plan_list} />
       </View>
     );
   }

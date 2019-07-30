@@ -17,7 +17,7 @@ interface State {
 }
 
 /**
- * アプリケーションの大元となるコンポーネント
+ * アプリケーション初期化コンポーネント
  * @author kotatanaka
  */
 export default class App extends React.Component<Props, State> {
@@ -40,7 +40,7 @@ export default class App extends React.Component<Props, State> {
     const { isLoadingComplete } = this.state;
     const { skipLoadingScreen } = this.props;
 
-    // リソースの読み込みが終わるまではAppLoadingをrenderする
+    // リソースの読み込みが終わるまでローディング
     if (!isLoadingComplete && !skipLoadingScreen) {
       return (
         <AppLoading
