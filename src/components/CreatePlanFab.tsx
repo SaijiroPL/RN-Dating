@@ -1,27 +1,17 @@
-import React, { FC } from "react";
+import React from "react";
 import { Fab } from "native-base";
-import {
-  NavigationParams,
-  NavigationScreenProp,
-  NavigationState
-} from "react-navigation";
+import { useNavigation } from "react-navigation-hooks";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 // from app
 import { homeStyle } from "app/src/styles/home-screen-style";
 
-interface Props {
-  navigation: NavigationScreenProp<NavigationState, NavigationParams>;
-}
-
 /**
  * プラン作成フローティングボタン
  * @author kotatanaka
  */
-const CreatePlanFab: FC<Props> = ({ navigation }) => {
-  const onPress = () => {
-    navigation.navigate("create");
-  };
+const CreatePlanFab: React.FC = () => {
+  const { navigate } = useNavigation();
 
   return (
     <Fab
@@ -29,7 +19,7 @@ const CreatePlanFab: FC<Props> = ({ navigation }) => {
       containerStyle={{}}
       style={homeStyle.createPlanFab}
       position="bottomRight"
-      onPress={onPress}
+      onPress={() => navigate("create")}
     >
       <MaterialCommunityIcons name="map-marker-plus" />
     </Fab>

@@ -1,17 +1,11 @@
-import React, { FC } from "react";
+import React from "react";
 import { Content, Thumbnail, Text } from "native-base";
-import {
-  NavigationParams,
-  NavigationScreenProp,
-  NavigationState
-} from "react-navigation";
 
 // from app
 import { UserDetail } from "app/src/constants/interfaces";
 import images from "app/src/constants/images";
 
 interface Props {
-  navigation: NavigationScreenProp<NavigationState, NavigationParams>;
   user: UserDetail;
 }
 
@@ -19,7 +13,7 @@ interface Props {
  * ユーザー情報コンポーネント
  * @author kotatanaka
  */
-const UserProfile: FC<Props> = ({ navigation, user }) => {
+const UserProfile: React.FC<Props> = ({ user }) => {
   return (
     <Content>
       <Thumbnail square large source={images.noUserImage} />

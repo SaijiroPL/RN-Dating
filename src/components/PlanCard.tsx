@@ -1,5 +1,6 @@
-import React, { FC } from "react";
+import React from "react";
 import { Image, TouchableOpacity } from "react-native";
+import { useNavigation } from "react-navigation-hooks";
 import {
   Card,
   CardItem,
@@ -11,11 +12,6 @@ import {
   Right,
   Item
 } from "native-base";
-import {
-  NavigationParams,
-  NavigationScreenProp,
-  NavigationState
-} from "react-navigation";
 import MapView from "react-native-maps";
 import { FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 
@@ -26,7 +22,6 @@ import colors from "app/src/constants/colors";
 import { planCardStyle } from "app/src/styles/plan-component-style";
 
 interface Props {
-  navigation: NavigationScreenProp<NavigationState, NavigationParams>;
   plan: Plan;
 }
 
@@ -34,13 +29,15 @@ interface Props {
  * デートプランコンポーネント
  * @author kotatanaka
  */
-const PlanCard: FC<Props> = ({ navigation, plan }) => {
+const PlanCard: React.FC<Props> = ({ plan }) => {
+  const { navigate } = useNavigation();
+
   const onPlanPress = () => {
-    navigation.navigate("detail", { id: plan.plan_id });
+    navigate("detail", { id: plan.plan_id });
   };
 
   const onCommentPress = () => {
-    navigation.navigate("comment", { id: plan.plan_id });
+    navigate("comment", { id: plan.plan_id });
   };
 
   return (
