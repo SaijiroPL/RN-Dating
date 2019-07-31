@@ -11,9 +11,10 @@ import {
   Body,
   Right,
   Thumbnail,
-  Text
+  Text,
+  Spinner
 } from "native-base";
-import axiosBase from "axios";
+import axios, { CancelTokenSource } from "axios";
 
 // from app
 import {
@@ -23,16 +24,12 @@ import {
 } from "app/src/constants/interfaces";
 import images from "app/src/constants/images";
 
-const axios = axiosBase.create({
-  baseURL: Constants.manifest.extra.apiEndpoint + "/plans"
-});
-
 /**
  * コメント一覧画面
  * @author kotatanaka
  */
 const CommentScreen: React.FC = () => {
-  const commentId = useNavigationParam("id");
+  const planId = useNavigationParam("id");
 
   const [comments, setComments] = useState({
     total: 0,
@@ -43,20 +40,37 @@ const CommentScreen: React.FC = () => {
     message: "",
     detail_massage: []
   });
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getCommentList();
+    const signal = axios.CancelToken.source();
+    getCommentList(signal);
+    return () => {
+      signal.cancel("Cancelling in Cleanup.");
+    };
   }, []);
 
   /** コメント一覧取得 */
-  const getCommentList = () => {
+  const getCommentList = (signal: CancelTokenSource) => {
+    const url =
+      Constants.manifest.extra.apiEndpoint + "/" + planId + "/comments";
+
     axios
-      .get("/" + commentId + "/comments")
+      .get(url, {
+        cancelToken: signal.token
+      })
       .then((response: { data: CommentList }) => {
         setComments(Object.assign(response.data));
+        setIsLoading(false);
       })
       .catch((error: BadRequestError) => {
         setErrors(Object.assign(error));
+        setIsLoading(false);
+        if (axios.isCancel(error)) {
+          console.log("Request Cancelled: " + error.message);
+        } else {
+          console.log("API Error: " + error.message);
+        }
       });
   };
 
@@ -81,6 +95,10 @@ const CommentScreen: React.FC = () => {
       </Content>
     );
   };
+
+  if (isLoading) {
+    return <Spinner color="orange" style={{ flex: 1 }} />;
+  }
 
   return (
     <Container>

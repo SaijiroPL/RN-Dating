@@ -10,18 +10,15 @@ import {
   Button,
   Left,
   Body,
-  Right
+  Right,
+  Spinner
 } from "native-base";
-import axiosBase from "axios";
+import axios, { CancelTokenSource } from "axios";
 
 // from app
 import { PlanFull, BadRequestError } from "app/src/constants/interfaces";
 import images from "app/src/constants/images";
 import layout from "app/src/constants/layout";
-
-const axios = axiosBase.create({
-  baseURL: Constants.manifest.extra.apiEndpoint + "/plans"
-});
 
 /**
  * デートプラン詳細画面
@@ -51,22 +48,40 @@ const PlanDetailScreen: React.FC = () => {
     message: "",
     detail_massage: []
   });
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getPlanDetail();
+    const signal = axios.CancelToken.source();
+    getPlanDetail(signal);
+    return () => {
+      signal.cancel("Cancelling in Cleanup.");
+    };
   }, []);
 
   /** デートプラン詳細取得 */
-  const getPlanDetail = () => {
+  const getPlanDetail = (signal: CancelTokenSource) => {
     axios
-      .get("/" + planId)
+      .get(Constants.manifest.extra.apiEndpoint + "/plans" + planId, {
+        cancelToken: signal.token
+      })
       .then((response: { data: PlanFull }) => {
         setPlan(Object.assign(response.data));
+        setIsLoading(false);
       })
       .catch((error: BadRequestError) => {
         setErrors(Object.assign(error));
+        setIsLoading(false);
+        if (axios.isCancel(error)) {
+          console.log("Request Cancelled: " + error.message);
+        } else {
+          console.log("API Error: " + error.message);
+        }
       });
   };
+
+  if (isLoading) {
+    return <Spinner color="orange" style={{ flex: 1 }} />;
+  }
 
   return (
     <Content>

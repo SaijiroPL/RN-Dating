@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { View } from "react-native";
 import { Constants } from "expo";
-import axiosBase from "axios";
+import { Spinner } from "native-base";
+import axios, { CancelTokenSource } from "axios";
 
 // from app
 import globals from "app/src/globals";
 import { UserDetail, BadRequestError } from "app/src/constants/interfaces";
 import UserProfile from "app/src/components/UserProfile";
 import { profileStyle } from "app/src/styles/profile-screen-style";
-
-const axios = axiosBase.create({
-  baseURL: Constants.manifest.extra.apiEndpoint + "/users"
-});
 
 /**
  * プロフィール画面トップ
@@ -34,22 +31,43 @@ const ProfileTopScreen: React.FC = () => {
     message: "",
     detail_massage: []
   });
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getUserDetail();
+    const signal = axios.CancelToken.source();
+    getUserDetail(signal);
+    return () => {
+      signal.cancel("Cancelling in Cleanup.");
+    };
   }, []);
 
   /** ユーザー詳細取得 */
-  const getUserDetail = () => {
+  const getUserDetail = (signal: CancelTokenSource) => {
+    const url =
+      Constants.manifest.extra.apiEndpoint + "/users/" + globals.loginUser.id;
+
     axios
-      .get("" + "/" + globals.loginUser.id)
+      .get(url, {
+        cancelToken: signal.token
+      })
       .then((response: { data: UserDetail }) => {
         setUser(Object.assign(response.data));
+        setIsLoading(false);
       })
       .catch((error: BadRequestError) => {
         setErrors(Object.assign(error));
+        setIsLoading(false);
+        if (axios.isCancel(error)) {
+          console.log("Request Cancelled: " + error.message);
+        } else {
+          console.log("API Error: " + error.message);
+        }
       });
   };
+
+  if (isLoading) {
+    return <Spinner color="orange" style={{ flex: 1 }} />;
+  }
 
   return (
     <View style={profileStyle.container}>
