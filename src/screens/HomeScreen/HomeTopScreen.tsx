@@ -1,12 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View } from "react-native";
 import { Constants } from "expo";
-import {
-  NavigationParams,
-  NavigationScreenProp,
-  NavigationState
-} from "react-navigation";
-import axiosBase from "axios";
+import axios, { CancelTokenSource } from "axios";
 
 // from app
 import { PlanList, BadRequestError } from "app/src/constants/interfaces";
@@ -14,56 +9,59 @@ import PlanCardList from "app/src/components/PlanCardList";
 import CreatePlanFab from "app/src/components/CreatePlanFab";
 import { homeStyle } from "app/src/styles/home-screen-style";
 
-interface Props {
-  navigation: NavigationScreenProp<NavigationState, NavigationParams>;
-}
-
-interface State {
-  plans: PlanList;
-  errors: BadRequestError;
-}
-
-const axios = axiosBase.create({
-  baseURL: Constants.manifest.extra.apiEndpoint + "/plans"
-});
-
 /**
  * ホーム画面トップ
  * @author kotatanaka
  */
-export default class HomeTopScreen extends React.Component<Props, State> {
-  public state: State = {
-    plans: { total: 0, plan_list: [] },
-    errors: { code: 0, message: "", detail_massage: [] }
-  };
+const HomeTopScreen: React.FC = () => {
+  const [plans, setPlans] = useState({
+    total: 0,
+    plan_list: []
+  });
+  const [errors, setErrors] = useState({
+    code: 0,
+    message: "",
+    detail_massage: []
+  });
+  const [isLoading, setIsLoading] = useState(true);
 
-  componentDidMount() {
-    this.getPlanList();
-  }
+  useEffect(() => {
+    const signal = axios.CancelToken.source();
+    getPlanList(signal);
+    return () => {
+      signal.cancel("Cancelling in Cleanup.");
+    };
+  }, []);
 
   /** デートプラン一覧取得 */
   // TODO 自分のエリアで人気のデートプランを取得する
-  getPlanList() {
+  const getPlanList = (signal: CancelTokenSource) => {
     axios
-      .get("")
+      .get(Constants.manifest.extra.apiEndpoint + "/plans", {
+        cancelToken: signal.token
+      })
       .then((response: { data: PlanList }) => {
-        this.setState({ plans: response.data });
+        setPlans(Object.assign(response.data));
+        setIsLoading(false);
       })
       .catch((error: BadRequestError) => {
-        this.setState({ errors: error });
+        setErrors(Object.assign(error));
+        setIsLoading(false);
+        if (axios.isCancel(error)) {
+          console.log("Request Cancelled: " + error.message);
+        } else {
+          console.log("API Error: " + error.message);
+        }
       });
-  }
+  };
 
-  render() {
-    const { navigation } = this.props;
-    const { plans } = this.state;
+  return (
+    <View style={homeStyle.container}>
+      <Text>デートプラン数 {plans.total}</Text>
+      <PlanCardList planList={plans.plan_list} />
+      <CreatePlanFab />
+    </View>
+  );
+};
 
-    return (
-      <View style={homeStyle.container}>
-        <Text>デートプラン数 {plans.total}</Text>
-        <PlanCardList planList={plans.plan_list} />
-        <CreatePlanFab />
-      </View>
-    );
-  }
-}
+export default HomeTopScreen;
