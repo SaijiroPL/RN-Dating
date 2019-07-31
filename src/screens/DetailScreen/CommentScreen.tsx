@@ -1,6 +1,7 @@
-import React from "react";
-import { View, FlatList } from "react-native";
+import React, { useState, useEffect } from "react";
+import { FlatList } from "react-native";
 import { Constants } from "expo";
+import { useNavigationParam } from "react-navigation-hooks";
 import {
   Container,
   Content,
@@ -12,11 +13,6 @@ import {
   Thumbnail,
   Text
 } from "native-base";
-import {
-  NavigationParams,
-  NavigationScreenProp,
-  NavigationState
-} from "react-navigation";
 import axiosBase from "axios";
 
 // from app
@@ -26,16 +22,6 @@ import {
   BadRequestError
 } from "app/src/constants/interfaces";
 import images from "app/src/constants/images";
-import appStyle from "app/src/styles/common-style";
-
-interface Props {
-  navigation: NavigationScreenProp<NavigationState, NavigationParams>;
-}
-
-interface State {
-  comments: CommentList;
-  errors: BadRequestError;
-}
 
 const axios = axiosBase.create({
   baseURL: Constants.manifest.extra.apiEndpoint + "/plans"
@@ -45,32 +31,37 @@ const axios = axiosBase.create({
  * コメント一覧画面
  * @author kotatanaka
  */
-export default class CommentScreen extends React.Component<Props> {
-  public state: State = {
-    comments: { total: 0, comment_list: [] },
-    errors: { code: 0, message: "", detail_massage: [] }
-  };
+const CommentScreen: React.FC = () => {
+  const commentId = useNavigationParam("id");
 
-  componentDidMount() {
-    this.getCommentList();
-  }
+  const [comments, setComments] = useState({
+    total: 0,
+    comment_list: []
+  });
+  const [errors, setErrors] = useState({
+    code: 0,
+    message: "",
+    detail_massage: []
+  });
+
+  useEffect(() => {
+    getCommentList();
+  }, []);
 
   /** コメント一覧取得 */
-  getCommentList() {
-    const { navigation } = this.props;
-
+  const getCommentList = () => {
     axios
-      .get("/" + navigation.state.params.id + "/comments")
+      .get("/" + commentId + "/comments")
       .then((response: { data: CommentList }) => {
-        this.setState({ comments: response.data });
+        setComments(Object.assign(response.data));
       })
       .catch((error: BadRequestError) => {
-        this.setState({ errors: error });
+        setErrors(Object.assign(error));
       });
-  }
+  };
 
   /** コメントリストの要素を描画する */
-  renderCommentList = ({ item }: { item: Comment }) => {
+  const renderCommentList = ({ item }: { item: Comment }) => {
     return (
       <Content>
         <List>
@@ -91,18 +82,16 @@ export default class CommentScreen extends React.Component<Props> {
     );
   };
 
-  render() {
-    const { comments } = this.state;
+  return (
+    <Container>
+      <Text>コメント数 {comments.total}</Text>
+      <FlatList
+        data={comments.comment_list}
+        renderItem={renderCommentList}
+        keyExtractor={item => item.comment_id}
+      />
+    </Container>
+  );
+};
 
-    return (
-      <Container>
-        <Text>コメント数 {comments.total}</Text>
-        <FlatList
-          data={comments.comment_list}
-          renderItem={this.renderCommentList}
-          keyExtractor={(item, index) => item.comment_id}
-        />
-      </Container>
-    );
-  }
-}
+export default CommentScreen;
