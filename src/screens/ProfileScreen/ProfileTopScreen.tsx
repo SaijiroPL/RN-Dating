@@ -1,12 +1,8 @@
-import React from "react";
-import { Text, View } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View } from "react-native";
 import { Constants } from "expo";
-import {
-  NavigationParams,
-  NavigationScreenProp,
-  NavigationState
-} from "react-navigation";
-import axiosBase from "axios";
+import { Spinner } from "native-base";
+import axios, { CancelTokenSource } from "axios";
 
 // from app
 import globals from "app/src/globals";
@@ -14,63 +10,70 @@ import { UserDetail, BadRequestError } from "app/src/constants/interfaces";
 import UserProfile from "app/src/components/UserProfile";
 import { profileStyle } from "app/src/styles/profile-screen-style";
 
-interface Props {
-  navigation: NavigationScreenProp<NavigationState, NavigationParams>;
-}
-
-interface State {
-  user: UserDetail;
-  errors: BadRequestError;
-}
-
-const axios = axiosBase.create({
-  baseURL: Constants.manifest.extra.apiEndpoint + "/users"
-});
-
 /**
  * プロフィール画面トップ
  * @author kotatanaka
  */
-export default class HomeTopScreen extends React.Component<Props, State> {
-  public state: State = {
-    user: {
-      user_id: "",
-      name: "",
-      sex: "",
-      age: 0,
-      area: "",
-      mail_address: "",
-      user_attr: "",
-      user_image_url: "",
-      plan_count: 1
-    },
-    errors: { code: 0, message: "", detail_massage: [] }
-  };
+const ProfileTopScreen: React.FC = () => {
+  const [user, setUser] = useState({
+    user_id: "",
+    name: "",
+    sex: "",
+    age: 0,
+    area: "",
+    mail_address: "",
+    user_attr: "",
+    user_image_url: "",
+    plan_count: 1
+  });
+  const [errors, setErrors] = useState({
+    code: 0,
+    message: "",
+    detail_massage: []
+  });
+  const [isLoading, setIsLoading] = useState(true);
 
-  componentDidMount() {
-    this.getUserDetail();
-  }
+  useEffect(() => {
+    const signal = axios.CancelToken.source();
+    getUserDetail(signal);
+    return () => {
+      signal.cancel("Cancelling in Cleanup.");
+    };
+  }, []);
 
   /** ユーザー詳細取得 */
-  getUserDetail() {
+  const getUserDetail = (signal: CancelTokenSource) => {
+    const url =
+      Constants.manifest.extra.apiEndpoint + "/users/" + globals.loginUser.id;
+
     axios
-      .get("" + "/" + globals.loginUser.id)
+      .get(url, {
+        cancelToken: signal.token
+      })
       .then((response: { data: UserDetail }) => {
-        this.setState({ user: response.data });
+        setUser(Object.assign(response.data));
+        setIsLoading(false);
       })
       .catch((error: BadRequestError) => {
-        this.setState({ errors: error });
+        setErrors(Object.assign(error));
+        setIsLoading(false);
+        if (axios.isCancel(error)) {
+          console.log("Request Cancelled: " + error.message);
+        } else {
+          console.log("API Error: " + error.message);
+        }
       });
+  };
+
+  if (isLoading) {
+    return <Spinner color="orange" style={{ flex: 1 }} />;
   }
 
-  render() {
-    const { navigation } = this.props;
-    const { user } = this.state;
+  return (
+    <View style={profileStyle.container}>
+      <UserProfile user={user} />
+    </View>
+  );
+};
 
-    return (
-      <View style={profileStyle.container}>
-        <UserProfile navigation={navigation} user={user} />
-      </View>
-    );
-  }
-}
+export default ProfileTopScreen;

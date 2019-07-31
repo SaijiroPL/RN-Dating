@@ -1,11 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Image } from "react-native";
 import { Constants } from "expo";
-import {
-  NavigationParams,
-  NavigationScreenProp,
-  NavigationState
-} from "react-navigation";
+import { useNavigationParam } from "react-navigation-hooks";
 import {
   Content,
   Item,
@@ -14,122 +10,128 @@ import {
   Button,
   Left,
   Body,
-  Right
+  Right,
+  Spinner
 } from "native-base";
-import axiosBase from "axios";
+import axios, { CancelTokenSource } from "axios";
 
 // from app
 import { PlanFull, BadRequestError } from "app/src/constants/interfaces";
 import images from "app/src/constants/images";
 import layout from "app/src/constants/layout";
 
-interface Props {
-  navigation: NavigationScreenProp<NavigationState, NavigationParams>;
-}
-
-interface State {
-  plan: PlanFull;
-  errors: BadRequestError;
-}
-
-const axios = axiosBase.create({
-  baseURL: Constants.manifest.extra.apiEndpoint + "/plans"
-});
-
 /**
  * デートプラン詳細画面
  * @author kotatanaka
  */
-export default class PlanDetailScreen extends React.Component<Props, State> {
-  public state: State = {
-    plan: {
-      plan_id: "",
-      title: "",
-      description: "",
-      date: "",
-      transportation: [],
-      need_time: 0,
-      create_date: "",
-      spots: [],
-      user_name: "",
-      user_attr: "",
-      user_image_url: "",
-      like_count: 0,
-      comment_count: 0,
-      is_liked: false
-    },
-    errors: { code: 0, message: "", detail_massage: [] }
-  };
+const PlanDetailScreen: React.FC = () => {
+  const planId = useNavigationParam("id");
 
-  componentDidMount() {
-    this.getPlanDetail();
-  }
+  const [plan, setPlan] = useState({
+    plan_id: "",
+    title: "",
+    description: "",
+    date: "",
+    transportation: [],
+    need_time: 0,
+    create_date: "",
+    spots: [],
+    user_name: "",
+    user_attr: "",
+    user_image_url: "",
+    like_count: 0,
+    comment_count: 0,
+    is_liked: false
+  });
+  const [errors, setErrors] = useState({
+    code: 0,
+    message: "",
+    detail_massage: []
+  });
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const signal = axios.CancelToken.source();
+    getPlanDetail(signal);
+    return () => {
+      signal.cancel("Cancelling in Cleanup.");
+    };
+  }, []);
 
   /** デートプラン詳細取得 */
-  getPlanDetail() {
-    const { navigation } = this.props;
-
+  const getPlanDetail = (signal: CancelTokenSource) => {
     axios
-      .get("/" + navigation.state.params.id)
+      .get(Constants.manifest.extra.apiEndpoint + "/plans" + planId, {
+        cancelToken: signal.token
+      })
       .then((response: { data: PlanFull }) => {
-        this.setState({ plan: response.data });
+        setPlan(Object.assign(response.data));
+        setIsLoading(false);
       })
       .catch((error: BadRequestError) => {
-        this.setState({ errors: error });
+        setErrors(Object.assign(error));
+        setIsLoading(false);
+        if (axios.isCancel(error)) {
+          console.log("Request Cancelled: " + error.message);
+        } else {
+          console.log("API Error: " + error.message);
+        }
       });
+  };
+
+  if (isLoading) {
+    return <Spinner color="orange" style={{ flex: 1 }} />;
   }
 
-  render() {
-    const { plan } = this.state;
-
-    return (
-      <Content>
-        <Text>デートプラン詳細</Text>
-        <Item>
-          <Left>
-            <Thumbnail source={images.noUserImage} />
-            <Body>
-              <Text>{plan.user_name}</Text>
-              <Text note>一般ユーザー</Text>
-            </Body>
-          </Left>
-        </Item>
-        <Item>
-          <Image
-            source={images.noImage}
-            style={{ height: 200, width: layout.window.width }}
-          />
-        </Item>
-        <Item>
-          <Left>
-            <Text>{plan.title}</Text>
-          </Left>
-          <Right>
-            <Text note style={{ fontSize: 12 }}>
-              {plan.create_date.substr(0, 10)}
-            </Text>
-          </Right>
-        </Item>
-        <Item>
-          <Left>
-            <Text note style={{ fontSize: 12 }}>
-              {plan.description}
-            </Text>
-          </Left>
-        </Item>
-        <Item>
-          <Left>
-            <Button transparent>
-              <Text>{plan.like_count} Likes</Text>
-            </Button>
-          </Left>
+  return (
+    <Content>
+      <Text>デートプラン詳細</Text>
+      <Item>
+        <Left>
+          <Thumbnail source={images.noUserImage} />
           <Body>
-            <Button transparent>
-              <Text>4 Comments</Text>
-            </Button>
+            <Text>{plan.user_name}</Text>
+            <Text note>一般ユーザー</Text>
           </Body>
-        </Item>
-      </Content>
-    );
-  }
-}
+        </Left>
+      </Item>
+      <Item>
+        <Image
+          source={images.noImage}
+          style={{ height: 200, width: layout.window.width }}
+        />
+      </Item>
+      <Item>
+        <Left>
+          <Text>{plan.title}</Text>
+        </Left>
+        <Right>
+          <Text note style={{ fontSize: 12 }}>
+            {plan.create_date.substr(0, 10)}
+          </Text>
+        </Right>
+      </Item>
+      <Item>
+        <Left>
+          <Text note style={{ fontSize: 12 }}>
+            {plan.description}
+          </Text>
+        </Left>
+      </Item>
+      <Item>
+        <Left>
+          <Button transparent>
+            <Text>{plan.like_count} Likes</Text>
+          </Button>
+        </Left>
+        <Body>
+          <Button transparent>
+            <Text>4 Comments</Text>
+          </Button>
+        </Body>
+      </Item>
+    </Content>
+  );
+};
+
+export default PlanDetailScreen;

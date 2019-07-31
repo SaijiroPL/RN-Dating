@@ -1,6 +1,7 @@
-import React from "react";
-import { View, FlatList } from "react-native";
+import React, { useState, useEffect } from "react";
+import { FlatList } from "react-native";
 import { Constants } from "expo";
+import { useNavigationParam } from "react-navigation-hooks";
 import {
   Container,
   Content,
@@ -10,14 +11,10 @@ import {
   Body,
   Right,
   Thumbnail,
-  Text
+  Text,
+  Spinner
 } from "native-base";
-import {
-  NavigationParams,
-  NavigationScreenProp,
-  NavigationState
-} from "react-navigation";
-import axiosBase from "axios";
+import axios, { CancelTokenSource } from "axios";
 
 // from app
 import {
@@ -26,51 +23,59 @@ import {
   BadRequestError
 } from "app/src/constants/interfaces";
 import images from "app/src/constants/images";
-import appStyle from "app/src/styles/common-style";
-
-interface Props {
-  navigation: NavigationScreenProp<NavigationState, NavigationParams>;
-}
-
-interface State {
-  comments: CommentList;
-  errors: BadRequestError;
-}
-
-const axios = axiosBase.create({
-  baseURL: Constants.manifest.extra.apiEndpoint + "/plans"
-});
 
 /**
  * コメント一覧画面
  * @author kotatanaka
  */
-export default class CommentScreen extends React.Component<Props> {
-  public state: State = {
-    comments: { total: 0, comment_list: [] },
-    errors: { code: 0, message: "", detail_massage: [] }
-  };
+const CommentScreen: React.FC = () => {
+  const planId = useNavigationParam("id");
 
-  componentDidMount() {
-    this.getCommentList();
-  }
+  const [comments, setComments] = useState({
+    total: 0,
+    comment_list: []
+  });
+  const [errors, setErrors] = useState({
+    code: 0,
+    message: "",
+    detail_massage: []
+  });
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const signal = axios.CancelToken.source();
+    getCommentList(signal);
+    return () => {
+      signal.cancel("Cancelling in Cleanup.");
+    };
+  }, []);
 
   /** コメント一覧取得 */
-  getCommentList() {
-    const { navigation } = this.props;
+  const getCommentList = (signal: CancelTokenSource) => {
+    const url =
+      Constants.manifest.extra.apiEndpoint + "/" + planId + "/comments";
 
     axios
-      .get("/" + navigation.state.params.id + "/comments")
+      .get(url, {
+        cancelToken: signal.token
+      })
       .then((response: { data: CommentList }) => {
-        this.setState({ comments: response.data });
+        setComments(Object.assign(response.data));
+        setIsLoading(false);
       })
       .catch((error: BadRequestError) => {
-        this.setState({ errors: error });
+        setErrors(Object.assign(error));
+        setIsLoading(false);
+        if (axios.isCancel(error)) {
+          console.log("Request Cancelled: " + error.message);
+        } else {
+          console.log("API Error: " + error.message);
+        }
       });
-  }
+  };
 
   /** コメントリストの要素を描画する */
-  renderCommentList = ({ item }: { item: Comment }) => {
+  const renderCommentList = ({ item }: { item: Comment }) => {
     return (
       <Content>
         <List>
@@ -91,18 +96,20 @@ export default class CommentScreen extends React.Component<Props> {
     );
   };
 
-  render() {
-    const { comments } = this.state;
-
-    return (
-      <Container>
-        <Text>コメント数 {comments.total}</Text>
-        <FlatList
-          data={comments.comment_list}
-          renderItem={this.renderCommentList}
-          keyExtractor={(item, index) => item.comment_id}
-        />
-      </Container>
-    );
+  if (isLoading) {
+    return <Spinner color="orange" style={{ flex: 1 }} />;
   }
-}
+
+  return (
+    <Container>
+      <Text>コメント数 {comments.total}</Text>
+      <FlatList
+        data={comments.comment_list}
+        renderItem={renderCommentList}
+        keyExtractor={item => item.comment_id}
+      />
+    </Container>
+  );
+};
+
+export default CommentScreen;

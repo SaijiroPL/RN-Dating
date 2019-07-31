@@ -1,12 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View } from "react-native";
 import { Constants } from "expo";
-import {
-  NavigationParams,
-  NavigationScreenProp,
-  NavigationState
-} from "react-navigation";
-import axiosBase from "axios";
+import { Spinner } from "native-base";
+import axios, { CancelTokenSource } from "axios";
 
 // from app
 import globals from "app/src/globals";
@@ -14,58 +10,64 @@ import { PlanList, BadRequestError } from "app/src/constants/interfaces";
 import PlanCardList from "app/src/components/PlanCardList";
 import { myPlanStyle } from "app/src/styles/myplan-screen-style";
 
-interface Props {
-  navigation: NavigationScreenProp<NavigationState, NavigationParams>;
-}
-
-interface State {
-  plans: PlanList;
-  errors: BadRequestError;
-}
-
-const axios = axiosBase.create({
-  baseURL: Constants.manifest.extra.apiEndpoint + "/plans"
-});
-
 /**
  * マイプラン画面トップ
  * @author kotatanaka
  */
-export default class MyPlanTopScreen extends React.Component<Props> {
-  public state: State = {
-    plans: { total: 0, plan_list: [] },
-    errors: { code: 0, message: "", detail_massage: [] }
-  };
+const MyPlanTopScreen: React.FC = () => {
+  const [plans, setPlans] = useState({
+    total: 0,
+    plan_list: []
+  });
+  const [errors, setErrors] = useState({
+    code: 0,
+    message: "",
+    detail_massage: []
+  });
+  const [isLoading, setIsLoading] = useState(true);
 
-  componentDidMount() {
-    this.getPlanList();
-  }
+  useEffect(() => {
+    const signal = axios.CancelToken.source();
+    getPlanList(signal);
+    return () => {
+      signal.cancel("Cancelling in Cleanup.");
+    };
+  }, []);
 
   /** ユーザーに紐付くデートプラン一覧取得 */
-  getPlanList() {
+  const getPlanList = (signal: CancelTokenSource) => {
     axios
-      .get("", {
+      .get(Constants.manifest.extra.apiEndpoint + "/plans", {
         params: {
           user_id: globals.loginUser.id
-        }
+        },
+        cancelToken: signal.token
       })
       .then((response: { data: PlanList }) => {
-        this.setState({ plans: response.data });
+        setPlans(Object.assign(response.data));
+        setIsLoading(false);
       })
       .catch((error: BadRequestError) => {
-        this.setState({ errors: error });
+        setErrors(Object.assign(error));
+        setIsLoading(false);
+        if (axios.isCancel(error)) {
+          console.log("Request Cancelled: " + error.message);
+        } else {
+          console.log("API Error: " + error.message);
+        }
       });
+  };
+
+  if (isLoading) {
+    return <Spinner color="orange" style={{ flex: 1 }} />;
   }
 
-  render() {
-    const { navigation } = this.props;
-    const { plans } = this.state;
+  return (
+    <View style={myPlanStyle.container}>
+      <Text>作成したデートプランの数 {plans.total}</Text>
+      <PlanCardList planList={plans.plan_list} />
+    </View>
+  );
+};
 
-    return (
-      <View style={myPlanStyle.container}>
-        <Text>作成したデートプランの数 {plans.total}</Text>
-        <PlanCardList planList={plans.plan_list} />
-      </View>
-    );
-  }
-}
+export default MyPlanTopScreen;
