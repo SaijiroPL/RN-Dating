@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Text, View } from "react-native";
 import { Constants } from "expo";
+import { Spinner } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
@@ -54,6 +55,10 @@ const HomeTopScreen: React.FC = () => {
         }
       });
   };
+
+  if (isLoading) {
+    return <Spinner color="orange" style={{ flex: 1 }} />;
+  }
 
   return (
     <View style={homeStyle.container}>
