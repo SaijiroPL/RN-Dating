@@ -1,13 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View } from "react-native";
 import { Constants } from "expo";
 import { SearchBar } from "react-native-elements";
-import {
-  NavigationParams,
-  NavigationScreenProp,
-  NavigationState
-} from "react-navigation";
-import axiosBase from "axios";
+import axios, { CancelTokenSource } from "axios";
 import { Ionicons } from "@expo/vector-icons";
 
 // from app
@@ -16,55 +11,58 @@ import PlanCardList from "app/src/components/PlanCardList";
 import { searchStyle } from "app/src/styles/search-screen-style";
 import colors from "app/src/constants/colors";
 
-interface Props {
-  navigation: NavigationScreenProp<NavigationState, NavigationParams>;
-}
-
-interface State {
-  searchWord: string;
-  plans: PlanList;
-  errors: BadRequestError;
-}
-
-const axios = axiosBase.create({
-  baseURL: Constants.manifest.extra.apiEndpoint + "/plans"
-});
-
 /**
  * 検索画面トップ
  * @author kotatanaka
  */
-export default class SearchTopScreen extends React.Component<Props, State> {
-  public state: State = {
-    searchWord: "",
-    plans: { total: 0, plan_list: [] },
-    errors: { code: 0, message: "", detail_massage: [] }
-  };
+const SearchTopScreen: React.FC = () => {
+  const [searchWord, setSearchWord] = useState("");
+  const [plans, setPlans] = useState({
+    total: 0,
+    plan_list: []
+  });
+  const [errors, setErrors] = useState({
+    code: 0,
+    message: "",
+    detail_massage: []
+  });
+  const [isLoading, setIsLoading] = useState(true);
 
-  componentDidMount() {
-    this.getPlanList();
-  }
+  useEffect(() => {
+    const signal = axios.CancelToken.source();
+    getPlanList(signal);
+    return () => {
+      signal.cancel("Cancelling in Cleanup.");
+    };
+  }, []);
 
-  /** デートプラン一覧取得 */
-  // TODO デートプラン検索APIに置き換える
-  getPlanList() {
+  /** デートプラン検索APIに置き換える */
+  const getPlanList = (signal: CancelTokenSource) => {
     axios
-      .get("")
+      .get(Constants.manifest.extra.apiEndpoint + "/plans", {
+        cancelToken: signal.token
+      })
       .then((response: { data: PlanList }) => {
-        this.setState({ plans: response.data });
+        setPlans(Object.assign(response.data));
+        setIsLoading(false);
       })
       .catch((error: BadRequestError) => {
-        this.setState({ errors: error });
+        setErrors(Object.assign(error));
+        setIsLoading(false);
+        if (axios.isCancel(error)) {
+          console.log("Request Cancelled: " + error.message);
+        } else {
+          console.log("API Error: " + error.message);
+        }
       });
-  }
+  };
 
-  updateSearchWord = (searchWord: string) => {
-    this.setState({ searchWord });
+  const updateSearchWord = (searchWord: string) => {
+    setSearchWord(searchWord);
   };
 
   /** 検索バーを描画する */
-  renderSearchBar() {
-    const { searchWord } = this.state;
+  const renderSearchBar = () => {
     return (
       <SearchBar
         placeholder="検索"
@@ -74,21 +72,18 @@ export default class SearchTopScreen extends React.Component<Props, State> {
           <Ionicons name="ios-search" size={26} color={colors.textTintColor} />
         }
         // TODO キャンセルボタンのカスタマイズ
-        onChangeText={this.updateSearchWord}
+        onChangeText={updateSearchWord}
         value={searchWord}
       />
     );
-  }
+  };
 
-  render() {
-    const { navigation } = this.props;
-    const { plans } = this.state;
+  return (
+    <View style={searchStyle.container}>
+      {renderSearchBar()}
+      <PlanCardList planList={plans.plan_list} />
+    </View>
+  );
+};
 
-    return (
-      <View style={searchStyle.container}>
-        {this.renderSearchBar()}
-        <PlanCardList planList={plans.plan_list} />
-      </View>
-    );
-  }
-}
+export default SearchTopScreen;
