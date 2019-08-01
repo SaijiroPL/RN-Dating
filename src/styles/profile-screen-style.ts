@@ -12,5 +12,8 @@ export const profileStyle = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     justifyContent: "center"
+  },
+  settingFab: {
+    backgroundColor: colors.tintColor
   }
 });

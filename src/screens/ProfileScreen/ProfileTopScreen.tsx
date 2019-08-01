@@ -7,7 +7,8 @@ import axios, { CancelTokenSource } from "axios";
 // from app
 import globals from "app/src/globals";
 import { UserDetail, BadRequestError } from "app/src/constants/interfaces";
-import UserProfile from "app/src/components/UserProfile";
+import UserProfile from "app/src/components/contents/UserProfile";
+import SettingFab from "app/src/components/buttons/SettingFab";
 import { profileStyle } from "app/src/styles/profile-screen-style";
 
 /**
@@ -72,6 +73,7 @@ const ProfileTopScreen: React.FC = () => {
   return (
     <View style={profileStyle.container}>
       <UserProfile user={user} />
+      <SettingFab />
     </View>
   );
 };

@@ -6,8 +6,8 @@ import axios, { CancelTokenSource } from "axios";
 
 // from app
 import { PlanList, BadRequestError } from "app/src/constants/interfaces";
-import PlanCardList from "app/src/components/PlanCardList";
-import CreatePlanFab from "app/src/components/CreatePlanFab";
+import PlanCardList from "app/src/components/lists/PlanCardList";
+import CreatePlanFab from "app/src/components/buttons/CreatePlanFab";
 import { homeStyle } from "app/src/styles/home-screen-style";
 
 /**

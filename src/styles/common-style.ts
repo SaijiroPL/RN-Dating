@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 
 // from app
+import layout from "app/src/constants/layout";
 import colors from "app/src/constants/colors";
 
 /**
@@ -16,6 +17,10 @@ const appStyle = StyleSheet.create({
   defaultText: {
     color: colors.textTintColor,
     fontFamily: "genju-medium"
+  },
+  completeButton: {
+    backgroundColor: colors.tintColor,
+    width: layout.window.width * 0.75
   }
 });
 

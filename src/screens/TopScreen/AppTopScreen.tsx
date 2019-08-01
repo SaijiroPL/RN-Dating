@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Text, View, Image } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
-import { Button, Input } from "react-native-elements";
+import { Input } from "react-native-elements";
 import { FontAwesome } from "@expo/vector-icons";
 
 // from app
@@ -10,6 +10,7 @@ import images from "app/src/constants/images";
 import layout from "app/src/constants/layout";
 import colors from "app/src/constants/colors";
 import { topStyle } from "app/src/styles/top-screen-style";
+import CompleteButton from "app/src/components/buttons/CompleteButton";
 
 // 仮置き定数
 const loginUserId = "ab097f77-9f49-4b5e-9b83-e5419bc11d0d";
@@ -83,11 +84,7 @@ const AppTopScreen: React.FC = () => {
           value={password}
           containerStyle={topStyle.inputForm}
         />
-        <Button
-          buttonStyle={topStyle.completeButton}
-          title="ログイン"
-          onPress={onSignInButtonPress}
-        />
+        <CompleteButton title="ログイン" onPress={onSignInButtonPress} />
       </View>
     );
   };
@@ -114,11 +111,7 @@ const AppTopScreen: React.FC = () => {
           value={confirmPassword}
           containerStyle={topStyle.inputForm}
         />
-        <Button
-          buttonStyle={topStyle.completeButton}
-          title="新規登録"
-          onPress={onSignUpButtonPress}
-        />
+        <CompleteButton title="新規登録" onPress={onSignUpButtonPress} />
       </View>
     );
   };

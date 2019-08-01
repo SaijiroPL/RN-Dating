@@ -10,6 +10,7 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 import colors from "app/src/constants/colors";
 import appStyle from "app/src/styles/common-style";
 import { topStyle, entryStyle } from "app/src/styles/top-screen-style";
+import CompleteButton from "app/src/components/buttons/CompleteButton";
 
 /**
  * ユーザー基本情報入力画面
@@ -149,13 +150,9 @@ const EntryScreen: React.FC = () => {
       <View style={topStyle.emptySpace}>
         {/* 未入力項目がある場合はボタン押下不可 */}
         {sex !== "" ? (
-          <Button
-            buttonStyle={topStyle.completeButton}
-            title="決定"
-            onPress={onCompleteButtonPress}
-          />
+          <CompleteButton title="決定" onPress={onCompleteButtonPress} />
         ) : (
-          <Button buttonStyle={topStyle.completeButton} title="決定" disabled />
+          <CompleteButton title="決定" disabled />
         )}
       </View>
     );
