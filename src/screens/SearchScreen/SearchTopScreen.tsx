@@ -8,7 +8,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 // from app
 import { PlanList, BadRequestError } from "app/src/constants/interfaces";
-import PlanCardList from "app/src/components/PlanCardList";
+import PlanCardList from "app/src/components/lists/PlanCardList";
 import { searchStyle } from "app/src/styles/search-screen-style";
 import colors from "app/src/constants/colors";
 
