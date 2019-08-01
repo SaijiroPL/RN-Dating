@@ -1,12 +1,11 @@
 import React from "react";
 import { Text, View, ScrollView, Image } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
-import { Button } from "react-native-elements";
 
 // from app
 import images from "app/src/constants/images";
-import colors from "app/src/constants/colors";
 import { topStyle, welocomeStyle } from "app/src/styles/top-screen-style";
+import CompleteButton from "app/src/components/buttons/CompleteButton";
 
 // Constants
 const SLIDE_DATA = [
@@ -54,15 +53,7 @@ const WelcomeScreen: React.FC = () => {
     if (index === SLIDE_DATA.length - 1) {
       return (
         <View>
-          <Button
-            buttonStyle={{
-              backgroundColor: colors.tintColor,
-              paddingVertical: 10,
-              paddingHorizontal: 50
-            }}
-            title="完了"
-            onPress={onStartButtonPress}
-          />
+          <CompleteButton title="完了" onPress={onStartButtonPress} />
         </View>
       );
     }

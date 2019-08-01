@@ -33,10 +33,6 @@ export const topStyle = StyleSheet.create({
     marginBottom: 20,
     width: layout.window.width * 0.75
   },
-  completeButton: {
-    backgroundColor: colors.tintColor,
-    width: layout.window.width * 0.75
-  },
   welcomeText: {
     color: colors.textTintColor,
     fontFamily: "genju-medium",
