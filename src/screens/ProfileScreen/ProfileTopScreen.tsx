@@ -8,7 +8,7 @@ import axios, { CancelTokenSource } from "axios";
 import globals from "app/src/globals";
 import { UserDetail, BadRequestError } from "app/src/constants/interfaces";
 import UserProfile from "app/src/components/UserProfile";
-import SettingFab from "app/src/components/SettingFab";
+import SettingFab from "app/src/components/buttons/SettingFab";
 import { profileStyle } from "app/src/styles/profile-screen-style";
 
 /**
