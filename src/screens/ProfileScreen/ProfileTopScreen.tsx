@@ -25,7 +25,9 @@ const ProfileTopScreen: React.FC = () => {
     mail_address: "",
     user_attr: "",
     user_image_url: "",
-    plan_count: 1
+    plan_count: 0,
+    follow_count: 0,
+    follower_count: 0
   });
   const [errors, setErrors] = useState({
     code: 0,

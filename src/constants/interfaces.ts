@@ -113,6 +113,8 @@ export interface UserDetail {
   user_attr: string;
   user_image_url: string;
   plan_count: number;
+  follow_count: number;
+  follower_count: number;
 }
 
 /**
