@@ -1,7 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { Container, Content, Thumbnail, Text, Left, Right } from "native-base";
-import { Avatar } from "react-native-elements";
+import { Thumbnail, Text } from "native-base";
 
 // from app
 import { UserDetail } from "app/src/constants/interfaces";
