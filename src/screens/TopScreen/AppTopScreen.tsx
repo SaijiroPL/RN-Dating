@@ -13,7 +13,8 @@ import { topStyle } from "app/src/styles/top-screen-style";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
 
 // 仮置き定数
-const loginUserId = "ab097f77-9f49-4b5e-9b83-e5419bc11d0d";
+// ログイン機能ができるまでは、これをDBに存在するユーザーIDに書き換えてください
+const loginUserId = "d12292c2-7637-4be0-8b10-2431657b4017";
 
 /**
  * 初回起動時の画面
