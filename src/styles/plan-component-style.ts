@@ -1,8 +1,8 @@
 import { StyleSheet } from "react-native";
 
 // from app
-import colors from "app/src/constants/colors";
-import layout from "app/src/constants/layout";
+import Colors from "app/src/constants/Colors";
+import Layout from "app/src/constants/Layout";
 
 /**
  * デートプラン関連画面のスタイリング
@@ -28,10 +28,10 @@ export const planCardStyle = StyleSheet.create({
     fontSize: 12
   },
   linkButtonGroup: {
-    backgroundColor: colors.baseBackgroundColor
+    backgroundColor: Colors.baseBackgroundColor
   },
   linkButtonText: {
-    color: colors.tintColor
+    color: Colors.tintColor
   },
   linkButton: {
     flex: 1,

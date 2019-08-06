@@ -14,7 +14,7 @@ import {
   NotificationTabIcon,
   ProfileTabIcon
 } from "app/src/components/TabIcons";
-import colors from "app/src/constants/colors";
+import Colors from "app/src/constants/Colors";
 
 /**
  * メイン画面のタブナビゲーター
@@ -66,10 +66,10 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
   // タブナビゲーション全体の設定
   {
     initialRouteName: "HomeTab",
-    activeTintColor: colors.tintColor,
-    inactiveTintColor: colors.inactiveColor,
+    activeTintColor: Colors.tintColor,
+    inactiveTintColor: Colors.inactiveColor,
     barStyle: {
-      backgroundColor: colors.backgroundColor
+      backgroundColor: Colors.backgroundColor
     }
   }
 );

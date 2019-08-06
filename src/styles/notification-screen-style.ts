@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 // from app
-import colors from "app/src/constants/colors";
+import Colors from "app/src/constants/Colors";
 
 /**
  * 通知一覧画面のスタイリング

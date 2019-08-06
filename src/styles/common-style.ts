@@ -1,8 +1,8 @@
 import { StyleSheet } from "react-native";
 
 // from app
-import layout from "app/src/constants/layout";
-import colors from "app/src/constants/colors";
+import Layout from "app/src/constants/Layout";
+import Colors from "app/src/constants/Colors";
 
 /**
  * 共通のスタイリング
@@ -10,17 +10,17 @@ import colors from "app/src/constants/colors";
  */
 const appStyle = StyleSheet.create({
   defaultContainer: {
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: Colors.backgroundColor,
     flex: 1,
     justifyContent: "center"
   },
   defaultText: {
-    color: colors.textTintColor,
+    color: Colors.textTintColor,
     fontFamily: "genju-medium"
   },
   completeButton: {
-    backgroundColor: colors.tintColor,
-    width: layout.window.width * 0.75
+    backgroundColor: Colors.tintColor,
+    width: Layout.window.width * 0.75
   }
 });
 

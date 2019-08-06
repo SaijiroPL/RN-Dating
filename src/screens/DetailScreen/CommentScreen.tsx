@@ -17,12 +17,9 @@ import {
 import axios, { CancelTokenSource } from "axios";
 
 // from app
-import {
-  CommentList,
-  Comment,
-  BadRequestError
-} from "app/src/constants/interfaces";
-import images from "app/src/constants/images";
+import { CommentList, Comment } from "app/src/types/api/TComment";
+import { BadRequestError } from "app/src/types/api/TError";
+import Images from "app/src/constants/Images";
 
 /**
  * コメント一覧画面
@@ -53,7 +50,7 @@ const CommentScreen: React.FC = () => {
   /** コメント一覧取得 */
   const getCommentList = (signal: CancelTokenSource) => {
     const url =
-      Constants.manifest.extra.apiEndpoint + "/" + planId + "/comments";
+      Constants.manifest.extra.apiEndpoint + "/plans/" + planId + "/comments";
 
     axios
       .get(url, {
@@ -81,7 +78,7 @@ const CommentScreen: React.FC = () => {
         <List>
           <ListItem avatar>
             <Left>
-              <Thumbnail source={images.noUserImage} />
+              <Thumbnail source={Images.noUserImage} />
             </Left>
             <Body>
               <Text note>{item.user_name}</Text>

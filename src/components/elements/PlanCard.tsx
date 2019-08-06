@@ -16,9 +16,9 @@ import MapView from "react-native-maps";
 import { FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 
 // from app
-import { Plan } from "app/src/constants/interfaces";
-import images from "app/src/constants/images";
-import colors from "app/src/constants/colors";
+import { Plan } from "app/src/types/api/TPlan";
+import Images from "app/src/constants/Images";
+import Colors from "app/src/constants/Colors";
 import { planCardStyle } from "app/src/styles/plan-component-style";
 
 interface Props {
@@ -45,7 +45,7 @@ const PlanCard: React.FC<Props> = ({ plan }) => {
       <TouchableOpacity onPress={onPlanPress}>
         <CardItem>
           <Left>
-            <Thumbnail source={images.noUserImage} />
+            <Thumbnail source={Images.noUserImage} />
             <Body>
               <Text style={planCardStyle.mainText}>{plan.user_name}</Text>
               <Text note style={planCardStyle.mainText}>
@@ -55,7 +55,7 @@ const PlanCard: React.FC<Props> = ({ plan }) => {
           </Left>
         </CardItem>
         <CardItem cardBody>
-          <Image source={images.noImage} style={planCardStyle.image} />
+          <Image source={Images.noImage} style={planCardStyle.image} />
         </CardItem>
         <CardItem cardBody>
           <MapView
@@ -84,7 +84,7 @@ const PlanCard: React.FC<Props> = ({ plan }) => {
               name="like"
               size={20}
               style={planCardStyle.linkIcon}
-              color={colors.tintColor}
+              color={Colors.tintColor}
             />
             <Text style={planCardStyle.linkButtonText}>{plan.like_count}</Text>
           </Button>
@@ -97,7 +97,7 @@ const PlanCard: React.FC<Props> = ({ plan }) => {
               name="comment-o"
               size={20}
               style={planCardStyle.linkIcon}
-              color={colors.tintColor}
+              color={Colors.tintColor}
             />
             <Text style={planCardStyle.linkButtonText}>
               {plan.comment_count}

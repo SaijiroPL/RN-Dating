@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 // from app
-import colors from "app/src/constants/colors";
+import Colors from "app/src/constants/Colors";
 
 /**
  * プロフィール一覧画面のスタイリング
@@ -27,15 +27,15 @@ export const profileStyle = StyleSheet.create({
     margin: 30
   },
   settingFab: {
-    backgroundColor: colors.tintColor
+    backgroundColor: Colors.tintColor
   },
   nameText: {
-    color: colors.textTintColor,
+    color: Colors.textTintColor,
     fontFamily: "genju-medium",
     marginTop: 20
   },
   countText: {
-    color: colors.textTintColor,
+    color: Colors.textTintColor,
     fontFamily: "genju-medium"
   }
 });

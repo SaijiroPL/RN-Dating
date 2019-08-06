@@ -5,8 +5,9 @@ import { Spinner } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
-import globals from "app/src/globals";
-import { PlanList, BadRequestError } from "app/src/constants/interfaces";
+import Globals from "app/src/Globals";
+import { PlanList } from "app/src/types/api/TPlan";
+import { BadRequestError } from "app/src/types/api/TError";
 import PlanCardList from "app/src/components/lists/PlanCardList";
 import { myPlanStyle } from "app/src/styles/myplan-screen-style";
 
@@ -39,7 +40,7 @@ const MyPlanTopScreen: React.FC = () => {
     axios
       .get(Constants.manifest.extra.apiEndpoint + "/plans", {
         params: {
-          user_id: globals.loginUser.id
+          user_id: Globals.loginUser.id
         },
         cancelToken: signal.token
       })

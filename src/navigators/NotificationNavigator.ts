@@ -7,7 +7,7 @@ import {
 // from app
 import NotificationFollowScreen from "app/src/screens/NotificationScreen/NotificationFollowScreen";
 import NotificationLikeScreen from "app/src/screens/NotificationScreen/NotificationLikeScreen";
-import colors from "app/src/constants/colors";
+import Colors from "app/src/constants/Colors";
 import appStyle from "app/src/styles/common-style";
 
 /**
@@ -37,10 +37,10 @@ const NotificationTabNavigator = createMaterialTopTabNavigator(
   {
     initialRouteName: "FollowTab",
     tabBarOptions: {
-      activeTintColor: colors.tintColor,
-      inactiveTintColor: colors.inactiveColor,
+      activeTintColor: Colors.tintColor,
+      inactiveTintColor: Colors.inactiveColor,
       style: {
-        backgroundColor: colors.backgroundColor
+        backgroundColor: Colors.backgroundColor
       }
     },
     animationEnabled: false
