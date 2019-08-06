@@ -50,7 +50,7 @@ const CommentScreen: React.FC = () => {
   /** コメント一覧取得 */
   const getCommentList = (signal: CancelTokenSource) => {
     const url =
-      Constants.manifest.extra.apiEndpoint + "/" + planId + "/comments";
+      Constants.manifest.extra.apiEndpoint + "/plans/" + planId + "/comments";
 
     axios
       .get(url, {
