@@ -4,7 +4,7 @@ import { Thumbnail, Text } from "native-base";
 
 // from app
 import { UserDetail } from "app/src/types/api/TUser";
-import images from "app/src/constants/images";
+import Images from "app/src/constants/Images";
 import { profileStyle } from "app/src/styles/profile-screen-style";
 
 interface Props {
@@ -18,7 +18,7 @@ interface Props {
 const UserProfile: React.FC<Props> = ({ user }) => {
   return (
     <View style={profileStyle.userContainer}>
-      <Thumbnail large source={images.noUserImage} />
+      <Thumbnail large source={Images.noUserImage} />
       <Text style={profileStyle.nameText}>{user.name}</Text>
       <Text note style={profileStyle.nameText}>
         {user.user_id}

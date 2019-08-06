@@ -3,13 +3,13 @@ import { Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 // from app
-import images from "app/src/constants/images";
+import Images from "app/src/constants/Images";
 
 /** ホームタブ */
 // TODO 1Dateのロゴに変更
 export const HomeTabIcon = ({ tintColor }: { tintColor: string }) => (
   <Image
-    source={images.logo}
+    source={Images.logo}
     fadeDuration={0}
     style={{ width: 20, height: 20 }}
   />

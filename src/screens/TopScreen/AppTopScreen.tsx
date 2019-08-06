@@ -6,9 +6,9 @@ import { FontAwesome } from "@expo/vector-icons";
 
 // from app
 import globals from "app/src/globals";
-import images from "app/src/constants/images";
-import layout from "app/src/constants/layout";
-import colors from "app/src/constants/colors";
+import Images from "app/src/constants/Images";
+import Layout from "app/src/constants/Layout";
+import Colors from "app/src/constants/Colors";
 import { topStyle } from "app/src/styles/top-screen-style";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
 
@@ -52,7 +52,7 @@ const AppTopScreen: React.FC = () => {
         <FontAwesome.Button
           name="facebook"
           size={30}
-          backgroundColor={colors.facebookColor}
+          backgroundColor={Colors.facebookColor}
           borderRadius={30}
           iconStyle={{ marginLeft: 30 }}
           onPress={onFacebookButtonPress}
@@ -123,9 +123,9 @@ const AppTopScreen: React.FC = () => {
       <View style={topStyle.topImage}>
         <Image
           resizeMode="contain"
-          source={images.logo}
+          source={Images.logo}
           style={{ flex: 1 }}
-          width={layout.window.width * 0.8}
+          width={Layout.window.width * 0.8}
         />
         <Text style={topStyle.welcomeText}>1Dateへようこそ</Text>
       </View>

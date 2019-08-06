@@ -18,8 +18,8 @@ import axios, { CancelTokenSource } from "axios";
 // from app
 import { PlanFull } from "app/src/types/api/TPlan";
 import { BadRequestError } from "app/src/types/api/TError";
-import images from "app/src/constants/images";
-import layout from "app/src/constants/layout";
+import Images from "app/src/constants/Images";
+import Layout from "app/src/constants/Layout";
 
 /**
  * デートプラン詳細画面
@@ -89,7 +89,7 @@ const PlanDetailScreen: React.FC = () => {
       <Text>デートプラン詳細</Text>
       <Item>
         <Left>
-          <Thumbnail source={images.noUserImage} />
+          <Thumbnail source={Images.noUserImage} />
           <Body>
             <Text>{plan.user_name}</Text>
             <Text note>一般ユーザー</Text>
@@ -98,8 +98,8 @@ const PlanDetailScreen: React.FC = () => {
       </Item>
       <Item>
         <Image
-          source={images.noImage}
-          style={{ height: 200, width: layout.window.width }}
+          source={Images.noImage}
+          style={{ height: 200, width: Layout.window.width }}
         />
       </Item>
       <Item>

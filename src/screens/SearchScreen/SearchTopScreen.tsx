@@ -11,7 +11,7 @@ import { PlanList } from "app/src/types/api/TPlan";
 import { BadRequestError } from "app/src/types/api/TError";
 import PlanCardList from "app/src/components/lists/PlanCardList";
 import { searchStyle } from "app/src/styles/search-screen-style";
-import colors from "app/src/constants/colors";
+import Colors from "app/src/constants/Colors";
 
 /**
  * 検索画面トップ
@@ -71,7 +71,7 @@ const SearchTopScreen: React.FC = () => {
         round={true}
         lightTheme={true}
         searchIcon={
-          <Ionicons name="ios-search" size={26} color={colors.textTintColor} />
+          <Ionicons name="ios-search" size={26} color={Colors.textTintColor} />
         }
         // TODO キャンセルボタンのカスタマイズ
         onChangeText={updateSearchWord}

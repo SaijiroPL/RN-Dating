@@ -3,8 +3,8 @@ import { View, StatusBar, Platform } from "react-native";
 import { AppLoading, Asset, Font } from "expo";
 
 // from app
-import images from "app/src/constants/images";
-import fonts from "app/src/constants/fonts";
+import Images from "app/src/constants/Images";
+import Fonts from "app/src/constants/Fonts";
 import appStyle from "app/src/styles/common-style";
 import AppNavigator from "app/src/navigators/AppNavigator";
 
@@ -31,8 +31,8 @@ export default class App extends React.Component<Props, State> {
 
   /** ローカルリソースの読み込み */
   loadResourcesAsync: any = async () => {
-    await Asset.loadAsync(Object.keys(images).map(key => images[key]));
-    await Font.loadAsync(fonts);
+    await Asset.loadAsync(Object.keys(Images).map(key => Images[key]));
+    await Font.loadAsync(Fonts);
     return true;
   };
 

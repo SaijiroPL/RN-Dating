@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 // from app
-import colors from "app/src/constants/colors";
+import Colors from "app/src/constants/Colors";
 
 /**
  * マイプラン画面のスタイリング
@@ -9,6 +9,6 @@ import colors from "app/src/constants/colors";
  */
 export const myPlanStyle = StyleSheet.create({
   container: {
-    backgroundColor: colors.backgroundColor
+    backgroundColor: Colors.backgroundColor
   }
 });

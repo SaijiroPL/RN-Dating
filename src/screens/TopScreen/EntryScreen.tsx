@@ -7,7 +7,7 @@ import DatePicker from "react-native-datepicker";
 import { SimpleLineIcons } from "@expo/vector-icons";
 
 // from app
-import colors from "app/src/constants/colors";
+import Colors from "app/src/constants/Colors";
 import appStyle from "app/src/styles/common-style";
 import { topStyle, entryStyle } from "app/src/styles/top-screen-style";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
@@ -39,7 +39,7 @@ const EntryScreen: React.FC = () => {
             icon={
               <SimpleLineIcons
                 name="user"
-                color={colors.tintColor}
+                color={Colors.tintColor}
                 size={15}
                 style={{ paddingRight: 5 }}
               />
@@ -54,7 +54,7 @@ const EntryScreen: React.FC = () => {
             icon={
               <SimpleLineIcons
                 name="user"
-                color={colors.tintColor}
+                color={Colors.tintColor}
                 size={15}
                 style={{ paddingRight: 5 }}
               />
@@ -69,7 +69,7 @@ const EntryScreen: React.FC = () => {
             icon={
               <SimpleLineIcons
                 name="user-female"
-                color={colors.tintColor}
+                color={Colors.tintColor}
                 size={15}
                 style={{ paddingRight: 5 }}
               />
@@ -83,7 +83,7 @@ const EntryScreen: React.FC = () => {
             icon={
               <SimpleLineIcons
                 name="user-female"
-                color={colors.tintColor}
+                color={Colors.tintColor}
                 size={15}
                 style={{ paddingRight: 5 }}
               />
@@ -124,7 +124,7 @@ const EntryScreen: React.FC = () => {
         <Picker
           mode="dropdown"
           placeholder="都道府県を選択"
-          placeholderStyle={{ color: colors.tintColor, marginLeft: 10 }}
+          placeholderStyle={{ color: Colors.tintColor, marginLeft: 10 }}
           style={{ width: 160, marginLeft: 10 }}
           textStyle={appStyle.defaultText}
           note={false}

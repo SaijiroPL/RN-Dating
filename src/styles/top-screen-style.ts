@@ -1,8 +1,8 @@
 import { StyleSheet } from "react-native";
 
 // from app
-import layout from "app/src/constants/layout";
-import colors from "app/src/constants/colors";
+import Layout from "app/src/constants/Layout";
+import Colors from "app/src/constants/Colors";
 
 /**
  * 初回起動時画面のスタイリング
@@ -31,21 +31,21 @@ export const topStyle = StyleSheet.create({
   },
   inputForm: {
     marginBottom: 20,
-    width: layout.window.width * 0.75
+    width: Layout.window.width * 0.75
   },
   welcomeText: {
-    color: colors.textTintColor,
+    color: Colors.textTintColor,
     fontFamily: "genju-medium",
     fontSize: 20,
     padding: 10
   },
   link: {
-    color: colors.textTintColor,
+    color: Colors.textTintColor,
     fontFamily: "genju-medium",
     fontSize: 20,
     padding: 10,
     textAlign: "center",
-    textDecorationColor: colors.tintColor,
+    textDecorationColor: Colors.tintColor,
     textDecorationLine: "underline"
   }
 });
@@ -71,7 +71,7 @@ export const entryStyle = StyleSheet.create({
     flexDirection: "row"
   },
   entryText: {
-    color: colors.textTintColor,
+    color: Colors.textTintColor,
     fontFamily: "genju-medium",
     fontSize: 20,
     textAlign: "center"
@@ -86,7 +86,7 @@ export const welocomeStyle = StyleSheet.create({
   slide: {
     alignItems: "center",
     flex: 1,
-    width: layout.window.width
+    width: Layout.window.width
   },
   footer: {
     alignItems: "center",
@@ -94,13 +94,13 @@ export const welocomeStyle = StyleSheet.create({
     justifyContent: "center"
   },
   title: {
-    color: colors.textTintColor,
+    color: Colors.textTintColor,
     fontFamily: "genju-medium",
     fontSize: 20,
     padding: 10
   },
   description: {
-    color: colors.textTintColor,
+    color: Colors.textTintColor,
     fontFamily: "genju-medium",
     fontSize: 15,
     padding: 10

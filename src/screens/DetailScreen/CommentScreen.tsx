@@ -19,7 +19,7 @@ import axios, { CancelTokenSource } from "axios";
 // from app
 import { CommentList, Comment } from "app/src/types/api/TComment";
 import { BadRequestError } from "app/src/types/api/TError";
-import images from "app/src/constants/images";
+import Images from "app/src/constants/Images";
 
 /**
  * コメント一覧画面
@@ -78,7 +78,7 @@ const CommentScreen: React.FC = () => {
         <List>
           <ListItem avatar>
             <Left>
-              <Thumbnail source={images.noUserImage} />
+              <Thumbnail source={Images.noUserImage} />
             </Left>
             <Body>
               <Text note>{item.user_name}</Text>
