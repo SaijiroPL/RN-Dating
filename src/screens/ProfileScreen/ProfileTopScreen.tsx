@@ -5,7 +5,7 @@ import { Spinner } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
-import globals from "app/src/globals";
+import Globals from "app/src/Globals";
 import { UserDetail } from "app/src/types/api/TUser";
 import { BadRequestError } from "app/src/types/api/TError";
 import UserProfile from "app/src/components/contents/UserProfile";
@@ -48,7 +48,7 @@ const ProfileTopScreen: React.FC = () => {
   /** ユーザー詳細取得 */
   const getUserDetail = (signal: CancelTokenSource) => {
     const url =
-      Constants.manifest.extra.apiEndpoint + "/users/" + globals.loginUser.id;
+      Constants.manifest.extra.apiEndpoint + "/users/" + Globals.loginUser.id;
 
     axios
       .get(url, {

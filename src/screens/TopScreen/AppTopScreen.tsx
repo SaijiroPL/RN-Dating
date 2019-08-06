@@ -5,7 +5,7 @@ import { Input } from "react-native-elements";
 import { FontAwesome } from "@expo/vector-icons";
 
 // from app
-import globals from "app/src/globals";
+import Globals from "app/src/Globals";
 import Images from "app/src/constants/Images";
 import Layout from "app/src/constants/Layout";
 import Colors from "app/src/constants/Colors";
@@ -36,7 +36,7 @@ const AppTopScreen: React.FC = () => {
 
   /** メールアドレスログインボタン押下時の処理 */
   const onSignInButtonPress = () => {
-    globals.loginUser.id = loginUserId;
+    Globals.loginUser.id = loginUserId;
     navigate("main");
   };
 
