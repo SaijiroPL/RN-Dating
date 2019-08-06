@@ -16,7 +16,8 @@ import {
 import axios, { CancelTokenSource } from "axios";
 
 // from app
-import { PlanFull, BadRequestError } from "app/src/constants/interfaces";
+import { PlanFull } from "app/src/types/api/TPlan";
+import { BadRequestError } from "app/src/types/api/TError";
 import images from "app/src/constants/images";
 import layout from "app/src/constants/layout";
 

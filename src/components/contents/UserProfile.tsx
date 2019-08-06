@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { Thumbnail, Text } from "native-base";
 
 // from app
-import { UserDetail } from "app/src/constants/interfaces";
+import { UserDetail } from "app/src/types/api/TUser";
 import images from "app/src/constants/images";
 import { profileStyle } from "app/src/styles/profile-screen-style";
 

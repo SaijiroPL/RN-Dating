@@ -6,7 +6,8 @@ import axios, { CancelTokenSource } from "axios";
 
 // from app
 import globals from "app/src/globals";
-import { PlanList, BadRequestError } from "app/src/constants/interfaces";
+import { PlanList } from "app/src/types/api/TPlan";
+import { BadRequestError } from "app/src/types/api/TError";
 import PlanCardList from "app/src/components/lists/PlanCardList";
 import { myPlanStyle } from "app/src/styles/myplan-screen-style";
 

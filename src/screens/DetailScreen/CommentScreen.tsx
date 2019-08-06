@@ -17,11 +17,8 @@ import {
 import axios, { CancelTokenSource } from "axios";
 
 // from app
-import {
-  CommentList,
-  Comment,
-  BadRequestError
-} from "app/src/constants/interfaces";
+import { CommentList, Comment } from "app/src/types/api/TComment";
+import { BadRequestError } from "app/src/types/api/TError";
 import images from "app/src/constants/images";
 
 /**

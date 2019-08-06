@@ -16,7 +16,7 @@ import MapView from "react-native-maps";
 import { FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 
 // from app
-import { Plan } from "app/src/constants/interfaces";
+import { Plan } from "app/src/types/api/TPlan";
 import images from "app/src/constants/images";
 import colors from "app/src/constants/colors";
 import { planCardStyle } from "app/src/styles/plan-component-style";

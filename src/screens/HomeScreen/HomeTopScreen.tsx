@@ -5,7 +5,8 @@ import { Spinner } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
-import { PlanList, BadRequestError } from "app/src/constants/interfaces";
+import { PlanList } from "app/src/types/api/TPlan";
+import { BadRequestError } from "app/src/types/api/TError";
 import PlanCardList from "app/src/components/lists/PlanCardList";
 import CreatePlanFab from "app/src/components/buttons/CreatePlanFab";
 import { homeStyle } from "app/src/styles/home-screen-style";

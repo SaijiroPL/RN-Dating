@@ -7,7 +7,8 @@ import axios, { CancelTokenSource } from "axios";
 import { Ionicons } from "@expo/vector-icons";
 
 // from app
-import { PlanList, BadRequestError } from "app/src/constants/interfaces";
+import { PlanList } from "app/src/types/api/TPlan";
+import { BadRequestError } from "app/src/types/api/TError";
 import PlanCardList from "app/src/components/lists/PlanCardList";
 import { searchStyle } from "app/src/styles/search-screen-style";
 import colors from "app/src/constants/colors";
