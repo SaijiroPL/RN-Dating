@@ -23,13 +23,14 @@ import { planCardStyle } from "app/src/styles/plan-component-style";
 
 interface Props {
   plan: Plan;
+  myPlan?: boolean;
 }
 
 /**
  * デートプランコンポーネント
  * @author kotatanaka
  */
-const PlanCard: React.FC<Props> = ({ plan }) => {
+const PlanCard: React.FC<Props> = ({ plan, myPlan }) => {
   const { navigate } = useNavigation();
 
   const onPlanPress = () => {
@@ -40,20 +41,26 @@ const PlanCard: React.FC<Props> = ({ plan }) => {
     navigate("comment", { id: plan.plan_id });
   };
 
+  const renderUserHeader = () => {
+    return (
+      <CardItem>
+        <Left>
+          <Thumbnail source={Images.noUserImage} />
+          <Body>
+            <Text style={planCardStyle.mainText}>{plan.user_name}</Text>
+            <Text note style={planCardStyle.mainText}>
+              {plan.user_attr}
+            </Text>
+          </Body>
+        </Left>
+      </CardItem>
+    );
+  };
+
   return (
     <Card style={planCardStyle.card}>
       <TouchableOpacity onPress={onPlanPress}>
-        <CardItem>
-          <Left>
-            <Thumbnail source={Images.noUserImage} />
-            <Body>
-              <Text style={planCardStyle.mainText}>{plan.user_name}</Text>
-              <Text note style={planCardStyle.mainText}>
-                {plan.user_attr}
-              </Text>
-            </Body>
-          </Left>
-        </CardItem>
+        {!myPlan && renderUserHeader()}
         <CardItem cardBody>
           <Image source={Images.noImage} style={planCardStyle.image} />
         </CardItem>

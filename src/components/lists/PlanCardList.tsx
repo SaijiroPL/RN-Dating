@@ -7,14 +7,18 @@ import PlanCard from "app/src/components/elements/PlanCard";
 
 interface Props {
   planList: Array<Plan>;
+  myPlan?: boolean;
 }
 
 /**
  * デートプランリストコンポーネント
  * @author kotatanaka
  */
-const PlanCardList: React.FC<Props> = ({ planList }) => {
+const PlanCardList: React.FC<Props> = ({ planList, myPlan }) => {
   const renderPlanList = ({ item }: { item: Plan }) => {
+    if (myPlan) {
+      return <PlanCard plan={item} myPlan />;
+    }
     return <PlanCard plan={item} />;
   };
 
