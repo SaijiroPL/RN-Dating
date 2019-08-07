@@ -12,6 +12,22 @@ module.exports = {
     "selector-type-no-unknown": null,
     "selector-type-case": null,
     "font-family-no-missing-generic-family-keyword": null,
-    "rule-empty-line-before": null
+    "rule-empty-line-before": null,
+    "property-no-unknown": [
+      true,
+      {
+        ignoreProperties: [
+          "padding-vertical",
+          "padding-horizontal",
+          "margin-vertical",
+          "madgin-horizontal",
+          "shadow-color",
+          "shadow-offset",
+          "shadow-radius",
+          "shadow-opacity"
+        ]
+      }
+    ],
+    "declaration-empty-line-before": null
   }
 };
