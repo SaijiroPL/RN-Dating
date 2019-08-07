@@ -10,6 +10,7 @@ import { PlanList } from "app/src/types/api/TPlan";
 import { BadRequestError } from "app/src/types/api/TError";
 import PlanCardList from "app/src/components/lists/PlanCardList";
 import { myPlanStyle } from "app/src/styles/myplan-screen-style";
+import { homeStyle } from "app/src/styles/home-screen-style";
 
 /**
  * マイプラン画面トップ
@@ -65,8 +66,10 @@ const MyPlanTopScreen: React.FC = () => {
 
   return (
     <View style={myPlanStyle.container}>
-      <Text>作成したデートプランの数 {plans.total}</Text>
-      <PlanCardList planList={plans.plan_list} />
+      <Text style={homeStyle.planCountText}>
+        作成したデートプランの数: {plans.total}
+      </Text>
+      <PlanCardList planList={plans.plan_list} myPlan />
     </View>
   );
 };

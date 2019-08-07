@@ -15,5 +15,12 @@ export const homeStyle = StyleSheet.create({
   },
   createPlanFab: {
     backgroundColor: Colors.tintColor
+  },
+  planCountText: {
+    color: Colors.textTintColor,
+    fontFamily: "genju-medium",
+    textAlign: "center",
+    textDecorationColor: Colors.tintColor,
+    textDecorationLine: "underline"
   }
 });

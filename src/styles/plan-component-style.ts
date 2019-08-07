@@ -10,7 +10,16 @@ import Layout from "app/src/constants/Layout";
  */
 export const planCardStyle = StyleSheet.create({
   card: {
-    // borderRadius: 10
+    borderRadius: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    shadowColor: "#ccc",
+    shadowOffset: {
+      height: 0,
+      width: 0
+    },
+    shadowOpacity: 1,
+    shadowRadius: 2
   },
   image: {
     flex: 1,
@@ -28,7 +37,9 @@ export const planCardStyle = StyleSheet.create({
     fontSize: 12
   },
   linkButtonGroup: {
-    backgroundColor: Colors.baseBackgroundColor
+    backgroundColor: Colors.baseBackgroundColor,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10
   },
   linkButtonText: {
     color: Colors.tintColor
