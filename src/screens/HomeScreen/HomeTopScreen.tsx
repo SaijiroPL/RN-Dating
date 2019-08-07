@@ -63,7 +63,9 @@ const HomeTopScreen: React.FC = () => {
 
   return (
     <View style={homeStyle.container}>
-      <Text>デートプラン数 {plans.total}</Text>
+      <Text style={homeStyle.planCountText}>
+        デートプランの数: {plans.total}
+      </Text>
       <PlanCardList planList={plans.plan_list} />
       <CreatePlanFab />
     </View>
