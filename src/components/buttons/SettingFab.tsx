@@ -19,7 +19,7 @@ const SettingFab: React.FC = () => {
       containerStyle={{}}
       style={profileStyle.settingFab}
       position="bottomRight"
-      onPress={() => navigate("create")}
+      onPress={() => navigate("setting")}
     >
       <MaterialCommunityIcons name="settings" />
     </Fab>
