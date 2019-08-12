@@ -1,25 +1,17 @@
 import React from "react";
 import { Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
-import {
-  Card,
-  CardItem,
-  Thumbnail,
-  Text,
-  Button,
-  Left,
-  Body,
-  Right,
-  Item
-} from "native-base";
+import { Card, CardItem, Text, Button, Left, Right, Item } from "native-base";
 import MapView from "react-native-maps";
 import { FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 
 // from app
 import { Plan } from "app/src/types/api/TPlan";
+import { Planner } from "app/src/types/TPlanner";
 import Images from "app/src/constants/Images";
 import Colors from "app/src/constants/Colors";
-import { planCardStyle } from "app/src/styles/plan-component-style";
+import PlannerHeader from "app/src/components/elements/PlannerHeader";
+import { planStyle } from "app/src/styles/plan-component-style";
 
 interface Props {
   plan: Plan;
@@ -42,27 +34,25 @@ const PlanCard: React.FC<Props> = ({ plan, myPlan }) => {
   };
 
   const renderUserHeader = () => {
+    const planner: Planner = {
+      userName: plan.user_name,
+      userAttr: plan.user_attr,
+      userImageUrl: plan.user_image_url
+    };
+
     return (
       <CardItem>
-        <Left>
-          <Thumbnail source={Images.noUserImage} />
-          <Body>
-            <Text style={planCardStyle.mainText}>{plan.user_name}</Text>
-            <Text note style={planCardStyle.mainText}>
-              {plan.user_attr}
-            </Text>
-          </Body>
-        </Left>
+        <PlannerHeader planner={planner} />
       </CardItem>
     );
   };
 
   return (
-    <Card style={planCardStyle.card}>
+    <Card style={planStyle.card}>
       <TouchableOpacity onPress={onPlanPress}>
         {!myPlan && renderUserHeader()}
         <CardItem cardBody>
-          <Image source={Images.noImage} style={planCardStyle.image} />
+          <Image source={Images.noImage} style={planStyle.image} />
         </CardItem>
         <CardItem cardBody>
           <MapView
@@ -72,43 +62,41 @@ const PlanCard: React.FC<Props> = ({ plan, myPlan }) => {
               latitudeDelta: 0.02,
               longitudeDelta: 0.05
             }}
-            style={planCardStyle.map}
+            style={planStyle.map}
           />
         </CardItem>
         <CardItem>
           <Left>
-            <Text style={planCardStyle.mainText}>{plan.title}</Text>
+            <Text style={planStyle.mainText}>{plan.title}</Text>
           </Left>
           <Right>
-            <Text note style={planCardStyle.descriptionText}>
+            <Text note style={planStyle.descriptionText}>
               {plan.spots.map(spot => spot.spot_name).join(" > ")}
             </Text>
           </Right>
         </CardItem>
-        <Item style={planCardStyle.linkButtonGroup}>
-          <Button transparent style={planCardStyle.linkButton}>
+        <Item style={planStyle.linkButtonGroup}>
+          <Button transparent style={planStyle.linkButton}>
             <SimpleLineIcons
               name="like"
               size={20}
-              style={planCardStyle.linkIcon}
+              style={planStyle.linkIcon}
               color={Colors.tintColor}
             />
-            <Text style={planCardStyle.linkButtonText}>{plan.like_count}</Text>
+            <Text style={planStyle.linkButtonText}>{plan.like_count}</Text>
           </Button>
           <Button
             transparent
-            style={planCardStyle.linkButton}
+            style={planStyle.linkButton}
             onPress={onCommentPress}
           >
             <FontAwesome
               name="comment-o"
               size={20}
-              style={planCardStyle.linkIcon}
+              style={planStyle.linkIcon}
               color={Colors.tintColor}
             />
-            <Text style={planCardStyle.linkButtonText}>
-              {plan.comment_count}
-            </Text>
+            <Text style={planStyle.linkButtonText}>{plan.comment_count}</Text>
           </Button>
         </Item>
       </TouchableOpacity>

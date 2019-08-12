@@ -5,7 +5,6 @@ import { useNavigationParam } from "react-navigation-hooks";
 import {
   Content,
   Item,
-  Thumbnail,
   Text,
   Button,
   Left,
@@ -17,9 +16,11 @@ import axios, { CancelTokenSource } from "axios";
 
 // from app
 import { PlanFull } from "app/src/types/api/TPlan";
+import { Planner } from "app/src/types/TPlanner";
 import { BadRequestError } from "app/src/types/api/TError";
 import Images from "app/src/constants/Images";
 import Layout from "app/src/constants/Layout";
+import PlannerHeader from "app/src/components/elements/PlannerHeader";
 
 /**
  * デートプラン詳細画面
@@ -59,10 +60,25 @@ const PlanDetailScreen: React.FC = () => {
     };
   }, []);
 
+  // TODO 自分のプランの場合描画しない
+  const renderUserHeader = () => {
+    const planner: Planner = {
+      userName: plan.user_name,
+      userAttr: plan.user_attr,
+      userImageUrl: plan.user_image_url
+    };
+
+    return (
+      <Item>
+        <PlannerHeader planner={planner} />
+      </Item>
+    );
+  };
+
   /** デートプラン詳細取得 */
   const getPlanDetail = (signal: CancelTokenSource) => {
     axios
-      .get(Constants.manifest.extra.apiEndpoint + "/plans" + planId, {
+      .get(Constants.manifest.extra.apiEndpoint + "/plans/" + planId, {
         cancelToken: signal.token
       })
       .then((response: { data: PlanFull }) => {
@@ -86,16 +102,7 @@ const PlanDetailScreen: React.FC = () => {
 
   return (
     <Content>
-      <Text>デートプラン詳細</Text>
-      <Item>
-        <Left>
-          <Thumbnail source={Images.noUserImage} />
-          <Body>
-            <Text>{plan.user_name}</Text>
-            <Text note>一般ユーザー</Text>
-          </Body>
-        </Left>
-      </Item>
+      {renderUserHeader()}
       <Item>
         <Image
           source={Images.noImage}

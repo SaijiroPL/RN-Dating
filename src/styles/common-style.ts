@@ -21,6 +21,13 @@ const appStyle = StyleSheet.create({
   completeButton: {
     backgroundColor: Colors.tintColor,
     width: Layout.window.width * 0.75
+  },
+  countText: {
+    color: Colors.textTintColor,
+    fontFamily: "genju-medium",
+    textAlign: "center",
+    textDecorationColor: Colors.tintColor,
+    textDecorationLine: "underline"
   }
 });
 

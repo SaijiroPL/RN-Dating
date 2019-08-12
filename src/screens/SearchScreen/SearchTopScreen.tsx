@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import { Constants } from "expo";
 import { Spinner } from "native-base";
 import { SearchBar } from "react-native-elements";
@@ -10,6 +10,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { PlanList } from "app/src/types/api/TPlan";
 import { BadRequestError } from "app/src/types/api/TError";
 import PlanCardList from "app/src/components/lists/PlanCardList";
+import appStyle from "app/src/styles/common-style";
 import { searchStyle } from "app/src/styles/search-screen-style";
 import Colors from "app/src/constants/Colors";
 
@@ -64,18 +65,24 @@ const SearchTopScreen: React.FC = () => {
   };
 
   /** 検索バーを描画する */
+  // TODO 入力文字のクリア
   const renderSearchBar = () => {
     return (
       <SearchBar
         placeholder="検索"
-        round={true}
-        lightTheme={true}
+        round
+        lightTheme
         searchIcon={
           <Ionicons name="ios-search" size={26} color={Colors.textTintColor} />
         }
-        // TODO キャンセルボタンのカスタマイズ
-        onChangeText={updateSearchWord}
+        clearIcon={
+          <Ionicons name="ios-close" size={26} color={Colors.textTintColor} />
+        }
+        onChangeText={searchWord => updateSearchWord(searchWord)}
+        onClear={() => updateSearchWord("")}
         value={searchWord}
+        containerStyle={searchStyle.searchBar}
+        inputContainerStyle={searchStyle.searchInput}
       />
     );
   };
@@ -87,6 +94,9 @@ const SearchTopScreen: React.FC = () => {
   return (
     <View style={searchStyle.container}>
       {renderSearchBar()}
+      <View style={searchStyle.planCount}>
+        <Text style={appStyle.countText}>検索結果: {plans.total} 件</Text>
+      </View>
       <PlanCardList planList={plans.plan_list} />
     </View>
   );
