@@ -8,7 +8,7 @@ import Layout from "app/src/constants/Layout";
  * デートプラン関連画面のスタイリング
  * @author kotatanaka
  */
-export const planCardStyle = StyleSheet.create({
+export const planStyle = StyleSheet.create({
   card: {
     borderRadius: 10,
     marginLeft: 10,
@@ -33,7 +33,7 @@ export const planCardStyle = StyleSheet.create({
     fontFamily: "genju-medium"
   },
   descriptionText: {
-    fontFamily: "genju-medium",
+    fontFamily: "genju-light",
     fontSize: 12
   },
   linkButtonGroup: {
