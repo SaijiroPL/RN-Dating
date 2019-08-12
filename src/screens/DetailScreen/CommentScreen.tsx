@@ -1,25 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { FlatList } from "react-native";
 import { Constants } from "expo";
 import { useNavigationParam } from "react-navigation-hooks";
-import {
-  Container,
-  Content,
-  List,
-  ListItem,
-  Left,
-  Body,
-  Right,
-  Thumbnail,
-  Text,
-  Spinner
-} from "native-base";
+import { Container, Text, Spinner } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
-import { CommentList, Comment } from "app/src/types/api/TComment";
+import { CommentList as TCommentList } from "app/src/types/api/TComment";
 import { BadRequestError } from "app/src/types/api/TError";
-import Images from "app/src/constants/Images";
+import CommentList from "app/src/components/lists/CommentList";
+import appStyle from "app/src/styles/common-style";
 
 /**
  * コメント一覧画面
@@ -56,7 +45,7 @@ const CommentScreen: React.FC = () => {
       .get(url, {
         cancelToken: signal.token
       })
-      .then((response: { data: CommentList }) => {
+      .then((response: { data: TCommentList }) => {
         setComments(Object.assign(response.data));
         setIsLoading(false);
       })
@@ -71,40 +60,14 @@ const CommentScreen: React.FC = () => {
       });
   };
 
-  /** コメントリストの要素を描画する */
-  const renderCommentList = ({ item }: { item: Comment }) => {
-    return (
-      <Content>
-        <List>
-          <ListItem avatar>
-            <Left>
-              <Thumbnail source={Images.noUserImage} />
-            </Left>
-            <Body>
-              <Text note>{item.user_name}</Text>
-              <Text>{item.comment}</Text>
-            </Body>
-            <Right>
-              <Text note>{item.create_date.substr(0, 10)}</Text>
-            </Right>
-          </ListItem>
-        </List>
-      </Content>
-    );
-  };
-
   if (isLoading) {
     return <Spinner color="orange" style={{ flex: 1 }} />;
   }
 
   return (
     <Container>
-      <Text>コメント数 {comments.total}</Text>
-      <FlatList
-        data={comments.comment_list}
-        renderItem={renderCommentList}
-        keyExtractor={item => item.comment_id}
-      />
+      <Text style={appStyle.countText}>{comments.total} 件のコメント</Text>
+      <CommentList commentList={comments.comment_list} />
     </Container>
   );
 };
