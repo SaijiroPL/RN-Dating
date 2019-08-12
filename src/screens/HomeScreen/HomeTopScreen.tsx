@@ -9,6 +9,7 @@ import { PlanList } from "app/src/types/api/TPlan";
 import { BadRequestError } from "app/src/types/api/TError";
 import PlanCardList from "app/src/components/lists/PlanCardList";
 import CreatePlanFab from "app/src/components/buttons/CreatePlanFab";
+import appStyle from "app/src/styles/common-style";
 import { homeStyle } from "app/src/styles/home-screen-style";
 
 /**
@@ -63,9 +64,7 @@ const HomeTopScreen: React.FC = () => {
 
   return (
     <View style={homeStyle.container}>
-      <Text style={homeStyle.planCountText}>
-        デートプランの数: {plans.total}
-      </Text>
+      <Text style={appStyle.countText}>デートプランの数: {plans.total}</Text>
       <PlanCardList planList={plans.plan_list} />
       <CreatePlanFab />
     </View>
