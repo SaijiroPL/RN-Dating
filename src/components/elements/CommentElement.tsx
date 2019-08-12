@@ -13,6 +13,7 @@ import {
 // from app
 import { Comment } from "app/src/types/api/TComment";
 import Images from "app/src/constants/Images";
+import { commentStyle } from "app/src/styles/comment-component-style";
 
 interface Props {
   comment: Comment;
@@ -24,22 +25,20 @@ interface Props {
  */
 const CommentElement: React.FC<Props> = ({ comment }) => {
   return (
-    <Content>
-      <List>
-        <ListItem avatar>
-          <Left>
-            <Thumbnail source={Images.noUserImage} />
-          </Left>
-          <Body>
-            <Text note>{comment.user_name}</Text>
-            <Text>{comment.comment}</Text>
-          </Body>
-          <Right>
-            <Text note>{comment.create_date.substr(0, 10)}</Text>
-          </Right>
-        </ListItem>
-      </List>
-    </Content>
+    <ListItem avatar>
+      <Left>
+        <Thumbnail source={Images.noUserImage} />
+      </Left>
+      <Body>
+        <Text note style={commentStyle.nameText}>
+          {comment.user_name}
+        </Text>
+        <Text style={commentStyle.commentText}>{comment.comment}</Text>
+        <Text note style={commentStyle.dateText}>
+          {comment.create_date.substr(0, 10)}
+        </Text>
+      </Body>
+    </ListItem>
   );
 };
 
