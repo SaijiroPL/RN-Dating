@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View } from "react-native";
 import { Constants } from "expo";
+import { useNavigationParam } from "react-navigation-hooks";
 import { Spinner } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
@@ -13,10 +14,10 @@ import SettingFab from "app/src/components/buttons/SettingFab";
 import { profileStyle } from "app/src/styles/profile-screen-style";
 
 /**
- * プロフィール画面トップ
+ * マイプロフィール画面トップ
  * @author kotatanaka
  */
-const ProfileTopScreen: React.FC = () => {
+const MyProfileTopScreen: React.FC = () => {
   const [user, setUser] = useState({
     user_id: "",
     name: "",
@@ -81,4 +82,4 @@ const ProfileTopScreen: React.FC = () => {
   );
 };
 
-export default ProfileTopScreen;
+export default MyProfileTopScreen;
