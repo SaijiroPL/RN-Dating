@@ -4,6 +4,9 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 import SearchTopScreen from "app/src/screens/SearchScreen/SearchTopScreen";
 import PlanDetailScreen from "app/src/screens/DetailScreen/PlanDetailScreen";
 import CommentScreen from "app/src/screens/DetailScreen/CommentScreen";
+import ProfileScreen from "app/src/screens/DetailScreen/ProfileScreen";
+import FollowScreen from "app/src/screens/MyProfileScreen/FollowScreen";
+import FollowerScreen from "app/src/screens/MyProfileScreen/FollowerScreen";
 import appStyle from "app/src/styles/common-style";
 
 /**
@@ -33,6 +36,30 @@ const SearchNavigator = createStackNavigator(
       screen: CommentScreen,
       navigationOptions: () => ({
         headerTitle: "コメント",
+        headerTitleStyle: appStyle.defaultText
+      })
+    },
+    // ユーザー詳細画面
+    profile: {
+      screen: ProfileScreen,
+      navigationOptions: () => ({
+        headerTitle: "ユーザー詳細",
+        headerTitleStyle: appStyle.defaultText
+      })
+    },
+    // フォロー一覧画面
+    follow: {
+      screen: FollowScreen,
+      navigationOptions: () => ({
+        headerTitle: "フォロー",
+        headerTitleStyle: appStyle.defaultText
+      })
+    },
+    // フォロワー一覧画面
+    follower: {
+      screen: FollowerScreen,
+      navigationOptions: () => ({
+        headerTitle: "フォロワー",
         headerTitleStyle: appStyle.defaultText
       })
     }
