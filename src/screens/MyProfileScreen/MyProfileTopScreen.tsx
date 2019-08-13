@@ -76,7 +76,7 @@ const MyProfileTopScreen: React.FC = () => {
 
   return (
     <View style={profileStyle.container}>
-      <UserProfile user={user} />
+      <UserProfile user={user} me />
       <SettingFab />
     </View>
   );
