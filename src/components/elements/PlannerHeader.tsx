@@ -18,11 +18,17 @@ interface Props {
 const PlannerHeader: React.FC<Props> = ({ planner }) => {
   const { navigate } = useNavigation();
 
+  const onPress = () => {
+    navigate("profile", { id: planner.userId });
+  };
+
   return (
     <Left>
       <Thumbnail source={Images.noUserImage} />
       <Body>
-        <Text style={planStyle.mainText}>{planner.userName}</Text>
+        <Text style={planStyle.mainText} onPress={onPress}>
+          {planner.userName}
+        </Text>
         <Text note style={planStyle.mainText}>
           {planner.userAttr}
         </Text>
