@@ -10,21 +10,22 @@ import { profileStyle } from "app/src/styles/profile-screen-style";
 
 interface Props {
   user: UserDetail;
+  me?: boolean;
 }
 
 /**
  * ユーザー情報コンポーネント
  * @author kotatanaka
  */
-const UserProfile: React.FC<Props> = ({ user }) => {
+const UserProfile: React.FC<Props> = ({ user, me }) => {
   const { navigate } = useNavigation();
 
   const onFollowPress = () => {
-    navigate("follow", { id: user.user_id });
+    navigate(me ? "myFollow" : "follow", { id: user.user_id });
   };
 
   const onFollowerPress = () => {
-    navigate("follower", { id: user.user_id });
+    navigate(me ? "myFollower" : "follower", { id: user.user_id });
   };
 
   return (
@@ -50,6 +51,10 @@ const UserProfile: React.FC<Props> = ({ user }) => {
       </View>
     </View>
   );
+};
+
+UserProfile.defaultProps = {
+  me: false
 };
 
 export default UserProfile;

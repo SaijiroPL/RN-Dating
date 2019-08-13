@@ -38,6 +38,7 @@ const PlanDetailScreen: React.FC = () => {
     need_time: 0,
     create_date: "",
     spots: [],
+    user_id: "",
     user_name: "",
     user_attr: "",
     user_image_url: "",
@@ -63,6 +64,7 @@ const PlanDetailScreen: React.FC = () => {
   // TODO 自分のプランの場合描画しない
   const renderUserHeader = () => {
     const planner: Planner = {
+      userId: plan.user_id,
       userName: plan.user_name,
       userAttr: plan.user_attr,
       userImageUrl: plan.user_image_url

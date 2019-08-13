@@ -14,7 +14,7 @@ import SettingNavigator from "./SettingNavigator";
  */
 const ProfileNavigator = createStackNavigator(
   {
-    // プロフィール画面トップ
+    // マイプロフィール画面トップ
     top: {
       screen: MyProfileTopScreen,
       navigationOptions: () => ({
@@ -27,6 +27,30 @@ const ProfileNavigator = createStackNavigator(
       screen: SettingNavigator,
       navigationOptions: () => ({
         headerTitle: "設定",
+        headerTitleStyle: appStyle.defaultText
+      })
+    },
+    // マイフォロー一覧画面
+    myFollow: {
+      screen: FollowScreen,
+      navigationOptions: () => ({
+        headerTitle: "フォロー",
+        headerTitleStyle: appStyle.defaultText
+      })
+    },
+    // マイフォロワー一覧画面
+    myFollower: {
+      screen: FollowerScreen,
+      navigationOptions: () => ({
+        headerTitle: "フォロワー",
+        headerTitleStyle: appStyle.defaultText
+      })
+    },
+    // ユーザー詳細画面
+    profile: {
+      screen: ProfileScreen,
+      navigationOptions: () => ({
+        headerTitle: "ユーザー詳細",
         headerTitleStyle: appStyle.defaultText
       })
     },
@@ -43,13 +67,6 @@ const ProfileNavigator = createStackNavigator(
       screen: FollowerScreen,
       navigationOptions: () => ({
         headerTitle: "フォロワー",
-        headerTitleStyle: appStyle.defaultText
-      })
-    },
-    profile: {
-      screen: ProfileScreen,
-      navigationOptions: () => ({
-        headerTitle: "ユーザー詳細",
         headerTitleStyle: appStyle.defaultText
       })
     }
