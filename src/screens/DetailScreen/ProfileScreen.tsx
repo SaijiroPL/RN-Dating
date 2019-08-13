@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { View } from "react-native";
 import { Constants } from "expo";
+import { useNavigationParam } from "react-navigation-hooks";
 import { Spinner } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
-import Globals from "app/src/Globals";
 import { UserDetail } from "app/src/types/api/TUser";
 import { BadRequestError } from "app/src/types/api/TError";
 import UserProfile from "app/src/components/contents/UserProfile";
@@ -13,10 +13,12 @@ import SettingFab from "app/src/components/buttons/SettingFab";
 import { profileStyle } from "app/src/styles/profile-screen-style";
 
 /**
- * プロフィール画面トップ
+ * プロフィール(ユーザー詳細)画面トップ
  * @author kotatanaka
  */
-const ProfileTopScreen: React.FC = () => {
+const ProfileScreen: React.FC = () => {
+  const userId = useNavigationParam("id");
+
   const [user, setUser] = useState({
     user_id: "",
     name: "",
@@ -47,8 +49,7 @@ const ProfileTopScreen: React.FC = () => {
 
   /** ユーザー詳細取得 */
   const getUserDetail = (signal: CancelTokenSource) => {
-    const url =
-      Constants.manifest.extra.apiEndpoint + "/users/" + Globals.loginUser.id;
+    const url = Constants.manifest.extra.apiEndpoint + "/users/" + userId;
 
     axios
       .get(url, {
@@ -81,4 +82,4 @@ const ProfileTopScreen: React.FC = () => {
   );
 };
 
-export default ProfileTopScreen;
+export default ProfileScreen;
