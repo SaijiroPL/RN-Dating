@@ -3,6 +3,7 @@
  * @author kotatanaka
  */
 export interface Planner {
+  userId: string;
   userName: string;
   userAttr: string;
   userImageUrl: string;

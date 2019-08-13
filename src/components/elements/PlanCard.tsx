@@ -35,6 +35,7 @@ const PlanCard: React.FC<Props> = ({ plan, myPlan }) => {
 
   const renderUserHeader = () => {
     const planner: Planner = {
+      userId: plan.user_id,
       userName: plan.user_name,
       userAttr: plan.user_attr,
       userImageUrl: plan.user_image_url

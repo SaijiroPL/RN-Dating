@@ -19,6 +19,7 @@ export interface Plan {
   description: string;
   create_date: string;
   spots: Array<Spot>;
+  user_id: string;
   user_name: string;
   user_attr: string;
   user_image_url: string;
@@ -39,6 +40,7 @@ export interface PlanFull {
   need_time: number;
   create_date: string;
   spots: Array<SpotFull>;
+  user_id: string;
   user_name: string;
   user_attr: string;
   user_image_url: string;
