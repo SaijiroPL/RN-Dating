@@ -4,7 +4,7 @@ import { useNavigation } from "react-navigation-hooks";
 
 // from app
 import CompleteButton from "app/src/components/buttons/CompleteButton";
-import { homeStyle } from "app/src/styles/home-screen-style";
+import { createPlanStyle } from "app/src/styles/home-screen-style";
 
 /**
  * デートプラン作成完了画面
@@ -17,7 +17,7 @@ const CompletePlanScreen: React.FC = () => {
   };
 
   return (
-    <View style={homeStyle.createPlanContainer}>
+    <View style={createPlanStyle.container}>
       <CompleteButton title="決定" onPress={onCompleteButtonPress} />
     </View>
   );
