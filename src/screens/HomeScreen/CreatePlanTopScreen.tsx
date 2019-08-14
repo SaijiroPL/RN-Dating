@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
-import { Button, Text } from "native-base";
+import { Button, Text, DatePicker, Container } from "native-base";
 
 // from app
 import CompleteButton from "app/src/components/buttons/CompleteButton";
@@ -13,6 +13,7 @@ import { createPlanStyle } from "app/src/styles/home-screen-style";
  */
 const CreatePlanTopScreen: React.FC = () => {
   const { navigate } = useNavigation();
+  const [date, setDate] = useState("");
   const [car, setCar] = useState(false);
   const [train, setTrain] = useState(false);
   const [bus, setBus] = useState(false);
@@ -22,7 +23,15 @@ const CreatePlanTopScreen: React.FC = () => {
     navigate("map", { trasportation: getTransportationList() });
   };
 
-  /** 移動手段リストを生成する */
+  /** デート予定日を更新する */
+  const setChosenDate = (newDate: any) => {
+    setDate(newDate);
+  };
+
+  /**
+   * 移動手段リストを生成する
+   * @return 移動手段リスト
+   */
   const getTransportationList = () => {
     var transportationList = new Array();
     if (car) transportationList.push("car");
@@ -32,7 +41,12 @@ const CreatePlanTopScreen: React.FC = () => {
     return transportationList;
   };
 
-  /** 移動手段ボタンの一つを描画する */
+  /**
+   * 移動手段ボタンの一つを描画する
+   * @param value state
+   * @param setValue state更新関数
+   * @param buttonName ボタン表示名
+   */
   const renderTransportatoinButton = (
     value: boolean,
     setValue: React.Dispatch<React.SetStateAction<boolean>>,
@@ -69,7 +83,7 @@ const CreatePlanTopScreen: React.FC = () => {
   /** 移動手段選択ボタンを描画する */
   const renderTransportationButtonGroup = () => {
     return (
-      <View style={createPlanStyle.selectButtonGroup}>
+      <View style={createPlanStyle.formGroup}>
         <Text style={createPlanStyle.itemTitleText}>移動手段</Text>
         {renderTransportatoinButton(car, setCar, "車")}
         {renderTransportatoinButton(train, setTrain, "電車")}
@@ -79,8 +93,35 @@ const CreatePlanTopScreen: React.FC = () => {
     );
   };
 
+  /** 日付選択フォームを描画する */
+  // FIXME 日付を選択するとエラー NativeBaseじゃないDatePickerにする?
+  const renderDatePicker = () => {
+    return (
+      <View style={createPlanStyle.formGroup}>
+        <Text style={createPlanStyle.itemTitleText}>デート予定日</Text>
+        <DatePicker
+          defaultDate={new Date(2019, 4, 4)}
+          minimumDate={new Date(2019, 1, 1)}
+          maximumDate={new Date(2019, 12, 31)}
+          locale={"ja"}
+          timeZoneOffsetInMinutes={undefined}
+          modalTransparent={false}
+          animationType={"fade"}
+          androidMode={"default"}
+          placeHolderText="Select date"
+          textStyle={{ color: "green" }}
+          placeHolderTextStyle={{ color: "#d3d3d3" }}
+          onDateChange={setChosenDate}
+          disabled={false}
+        />
+        <Text>{date}</Text>
+      </View>
+    );
+  };
+
   return (
     <View style={createPlanStyle.container}>
+      <Container>{renderDatePicker()}</Container>
       {renderTransportationButtonGroup()}
       <CompleteButton title="決定" onPress={onCompleteButtonPress} />
     </View>

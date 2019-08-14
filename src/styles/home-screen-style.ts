@@ -28,7 +28,7 @@ export const createPlanStyle = StyleSheet.create({
     flex: 1,
     justifyContent: "center"
   },
-  selectButtonGroup: {
+  formGroup: {
     alignItems: "center",
     flex: 1,
     flexDirection: "row"
