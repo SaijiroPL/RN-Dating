@@ -13,6 +13,11 @@ export const homeStyle = StyleSheet.create({
     flex: 1,
     justifyContent: "center"
   },
+  createPlanContainer: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center"
+  },
   createPlanFab: {
     backgroundColor: Colors.tintColor
   }
