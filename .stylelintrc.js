@@ -20,7 +20,7 @@ module.exports = {
           "padding-vertical",
           "padding-horizontal",
           "margin-vertical",
-          "madgin-horizontal",
+          "margin-horizontal",
           "shadow-color",
           "shadow-offset",
           "shadow-radius",
