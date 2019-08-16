@@ -10,6 +10,7 @@ import Colors from "app/src/constants/Colors";
 import { getToday } from "app/src/utils/DateUtil";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
 import DatePicker from "app/src/components/contents/DatePicker";
+import PrefecturePicker from "app/src/components/contents/PrefecturePicker";
 import appStyle from "app/src/styles/common-style";
 import { topStyle, entryStyle } from "app/src/styles/top-screen-style";
 
@@ -111,25 +112,10 @@ const EntryScreen: React.FC = () => {
     return (
       <View style={entryStyle.addressGroup}>
         <Text style={entryStyle.entryText}>住まい</Text>
-        <Picker
-          mode="dropdown"
-          placeholder="都道府県を選択"
-          placeholderStyle={{ color: Colors.tintColor, marginLeft: 10 }}
-          style={{ width: 160, marginLeft: 10 }}
-          textStyle={appStyle.defaultText}
-          note={false}
-          selectedValue={prefecture}
-          onValueChange={itemValue => setPrefecture(itemValue)}
-        >
-          {/* TODO 47都道府県分(別ファイルに吐き出したい) */}
-          <Picker.Item label="埼玉" value="saitama" />
-          <Picker.Item label="千葉" value="chiba" />
-          <Picker.Item label="東京" value="tokyo" />
-          <Picker.Item label="神奈川" value="kanagawa" />
-          <Picker.Item label="愛知" value="aichi" />
-          <Picker.Item label="大阪" value="osaka" />
-          <Picker.Item label="福岡" value="fukuoka" />
-        </Picker>
+        <PrefecturePicker
+          prefecture={prefecture}
+          setPrefecture={setPrefecture}
+        />
       </View>
     );
   };
@@ -152,16 +138,10 @@ const EntryScreen: React.FC = () => {
     <View style={topStyle.topContainer}>
       <View style={topStyle.linkGroup}>
         <View style={appStyle.emptySpace} />
-
-        {/* 性別選択 */}
         {renderSexButtons()}
-        {/* 生年月日選択 */}
         {renderBirthdayForm()}
-        {/* 住まい選択 */}
         {renderAddressForm()}
-        {/* 決定ボタン */}
         {renderCompleteButton()}
-
         <View style={appStyle.emptySpace} />
       </View>
     </View>
