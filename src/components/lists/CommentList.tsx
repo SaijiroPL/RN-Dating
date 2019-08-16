@@ -14,14 +14,14 @@ interface Props {
  * @author kotatanaka
  */
 const CommentList: React.FC<Props> = ({ commentList }) => {
-  const renderCommentList = ({ item }: { item: Comment }) => {
+  const renderCommentElement = ({ item }: { item: Comment }) => {
     return <CommentElement comment={item} />;
   };
 
   return (
     <FlatList
       data={commentList}
-      renderItem={renderCommentList}
+      renderItem={renderCommentElement}
       keyExtractor={item => item.comment_id}
     />
   );

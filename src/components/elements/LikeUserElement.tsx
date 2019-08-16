@@ -3,23 +3,23 @@ import { ListItem, Thumbnail, Text, Left, Body } from "native-base";
 import { useNavigation } from "react-navigation-hooks";
 
 // from app
-import { Follow } from "app/src/types/api/TFollow";
+import { LikeUser } from "app/src/types/api/TLike";
 import Images from "app/src/constants/Images";
 import { userStyle } from "app/src/styles/user-component-style";
 
 interface Props {
-  follow: Follow;
+  user: LikeUser;
 }
 
 /**
- * フォロー/フォロワーリスト要素コンポーネント
+ * デートプランお気に入り登録者リスト要素コンポーネント
  * @author kotatanaka
  */
-const FollowElement: React.FC<Props> = ({ follow }) => {
+const LikeUserElement: React.FC<Props> = ({ user }) => {
   const { navigate } = useNavigation();
 
   const onPress = () => {
-    navigate("profile", { id: follow.user_id });
+    navigate("profile", { id: user.user_id });
   };
 
   return (
@@ -28,14 +28,11 @@ const FollowElement: React.FC<Props> = ({ follow }) => {
         <Thumbnail source={Images.noUserImage} />
       </Left>
       <Body>
-        <Text style={userStyle.nameText}>{follow.user_name}</Text>
-        <Text style={userStyle.idText}>@{follow.user_id}</Text>
-        <Text note style={userStyle.dateText}>
-          followd at {follow.follow_date.substr(0, 10)}
-        </Text>
+        <Text style={userStyle.nameText}>{user.user_name}</Text>
+        <Text style={userStyle.idText}>@{user.user_id}</Text>
       </Body>
     </ListItem>
   );
 };
 
-export default FollowElement;
+export default LikeUserElement;

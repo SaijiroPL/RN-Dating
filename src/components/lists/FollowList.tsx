@@ -14,14 +14,14 @@ interface Props {
  * @author kotatanaka
  */
 const FollowList: React.FC<Props> = ({ follows }) => {
-  const renderFollowList = ({ item }: { item: Follow }) => {
+  const renderFollowElement = ({ item }: { item: Follow }) => {
     return <FollowElement follow={item} />;
   };
 
   return (
     <FlatList
       data={follows}
-      renderItem={renderFollowList}
+      renderItem={renderFollowElement}
       keyExtractor={item => item.user_id}
     />
   );

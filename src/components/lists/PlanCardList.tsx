@@ -15,7 +15,7 @@ interface Props {
  * @author kotatanaka
  */
 const PlanCardList: React.FC<Props> = ({ planList, myPlan }) => {
-  const renderPlanList = ({ item }: { item: Plan }) => {
+  const renderPlanCard = ({ item }: { item: Plan }) => {
     if (myPlan) {
       return <PlanCard plan={item} myPlan />;
     }
@@ -25,7 +25,7 @@ const PlanCardList: React.FC<Props> = ({ planList, myPlan }) => {
   return (
     <FlatList
       data={planList}
-      renderItem={renderPlanList}
+      renderItem={renderPlanCard}
       keyExtractor={item => item.plan_id}
     />
   );

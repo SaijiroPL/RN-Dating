@@ -4,6 +4,7 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 import HomeTopScreen from "app/src/screens/HomeScreen/HomeTopScreen";
 import PlanDetailScreen from "app/src/screens/DetailScreen/PlanDetailScreen";
 import CommentScreen from "app/src/screens/DetailScreen/CommentScreen";
+import LikeUserScreen from "app/src/screens/DetailScreen/LikeUserScreen";
 import ProfileScreen from "app/src/screens/DetailScreen/ProfileScreen";
 import FollowScreen from "app/src/screens/MyProfileScreen/FollowScreen";
 import FollowerScreen from "app/src/screens/MyProfileScreen/FollowerScreen";
@@ -37,6 +38,14 @@ const HomeNavigator = createStackNavigator(
       screen: CommentScreen,
       navigationOptions: () => ({
         headerTitle: "コメント",
+        headerTitleStyle: appStyle.defaultText
+      })
+    },
+    // お気に入り登録者一覧画面
+    like: {
+      screen: LikeUserScreen,
+      navigationOptions: () => ({
+        headerTitle: "お気に入り",
         headerTitleStyle: appStyle.defaultText
       })
     },

@@ -5,10 +5,10 @@ import Colors from "app/src/constants/Colors";
 import Layout from "app/src/constants/Layout";
 
 /**
- * フォロー画面/フォロワー一覧画面のスタイリング
+ * ユーザー一覧画面のスタイリング
  * @author kotatanaka
  */
-export const followStyle = StyleSheet.create({
+export const userStyle = StyleSheet.create({
   nameText: {
     fontFamily: "genju-medium"
   },

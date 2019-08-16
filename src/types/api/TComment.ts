@@ -15,6 +15,7 @@ export interface Comment {
   comment_id: string;
   comment: string;
   create_date: string;
+  user_id: string;
   user_name: string;
   user_attr: string;
   user_image_url: string;
