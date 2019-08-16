@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
-import { Button, Text, DatePicker, Container } from "native-base";
+import { Button, Text } from "native-base";
 
 // from app
-import DateForm from "app/src/components/contents/DateForm";
+import DatePicker from "app/src/components/contents/DatePicker";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
 import { getToday } from "app/src/utils/DateUtil";
 import appStyle from "app/src/styles/common-style";
@@ -93,11 +93,11 @@ const CreatePlanTopScreen: React.FC = () => {
 
   /** 日付選択フォームを描画する */
   // FIXME 日付を選択するとエラー NativeBaseじゃないDatePickerにする?
-  const renderDateForm = () => {
+  const renderDatePicker = () => {
     return (
       <View style={createPlanStyle.formGroup}>
         <Text style={createPlanStyle.itemTitleText}>デート予定日</Text>
-        <DateForm date={date} setDate={setDate} minDate={getToday()} />
+        <DatePicker date={date} setDate={setDate} minDate={getToday()} />
       </View>
     );
   };
@@ -113,7 +113,7 @@ const CreatePlanTopScreen: React.FC = () => {
   return (
     <View style={createPlanStyle.container}>
       <View style={appStyle.emptySpace} />
-      {renderDateForm()}
+      {renderDatePicker()}
       {renderTransportationButtonGroup()}
       <View style={appStyle.emptySpace} />
       {renderCompleteButton()}

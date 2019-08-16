@@ -1,5 +1,5 @@
 import React from "react";
-import DatePicker from "react-native-datepicker";
+import ReactNativeDatePicker from "react-native-datepicker";
 
 interface Props {
   date: string;
@@ -12,9 +12,9 @@ interface Props {
  * 日付選択フォーム
  * @author kotatanaka
  */
-const DateForm: React.FC<Props> = ({ date, setDate, minDate, maxDate }) => {
+const DatePicker: React.FC<Props> = ({ date, setDate, minDate, maxDate }) => {
   return (
-    <DatePicker
+    <ReactNativeDatePicker
       style={{ width: 200 }}
       date={date}
       mode="date"
@@ -29,9 +29,9 @@ const DateForm: React.FC<Props> = ({ date, setDate, minDate, maxDate }) => {
   );
 };
 
-DateForm.defaultProps = {
+DatePicker.defaultProps = {
   minDate: "1970-01-01",
   maxDate: "2020-12-31"
 };
 
-export default DateForm;
+export default DatePicker;

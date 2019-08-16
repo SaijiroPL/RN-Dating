@@ -9,7 +9,7 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 import Colors from "app/src/constants/Colors";
 import { getToday } from "app/src/utils/DateUtil";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
-import DateForm from "app/src/components/contents/DateForm";
+import DatePicker from "app/src/components/contents/DatePicker";
 import appStyle from "app/src/styles/common-style";
 import { topStyle, entryStyle } from "app/src/styles/top-screen-style";
 
@@ -101,7 +101,7 @@ const EntryScreen: React.FC = () => {
     return (
       <View style={entryStyle.ageGroup}>
         <Text style={entryStyle.entryText}>生年月日</Text>
-        <DateForm date={date} setDate={setDate} maxDate={getToday()} />
+        <DatePicker date={date} setDate={setDate} maxDate={getToday()} />
       </View>
     );
   };
