@@ -5,7 +5,7 @@ import { useNavigation } from "react-navigation-hooks";
 // from app
 import { Follow } from "app/src/types/api/TFollow";
 import Images from "app/src/constants/Images";
-import { followStyle } from "app/src/styles/follow-component-style";
+import { userStyle } from "app/src/styles/user-component-style";
 
 interface Props {
   follow: Follow;
@@ -28,9 +28,9 @@ const FollowElement: React.FC<Props> = ({ follow }) => {
         <Thumbnail source={Images.noUserImage} />
       </Left>
       <Body>
-        <Text style={followStyle.nameText}>{follow.user_name}</Text>
-        <Text style={followStyle.idText}>@{follow.user_id}</Text>
-        <Text note style={followStyle.dateText}>
+        <Text style={userStyle.nameText}>{follow.user_name}</Text>
+        <Text style={userStyle.idText}>@{follow.user_id}</Text>
+        <Text note style={userStyle.dateText}>
           followd at {follow.follow_date.substr(0, 10)}
         </Text>
       </Body>
