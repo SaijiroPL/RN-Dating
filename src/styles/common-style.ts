@@ -14,6 +14,11 @@ const appStyle = StyleSheet.create({
     flex: 1,
     justifyContent: "center"
   },
+  emptySpace: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center"
+  },
   defaultText: {
     color: Colors.textTintColor,
     fontFamily: "genju-medium"

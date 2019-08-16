@@ -9,12 +9,13 @@ import Globals from "app/src/Globals";
 import Images from "app/src/constants/Images";
 import Layout from "app/src/constants/Layout";
 import Colors from "app/src/constants/Colors";
+import appStyle from "app/src/styles/common-style";
 import { topStyle } from "app/src/styles/top-screen-style";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
 
 // 仮置き定数
 // ログイン機能ができるまでは、これをDBに存在するユーザーIDに書き換えてください
-const loginUserId = "d12292c2-7637-4be0-8b10-2431657b4017";
+const loginUserId = "20b32803-f4b1-4d32-bb61-49e7cdf5e415";
 
 /**
  * 初回起動時の画面
@@ -119,7 +120,7 @@ const AppTopScreen: React.FC = () => {
 
   return (
     <View style={topStyle.topContainer}>
-      <View style={topStyle.emptySpace} />
+      <View style={appStyle.emptySpace} />
       <View style={topStyle.topImage}>
         <Image
           resizeMode="contain"

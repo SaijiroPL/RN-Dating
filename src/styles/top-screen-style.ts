@@ -14,11 +14,6 @@ export const topStyle = StyleSheet.create({
     flex: 1,
     justifyContent: "center"
   },
-  emptySpace: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "center"
-  },
   topImage: {
     alignItems: "center",
     flex: 2,

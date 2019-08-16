@@ -4,6 +4,7 @@ import { useNavigation } from "react-navigation-hooks";
 
 // from app
 import Images from "app/src/constants/Images";
+import appStyle from "app/src/styles/common-style";
 import { topStyle, welocomeStyle } from "app/src/styles/top-screen-style";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
 
@@ -63,7 +64,7 @@ const WelcomeScreen: React.FC = () => {
   const renderSlides = () => {
     return SLIDE_DATA.map((slide, index) => (
       <View key={index} style={welocomeStyle.slide}>
-        <View style={topStyle.emptySpace} />
+        <View style={appStyle.emptySpace} />
 
         <Image style={{ flex: 3 }} resizeMode="contain" source={slide.uri} />
 

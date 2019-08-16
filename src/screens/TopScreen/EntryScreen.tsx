@@ -3,14 +3,15 @@ import { Text, View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import { Picker } from "native-base";
 import { Button } from "react-native-elements";
-import DatePicker from "react-native-datepicker";
 import { SimpleLineIcons } from "@expo/vector-icons";
 
 // from app
 import Colors from "app/src/constants/Colors";
+import { getToday } from "app/src/utils/DateUtil";
+import CompleteButton from "app/src/components/buttons/CompleteButton";
+import DatePicker from "app/src/components/contents/DatePicker";
 import appStyle from "app/src/styles/common-style";
 import { topStyle, entryStyle } from "app/src/styles/top-screen-style";
-import CompleteButton from "app/src/components/buttons/CompleteButton";
 
 /**
  * ユーザー基本情報入力画面
@@ -100,18 +101,7 @@ const EntryScreen: React.FC = () => {
     return (
       <View style={entryStyle.ageGroup}>
         <Text style={entryStyle.entryText}>生年月日</Text>
-        <DatePicker
-          style={{ width: 200 }}
-          date={date}
-          mode="date"
-          format="YYYY-MM-DD"
-          minDate="1980-01-01"
-          maxDate="2018-12-31"
-          confirmBtnText="決定"
-          cancelBtnText="キャンセル"
-          customStyles={{ dateInput: { marginLeft: 20 } }}
-          onDateChange={date => setDate(date)}
-        />
+        <DatePicker date={date} setDate={setDate} maxDate={getToday()} />
       </View>
     );
   };
@@ -147,7 +137,7 @@ const EntryScreen: React.FC = () => {
   /** 入力完了ボタンを描画する */
   const renderCompleteButton = () => {
     return (
-      <View style={topStyle.emptySpace}>
+      <View style={appStyle.emptySpace}>
         {/* 未入力項目がある場合はボタン押下不可 */}
         {sex !== "" ? (
           <CompleteButton title="決定" onPress={onCompleteButtonPress} />
@@ -161,7 +151,7 @@ const EntryScreen: React.FC = () => {
   return (
     <View style={topStyle.topContainer}>
       <View style={topStyle.linkGroup}>
-        <View style={topStyle.emptySpace} />
+        <View style={appStyle.emptySpace} />
 
         {/* 性別選択 */}
         {renderSexButtons()}
@@ -172,7 +162,7 @@ const EntryScreen: React.FC = () => {
         {/* 決定ボタン */}
         {renderCompleteButton()}
 
-        <View style={topStyle.emptySpace} />
+        <View style={appStyle.emptySpace} />
       </View>
     </View>
   );

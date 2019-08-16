@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
-import { Button, Text, DatePicker, Container } from "native-base";
+import { Button, Text } from "native-base";
 
 // from app
+import DatePicker from "app/src/components/contents/DatePicker";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
+import { getToday } from "app/src/utils/DateUtil";
+import appStyle from "app/src/styles/common-style";
 import { createPlanStyle } from "app/src/styles/home-screen-style";
 
 /**
@@ -21,11 +24,6 @@ const CreatePlanTopScreen: React.FC = () => {
 
   const onCompleteButtonPress = () => {
     navigate("map", { trasportation: getTransportationList() });
-  };
-
-  /** デート予定日を更新する */
-  const setChosenDate = (newDate: any) => {
-    setDate(newDate);
   };
 
   /**
@@ -99,31 +97,27 @@ const CreatePlanTopScreen: React.FC = () => {
     return (
       <View style={createPlanStyle.formGroup}>
         <Text style={createPlanStyle.itemTitleText}>デート予定日</Text>
-        <DatePicker
-          defaultDate={new Date(2019, 4, 4)}
-          minimumDate={new Date(2019, 1, 1)}
-          maximumDate={new Date(2019, 12, 31)}
-          locale={"ja"}
-          timeZoneOffsetInMinutes={undefined}
-          modalTransparent={false}
-          animationType={"fade"}
-          androidMode={"default"}
-          placeHolderText="Select date"
-          textStyle={{ color: "green" }}
-          placeHolderTextStyle={{ color: "#d3d3d3" }}
-          onDateChange={setChosenDate}
-          disabled={false}
-        />
-        <Text>{date}</Text>
+        <DatePicker date={date} setDate={setDate} minDate={getToday()} />
       </View>
     );
   };
 
+  const renderCompleteButton = () => {
+    if (date == "" || (!car && !train && !bus && !walk)) {
+      return <CompleteButton title="決定" disabled />;
+    } else {
+      return <CompleteButton title="決定" onPress={onCompleteButtonPress} />;
+    }
+  };
+
   return (
     <View style={createPlanStyle.container}>
-      <Container>{renderDatePicker()}</Container>
+      <View style={appStyle.emptySpace} />
+      {renderDatePicker()}
       {renderTransportationButtonGroup()}
-      <CompleteButton title="決定" onPress={onCompleteButtonPress} />
+      <View style={appStyle.emptySpace} />
+      {renderCompleteButton()}
+      <View style={appStyle.emptySpace} />
     </View>
   );
 };
