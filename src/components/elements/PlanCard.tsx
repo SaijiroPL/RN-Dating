@@ -33,6 +33,10 @@ const PlanCard: React.FC<Props> = ({ plan, myPlan }) => {
     navigate("comment", { id: plan.plan_id });
   };
 
+  const onLikePress = () => {
+    navigate("like", { id: plan.plan_id });
+  };
+
   const renderUserHeader = () => {
     const planner: Planner = {
       userId: plan.user_id,
@@ -77,7 +81,11 @@ const PlanCard: React.FC<Props> = ({ plan, myPlan }) => {
           </Right>
         </CardItem>
         <Item style={planStyle.linkButtonGroup}>
-          <Button transparent style={planStyle.linkButton}>
+          <Button
+            transparent
+            style={planStyle.linkButton}
+            onPress={onLikePress}
+          >
             <SimpleLineIcons
               name="like"
               size={20}
