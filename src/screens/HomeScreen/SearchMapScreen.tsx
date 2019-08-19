@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
+import { Container, Footer } from "native-base";
 import MapView from "react-native-maps";
 
 // from app
@@ -28,7 +28,7 @@ const SearchMapScreen: React.FC = () => {
   };
 
   return (
-    <>
+    <Container>
       <MapView
         testID="mapView"
         showsMyLocationButton={false}
@@ -43,12 +43,12 @@ const SearchMapScreen: React.FC = () => {
         moveOnMarkerPress={false}
         style={mapViewStyle.container}
         initialRegion={location}
-      >
-        {/* TODO 完了ボタンを右下に配置したい */}
-        <CompleteButton title="決定" onPress={onCompleteButtonPress} />
-      </MapView>
+      />
       {/* TODO MapHeader */}
-    </>
+      <Footer>
+        <CompleteButton title="決定" onPress={onCompleteButtonPress} />
+      </Footer>
+    </Container>
   );
 };
 
