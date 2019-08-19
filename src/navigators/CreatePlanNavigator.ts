@@ -3,7 +3,7 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 // from app
 import CreatePlanTopScreen from "app/src/screens/HomeScreen/CreatePlanTopScreen";
 import SearchMapScreen from "app/src/screens/HomeScreen/SearchMapScreen";
-import FlickSpotScreen from "app/src/screens/HomeScreen/FlickSpotScreen";
+import SwipeSpotScreen from "app/src/screens/HomeScreen/SwipeSpotScreen";
 import SelectSpotScreen from "app/src/screens/HomeScreen/SelectSpotScreen";
 import ArrangeRouteScreen from "app/src/screens/HomeScreen/ArrangeRouteScreen";
 import CompletePlanScreen from "app/src/screens/HomeScreen/CompletePlanScreen";
@@ -31,11 +31,11 @@ const CreatePlanNavigator = createStackNavigator(
         headerTitleStyle: appStyle.defaultText
       })
     },
-    // デートスポットフリック画面
+    // デートスポットスワイプ画面
     flick: {
-      screen: FlickSpotScreen,
+      screen: SwipeSpotScreen,
       navigationOptions: () => ({
-        headerTitle: "スポットフリック",
+        headerTitle: "スポットスワイプ",
         headerTitleStyle: appStyle.defaultText
       })
     },
@@ -43,7 +43,7 @@ const CreatePlanNavigator = createStackNavigator(
     select: {
       screen: SelectSpotScreen,
       navigationOptions: () => ({
-        headerTitle: "洗濯と削除",
+        headerTitle: "選択と削除",
         headerTitleStyle: appStyle.defaultText
       })
     },
