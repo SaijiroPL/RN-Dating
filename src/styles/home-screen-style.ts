@@ -52,5 +52,8 @@ export const createPlanStyle = StyleSheet.create({
     color: Colors.textTintColor,
     fontFamily: "genju-medium",
     marginRight: 10
+  },
+  swiper: {
+    marginHorizontal: 10
   }
 });
