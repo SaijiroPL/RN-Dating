@@ -19,3 +19,16 @@ export interface SpotFull {
   order: number;
   need_time: number;
 }
+
+/**
+ * デートスポット候補インタフェース
+ * @author kotatanaka
+ */
+export interface CandidateSpot {
+  spotName: string;
+  address: string;
+  description: string;
+  imageUrl?: string;
+  latitude: number;
+  longitude: number;
+}
