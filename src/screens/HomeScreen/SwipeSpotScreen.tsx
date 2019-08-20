@@ -4,7 +4,7 @@ import { Container, Content, Footer } from "native-base";
 
 // from app
 import SpotSwiper from "app/src/components/contents/SpotSwiper";
-import CompleteButton from "app/src/components/buttons/CompleteButton";
+import CompleteFooterButton from "app/src/components/buttons/CompleteFooterButton";
 import { CandidateSpot } from "app/src/types/api/TSpot";
 import { createPlanStyle } from "app/src/styles/home-screen-style";
 
@@ -43,9 +43,7 @@ const SwipeSpotScreen: React.FC = () => {
         <SpotSwiper spots={SAMPLE_SPOTS} />
       </Content>
       {/* FIXME Footer透明にしたい */}
-      <Footer>
-        <CompleteButton title="決定" onPress={onCompleteButtonPress} />
-      </Footer>
+      <CompleteFooterButton title="次へ" onPress={onCompleteButtonPress} />
     </Container>
   );
 };

@@ -5,7 +5,7 @@ import { Button, Text } from "native-base";
 
 // from app
 import DatePicker from "app/src/components/contents/DatePicker";
-import CompleteButton from "app/src/components/buttons/CompleteButton";
+import CompleteFooterButton from "app/src/components/buttons/CompleteFooterButton";
 import { getToday } from "app/src/utils/DateUtil";
 import appStyle from "app/src/styles/common-style";
 import { createPlanStyle } from "app/src/styles/home-screen-style";
@@ -104,9 +104,11 @@ const CreatePlanTopScreen: React.FC = () => {
 
   const renderCompleteButton = () => {
     if (date == "" || (!car && !train && !bus && !walk)) {
-      return <CompleteButton title="決定" disabled />;
+      return <CompleteFooterButton title="次へ" disabled />;
     } else {
-      return <CompleteButton title="決定" onPress={onCompleteButtonPress} />;
+      return (
+        <CompleteFooterButton title="次へ" onPress={onCompleteButtonPress} />
+      );
     }
   };
 
@@ -117,7 +119,6 @@ const CreatePlanTopScreen: React.FC = () => {
       {renderTransportationButtonGroup()}
       <View style={appStyle.emptySpace} />
       {renderCompleteButton()}
-      <View style={appStyle.emptySpace} />
     </View>
   );
 };

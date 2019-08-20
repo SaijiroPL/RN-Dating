@@ -23,9 +23,28 @@ const appStyle = StyleSheet.create({
     color: Colors.textTintColor,
     fontFamily: "genju-medium"
   },
+  inactiveText: {
+    color: Colors.textTintColor,
+    fontFamily: "genju-medium",
+    opacity: 0.4
+  },
+  whiteText: {
+    color: "white",
+    fontFamily: "genju-medium"
+  },
   completeButton: {
     backgroundColor: Colors.tintColor,
     width: Layout.window.width * 0.75
+  },
+  touchableFooter: {
+    backgroundColor: Colors.tintColor
+  },
+  disTouchableFooter: {
+    backgroundColor: Colors.baseBackgroundColor
+  },
+  completeFooterButton: {
+    justifyContent: "center",
+    width: Layout.window.width
   },
   countText: {
     color: Colors.textTintColor,
