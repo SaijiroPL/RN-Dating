@@ -1,9 +1,9 @@
 import React from "react";
-import { View } from "react-native";
+import { Container, Content } from "native-base";
 import { useNavigation } from "react-navigation-hooks";
 
 // from app
-import CompleteButton from "app/src/components/buttons/CompleteButton";
+import CompleteFooterButton from "app/src/components/buttons/CompleteFooterButton";
 import { createPlanStyle } from "app/src/styles/home-screen-style";
 
 /**
@@ -17,9 +17,10 @@ const ArrangeRouteScreen: React.FC = () => {
   };
 
   return (
-    <View style={createPlanStyle.container}>
-      <CompleteButton title="決定" onPress={onCompleteButtonPress} />
-    </View>
+    <Container>
+      <Content />
+      <CompleteFooterButton title="次へ" onPress={onCompleteButtonPress} />
+    </Container>
   );
 };
 

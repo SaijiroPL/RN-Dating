@@ -5,7 +5,7 @@ import MapView from "react-native-maps";
 
 // from app
 import { Location } from "app/src/types/TMap";
-import CompleteButton from "app/src/components/buttons/CompleteButton";
+import CompleteFooterButton from "app/src/components/buttons/CompleteFooterButton";
 import { mapViewStyle } from "app/src/styles/map-component-style";
 
 const locationInitialRound = 700;
@@ -45,9 +45,7 @@ const SearchMapScreen: React.FC = () => {
         initialRegion={location}
       />
       {/* TODO MapHeader */}
-      <Footer>
-        <CompleteButton title="決定" onPress={onCompleteButtonPress} />
-      </Footer>
+      <CompleteFooterButton title="次へ" onPress={onCompleteButtonPress} />
     </Container>
   );
 };
