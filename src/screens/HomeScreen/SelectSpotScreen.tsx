@@ -1,13 +1,14 @@
 import React from "react";
-import { View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
+import { Container, Content } from "native-base";
 
 // from app
-import CompleteButton from "app/src/components/buttons/CompleteButton";
-import { createPlanStyle } from "app/src/styles/home-screen-style";
+import ImageGrid from "app/src/components/contents/ImageGrid";
+import CompleteFooterButton from "app/src/components/buttons/CompleteFooterButton";
 
 /**
  * デートスポット厳選画面
+ * @author kotatanaka
  */
 const SelectSpotScreen: React.FC = () => {
   const { navigate } = useNavigation();
@@ -17,9 +18,12 @@ const SelectSpotScreen: React.FC = () => {
   };
 
   return (
-    <View style={createPlanStyle.container}>
-      <CompleteButton title="決定" onPress={onCompleteButtonPress} />
-    </View>
+    <Container>
+      <Content>
+        <ImageGrid />
+      </Content>
+      <CompleteFooterButton title="次へ" onPress={onCompleteButtonPress} />
+    </Container>
   );
 };
 
