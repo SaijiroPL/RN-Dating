@@ -5,7 +5,7 @@ import { Spinner } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
-import Globals from "app/src/Globals";
+import { useGlobalState } from "app/src/Store";
 import { PlanList } from "app/src/types/api/TPlan";
 import { BadRequestError } from "app/src/types/api/TError";
 import PlanCardList from "app/src/components/lists/PlanCardList";
@@ -17,6 +17,8 @@ import { myPlanStyle } from "app/src/styles/myplan-screen-style";
  * @author kotatanaka
  */
 const MyPlanTopScreen: React.FC = () => {
+  const loginUser = useGlobalState("loginUser");
+
   const [plans, setPlans] = useState({
     total: 0,
     plan_list: []
@@ -41,7 +43,7 @@ const MyPlanTopScreen: React.FC = () => {
     axios
       .get(Constants.manifest.extra.apiEndpoint + "/plans", {
         params: {
-          user_id: Globals.loginUser.id
+          user_id: loginUser.id
         },
         cancelToken: signal.token
       })
