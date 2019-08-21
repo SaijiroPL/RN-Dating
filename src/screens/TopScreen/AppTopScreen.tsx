@@ -5,13 +5,13 @@ import { Input } from "react-native-elements";
 import { FontAwesome } from "@expo/vector-icons";
 
 // from app
-import Globals from "app/src/Globals";
+import { useDispatch } from "app/src/Store";
+import CompleteButton from "app/src/components/buttons/CompleteButton";
 import Images from "app/src/constants/Images";
 import Layout from "app/src/constants/Layout";
 import Colors from "app/src/constants/Colors";
 import appStyle from "app/src/styles/common-style";
 import { topStyle } from "app/src/styles/top-screen-style";
-import CompleteButton from "app/src/components/buttons/CompleteButton";
 
 // 仮置き定数
 // ログイン機能ができるまでは、これをDBに存在するユーザーIDに書き換えてください
@@ -23,12 +23,24 @@ const loginUserId = "20b32803-f4b1-4d32-bb61-49e7cdf5e415";
  */
 const AppTopScreen: React.FC = () => {
   const { navigate } = useNavigation();
+  const dispatch = useDispatch();
 
   // [0]初回画面 [1]メールアドレスログイン画面 [2]新規登録画面
   const [screenPhase, setScreenPhase] = useState(0);
   const [mailAddress, setMailAddress] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmpassword] = useState("");
+
+  const setLoginUser = () => {
+    dispatch({
+      type: "SET_LOGIN_USER",
+      payload: {
+        id: loginUserId,
+        name: "",
+        imageUrl: ""
+      }
+    });
+  };
 
   /** Facebookログインボタン押下時の処理 */
   const onFacebookButtonPress = () => {
@@ -37,7 +49,7 @@ const AppTopScreen: React.FC = () => {
 
   /** メールアドレスログインボタン押下時の処理 */
   const onSignInButtonPress = () => {
-    Globals.loginUser.id = loginUserId;
+    setLoginUser();
     navigate("main");
   };
 
