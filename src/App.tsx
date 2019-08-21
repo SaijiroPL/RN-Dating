@@ -3,10 +3,11 @@ import { View, StatusBar, Platform } from "react-native";
 import { AppLoading, Asset, Font } from "expo";
 
 // from app
+import { Provider } from "app/src/Store";
+import AppNavigator from "app/src/navigators/AppNavigator";
 import Images from "app/src/constants/Images";
 import Fonts from "app/src/constants/Fonts";
 import appStyle from "app/src/styles/common-style";
-import AppNavigator from "app/src/navigators/AppNavigator";
 
 interface Props {
   skipLoadingScreen: boolean;
@@ -52,10 +53,12 @@ export default class App extends React.Component<Props, State> {
     }
 
     return (
-      <View style={appStyle.defaultContainer}>
-        {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-        <AppNavigator />
-      </View>
+      <Provider>
+        <View style={appStyle.defaultContainer}>
+          {Platform.OS === "ios" && <StatusBar barStyle="default" />}
+          <AppNavigator />
+        </View>
+      </Provider>
     );
   }
 }

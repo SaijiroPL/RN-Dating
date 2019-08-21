@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { View } from "react-native";
 import { Constants } from "expo";
-import { useNavigationParam } from "react-navigation-hooks";
 import { Spinner } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
-import Globals from "app/src/Globals";
+import { useGlobalState } from "app/src/Store";
 import { UserDetail } from "app/src/types/api/TUser";
 import { BadRequestError } from "app/src/types/api/TError";
 import UserProfile from "app/src/components/contents/UserProfile";
@@ -18,6 +17,8 @@ import { profileStyle } from "app/src/styles/profile-screen-style";
  * @author kotatanaka
  */
 const MyProfileTopScreen: React.FC = () => {
+  const loginUser = useGlobalState("loginUser");
+
   const [user, setUser] = useState({
     user_id: "",
     name: "",
@@ -48,8 +49,7 @@ const MyProfileTopScreen: React.FC = () => {
 
   /** ユーザー詳細取得 */
   const getUserDetail = (signal: CancelTokenSource) => {
-    const url =
-      Constants.manifest.extra.apiEndpoint + "/users/" + Globals.loginUser.id;
+    const url = Constants.manifest.extra.apiEndpoint + "/users/" + loginUser.id;
 
     axios
       .get(url, {
