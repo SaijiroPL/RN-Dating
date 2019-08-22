@@ -8,7 +8,7 @@ export interface State {
   loginUser: LoginUser;
 }
 
-enum ActionType {
+export enum ActionType {
   SET_LOGIN_USER = "SET_LOGIN_USER"
 }
 
