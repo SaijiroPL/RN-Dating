@@ -11,7 +11,7 @@ import { Planner } from "app/src/types/TPlanner";
 import Images from "app/src/constants/Images";
 import Colors from "app/src/constants/Colors";
 import PlannerHeader from "app/src/components/elements/PlannerHeader";
-import { planStyle } from "app/src/styles/plan-component-style";
+import { planCardStyle } from "app/src/styles/common-component-style";
 
 interface Props {
   plan: Plan;
@@ -53,11 +53,11 @@ const PlanCard: React.FC<Props> = ({ plan, myPlan }) => {
   };
 
   return (
-    <Card style={planStyle.card}>
+    <Card style={planCardStyle.card}>
       <TouchableOpacity onPress={onPlanPress}>
         {!myPlan && renderUserHeader()}
         <CardItem cardBody>
-          <Image source={Images.noImage} style={planStyle.image} />
+          <Image source={Images.noImage} style={planCardStyle.image} />
         </CardItem>
         <CardItem cardBody>
           <MapView
@@ -67,45 +67,37 @@ const PlanCard: React.FC<Props> = ({ plan, myPlan }) => {
               latitudeDelta: 0.02,
               longitudeDelta: 0.05
             }}
-            style={planStyle.map}
+            style={planCardStyle.map}
           />
         </CardItem>
         <CardItem>
           <Left>
-            <Text style={planStyle.mainText}>{plan.title}</Text>
+            <Text style={planCardStyle.mainText}>{plan.title}</Text>
           </Left>
           <Right>
-            <Text note style={planStyle.descriptionText}>
+            <Text note style={planCardStyle.descriptionText}>
               {plan.spots.map(spot => spot.spot_name).join(" > ")}
             </Text>
           </Right>
         </CardItem>
-        <Item style={planStyle.linkButtonGroup}>
+        <Item style={planCardStyle.linkButtonGroup}>
           <Button
             transparent
-            style={planStyle.linkButton}
+            style={planCardStyle.linkButton}
             onPress={onLikePress}
           >
-            <SimpleLineIcons
-              name="like"
-              size={20}
-              style={planStyle.linkIcon}
-              color={Colors.tintColor}
-            />
-            <Text style={planStyle.linkButtonText}>{plan.like_count}</Text>
+            <SimpleLineIcons name="like" size={20} color={Colors.tintColor} />
+            <Text style={planCardStyle.linkButtonText}>{plan.like_count}</Text>
           </Button>
           <Button
             transparent
-            style={planStyle.linkButton}
+            style={planCardStyle.linkButton}
             onPress={onCommentPress}
           >
-            <FontAwesome
-              name="comment-o"
-              size={20}
-              style={planStyle.linkIcon}
-              color={Colors.tintColor}
-            />
-            <Text style={planStyle.linkButtonText}>{plan.comment_count}</Text>
+            <FontAwesome name="comment-o" size={20} color={Colors.tintColor} />
+            <Text style={planCardStyle.linkButtonText}>
+              {plan.comment_count}
+            </Text>
           </Button>
         </Item>
       </TouchableOpacity>

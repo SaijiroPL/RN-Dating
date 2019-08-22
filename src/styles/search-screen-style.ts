@@ -7,7 +7,7 @@ import Colors from "app/src/constants/Colors";
  * 検索画面のスタイリング
  * @author kotatanaka
  */
-export const searchStyle = StyleSheet.create({
+const searchScreenStyle = StyleSheet.create({
   container: {
     backgroundColor: Colors.backgroundColor
   },
@@ -29,3 +29,5 @@ export const searchStyle = StyleSheet.create({
     borderBottomWidth: 1
   }
 });
+
+export default searchScreenStyle;

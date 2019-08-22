@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Footer, Text } from "native-base";
 
 // from app
-import commonStyle from "app/src/styles/common-style";
+import { appButtonStyle, appTextStyle } from "app/src/styles/general-style";
 
 interface Props {
   title: string;
@@ -21,22 +21,26 @@ const CompleteFooterButton: React.FC<Props> = ({
 }) => {
   if (disabled) {
     return (
-      <Footer style={commonStyle.disTouchableFooter}>
-        <Button transparent disabled style={commonStyle.completeFooterButton}>
-          <Text style={commonStyle.inactiveText}>{title}</Text>
+      <Footer style={appButtonStyle.disTouchableFooter}>
+        <Button
+          transparent
+          disabled
+          style={appButtonStyle.completeFooterButton}
+        >
+          <Text style={appTextStyle.inactiveText}>{title}</Text>
         </Button>
       </Footer>
     );
   }
 
   return (
-    <Footer style={commonStyle.touchableFooter}>
+    <Footer style={appButtonStyle.touchableFooter}>
       <Button
         transparent
         onPress={onPress}
-        style={commonStyle.completeFooterButton}
+        style={appButtonStyle.completeFooterButton}
       >
-        <Text style={commonStyle.whiteText}>{title}</Text>
+        <Text style={appTextStyle.whiteText}>{title}</Text>
       </Button>
     </Footer>
   );

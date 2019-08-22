@@ -8,9 +8,13 @@ export interface State {
   loginUser: LoginUser;
 }
 
+export enum ActionType {
+  SET_LOGIN_USER = "SET_LOGIN_USER"
+}
+
 export interface Action {
-  type: "SET_LOGIN_USER";
-  payload: LoginUser;
+  type: ActionType;
+  payload: any;
 }
 
 /** Reducer */
@@ -18,7 +22,7 @@ const Reducer = (state: State, action: Action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case "SET_LOGIN_USER":
+    case ActionType.SET_LOGIN_USER:
       return {
         ...state,
         loginUser: payload

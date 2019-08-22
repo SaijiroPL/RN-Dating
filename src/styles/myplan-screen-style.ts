@@ -7,8 +7,12 @@ import Colors from "app/src/constants/Colors";
  * マイプラン画面のスタイリング
  * @author kotatanaka
  */
-export const myPlanStyle = StyleSheet.create({
+const myPlanScreenStyle = StyleSheet.create({
   container: {
-    backgroundColor: Colors.backgroundColor
+    backgroundColor: Colors.backgroundColor,
+    flex: 1,
+    justifyContent: "center"
   }
 });
+
+export default myPlanScreenStyle;

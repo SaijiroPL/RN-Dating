@@ -9,8 +9,7 @@ import axios, { CancelTokenSource } from "axios";
 import { FollowerList } from "app/src/types/api/TFollow";
 import { BadRequestError } from "app/src/types/api/TError";
 import FollowList from "app/src/components/lists/FollowList";
-import appStyle from "app/src/styles/common-style";
-import { profileStyle } from "app/src/styles/profile-screen-style";
+import { appTextStyle } from "app/src/styles/general-style";
 
 /**
  * フォロワーリスト一覧画面
@@ -68,7 +67,9 @@ const FollowScreen: React.FC = () => {
 
   return (
     <Container>
-      <Text style={appStyle.countText}>フォロワー数: {followers.total} </Text>
+      <Text style={appTextStyle.countText}>
+        フォロワー数: {followers.total}
+      </Text>
       <FollowList follows={followers.follower_list} />
     </Container>
   );

@@ -8,7 +8,7 @@ import axios, { CancelTokenSource } from "axios";
 import { LikeUserList as TLikeUserList } from "app/src/types/api/TLike";
 import { BadRequestError } from "app/src/types/api/TError";
 import LikeUserList from "app/src/components/lists/LikeUserList";
-import appStyle from "app/src/styles/common-style";
+import { appTextStyle } from "app/src/styles/general-style";
 
 /**
  * デートプランお気に入り登録者一覧画面
@@ -66,7 +66,9 @@ const LikeUserScreen: React.FC = () => {
 
   return (
     <Container>
-      <Text style={appStyle.countText}>お気に入り登録者数: {users.total}</Text>
+      <Text style={appTextStyle.countText}>
+        お気に入り登録者数: {users.total}
+      </Text>
       <LikeUserList users={users.liked_user_list} />
     </Container>
   );

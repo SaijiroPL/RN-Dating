@@ -4,7 +4,7 @@ import { useNavigation } from "react-navigation-hooks";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 // from app
-import { profileStyle } from "app/src/styles/profile-screen-style";
+import profileScreenStyle from "app/src/styles/profile-screen-style";
 
 /**
  * 設定フローティングボタン
@@ -17,7 +17,7 @@ const SettingFab: React.FC = () => {
     <Fab
       active={true}
       containerStyle={{}}
-      style={profileStyle.settingFab}
+      style={profileScreenStyle.settingFab}
       position="bottomRight"
       onPress={() => navigate("setting")}
     >

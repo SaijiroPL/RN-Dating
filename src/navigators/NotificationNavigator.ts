@@ -5,10 +5,10 @@ import {
 } from "react-navigation";
 
 // from app
+import Colors from "app/src/constants/Colors";
 import NotificationFollowScreen from "app/src/screens/NotificationScreen/NotificationFollowScreen";
 import NotificationLikeScreen from "app/src/screens/NotificationScreen/NotificationLikeScreen";
-import Colors from "app/src/constants/Colors";
-import appStyle from "app/src/styles/common-style";
+import { appTextStyle } from "app/src/styles/general-style";
 
 /**
  * 通知タブのタブナビゲーター
@@ -21,7 +21,7 @@ const NotificationTabNavigator = createMaterialTopTabNavigator(
       screen: NotificationFollowScreen,
       navigationOptions: () => ({
         title: "フォロー",
-        titleStyle: appStyle.defaultText
+        titleStyle: appTextStyle.defaultText
       })
     },
     // お気に入り通知一覧画面
@@ -29,7 +29,7 @@ const NotificationTabNavigator = createMaterialTopTabNavigator(
       screen: NotificationLikeScreen,
       navigationOptions: () => ({
         title: "お気に入り",
-        titleStyle: appStyle.defaultText
+        titleStyle: appTextStyle.defaultText
       })
     }
   },
@@ -57,7 +57,7 @@ const NotificationNavigator = createStackNavigator(
       screen: NotificationTabNavigator,
       navigationOptions: () => ({
         headerTitle: "通知",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     }
   },

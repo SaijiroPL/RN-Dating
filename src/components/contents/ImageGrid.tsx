@@ -4,7 +4,7 @@ import { Col, Row, Grid } from "react-native-easy-grid";
 
 // from app
 import Images from "app/src/constants/Images";
-import { imageGridStyle } from "app/src/styles/home-screen-style";
+import { imageGridStyle } from "app/src/styles/create-screen-style";
 
 interface Props {}
 

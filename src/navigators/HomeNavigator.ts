@@ -9,7 +9,7 @@ import ProfileScreen from "app/src/screens/DetailScreen/ProfileScreen";
 import FollowScreen from "app/src/screens/MyProfileScreen/FollowScreen";
 import FollowerScreen from "app/src/screens/MyProfileScreen/FollowerScreen";
 import CreatePlanNavigator from "app/src/navigators/CreatePlanNavigator";
-import appStyle from "app/src/styles/common-style";
+import { appTextStyle } from "app/src/styles/general-style";
 
 /**
  * ホームタブのナビゲーター
@@ -22,7 +22,7 @@ const HomeNavigator = createStackNavigator(
       screen: HomeTopScreen,
       navigationOptions: () => ({
         headerTitle: "ホーム",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     },
     // デートプラン詳細画面
@@ -30,7 +30,7 @@ const HomeNavigator = createStackNavigator(
       screen: PlanDetailScreen,
       navigationOptions: () => ({
         headerTitle: "プラン詳細",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     },
     // コメント一覧画面
@@ -38,7 +38,7 @@ const HomeNavigator = createStackNavigator(
       screen: CommentScreen,
       navigationOptions: () => ({
         headerTitle: "コメント",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     },
     // お気に入り登録者一覧画面
@@ -46,7 +46,7 @@ const HomeNavigator = createStackNavigator(
       screen: LikeUserScreen,
       navigationOptions: () => ({
         headerTitle: "お気に入り",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     },
     // ユーザー詳細画面
@@ -54,7 +54,7 @@ const HomeNavigator = createStackNavigator(
       screen: ProfileScreen,
       navigationOptions: () => ({
         headerTitle: "ユーザー詳細",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     },
     // フォロー一覧画面
@@ -62,7 +62,7 @@ const HomeNavigator = createStackNavigator(
       screen: FollowScreen,
       navigationOptions: () => ({
         headerTitle: "フォロー",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     },
     // フォロワー一覧画面
@@ -70,7 +70,7 @@ const HomeNavigator = createStackNavigator(
       screen: FollowerScreen,
       navigationOptions: () => ({
         headerTitle: "フォロワー",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     },
     // プラン作成画面

@@ -1,12 +1,11 @@
 import React from "react";
 import { useNavigation } from "react-navigation-hooks";
-import { Container, Content, Footer } from "native-base";
+import { Container } from "native-base";
 
 // from app
+import { CandidateSpot } from "app/src/types/api/TSpot";
 import SpotSwiper from "app/src/components/contents/SpotSwiper";
 import CompleteFooterButton from "app/src/components/buttons/CompleteFooterButton";
-import { CandidateSpot } from "app/src/types/api/TSpot";
-import { createPlanStyle } from "app/src/styles/home-screen-style";
 
 // 仮データ
 const SAMPLE_SPOTS: Array<CandidateSpot> = [
@@ -39,9 +38,7 @@ const SwipeSpotScreen: React.FC = () => {
 
   return (
     <Container>
-      <Content style={createPlanStyle.swiper}>
-        <SpotSwiper spots={SAMPLE_SPOTS} />
-      </Content>
+      <SpotSwiper spots={SAMPLE_SPOTS} />
       {/* FIXME Footer透明にしたい */}
       <CompleteFooterButton title="次へ" onPress={onCompleteButtonPress} />
     </Container>

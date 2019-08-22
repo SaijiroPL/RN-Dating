@@ -1,19 +1,10 @@
 import React from "react";
-import {
-  Content,
-  ListItem,
-  List,
-  Thumbnail,
-  Text,
-  Left,
-  Body,
-  Right
-} from "native-base";
+import { ListItem, Thumbnail, Text, Left, Body } from "native-base";
 
 // from app
 import { Comment } from "app/src/types/api/TComment";
 import Images from "app/src/constants/Images";
-import { commentStyle } from "app/src/styles/comment-component-style";
+import { commentElementStyle } from "app/src/styles/common-component-style";
 
 interface Props {
   comment: Comment;
@@ -30,11 +21,11 @@ const CommentElement: React.FC<Props> = ({ comment }) => {
         <Thumbnail source={Images.noUserImage} />
       </Left>
       <Body>
-        <Text note style={commentStyle.nameText}>
+        <Text note style={commentElementStyle.nameText}>
           {comment.user_name}
         </Text>
-        <Text style={commentStyle.commentText}>{comment.comment}</Text>
-        <Text note style={commentStyle.dateText}>
+        <Text style={commentElementStyle.commentText}>{comment.comment}</Text>
+        <Text note style={commentElementStyle.dateText}>
           {comment.create_date.substr(0, 10)}
         </Text>
       </Body>
