@@ -5,7 +5,7 @@ import { Thumbnail, Text, Left, Body } from "native-base";
 // from app
 import { Planner } from "app/src/types/TPlanner";
 import Images from "app/src/constants/Images";
-import { planStyle } from "app/src/styles/plan-component-style";
+import { planCardStyle } from "app/src/styles/common-component-style";
 
 interface Props {
   planner: Planner;
@@ -26,10 +26,10 @@ const PlannerHeader: React.FC<Props> = ({ planner }) => {
     <Left>
       <Thumbnail source={Images.noUserImage} />
       <Body>
-        <Text style={planStyle.mainText} onPress={onPress}>
+        <Text style={planCardStyle.mainText} onPress={onPress}>
           {planner.userName}
         </Text>
-        <Text note style={planStyle.mainText}>
+        <Text note style={planCardStyle.mainText}>
           {planner.userAttr}
         </Text>
       </Body>

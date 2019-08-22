@@ -5,12 +5,14 @@ import Layout from "app/src/constants/Layout";
 import Colors from "app/src/constants/Colors";
 
 /**
- * 共通のスタイリング
- * @author kotatanaka
+ * 汎用ビュースタイリング
  */
 const appStyle = StyleSheet.create({
-  defaultContainer: {
-    backgroundColor: Colors.backgroundColor,
+  appContainer: {
+    flex: 1
+  },
+  standardContainer: {
+    alignItems: "center",
     flex: 1,
     justifyContent: "center"
   },
@@ -18,7 +20,15 @@ const appStyle = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     justifyContent: "center"
-  },
+  }
+});
+
+export default appStyle;
+
+/**
+ * 汎用テキストスタイリング
+ */
+export const appTextStyle = StyleSheet.create({
   defaultText: {
     color: Colors.textTintColor,
     fontFamily: "genju-medium"
@@ -32,6 +42,19 @@ const appStyle = StyleSheet.create({
     color: "white",
     fontFamily: "genju-medium"
   },
+  countText: {
+    color: Colors.textTintColor,
+    fontFamily: "genju-medium",
+    textAlign: "center",
+    textDecorationColor: Colors.tintColor,
+    textDecorationLine: "underline"
+  }
+});
+
+/**
+ * 汎用ボタンスタイル
+ */
+export const appButtonStyle = StyleSheet.create({
   completeButton: {
     backgroundColor: Colors.tintColor,
     width: Layout.window.width * 0.75
@@ -45,14 +68,5 @@ const appStyle = StyleSheet.create({
   completeFooterButton: {
     justifyContent: "center",
     width: Layout.window.width
-  },
-  countText: {
-    color: Colors.textTintColor,
-    fontFamily: "genju-medium",
-    textAlign: "center",
-    textDecorationColor: Colors.tintColor,
-    textDecorationLine: "underline"
   }
 });
-
-export default appStyle;

@@ -4,7 +4,6 @@ import { useNavigation } from "react-navigation-hooks";
 
 // from app
 import CompleteFooterButton from "app/src/components/buttons/CompleteFooterButton";
-import { createPlanStyle } from "app/src/styles/home-screen-style";
 
 /**
  * デートスポット順番並べ替え画面

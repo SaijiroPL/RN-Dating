@@ -2,7 +2,7 @@ import React from "react";
 import { Picker } from "native-base";
 
 import Colors from "app/src/constants/Colors";
-import appStyle from "app/src/styles/common-style";
+import { appTextStyle } from "app/src/styles/general-style";
 
 interface Props {
   prefecture: string;
@@ -20,7 +20,7 @@ const PrefecturePicker: React.FC<Props> = ({ prefecture, setPrefecture }) => {
       placeholder="都道府県を選択"
       placeholderStyle={{ color: Colors.tintColor, marginLeft: 10 }}
       style={{ width: 160, marginLeft: 10 }}
-      textStyle={appStyle.defaultText}
+      textStyle={appTextStyle.defaultText}
       note={false}
       selectedValue={prefecture}
       onValueChange={itemValue => setPrefecture(itemValue)}

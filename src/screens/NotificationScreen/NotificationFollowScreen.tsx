@@ -2,15 +2,16 @@ import React from "react";
 import { Text, View } from "react-native";
 
 // from app
-import appStyle from "app/src/styles/common-style";
+import { appTextStyle } from "app/src/styles/general-style";
+import notificationScreenStyle from "app/src/styles/notification-screen-style";
 
 /**
  * フォロー通知一覧画面
  */
 const NotificationFollowScreen: React.FC = () => {
   return (
-    <View>
-      <Text style={appStyle.defaultText}>フォロー通知はありません。</Text>
+    <View style={notificationScreenStyle.container}>
+      <Text style={appTextStyle.defaultText}>フォロー通知はありません。</Text>
     </View>
   );
 };

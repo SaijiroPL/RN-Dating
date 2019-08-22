@@ -9,10 +9,10 @@ import { Ionicons } from "@expo/vector-icons";
 // from app
 import { PlanList } from "app/src/types/api/TPlan";
 import { BadRequestError } from "app/src/types/api/TError";
-import PlanCardList from "app/src/components/lists/PlanCardList";
-import appStyle from "app/src/styles/common-style";
-import { searchStyle } from "app/src/styles/search-screen-style";
 import Colors from "app/src/constants/Colors";
+import PlanCardList from "app/src/components/lists/PlanCardList";
+import { appTextStyle } from "app/src/styles/general-style";
+import searchScreenStyle from "app/src/styles/search-screen-style";
 
 /**
  * 検索画面トップ
@@ -81,8 +81,8 @@ const SearchTopScreen: React.FC = () => {
         onChangeText={searchWord => updateSearchWord(searchWord)}
         onClear={() => updateSearchWord("")}
         value={searchWord}
-        containerStyle={searchStyle.searchBar}
-        inputContainerStyle={searchStyle.searchInput}
+        containerStyle={searchScreenStyle.searchBar}
+        inputContainerStyle={searchScreenStyle.searchInput}
       />
     );
   };
@@ -92,10 +92,10 @@ const SearchTopScreen: React.FC = () => {
   }
 
   return (
-    <View style={searchStyle.container}>
+    <View style={searchScreenStyle.container}>
       {renderSearchBar()}
-      <View style={searchStyle.planCount}>
-        <Text style={appStyle.countText}>検索結果: {plans.total} 件</Text>
+      <View style={searchScreenStyle.planCount}>
+        <Text style={appTextStyle.countText}>検索結果: {plans.total} 件</Text>
       </View>
       <PlanCardList planList={plans.plan_list} />
     </View>

@@ -9,8 +9,8 @@ import { useGlobalState } from "app/src/Store";
 import { PlanList } from "app/src/types/api/TPlan";
 import { BadRequestError } from "app/src/types/api/TError";
 import PlanCardList from "app/src/components/lists/PlanCardList";
-import appStyle from "app/src/styles/common-style";
-import { myPlanStyle } from "app/src/styles/myplan-screen-style";
+import { appTextStyle } from "app/src/styles/general-style";
+import myPlanScreenStyle from "app/src/styles/myplan-screen-style";
 
 /**
  * マイプラン画面トップ
@@ -67,8 +67,8 @@ const MyPlanTopScreen: React.FC = () => {
   }
 
   return (
-    <View style={myPlanStyle.container}>
-      <Text style={appStyle.countText}>
+    <View style={myPlanScreenStyle.container}>
+      <Text style={appTextStyle.countText}>
         作成したデートプランの数: {plans.total}
       </Text>
       <PlanCardList planList={plans.plan_list} myPlan />

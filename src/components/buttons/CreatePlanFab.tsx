@@ -4,7 +4,7 @@ import { useNavigation } from "react-navigation-hooks";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 // from app
-import { homeStyle } from "app/src/styles/home-screen-style";
+import homeScreenStyle from "app/src/styles/home-screen-style";
 
 /**
  * プラン作成フローティングボタン
@@ -17,7 +17,7 @@ const CreatePlanFab: React.FC = () => {
     <Fab
       active={true}
       containerStyle={{}}
-      style={homeStyle.createPlanFab}
+      style={homeScreenStyle.createPlanFab}
       position="bottomRight"
       onPress={() => navigate("create")}
     >

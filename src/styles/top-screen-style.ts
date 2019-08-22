@@ -8,12 +8,7 @@ import Colors from "app/src/constants/Colors";
  * 初回起動時画面のスタイリング
  * @author kotatanaka
  */
-export const topStyle = StyleSheet.create({
-  topContainer: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "center"
-  },
+export const appTopScreenStyle = StyleSheet.create({
   topImage: {
     alignItems: "center",
     flex: 2,
@@ -49,18 +44,8 @@ export const topStyle = StyleSheet.create({
  * ユーザー情報入力画面のスタイリング
  * @author kotatanaka
  */
-export const entryStyle = StyleSheet.create({
-  sexGroup: {
-    alignItems: "center",
-    flex: 1,
-    flexDirection: "row"
-  },
-  ageGroup: {
-    alignItems: "center",
-    flex: 1,
-    flexDirection: "row"
-  },
-  addressGroup: {
+export const entryScreenStyle = StyleSheet.create({
+  formGroup: {
     alignItems: "center",
     flex: 1,
     flexDirection: "row"
@@ -77,7 +62,7 @@ export const entryStyle = StyleSheet.create({
  * ウェルカム画面のスタイリング
  * @author kotatanaka
  */
-export const welocomeStyle = StyleSheet.create({
+export const welcomeScreenStyle = StyleSheet.create({
   slide: {
     alignItems: "center",
     flex: 1,

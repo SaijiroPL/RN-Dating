@@ -5,8 +5,8 @@ import MyProfileTopScreen from "app/src/screens/MyProfileScreen/MyProfileTopScre
 import FollowScreen from "app/src/screens/MyProfileScreen/FollowScreen";
 import FollowerScreen from "app/src/screens/MyProfileScreen/FollowerScreen";
 import ProfileScreen from "app/src/screens/DetailScreen/ProfileScreen";
-import appStyle from "app/src/styles/common-style";
 import SettingNavigator from "./SettingNavigator";
+import { appTextStyle } from "app/src/styles/general-style";
 
 /**
  * プロフィールタブのナビゲーター
@@ -19,7 +19,7 @@ const ProfileNavigator = createStackNavigator(
       screen: MyProfileTopScreen,
       navigationOptions: () => ({
         headerTitle: "プロフィール",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     },
     // 設定画面
@@ -27,7 +27,7 @@ const ProfileNavigator = createStackNavigator(
       screen: SettingNavigator,
       navigationOptions: () => ({
         headerTitle: "設定",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     },
     // マイフォロー一覧画面
@@ -35,7 +35,7 @@ const ProfileNavigator = createStackNavigator(
       screen: FollowScreen,
       navigationOptions: () => ({
         headerTitle: "フォロー",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     },
     // マイフォロワー一覧画面
@@ -43,7 +43,7 @@ const ProfileNavigator = createStackNavigator(
       screen: FollowerScreen,
       navigationOptions: () => ({
         headerTitle: "フォロワー",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     },
     // ユーザー詳細画面
@@ -51,7 +51,7 @@ const ProfileNavigator = createStackNavigator(
       screen: ProfileScreen,
       navigationOptions: () => ({
         headerTitle: "ユーザー詳細",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     },
     // フォロー一覧画面
@@ -59,7 +59,7 @@ const ProfileNavigator = createStackNavigator(
       screen: FollowScreen,
       navigationOptions: () => ({
         headerTitle: "フォロー",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     },
     // フォロワー一覧画面
@@ -67,7 +67,7 @@ const ProfileNavigator = createStackNavigator(
       screen: FollowerScreen,
       navigationOptions: () => ({
         headerTitle: "フォロワー",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     }
   },

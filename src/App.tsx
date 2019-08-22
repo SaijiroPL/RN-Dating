@@ -7,7 +7,7 @@ import { Provider } from "app/src/Store";
 import AppNavigator from "app/src/navigators/AppNavigator";
 import Images from "app/src/constants/Images";
 import Fonts from "app/src/constants/Fonts";
-import appStyle from "app/src/styles/common-style";
+import appStyle from "app/src/styles/general-style";
 
 interface Props {
   skipLoadingScreen: boolean;
@@ -54,7 +54,7 @@ export default class App extends React.Component<Props, State> {
 
     return (
       <Provider>
-        <View style={appStyle.defaultContainer}>
+        <View style={appStyle.appContainer}>
           {Platform.OS === "ios" && <StatusBar barStyle="default" />}
           <AppNavigator />
         </View>

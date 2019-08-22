@@ -7,8 +7,8 @@ import { Button, Text } from "native-base";
 import DatePicker from "app/src/components/contents/DatePicker";
 import CompleteFooterButton from "app/src/components/buttons/CompleteFooterButton";
 import { getToday } from "app/src/utils/DateUtil";
-import appStyle from "app/src/styles/common-style";
-import { createPlanStyle } from "app/src/styles/home-screen-style";
+import appStyle from "app/src/styles/general-style";
+import { createPlanTopScreenStyle } from "app/src/styles/create-screen-style";
 
 /**
  * デートプラン作成画面トップ(基本情報入力画面)
@@ -55,10 +55,10 @@ const CreatePlanTopScreen: React.FC = () => {
         <Button
           small
           light
-          style={createPlanStyle.selectButtonInactive}
+          style={createPlanTopScreenStyle.selectButtonInactive}
           onPress={() => setValue(true)}
         >
-          <Text style={createPlanStyle.selectButtonInactiveText}>
+          <Text style={createPlanTopScreenStyle.selectButtonInactiveText}>
             {buttonName}
           </Text>
         </Button>
@@ -67,10 +67,10 @@ const CreatePlanTopScreen: React.FC = () => {
       return (
         <Button
           small
-          style={createPlanStyle.selectButtonActive}
+          style={createPlanTopScreenStyle.selectButtonActive}
           onPress={() => setValue(false)}
         >
-          <Text style={createPlanStyle.selectButtonActiveText}>
+          <Text style={createPlanTopScreenStyle.selectButtonActiveText}>
             {buttonName}
           </Text>
         </Button>
@@ -81,8 +81,8 @@ const CreatePlanTopScreen: React.FC = () => {
   /** 移動手段選択ボタンを描画する */
   const renderTransportationButtonGroup = () => {
     return (
-      <View style={createPlanStyle.formGroup}>
-        <Text style={createPlanStyle.itemTitleText}>移動手段</Text>
+      <View style={createPlanTopScreenStyle.formGroup}>
+        <Text style={createPlanTopScreenStyle.itemTitleText}>移動手段</Text>
         {renderTransportatoinButton(car, setCar, "車")}
         {renderTransportatoinButton(train, setTrain, "電車")}
         {renderTransportatoinButton(bus, setBus, "バス")}
@@ -95,8 +95,8 @@ const CreatePlanTopScreen: React.FC = () => {
   // FIXME 日付を選択するとエラー NativeBaseじゃないDatePickerにする?
   const renderDatePicker = () => {
     return (
-      <View style={createPlanStyle.formGroup}>
-        <Text style={createPlanStyle.itemTitleText}>デート予定日</Text>
+      <View style={createPlanTopScreenStyle.formGroup}>
+        <Text style={createPlanTopScreenStyle.itemTitleText}>デート予定日</Text>
         <DatePicker date={date} setDate={setDate} minDate={getToday()} />
       </View>
     );
@@ -113,7 +113,7 @@ const CreatePlanTopScreen: React.FC = () => {
   };
 
   return (
-    <View style={createPlanStyle.container}>
+    <View style={appStyle.standardContainer}>
       <View style={appStyle.emptySpace} />
       {renderDatePicker()}
       {renderTransportationButtonGroup()}

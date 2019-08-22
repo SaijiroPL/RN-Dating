@@ -10,7 +10,7 @@ import { UserDetail } from "app/src/types/api/TUser";
 import { BadRequestError } from "app/src/types/api/TError";
 import UserProfile from "app/src/components/contents/UserProfile";
 import SettingFab from "app/src/components/buttons/SettingFab";
-import { profileStyle } from "app/src/styles/profile-screen-style";
+import appStyle from "app/src/styles/general-style";
 
 /**
  * プロフィール(ユーザー詳細)画面トップ
@@ -75,7 +75,7 @@ const ProfileScreen: React.FC = () => {
   }
 
   return (
-    <View style={profileStyle.container}>
+    <View style={appStyle.standardContainer}>
       <UserProfile user={user} />
       <SettingFab />
     </View>

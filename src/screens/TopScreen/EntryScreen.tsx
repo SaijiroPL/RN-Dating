@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 import { Text, View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
-import { Picker } from "native-base";
 import { Button } from "react-native-elements";
 import { SimpleLineIcons } from "@expo/vector-icons";
 
 // from app
 import Colors from "app/src/constants/Colors";
-import { getToday } from "app/src/utils/DateUtil";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
 import DatePicker from "app/src/components/contents/DatePicker";
 import PrefecturePicker from "app/src/components/contents/PrefecturePicker";
-import appStyle from "app/src/styles/common-style";
-import { topStyle, entryStyle } from "app/src/styles/top-screen-style";
+import { getToday } from "app/src/utils/DateUtil";
+import appStyle from "app/src/styles/general-style";
+import { entryScreenStyle } from "app/src/styles/top-screen-style";
 
 /**
  * ユーザー基本情報入力画面
@@ -32,8 +31,8 @@ const EntryScreen: React.FC = () => {
   /** 性別選択ボタンを描画する */
   const renderSexButtons = () => {
     return (
-      <View style={entryStyle.sexGroup}>
-        <Text style={entryStyle.entryText}>性別</Text>
+      <View style={entryScreenStyle.formGroup}>
+        <Text style={entryScreenStyle.entryText}>性別</Text>
         {/* 選択したボタンの色を変える */}
         {sex === "man" ? (
           <Button
@@ -100,8 +99,8 @@ const EntryScreen: React.FC = () => {
   /** 生年月日選択フォームを描画する */
   const renderBirthdayForm = () => {
     return (
-      <View style={entryStyle.ageGroup}>
-        <Text style={entryStyle.entryText}>生年月日</Text>
+      <View style={entryScreenStyle.formGroup}>
+        <Text style={entryScreenStyle.entryText}>生年月日</Text>
         <DatePicker date={date} setDate={setDate} maxDate={getToday()} />
       </View>
     );
@@ -110,8 +109,8 @@ const EntryScreen: React.FC = () => {
   /** 都道府県選択フォームを描画する */
   const renderAddressForm = () => {
     return (
-      <View style={entryStyle.addressGroup}>
-        <Text style={entryStyle.entryText}>住まい</Text>
+      <View style={entryScreenStyle.formGroup}>
+        <Text style={entryScreenStyle.entryText}>住まい</Text>
         <PrefecturePicker
           prefecture={prefecture}
           setPrefecture={setPrefecture}
@@ -135,15 +134,13 @@ const EntryScreen: React.FC = () => {
   };
 
   return (
-    <View style={topStyle.topContainer}>
-      <View style={topStyle.linkGroup}>
-        <View style={appStyle.emptySpace} />
-        {renderSexButtons()}
-        {renderBirthdayForm()}
-        {renderAddressForm()}
-        {renderCompleteButton()}
-        <View style={appStyle.emptySpace} />
-      </View>
+    <View style={appStyle.standardContainer}>
+      <View style={appStyle.emptySpace} />
+      {renderSexButtons()}
+      {renderBirthdayForm()}
+      {renderAddressForm()}
+      {renderCompleteButton()}
+      <View style={appStyle.emptySpace} />
     </View>
   );
 };

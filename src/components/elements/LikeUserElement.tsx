@@ -5,7 +5,7 @@ import { useNavigation } from "react-navigation-hooks";
 // from app
 import { LikeUser } from "app/src/types/api/TLike";
 import Images from "app/src/constants/Images";
-import { userStyle } from "app/src/styles/user-component-style";
+import { userElementStyle } from "app/src/styles/common-component-style";
 
 interface Props {
   user: LikeUser;
@@ -28,8 +28,8 @@ const LikeUserElement: React.FC<Props> = ({ user }) => {
         <Thumbnail source={Images.noUserImage} />
       </Left>
       <Body>
-        <Text style={userStyle.nameText}>{user.user_name}</Text>
-        <Text style={userStyle.idText}>@{user.user_id}</Text>
+        <Text style={userElementStyle.nameText}>{user.user_name}</Text>
+        <Text style={userElementStyle.idText}>@{user.user_id}</Text>
       </Body>
     </ListItem>
   );

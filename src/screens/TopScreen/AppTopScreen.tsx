@@ -6,12 +6,13 @@ import { FontAwesome } from "@expo/vector-icons";
 
 // from app
 import { useDispatch } from "app/src/Store";
-import CompleteButton from "app/src/components/buttons/CompleteButton";
+import { ActionType } from "app/src/Reducer";
 import Images from "app/src/constants/Images";
 import Layout from "app/src/constants/Layout";
 import Colors from "app/src/constants/Colors";
-import appStyle from "app/src/styles/common-style";
-import { topStyle } from "app/src/styles/top-screen-style";
+import CompleteButton from "app/src/components/buttons/CompleteButton";
+import appStyle from "app/src/styles/general-style";
+import { appTopScreenStyle } from "app/src/styles/top-screen-style";
 
 // 仮置き定数
 // ログイン機能ができるまでは、これをDBに存在するユーザーIDに書き換えてください
@@ -33,7 +34,7 @@ const AppTopScreen: React.FC = () => {
 
   const setLoginUser = () => {
     dispatch({
-      type: "SET_LOGIN_USER",
+      type: ActionType.SET_LOGIN_USER,
       payload: {
         id: loginUserId,
         name: "",
@@ -72,10 +73,10 @@ const AppTopScreen: React.FC = () => {
         >
           Facebookでログイン
         </FontAwesome.Button>
-        <Text style={topStyle.link} onPress={() => setScreenPhase(1)}>
+        <Text style={appTopScreenStyle.link} onPress={() => setScreenPhase(1)}>
           メールアドレスでログイン
         </Text>
-        <Text style={topStyle.link} onPress={() => setScreenPhase(2)}>
+        <Text style={appTopScreenStyle.link} onPress={() => setScreenPhase(2)}>
           新規登録はこちら
         </Text>
       </View>
@@ -90,13 +91,13 @@ const AppTopScreen: React.FC = () => {
           placeholder="メールアドレスを入力"
           onChangeText={mailAddress => setMailAddress(mailAddress)}
           value={mailAddress}
-          containerStyle={topStyle.inputForm}
+          containerStyle={appTopScreenStyle.inputForm}
         />
         <Input
           placeholder="パスワードを入力"
           onChangeText={password => setPassword(password)}
           value={password}
-          containerStyle={topStyle.inputForm}
+          containerStyle={appTopScreenStyle.inputForm}
         />
         <CompleteButton title="ログイン" onPress={onSignInButtonPress} />
       </View>
@@ -111,19 +112,19 @@ const AppTopScreen: React.FC = () => {
           placeholder="メールアドレスを入力"
           onChangeText={mailAddress => setMailAddress(mailAddress)}
           value={mailAddress}
-          containerStyle={topStyle.inputForm}
+          containerStyle={appTopScreenStyle.inputForm}
         />
         <Input
           placeholder="パスワードを入力"
           onChangeText={password => setPassword(password)}
           value={password}
-          containerStyle={topStyle.inputForm}
+          containerStyle={appTopScreenStyle.inputForm}
         />
         <Input
           placeholder="パスワードを再入力"
           onChangeText={confirmPassword => setConfirmpassword(confirmPassword)}
           value={confirmPassword}
-          containerStyle={topStyle.inputForm}
+          containerStyle={appTopScreenStyle.inputForm}
         />
         <CompleteButton title="新規登録" onPress={onSignUpButtonPress} />
       </View>
@@ -131,18 +132,18 @@ const AppTopScreen: React.FC = () => {
   };
 
   return (
-    <View style={topStyle.topContainer}>
+    <View style={appStyle.standardContainer}>
       <View style={appStyle.emptySpace} />
-      <View style={topStyle.topImage}>
+      <View style={appTopScreenStyle.topImage}>
         <Image
           resizeMode="contain"
           source={Images.logo}
           style={{ flex: 1 }}
           width={Layout.window.width * 0.8}
         />
-        <Text style={topStyle.welcomeText}>1Dateへようこそ</Text>
+        <Text style={appTopScreenStyle.welcomeText}>1Dateへようこそ</Text>
       </View>
-      <View style={topStyle.linkGroup}>
+      <View style={appTopScreenStyle.linkGroup}>
         {screenPhase === 0 && renderTopScreen()}
         {screenPhase === 1 && renderSignInScreen()}
         {screenPhase === 2 && renderSignUpScreen()}

@@ -7,8 +7,10 @@ import Colors from "app/src/constants/Colors";
  * 通知一覧画面のスタイリング
  * @author kotatanaka
  */
-export const notificationStyle = StyleSheet.create({
+const notificationScreenStyle = StyleSheet.create({
   container: {
-    backgroundColor: "white"
+    backgroundColor: Colors.backgroundColor
   }
 });
+
+export default notificationScreenStyle;

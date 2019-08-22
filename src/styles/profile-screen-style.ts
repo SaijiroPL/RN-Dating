@@ -12,20 +12,13 @@ const profileScreenStyle = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     justifyContent: "center"
-  }
-});
-
-export default profileScreenStyle;
-
-/**
- * SettingFabコンポーネントのスタイリング
- * @author kotatanaka
- */
-export const settingFabStyle = StyleSheet.create({
+  },
   settingFab: {
     backgroundColor: Colors.tintColor
   }
 });
+
+export default profileScreenStyle;
 
 /**
  * UserProfileコンポーネントのスタイリング

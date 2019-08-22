@@ -8,7 +8,7 @@ import axios, { CancelTokenSource } from "axios";
 import { CommentList as TCommentList } from "app/src/types/api/TComment";
 import { BadRequestError } from "app/src/types/api/TError";
 import CommentList from "app/src/components/lists/CommentList";
-import appStyle from "app/src/styles/common-style";
+import { appTextStyle } from "app/src/styles/general-style";
 
 /**
  * コメント一覧画面
@@ -66,7 +66,7 @@ const CommentScreen: React.FC = () => {
 
   return (
     <Container>
-      <Text style={appStyle.countText}>{comments.total} 件のコメント</Text>
+      <Text style={appTextStyle.countText}>{comments.total} 件のコメント</Text>
       <CommentList commentList={comments.comment_list} />
     </Container>
   );

@@ -6,7 +6,7 @@ import { Thumbnail, Text } from "native-base";
 // from app
 import { UserDetail } from "app/src/types/api/TUser";
 import Images from "app/src/constants/Images";
-import appStyle from "app/src/styles/common-style";
+import { appTextStyle } from "app/src/styles/general-style";
 import { userProfileStyle } from "app/src/styles/profile-screen-style";
 
 interface Props {
@@ -45,13 +45,13 @@ const UserProfile: React.FC<Props> = ({ user, me }) => {
       <View style={userProfileStyle.countContainer}>
         <View style={userProfileStyle.countItem}>
           <Text style={userProfileStyle.countTitleText}>フォロー</Text>
-          <Text style={appStyle.countText} onPress={onFollowPress}>
+          <Text style={appTextStyle.countText} onPress={onFollowPress}>
             {user.follow_count}
           </Text>
         </View>
         <View style={userProfileStyle.countItem}>
           <Text style={userProfileStyle.countTitleText}>フォロワー</Text>
-          <Text style={appStyle.countText} onPress={onFollowerPress}>
+          <Text style={appTextStyle.countText} onPress={onFollowerPress}>
             {user.follower_count}
           </Text>
         </View>
@@ -59,7 +59,7 @@ const UserProfile: React.FC<Props> = ({ user, me }) => {
       <View style={userProfileStyle.countContainer}>
         <View style={userProfileStyle.countItem}>
           <Text style={userProfileStyle.countTitleText}>プラン数</Text>
-          <Text style={appStyle.countText} onPress={onPlanPress}>
+          <Text style={appTextStyle.countText} onPress={onPlanPress}>
             {user.plan_count}
           </Text>
         </View>

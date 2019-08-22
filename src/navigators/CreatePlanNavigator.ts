@@ -7,7 +7,7 @@ import SwipeSpotScreen from "app/src/screens/HomeScreen/SwipeSpotScreen";
 import SelectSpotScreen from "app/src/screens/HomeScreen/SelectSpotScreen";
 import ArrangeRouteScreen from "app/src/screens/HomeScreen/ArrangeRouteScreen";
 import CompletePlanScreen from "app/src/screens/HomeScreen/CompletePlanScreen";
-import appStyle from "app/src/styles/common-style";
+import { appTextStyle } from "app/src/styles/general-style";
 
 /**
  * プラン作成画面のナビゲーター
@@ -20,7 +20,7 @@ const CreatePlanNavigator = createStackNavigator(
       screen: CreatePlanTopScreen,
       navigationOptions: () => ({
         headerTitle: "プラン作成",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     },
     // マップで範囲指定画面
@@ -28,7 +28,7 @@ const CreatePlanNavigator = createStackNavigator(
       screen: SearchMapScreen,
       navigationOptions: () => ({
         headerTitle: "範囲指定",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     },
     // デートスポットスワイプ画面
@@ -36,7 +36,7 @@ const CreatePlanNavigator = createStackNavigator(
       screen: SwipeSpotScreen,
       navigationOptions: () => ({
         headerTitle: "スポットスワイプ",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     },
     // デートスポット厳選画面
@@ -44,7 +44,7 @@ const CreatePlanNavigator = createStackNavigator(
       screen: SelectSpotScreen,
       navigationOptions: () => ({
         headerTitle: "選択と削除",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     },
     // ルート並べ替え画面
@@ -52,7 +52,7 @@ const CreatePlanNavigator = createStackNavigator(
       screen: ArrangeRouteScreen,
       navigationOptions: () => ({
         headerTitle: "入れ替え",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     },
     // プラン作成完了画面
@@ -60,7 +60,7 @@ const CreatePlanNavigator = createStackNavigator(
       screen: CompletePlanScreen,
       navigationOptions: () => ({
         headerTitle: "完成！",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     }
   },
