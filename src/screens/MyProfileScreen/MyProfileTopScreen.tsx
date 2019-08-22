@@ -10,7 +10,7 @@ import { UserDetail } from "app/src/types/api/TUser";
 import { BadRequestError } from "app/src/types/api/TError";
 import UserProfile from "app/src/components/contents/UserProfile";
 import SettingFab from "app/src/components/buttons/SettingFab";
-import { profileStyle } from "app/src/styles/profile-screen-style";
+import profileScreenStyle from "app/src/styles/profile-screen-style";
 
 /**
  * マイプロフィール画面トップ
@@ -75,7 +75,7 @@ const MyProfileTopScreen: React.FC = () => {
   }
 
   return (
-    <View style={profileStyle.container}>
+    <View style={profileScreenStyle.container}>
       <UserProfile user={user} me />
       <SettingFab />
     </View>

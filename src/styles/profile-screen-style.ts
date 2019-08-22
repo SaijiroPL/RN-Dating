@@ -4,38 +4,58 @@ import { StyleSheet } from "react-native";
 import Colors from "app/src/constants/Colors";
 
 /**
- * プロフィール一覧画面のスタイリング
+ * プロフィール画面のスタイリング
  * @author kotatanaka
  */
-export const profileStyle = StyleSheet.create({
+const profileScreenStyle = StyleSheet.create({
   container: {
     alignItems: "center",
     flex: 1,
     justifyContent: "center"
-  },
-  userContainer: {
+  }
+});
+
+export default profileScreenStyle;
+
+/**
+ * SettingFabコンポーネントのスタイリング
+ * @author kotatanaka
+ */
+export const settingFabStyle = StyleSheet.create({
+  settingFab: {
+    backgroundColor: Colors.tintColor
+  }
+});
+
+/**
+ * UserProfileコンポーネントのスタイリング
+ * @author kotatanaka
+ */
+export const userProfileStyle = StyleSheet.create({
+  container: {
     alignItems: "center"
   },
-  followCounts: {
-    alignContent: "space-around",
-    flexDirection: "row",
-    marginTop: 30
+  userInfoContainer: {
+    alignItems: "center",
+    marginBottom: 30
   },
-  followCountItem: {
+  countContainer: {
+    alignContent: "space-around",
+    flexDirection: "row"
+  },
+  countItem: {
     alignItems: "center",
     flexDirection: "column",
     margin: 30
-  },
-  settingFab: {
-    backgroundColor: Colors.tintColor
   },
   nameText: {
     color: Colors.textTintColor,
     fontFamily: "genju-medium",
     marginTop: 20
   },
-  countText: {
+  countTitleText: {
     color: Colors.textTintColor,
-    fontFamily: "genju-medium"
+    fontFamily: "genju-light",
+    fontSize: 15
   }
 });

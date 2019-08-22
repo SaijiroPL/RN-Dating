@@ -10,7 +10,6 @@ import { FollowerList } from "app/src/types/api/TFollow";
 import { BadRequestError } from "app/src/types/api/TError";
 import FollowList from "app/src/components/lists/FollowList";
 import appStyle from "app/src/styles/common-style";
-import { profileStyle } from "app/src/styles/profile-screen-style";
 
 /**
  * フォロワーリスト一覧画面
