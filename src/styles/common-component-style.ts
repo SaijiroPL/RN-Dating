@@ -94,9 +94,9 @@ export const commentElementStyle = StyleSheet.create({
  * @author kotatanaka
  */
 export const imageCarouselStyle = StyleSheet.create({
-  comtainer: {
+  container: {
     // flex: 1,
-    marginVertical: 10
+    marginVertical: 5
   },
   slide: {
     // flex: 1,
@@ -144,5 +144,28 @@ export const commentGridStyle = StyleSheet.create({
   dateText: {
     fontFamily: "genju-light",
     fontSize: 8
+  }
+});
+
+/**
+ * PlannerHeaderコンポーネントのスタイリング
+ * @author kotatanaka
+ */
+export const plannerHeaderStyle = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    margin: 5
+  },
+  thumbnail: {
+    padding: 5
+  },
+  planner: {
+    padding: 5
+  },
+  nameText: {
+    fontFamily: "genju-medium"
+  },
+  attrText: {
+    fontFamily: "genju-light"
   }
 });

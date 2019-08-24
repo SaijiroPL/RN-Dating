@@ -10,7 +10,7 @@ import { PlanFull } from "app/src/types/api/TPlan";
 import { Planner } from "app/src/types/TPlanner";
 import { CommentList } from "app/src/types/api/TComment";
 import { BadRequestError } from "app/src/types/api/TError";
-import PlannerHeader from "app/src/components/elements/PlannerHeader";
+import PlannerHeader from "app/src/components/contents/PlannerHeader";
 import ImageCarousel from "app/src/components/contents/ImageCarousel";
 import SimpleMapView from "app/src/components/map/SimpleMapView";
 import CommentGrid from "app/src/components/contents/CommentGrid";
@@ -83,11 +83,7 @@ const PlanDetailScreen: React.FC = () => {
       userImageUrl: plan.user_image_url
     };
 
-    return (
-      <Item>
-        <PlannerHeader planner={planner} />
-      </Item>
-    );
+    return <PlannerHeader planner={planner} />;
   };
 
   /** デートプラン詳細取得 */
@@ -142,6 +138,7 @@ const PlanDetailScreen: React.FC = () => {
   return (
     <Container>
       <Content>
+        {renderUserHeader()}
         <ImageCarousel plan={plan} />
         <SimpleMapView spot={plan.spots[0]} />
         <CommentGrid comments={comments.comment_list} />

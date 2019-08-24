@@ -40,7 +40,7 @@ const ImageCarousel: React.FC<Props> = (props: Props) => {
       renderItem={renderImageItem}
       sliderWidth={Layout.window.width}
       itemWidth={Layout.window.width * 0.8}
-      containerCustomStyle={imageCarouselStyle.comtainer}
+      containerCustomStyle={imageCarouselStyle.container}
       slideStyle={imageCarouselStyle.slide}
       // layout={"default"}
       // firstItem={0}
