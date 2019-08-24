@@ -16,6 +16,7 @@ import SimpleMapView from "app/src/components/map/SimpleMapView";
 import CommentGrid from "app/src/components/contents/CommentGrid";
 import { isNotNullOrUndefined } from "app/src/utils/CheckUtil";
 import { appTextStyle } from "app/src/styles/general-style";
+import { planDetailScreenStyle } from "app/src/styles/home-screen-style";
 
 /**
  * デートプラン詳細画面
@@ -75,6 +76,7 @@ const PlanDetailScreen: React.FC = () => {
   };
 
   // TODO 自分のプランの場合描画しない
+  /** デートプラン作成者部分を描画する */
   const renderPlannerHeader = () => {
     const planner: User = {
       userId: plan.user_id,
@@ -84,6 +86,32 @@ const PlanDetailScreen: React.FC = () => {
     };
 
     return <UserHeader user={planner} />;
+  };
+
+  /** デートプラン説明部分を描画する */
+  const renderPlanDescription = () => {
+    return (
+      <View style={planDetailScreenStyle.planDescriptionContainer}>
+        <View style={planDetailScreenStyle.titleAndRoute}>
+          <View style={planDetailScreenStyle.title}>
+            <Text style={planDetailScreenStyle.titleText}>{plan.title}</Text>
+          </View>
+          <View style={planDetailScreenStyle.route}>
+            <Text note style={planDetailScreenStyle.descriptionText}>
+              {plan.spots.map(spot => spot.spot_name).join(" > ")}
+            </Text>
+          </View>
+        </View>
+        <View style={planDetailScreenStyle.description}>
+          <Text style={planDetailScreenStyle.descriptionText}>
+            {plan.description}
+          </Text>
+          <Text style={planDetailScreenStyle.descriptionText}>
+            デート予定日: {plan.date}
+          </Text>
+        </View>
+      </View>
+    );
   };
 
   /** デートプラン詳細取得 */
@@ -141,6 +169,7 @@ const PlanDetailScreen: React.FC = () => {
         {renderPlannerHeader()}
         <ImageCarousel plan={plan} />
         <SimpleMapView spot={plan.spots[0]} />
+        {renderPlanDescription()}
         <CommentGrid comments={comments.comment_list} />
         {comments.total > 0 && (
           <View style={{ alignItems: "flex-end", marginRight: 10 }}>
