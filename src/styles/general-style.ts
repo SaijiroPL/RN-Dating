@@ -48,6 +48,13 @@ export const appTextStyle = StyleSheet.create({
     textAlign: "center",
     textDecorationColor: Colors.tintColor,
     textDecorationLine: "underline"
+  },
+  detailLinkText: {
+    color: Colors.textTintColor,
+    fontFamily: "genju-light",
+    fontSize: 10,
+    textDecorationColor: Colors.tintColor,
+    textDecorationLine: "underline"
   }
 });
 

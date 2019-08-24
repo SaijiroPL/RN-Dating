@@ -1,35 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { Image } from "react-native";
+import { View } from "react-native";
 import { Constants } from "expo";
-import { useNavigationParam } from "react-navigation-hooks";
-import {
-  Content,
-  Item,
-  Text,
-  Button,
-  Left,
-  Body,
-  Right,
-  Spinner
-} from "native-base";
+import { useNavigation, useNavigationParam } from "react-navigation-hooks";
+import { Container, Content, Item, Text, Spinner } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
 import { PlanFull } from "app/src/types/api/TPlan";
 import { Planner } from "app/src/types/TPlanner";
+import { CommentList } from "app/src/types/api/TComment";
 import { BadRequestError } from "app/src/types/api/TError";
-import Images from "app/src/constants/Images";
-import Layout from "app/src/constants/Layout";
 import PlannerHeader from "app/src/components/elements/PlannerHeader";
+import ImageCarousel from "app/src/components/contents/ImageCarousel";
+import SimpleMapView from "app/src/components/map/SimpleMapView";
+import CommentGrid from "app/src/components/contents/CommentGrid";
+import { isNotNullOrUndefined } from "app/src/utils/CheckUtil";
+import { appTextStyle } from "app/src/styles/general-style";
 
 /**
  * デートプラン詳細画面
  * @author kotatanaka
  */
 const PlanDetailScreen: React.FC = () => {
+  const { navigate } = useNavigation();
   const planId = useNavigationParam("id");
 
-  const [plan, setPlan] = useState({
+  const [plan, setPlan] = useState<PlanFull>({
     plan_id: "",
     title: "",
     description: "",
@@ -46,12 +42,17 @@ const PlanDetailScreen: React.FC = () => {
     comment_count: 0,
     is_liked: false
   });
-  const [errors, setErrors] = useState({
+  const [comments, setComments] = useState<CommentList>({
+    total: 0,
+    comment_list: []
+  });
+  const [errors, setErrors] = useState<BadRequestError>({
     code: 0,
     message: "",
     detail_massage: []
   });
-  const [isLoading, setIsLoading] = useState(true);
+  const [isPlanLoading, setIsPlanLoading] = useState(true);
+  const [isCommentsLoading, setIsCommentsLoading] = useState(true);
 
   useEffect(() => {
     const signal = axios.CancelToken.source();
@@ -60,6 +61,18 @@ const PlanDetailScreen: React.FC = () => {
       signal.cancel("Cancelling in Cleanup.");
     };
   }, []);
+
+  useEffect(() => {
+    const signal = axios.CancelToken.source();
+    getCommentList(signal);
+    return () => {
+      signal.cancel("Cancelling in Cleanup.");
+    };
+  }, []);
+
+  const onCommentPress = () => {
+    navigate("comment", { id: plan.plan_id });
+  };
 
   // TODO 自分のプランの場合描画しない
   const renderUserHeader = () => {
@@ -85,11 +98,11 @@ const PlanDetailScreen: React.FC = () => {
       })
       .then((response: { data: PlanFull }) => {
         setPlan(Object.assign(response.data));
-        setIsLoading(false);
+        setIsPlanLoading(false);
       })
       .catch((error: BadRequestError) => {
         setErrors(Object.assign(error));
-        setIsLoading(false);
+        setIsPlanLoading(false);
         if (axios.isCancel(error)) {
           console.log("Request Cancelled: " + error.message);
         } else {
@@ -98,49 +111,49 @@ const PlanDetailScreen: React.FC = () => {
       });
   };
 
-  if (isLoading) {
+  /** コメント一覧取得 */
+  const getCommentList = (signal: CancelTokenSource) => {
+    const url =
+      Constants.manifest.extra.apiEndpoint + "/plans/" + planId + "/comments";
+
+    axios
+      .get(url, {
+        cancelToken: signal.token
+      })
+      .then((response: { data: CommentList }) => {
+        setComments(Object.assign(response.data));
+        setIsCommentsLoading(false);
+      })
+      .catch((error: BadRequestError) => {
+        setErrors(Object.assign(error));
+        setIsCommentsLoading(false);
+        if (axios.isCancel(error)) {
+          console.log("Request Cancelled: " + error.message);
+        } else {
+          console.log("API Error: " + error.message);
+        }
+      });
+  };
+
+  if (isPlanLoading && isCommentsLoading) {
     return <Spinner color="orange" style={{ flex: 1 }} />;
   }
 
   return (
-    <Content>
-      {renderUserHeader()}
-      <Item>
-        <Image
-          source={Images.noImage}
-          style={{ height: 200, width: Layout.window.width }}
-        />
-      </Item>
-      <Item>
-        <Left>
-          <Text>{plan.title}</Text>
-        </Left>
-        <Right>
-          <Text note style={{ fontSize: 12 }}>
-            {plan.create_date.substr(0, 10)}
-          </Text>
-        </Right>
-      </Item>
-      <Item>
-        <Left>
-          <Text note style={{ fontSize: 12 }}>
-            {plan.description}
-          </Text>
-        </Left>
-      </Item>
-      <Item>
-        <Left>
-          <Button transparent>
-            <Text>{plan.like_count} Likes</Text>
-          </Button>
-        </Left>
-        <Body>
-          <Button transparent>
-            <Text>4 Comments</Text>
-          </Button>
-        </Body>
-      </Item>
-    </Content>
+    <Container>
+      <Content>
+        <ImageCarousel plan={plan} />
+        <SimpleMapView spot={plan.spots[0]} />
+        <CommentGrid comments={comments.comment_list} />
+        {comments.total > 0 && (
+          <View style={{ alignItems: "flex-end", marginRight: 10 }}>
+            <Text onPress={onCommentPress} style={appTextStyle.detailLinkText}>
+              >> 全{comments.total}件のコメントを見る
+            </Text>
+          </View>
+        )}
+      </Content>
+    </Container>
   );
 };
 
