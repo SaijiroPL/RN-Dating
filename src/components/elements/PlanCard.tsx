@@ -1,16 +1,24 @@
 import React from "react";
 import { Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
-import { Card, CardItem, Text, Button, Left, Right, Item } from "native-base";
+import {
+  Body,
+  Card,
+  CardItem,
+  Text,
+  Button,
+  Left,
+  Right,
+  Item,
+  Thumbnail
+} from "native-base";
 import MapView from "react-native-maps";
 import { FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 
 // from app
 import { Plan } from "app/src/types/api/TPlan";
-import { Planner } from "app/src/types/TPlanner";
 import Images from "app/src/constants/Images";
 import Colors from "app/src/constants/Colors";
-import PlannerHeader from "app/src/components/elements/PlannerHeader";
 import { planCardStyle } from "app/src/styles/common-component-style";
 
 interface Props {
@@ -37,17 +45,25 @@ const PlanCard: React.FC<Props> = ({ plan, myPlan }) => {
     navigate("like", { id: plan.plan_id });
   };
 
-  const renderUserHeader = () => {
-    const planner: Planner = {
-      userId: plan.user_id,
-      userName: plan.user_name,
-      userAttr: plan.user_attr,
-      userImageUrl: plan.user_image_url
-    };
+  const onUserPress = () => {
+    navigate("profile", { id: plan.user_id });
+  };
 
+  /** プラン作成者ヘッダーを描画する */
+  const renderPlannerHeader = () => {
     return (
       <CardItem>
-        <PlannerHeader planner={planner} />
+        <Left>
+          <Thumbnail source={Images.noUserImage} />
+          <Body>
+            <Text style={planCardStyle.mainText} onPress={onUserPress}>
+              {plan.user_name}
+            </Text>
+            <Text note style={planCardStyle.mainText}>
+              {plan.user_attr}
+            </Text>
+          </Body>
+        </Left>
       </CardItem>
     );
   };
@@ -55,7 +71,7 @@ const PlanCard: React.FC<Props> = ({ plan, myPlan }) => {
   return (
     <Card style={planCardStyle.card}>
       <TouchableOpacity onPress={onPlanPress}>
-        {!myPlan && renderUserHeader()}
+        {!myPlan && renderPlannerHeader()}
         <CardItem cardBody>
           <Image source={Images.noImage} style={planCardStyle.image} />
         </CardItem>

@@ -20,3 +20,38 @@ const homeScreenStyle = StyleSheet.create({
 });
 
 export default homeScreenStyle;
+
+/**
+ * デートプラン詳細画面のスタイリング
+ * @author kotatanaka
+ */
+export const planDetailScreenStyle = StyleSheet.create({
+  planDescriptionContainer: {
+    marginHorizontal: 10,
+    marginVertical: 5
+  },
+  titleAndRoute: {
+    flexDirection: "row"
+  },
+  route: {
+    alignItems: "flex-end",
+    flex: 1,
+    justifyContent: "center"
+  },
+  title: {
+    marginLeft: 10
+  },
+  description: {
+    marginLeft: 10
+  },
+  titleText: {
+    fontFamily: "genju-medium",
+    textDecorationColor: Colors.tintColor,
+    textDecorationLine: "underline"
+  },
+  descriptionText: {
+    color: Colors.textTintColor,
+    fontFamily: "genju-light",
+    fontSize: 10
+  }
+});
