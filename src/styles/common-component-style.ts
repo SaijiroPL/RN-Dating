@@ -148,10 +148,10 @@ export const commentGridStyle = StyleSheet.create({
 });
 
 /**
- * PlannerHeaderコンポーネントのスタイリング
+ * UserHeaderコンポーネントのスタイリング
  * @author kotatanaka
  */
-export const plannerHeaderStyle = StyleSheet.create({
+export const userHeaderStyle = StyleSheet.create({
   container: {
     flexDirection: "row",
     margin: 5
@@ -159,7 +159,7 @@ export const plannerHeaderStyle = StyleSheet.create({
   thumbnail: {
     padding: 5
   },
-  planner: {
+  user: {
     padding: 5
   },
   nameText: {

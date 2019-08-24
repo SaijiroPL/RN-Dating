@@ -50,7 +50,7 @@ const PlanCard: React.FC<Props> = ({ plan, myPlan }) => {
   };
 
   /** プラン作成者ヘッダーを描画する */
-  const renderUserHeader = () => {
+  const renderPlannerHeader = () => {
     return (
       <CardItem>
         <Left>
@@ -71,7 +71,7 @@ const PlanCard: React.FC<Props> = ({ plan, myPlan }) => {
   return (
     <Card style={planCardStyle.card}>
       <TouchableOpacity onPress={onPlanPress}>
-        {!myPlan && renderUserHeader()}
+        {!myPlan && renderPlannerHeader()}
         <CardItem cardBody>
           <Image source={Images.noImage} style={planCardStyle.image} />
         </CardItem>

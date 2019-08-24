@@ -15,3 +15,14 @@ export interface UserDetail {
   follow_count: number;
   follower_count: number;
 }
+
+/**
+ * ユーザー情報インターフェース
+ * @author kotatanaka
+ */
+export interface User {
+  userId: string;
+  userName: string;
+  userAttr: string;
+  userImageUrl: string;
+}

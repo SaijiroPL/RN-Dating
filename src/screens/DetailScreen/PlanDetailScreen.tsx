@@ -2,15 +2,15 @@ import React, { useState, useEffect } from "react";
 import { View } from "react-native";
 import { Constants } from "expo";
 import { useNavigation, useNavigationParam } from "react-navigation-hooks";
-import { Container, Content, Item, Text, Spinner } from "native-base";
+import { Container, Content, Text, Spinner } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
 import { PlanFull } from "app/src/types/api/TPlan";
-import { Planner } from "app/src/types/TPlanner";
+import { User } from "app/src/types/api/TUser";
 import { CommentList } from "app/src/types/api/TComment";
 import { BadRequestError } from "app/src/types/api/TError";
-import PlannerHeader from "app/src/components/contents/PlannerHeader";
+import UserHeader from "app/src/components/contents/UserHeader";
 import ImageCarousel from "app/src/components/contents/ImageCarousel";
 import SimpleMapView from "app/src/components/map/SimpleMapView";
 import CommentGrid from "app/src/components/contents/CommentGrid";
@@ -75,15 +75,15 @@ const PlanDetailScreen: React.FC = () => {
   };
 
   // TODO 自分のプランの場合描画しない
-  const renderUserHeader = () => {
-    const planner: Planner = {
+  const renderPlannerHeader = () => {
+    const planner: User = {
       userId: plan.user_id,
       userName: plan.user_name,
       userAttr: plan.user_attr,
       userImageUrl: plan.user_image_url
     };
 
-    return <PlannerHeader planner={planner} />;
+    return <UserHeader user={planner} />;
   };
 
   /** デートプラン詳細取得 */
@@ -138,7 +138,7 @@ const PlanDetailScreen: React.FC = () => {
   return (
     <Container>
       <Content>
-        {renderUserHeader()}
+        {renderPlannerHeader()}
         <ImageCarousel plan={plan} />
         <SimpleMapView spot={plan.spots[0]} />
         <CommentGrid comments={comments.comment_list} />
