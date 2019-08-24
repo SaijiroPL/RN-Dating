@@ -88,3 +88,61 @@ export const commentElementStyle = StyleSheet.create({
     fontSize: 10
   }
 });
+
+/**
+ * ImageCarouselコンポーネントのスタイリング
+ * @author kotatanaka
+ */
+export const imageCarouselStyle = StyleSheet.create({
+  comtainer: {
+    // flex: 1,
+    marginVertical: 10
+  },
+  slide: {
+    // flex: 1,
+    height: Layout.window.height * 0.3,
+    shadowColor: "#ccc",
+    shadowOffset: {
+      height: 0,
+      width: 0
+    },
+    shadowOpacity: 1,
+    shadowRadius: 2
+  },
+  image: {
+    flex: 1,
+    width: Layout.window.width * 0.8
+  }
+});
+
+/**
+ * CommentGridコンポーネントのスタイリング
+ * @author kotatanaka
+ */
+export const commentGridStyle = StyleSheet.create({
+  container: {
+    margin: 5
+  },
+  item: {
+    flexDirection: "row"
+  },
+  thumbnail: {
+    padding: 5
+  },
+  comment: {
+    padding: 5
+  },
+  nameText: {
+    fontFamily: "genju-light",
+    fontSize: 8,
+    textDecorationLine: "underline"
+  },
+  commentText: {
+    fontFamily: "genju-light",
+    fontSize: 8
+  },
+  dateText: {
+    fontFamily: "genju-light",
+    fontSize: 8
+  }
+});
