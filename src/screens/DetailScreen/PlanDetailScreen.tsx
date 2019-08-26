@@ -15,6 +15,7 @@ import ImageCarousel from "app/src/components/contents/ImageCarousel";
 import SimpleMapView from "app/src/components/map/SimpleMapView";
 import CommentGrid from "app/src/components/contents/CommentGrid";
 import { isNotNullOrUndefined } from "app/src/utils/CheckUtil";
+import { formatDate } from "app/src/utils/DateUtil";
 import { appTextStyle } from "app/src/styles/general-style";
 import { planDetailScreenStyle } from "app/src/styles/home-screen-style";
 
@@ -107,7 +108,7 @@ const PlanDetailScreen: React.FC = () => {
             {plan.description}
           </Text>
           <Text style={planDetailScreenStyle.descriptionText}>
-            デート予定日: {plan.date}
+            デート予定日: {formatDate(plan.date)}
           </Text>
         </View>
       </View>
