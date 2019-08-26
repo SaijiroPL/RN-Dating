@@ -10,7 +10,7 @@ import LinkedAccountScreen from "app/src/screens/MyProfileScreen/LinkedAccountSc
 import LogoutScreen from "app/src/screens/MyProfileScreen/LogoutScreen";
 import PrivacypolicyScreen from "app/src/screens/MyProfileScreen/PrivacypolicyScreen";
 import TermsScreen from "app/src/screens/MyProfileScreen/TermsScreen";
-import appStyle from "app/src/styles/common-style";
+import { appTextStyle } from "app/src/styles/general-style";
 
 /**
  * 設定画面のナビゲーター
@@ -23,63 +23,63 @@ const SettingNavigator = createStackNavigator(
       screen: SettingTopScreen,
       navigationOptions: () => ({
         headerTitle: "設定",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     },
     pass: {
       screen: ChangePasswordScreen,
       navigationOptions: () => ({
         headerTitle: "パスワード変更",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     },
     history: {
       screen: DeleteHistoryScreen,
       navigationOptions: () => ({
         headerTitle: "検索履歴の削除",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     },
     profile: {
       screen: EditProfileScreen,
       navigationOptions: () => ({
         headerTitle: "プロフィール設定",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     },
     faq: {
       screen: FaqScreen,
       navigationOptions: () => ({
         headerTitle: "ヘルプセンター",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     },
     account: {
       screen: LinkedAccountScreen,
       navigationOptions: () => ({
         headerTitle: "リンク済みアカウント",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     },
     logout: {
       screen: LogoutScreen,
       navigationOptions: () => ({
         headerTitle: "ログアウト",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     },
     privacy: {
       screen: PrivacypolicyScreen,
       navigationOptions: () => ({
         headerTitle: "プライバシーポリシー",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     },
     terms: {
       screen: TermsScreen,
       navigationOptions: () => ({
         headerTitle: "利用規約",
-        headerTitleStyle: appStyle.defaultText
+        headerTitleStyle: appTextStyle.defaultText
       })
     }
   },
