@@ -100,7 +100,7 @@ export const imageCarouselStyle = StyleSheet.create({
   },
   slide: {
     // flex: 1,
-    height: Layout.window.height * 0.3,
+    height: Layout.window.height * 0.23,
     shadowColor: "#ccc",
     shadowOffset: {
       height: 0,
@@ -124,7 +124,11 @@ export const commentGridStyle = StyleSheet.create({
     margin: 5
   },
   item: {
-    flexDirection: "row"
+    // borderBottomWidth: 1,
+    borderColor: "#eee",
+    borderTopWidth: 1,
+    flexDirection: "row",
+    margin: 5
   },
   thumbnail: {
     padding: 5

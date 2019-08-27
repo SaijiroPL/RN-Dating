@@ -20,6 +20,10 @@ const appStyle = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     justifyContent: "center"
+  },
+  row: {
+    alignItems: "center",
+    flexDirection: "row"
   }
 });
 
@@ -31,6 +35,10 @@ export default appStyle;
 export const appTextStyle = StyleSheet.create({
   defaultText: {
     color: Colors.textTintColor,
+    fontFamily: "genju-medium"
+  },
+  colorText: {
+    color: Colors.tintColor,
     fontFamily: "genju-medium"
   },
   inactiveText: {
@@ -75,5 +83,17 @@ export const appButtonStyle = StyleSheet.create({
   completeFooterButton: {
     justifyContent: "center",
     width: Layout.window.width
+  },
+  likeButtonContainer: {
+    alignItems: "center",
+    flex: 1,
+    flexDirection: "row",
+    height: 30,
+    justifyContent: "flex-end",
+    marginRight: 10
+  },
+  likeButton: {
+    color: Colors.tintColor,
+    marginRight: 5
   }
 });

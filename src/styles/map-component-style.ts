@@ -14,7 +14,7 @@ export const simpleMapViewStyle = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     height: 200,
-    marginHorizontal: 10,
-    marginVertical: 5
+    marginHorizontal: 10
+    // marginVertical: 5
   }
 });

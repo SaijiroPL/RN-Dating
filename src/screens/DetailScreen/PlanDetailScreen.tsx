@@ -14,8 +14,10 @@ import UserHeader from "app/src/components/contents/UserHeader";
 import ImageCarousel from "app/src/components/contents/ImageCarousel";
 import SimpleMapView from "app/src/components/map/SimpleMapView";
 import CommentGrid from "app/src/components/contents/CommentGrid";
+import LikeButton from "app/src/components/buttons/LikeButton";
 import { isNotNullOrUndefined } from "app/src/utils/CheckUtil";
-import { appTextStyle } from "app/src/styles/general-style";
+import { formatDate } from "app/src/utils/DateUtil";
+import appStyle, { appTextStyle } from "app/src/styles/general-style";
 import { planDetailScreenStyle } from "app/src/styles/home-screen-style";
 
 /**
@@ -54,10 +56,12 @@ const PlanDetailScreen: React.FC = () => {
   });
   const [isPlanLoading, setIsPlanLoading] = useState(true);
   const [isCommentsLoading, setIsCommentsLoading] = useState(true);
+  const [isLiked, setIsLiked] = useState(false);
 
   useEffect(() => {
     const signal = axios.CancelToken.source();
     getPlanDetail(signal);
+    setIsLiked(plan.is_liked);
     return () => {
       signal.cancel("Cancelling in Cleanup.");
     };
@@ -92,23 +96,46 @@ const PlanDetailScreen: React.FC = () => {
   const renderPlanDescription = () => {
     return (
       <View style={planDetailScreenStyle.planDescriptionContainer}>
-        <View style={planDetailScreenStyle.titleAndRoute}>
+        <View style={planDetailScreenStyle.route}>
+          <Text note style={planDetailScreenStyle.descriptionText}>
+            {plan.spots.map(spot => spot.spot_name).join(" > ")}
+          </Text>
+        </View>
+        <View style={appStyle.row}>
           <View style={planDetailScreenStyle.title}>
             <Text style={planDetailScreenStyle.titleText}>{plan.title}</Text>
           </View>
-          <View style={planDetailScreenStyle.route}>
-            <Text note style={planDetailScreenStyle.descriptionText}>
-              {plan.spots.map(spot => spot.spot_name).join(" > ")}
-            </Text>
-          </View>
+          <LikeButton
+            likeCount={plan.like_count}
+            liked={isLiked}
+            setLiked={setIsLiked}
+          />
         </View>
-        <View style={planDetailScreenStyle.description}>
-          <Text style={planDetailScreenStyle.descriptionText}>
-            {plan.description}
-          </Text>
-          <Text style={planDetailScreenStyle.descriptionText}>
-            デート予定日: {plan.date}
-          </Text>
+        <View style={planDetailScreenStyle.detail}>
+          <View style={appStyle.row}>
+            <View style={planDetailScreenStyle.columnTitle}>
+              <Text style={planDetailScreenStyle.columnTitleText}>
+                ポイント
+              </Text>
+            </View>
+            <View style={planDetailScreenStyle.description}>
+              <Text style={planDetailScreenStyle.descriptionText}>
+                {plan.description}
+              </Text>
+            </View>
+          </View>
+          <View style={appStyle.row}>
+            <View style={planDetailScreenStyle.columnTitle}>
+              <Text style={planDetailScreenStyle.columnTitleText}>
+                デート予定日
+              </Text>
+            </View>
+            <View style={planDetailScreenStyle.description}>
+              <Text style={planDetailScreenStyle.descriptionText}>
+                {formatDate(plan.date)}
+              </Text>
+            </View>
+          </View>
         </View>
       </View>
     );
