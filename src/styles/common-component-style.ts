@@ -100,7 +100,7 @@ export const imageCarouselStyle = StyleSheet.create({
   },
   slide: {
     // flex: 1,
-    height: Layout.window.height * 0.3,
+    height: Layout.window.height * 0.23,
     shadowColor: "#ccc",
     shadowOffset: {
       height: 0,
