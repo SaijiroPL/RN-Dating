@@ -18,8 +18,9 @@ interface Props {
  * ユーザー情報コンポーネント
  * @author kotatanaka
  */
-const UserProfile: React.FC<Props> = ({ user, me }) => {
+const UserProfile: React.FC<Props> = (props: Props) => {
   const { navigate } = useNavigation();
+  const { user, me } = props;
 
   const onFollowPress = () => {
     navigate(me ? "myFollow" : "follow", { id: user.user_id });

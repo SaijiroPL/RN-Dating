@@ -12,7 +12,9 @@ interface Props {
  * 日付選択フォーム
  * @author kotatanaka
  */
-const DatePicker: React.FC<Props> = ({ date, setDate, minDate, maxDate }) => {
+const DatePicker: React.FC<Props> = (props: Props) => {
+  const { date, setDate, minDate, maxDate } = props;
+
   return (
     <ReactNativeDatePicker
       style={{ width: 200 }}

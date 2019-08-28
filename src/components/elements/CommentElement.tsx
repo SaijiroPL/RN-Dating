@@ -14,9 +14,11 @@ interface Props {
  * コメントリスト要素コンポーネント
  * @author kotatanaka
  */
-const CommentElement: React.FC<Props> = ({ comment }) => {
+const CommentElement: React.FC<Props> = (props: Props) => {
+  const { comment } = props;
+
   return (
-    <ListItem avatar>
+    <ListItem avatar style={commentElementStyle.container}>
       <Left>
         <Thumbnail source={Images.noUserImage} />
       </Left>

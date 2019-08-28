@@ -14,7 +14,9 @@ interface Props {
  * 完了ボタン
  * @author kotatanaka
  */
-const CompleteButton: React.FC<Props> = ({ title, onPress, disabled }) => {
+const CompleteButton: React.FC<Props> = (props: Props) => {
+  const { disabled, title, onPress } = props;
+
   if (disabled) {
     return (
       <Button
