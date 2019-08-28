@@ -186,7 +186,7 @@ const PlanDetailScreen: React.FC = () => {
       });
   };
 
-  if (isPlanLoading && isCommentsLoading) {
+  if (isPlanLoading || isCommentsLoading) {
     return <Spinner color="orange" style={{ flex: 1 }} />;
   }
 
