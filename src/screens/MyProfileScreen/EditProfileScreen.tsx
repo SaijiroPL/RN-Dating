@@ -1,13 +1,17 @@
 import React from "react";
-import { Container, Header, Content, Form, Item, Input, Label } from 'native-base';
-
-
+import {
+  Container,
+  View,
+  Content,
+  Form,
+  Item,
+  Input,
+  Label
+} from "native-base";
 
 const EditProfileScreen: React.FC = () => {
-
   return (
     <Container>
-      <Header />
       <Content>
         <Form>
           <Item inlineLabel>
@@ -21,16 +25,20 @@ const EditProfileScreen: React.FC = () => {
           <Item inlineLabel>
             <Label>自己紹介変更</Label>
             <Input />
-          </Item><Item inlineLabel>
+          </Item>
+          <Item inlineLabel>
             <Label>メール変更</Label>
             <Input />
-          </Item><Item inlineLabel>
+          </Item>
+          <Item inlineLabel>
             <Label>性別変更</Label>
             <Input />
-          </Item><Item inlineLabel>
+          </Item>
+          <Item inlineLabel>
             <Label>年齢</Label>
             <Input />
-          </Item><Item inlineLabel>
+          </Item>
+          <Item inlineLabel>
             <Label>住まい</Label>
             <Input />
           </Item>
@@ -40,16 +48,6 @@ const EditProfileScreen: React.FC = () => {
           </Item>
         </Form>
       </Content>
-      <Header>
-          <Body>
-            <Title>プロフィール編集</Title>
-          </Body>
-          <Right>
-            <Button hasText transparent>
-              <Text>完了</Text>
-            </Button>
-          </Right>
-        </Header>
     </Container>
   );
 };
