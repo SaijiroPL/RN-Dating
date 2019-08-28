@@ -21,6 +21,9 @@ export const planCardStyle = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 2
   },
+  planner: {
+    justifyContent: "center"
+  },
   image: {
     flex: 1,
     height: 150
@@ -29,24 +32,32 @@ export const planCardStyle = StyleSheet.create({
     flex: 1,
     height: 150
   },
+  description: {
+    alignItems: "flex-start",
+    flexDirection: "column"
+  },
+  linkButtonGroup: {
+    // backgroundColor: Colors.baseBackgroundColor,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    height: 0,
+    marginBottom: 10
+  },
+  linkButton: {
+    flex: 1,
+    justifyContent: "center"
+  },
   mainText: {
-    fontFamily: "genju-medium"
+    fontFamily: "genju-medium",
+    fontSize: 14
   },
   descriptionText: {
     fontFamily: "genju-light",
     fontSize: 12
   },
-  linkButtonGroup: {
-    backgroundColor: Colors.baseBackgroundColor,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10
-  },
   linkButtonText: {
-    color: Colors.tintColor
-  },
-  linkButton: {
-    flex: 1,
-    justifyContent: "center"
+    color: Colors.tintColor,
+    fontSize: 15
   }
 });
 
@@ -55,6 +66,9 @@ export const planCardStyle = StyleSheet.create({
  * @author kotatanaka
  */
 export const userElementStyle = StyleSheet.create({
+  container: {
+    justifyContent: "center"
+  },
   nameText: {
     fontFamily: "genju-medium"
   },
@@ -75,13 +89,17 @@ export const userElementStyle = StyleSheet.create({
  * @author kotatanaka
  */
 export const commentElementStyle = StyleSheet.create({
+  container: {
+    justifyContent: "center"
+  },
   nameText: {
     fontFamily: "genju-medium",
     textDecorationColor: Colors.inactiveColor,
     textDecorationLine: "underline"
   },
   commentText: {
-    fontFamily: "genju-light"
+    fontFamily: "genju-light",
+    fontSize: 12
   },
   dateText: {
     fontFamily: "genju-light",
@@ -157,6 +175,7 @@ export const commentGridStyle = StyleSheet.create({
  */
 export const userHeaderStyle = StyleSheet.create({
   container: {
+    alignItems: "center",
     flexDirection: "row",
     margin: 5
   },

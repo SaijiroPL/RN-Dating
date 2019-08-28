@@ -54,8 +54,8 @@ const PlanCard: React.FC<Props> = (props: Props) => {
   const renderPlannerHeader = () => {
     return (
       <CardItem>
-        <Left>
-          <Thumbnail source={Images.noUserImage} />
+        <Left style={planCardStyle.planner}>
+          <Thumbnail source={Images.noUserImage} small />
           <Body>
             <Text style={planCardStyle.mainText} onPress={onUserPress}>
               {plan.user_name}
@@ -87,23 +87,19 @@ const PlanCard: React.FC<Props> = (props: Props) => {
             style={planCardStyle.map}
           />
         </CardItem>
-        <CardItem>
-          <Left>
-            <Text style={planCardStyle.mainText}>{plan.title}</Text>
-          </Left>
-          <Right>
-            <Text note style={planCardStyle.descriptionText}>
-              {plan.spots.map(spot => spot.spot_name).join(" > ")}
-            </Text>
-          </Right>
+        <CardItem style={planCardStyle.description}>
+          <Text style={planCardStyle.mainText}>{plan.title}</Text>
+          <Text note style={planCardStyle.descriptionText}>
+            {plan.spots.map(spot => spot.spot_name).join(" > ")}
+          </Text>
         </CardItem>
-        <Item style={planCardStyle.linkButtonGroup}>
+        <CardItem style={planCardStyle.linkButtonGroup}>
           <Button
             transparent
             style={planCardStyle.linkButton}
             onPress={onLikePress}
           >
-            <SimpleLineIcons name="like" size={20} color={Colors.tintColor} />
+            <SimpleLineIcons name="like" size={15} color={Colors.tintColor} />
             <Text style={planCardStyle.linkButtonText}>{plan.like_count}</Text>
           </Button>
           <Button
@@ -111,12 +107,12 @@ const PlanCard: React.FC<Props> = (props: Props) => {
             style={planCardStyle.linkButton}
             onPress={onCommentPress}
           >
-            <FontAwesome name="comment-o" size={20} color={Colors.tintColor} />
+            <FontAwesome name="comment-o" size={15} color={Colors.tintColor} />
             <Text style={planCardStyle.linkButtonText}>
               {plan.comment_count}
             </Text>
           </Button>
-        </Item>
+        </CardItem>
       </TouchableOpacity>
     </Card>
   );

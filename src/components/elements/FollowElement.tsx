@@ -24,7 +24,7 @@ const FollowElement: React.FC<Props> = (props: Props) => {
   };
 
   return (
-    <ListItem avatar onPress={onPress}>
+    <ListItem avatar onPress={onPress} style={userElementStyle.container}>
       <Left>
         <Thumbnail source={Images.noUserImage} />
       </Left>

@@ -18,7 +18,7 @@ const CommentElement: React.FC<Props> = (props: Props) => {
   const { comment } = props;
 
   return (
-    <ListItem avatar>
+    <ListItem avatar style={commentElementStyle.container}>
       <Left>
         <Thumbnail source={Images.noUserImage} />
       </Left>
