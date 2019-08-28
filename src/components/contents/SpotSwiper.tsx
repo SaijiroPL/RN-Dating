@@ -26,10 +26,12 @@ interface Props {
  * @author kotatanaka
  */
 const SpotSwiper: React.FC<Props> = (props: Props) => {
+  const { spots } = props;
+
   return (
     <Content style={spotSwiperStyle.swiper}>
       <DeckSwiper
-        dataSource={props.spots}
+        dataSource={spots}
         renderItem={(item: CandidateSpot) => (
           <Card style={{ elevation: 3 }}>
             <CardItem>

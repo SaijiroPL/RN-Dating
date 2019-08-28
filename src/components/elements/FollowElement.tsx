@@ -15,8 +15,9 @@ interface Props {
  * フォロー/フォロワーリスト要素コンポーネント
  * @author kotatanaka
  */
-const FollowElement: React.FC<Props> = ({ follow }) => {
+const FollowElement: React.FC<Props> = (props: Props) => {
   const { navigate } = useNavigation();
+  const { follow } = props;
 
   const onPress = () => {
     navigate("profile", { id: follow.user_id });

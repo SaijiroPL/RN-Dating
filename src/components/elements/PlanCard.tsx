@@ -30,8 +30,9 @@ interface Props {
  * デートプランコンポーネント
  * @author kotatanaka
  */
-const PlanCard: React.FC<Props> = ({ plan, myPlan }) => {
+const PlanCard: React.FC<Props> = (props: Props) => {
   const { navigate } = useNavigation();
+  const { plan, myPlan } = props;
 
   const onPlanPress = () => {
     navigate("detail", { id: plan.plan_id });

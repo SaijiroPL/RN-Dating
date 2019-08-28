@@ -13,7 +13,9 @@ interface Props {
  * コメントリストコンポーネント
  * @author kotatanaka
  */
-const CommentList: React.FC<Props> = ({ commentList }) => {
+const CommentList: React.FC<Props> = (props: Props) => {
+  const { commentList } = props;
+
   const renderCommentElement = ({ item }: { item: Comment }) => {
     return <CommentElement comment={item} />;
   };

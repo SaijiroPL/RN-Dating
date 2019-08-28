@@ -13,7 +13,9 @@ interface Props {
  * デートプランお気に入り登録者リストコンポーネント
  * @author kotatanaka
  */
-const LikeUserList: React.FC<Props> = ({ users }) => {
+const LikeUserList: React.FC<Props> = (props: Props) => {
+  const { users } = props;
+
   const renderLikeUserElement = ({ item }: { item: LikeUser }) => {
     return <LikeUserElement user={item} />;
   };
