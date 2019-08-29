@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { Constants } from "expo";
-import { Spinner } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
 import { useGlobalState } from "app/src/Store";
 import { PlanList } from "app/src/types/api/TPlan";
 import { BadRequestError } from "app/src/types/api/TError";
-import { RefreshSpinner } from "app/src/components/Spinners";
+import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
 import PlanCardList from "app/src/components/lists/PlanCardList";
 import { appTextStyle } from "app/src/styles/general-style";
 import myPlanScreenStyle from "app/src/styles/myplan-screen-style";
@@ -72,7 +71,7 @@ const MyPlanTopScreen: React.FC = () => {
   };
 
   if (isLoading) {
-    return <Spinner color="orange" style={{ flex: 1 }} />;
+    return LoadingSpinner;
   }
 
   return (

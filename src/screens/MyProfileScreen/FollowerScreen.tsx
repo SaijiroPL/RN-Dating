@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Text, View } from "react-native";
+import { Text } from "react-native";
 import { Constants } from "expo";
 import { useNavigationParam } from "react-navigation-hooks";
-import { Container, Spinner } from "native-base";
+import { Container } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
 import { FollowerList } from "app/src/types/api/TFollow";
 import { BadRequestError } from "app/src/types/api/TError";
+import { LoadingSpinner } from "app/src/components/Spinners";
 import FollowList from "app/src/components/lists/FollowList";
 import { appTextStyle } from "app/src/styles/general-style";
 
@@ -62,7 +63,7 @@ const FollowScreen: React.FC = () => {
   };
 
   if (isLoading) {
-    return <Spinner color="orange" style={{ flex: 1 }} />;
+    return LoadingSpinner;
   }
 
   return (

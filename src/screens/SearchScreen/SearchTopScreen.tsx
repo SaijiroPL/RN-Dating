@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { Constants } from "expo";
-import { Spinner } from "native-base";
 import { SearchBar } from "react-native-elements";
 import axios, { CancelTokenSource } from "axios";
 import { Ionicons } from "@expo/vector-icons";
@@ -10,7 +9,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { PlanList } from "app/src/types/api/TPlan";
 import { BadRequestError } from "app/src/types/api/TError";
 import Colors from "app/src/constants/Colors";
-import { RefreshSpinner } from "app/src/components/Spinners";
+import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
 import PlanCardList from "app/src/components/lists/PlanCardList";
 import { appTextStyle } from "app/src/styles/general-style";
 import searchScreenStyle from "app/src/styles/search-screen-style";
@@ -98,7 +97,7 @@ const SearchTopScreen: React.FC = () => {
   };
 
   if (isLoading) {
-    return <Spinner color={Colors.tintColor} style={{ flex: 1 }} />;
+    return LoadingSpinner;
   }
 
   return (
