@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { View } from "react-native";
 import { Constants } from "expo";
-import { Spinner } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
 import { useGlobalState } from "app/src/Store";
 import { UserDetail } from "app/src/types/api/TUser";
 import { BadRequestError } from "app/src/types/api/TError";
+import { LoadingSpinner } from "app/src/components/Spinners";
 import UserProfile from "app/src/components/contents/UserProfile";
 import SettingFab from "app/src/components/buttons/SettingFab";
 import profileScreenStyle from "app/src/styles/profile-screen-style";
@@ -71,7 +71,7 @@ const MyProfileTopScreen: React.FC = () => {
   };
 
   if (isLoading) {
-    return <Spinner color="orange" style={{ flex: 1 }} />;
+    return LoadingSpinner;
   }
 
   return (

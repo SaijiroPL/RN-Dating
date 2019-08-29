@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Constants } from "expo";
 import { useNavigationParam } from "react-navigation-hooks";
-import { Container, Text, Spinner } from "native-base";
+import { Container, Text } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
 import { CommentList as TCommentList } from "app/src/types/api/TComment";
 import { BadRequestError } from "app/src/types/api/TError";
+import { LoadingSpinner } from "app/src/components/Spinners";
 import CommentList from "app/src/components/lists/CommentList";
 import { appTextStyle } from "app/src/styles/general-style";
 
@@ -61,7 +62,7 @@ const CommentScreen: React.FC = () => {
   };
 
   if (isLoading) {
-    return <Spinner color="orange" style={{ flex: 1 }} />;
+    return LoadingSpinner;
   }
 
   return (

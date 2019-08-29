@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View } from "react-native";
 import { Constants } from "expo";
 import { useNavigation, useNavigationParam } from "react-navigation-hooks";
-import { Container, Content, Text, Spinner } from "native-base";
+import { Container, Content, Text } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
@@ -10,6 +10,7 @@ import { PlanFull } from "app/src/types/api/TPlan";
 import { User } from "app/src/types/api/TUser";
 import { CommentList } from "app/src/types/api/TComment";
 import { BadRequestError } from "app/src/types/api/TError";
+import { LoadingSpinner } from "app/src/components/Spinners";
 import UserHeader from "app/src/components/contents/UserHeader";
 import ImageCarousel from "app/src/components/contents/ImageCarousel";
 import SimpleMapView from "app/src/components/map/SimpleMapView";
@@ -187,7 +188,7 @@ const PlanDetailScreen: React.FC = () => {
   };
 
   if (isPlanLoading || isCommentsLoading) {
-    return <Spinner color="orange" style={{ flex: 1 }} />;
+    return LoadingSpinner;
   }
 
   return (

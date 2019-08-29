@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { Constants } from "expo";
-import { Spinner } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
 import { useGlobalState } from "app/src/Store";
 import { PlanList } from "app/src/types/api/TPlan";
 import { BadRequestError } from "app/src/types/api/TError";
+import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
 import PlanCardList from "app/src/components/lists/PlanCardList";
 import { appTextStyle } from "app/src/styles/general-style";
 import myPlanScreenStyle from "app/src/styles/myplan-screen-style";
@@ -29,6 +29,7 @@ const MyPlanTopScreen: React.FC = () => {
     detail_massage: []
   });
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     const signal = axios.CancelToken.source();
@@ -62,8 +63,15 @@ const MyPlanTopScreen: React.FC = () => {
       });
   };
 
+  /** プルリロード */
+  const onRefresh = () => {
+    setRefreshing(true);
+    getPlanList(axios.CancelToken.source());
+    setRefreshing(false);
+  };
+
   if (isLoading) {
-    return <Spinner color="orange" style={{ flex: 1 }} />;
+    return LoadingSpinner;
   }
 
   return (
@@ -71,7 +79,9 @@ const MyPlanTopScreen: React.FC = () => {
       <Text style={appTextStyle.countText}>
         作成したデートプランの数: {plans.total}
       </Text>
-      <PlanCardList planList={plans.plan_list} myPlan />
+      <ScrollView refreshControl={RefreshSpinner(isRefreshing, onRefresh)}>
+        <PlanCardList planList={plans.plan_list} myPlan />
+      </ScrollView>
     </View>
   );
 };
