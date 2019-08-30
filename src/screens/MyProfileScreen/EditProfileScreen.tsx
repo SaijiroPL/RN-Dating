@@ -1,49 +1,44 @@
 import React from "react";
-import {
-  Container,
-  View,
-  Content,
-  Form,
-  Item,
-  Input,
-  Label
-} from "native-base";
+import { Container, Content, Form, Item, Input, Label } from "native-base";
 
+// from app
+import { appTextStyle } from "app/src/styles/general-style";
+
+/**
+ * プロフィール編集画面
+ * @author itsukiyamada
+ */
 const EditProfileScreen: React.FC = () => {
   return (
     <Container>
       <Content>
         <Form>
           <Item inlineLabel>
-            <Label>名前変更</Label>
+            <Label style={appTextStyle.standardText}>名前変更</Label>
             <Input />
           </Item>
           <Item inlineLabel>
-            <Label>ユーザーネーム</Label>
+            <Label style={appTextStyle.standardText}>ユーザーネーム</Label>
             <Input />
           </Item>
           <Item inlineLabel>
-            <Label>自己紹介変更</Label>
+            <Label style={appTextStyle.standardText}>自己紹介変更</Label>
             <Input />
           </Item>
           <Item inlineLabel>
-            <Label>メール変更</Label>
+            <Label style={appTextStyle.standardText}>メール変更</Label>
             <Input />
           </Item>
           <Item inlineLabel>
-            <Label>性別変更</Label>
+            <Label style={appTextStyle.standardText}>性別変更</Label>
             <Input />
           </Item>
           <Item inlineLabel>
-            <Label>年齢</Label>
+            <Label style={appTextStyle.standardText}>年齢</Label>
             <Input />
           </Item>
           <Item inlineLabel>
-            <Label>住まい</Label>
-            <Input />
-          </Item>
-          <Item inlineLabel last>
-            <Label>Password</Label>
+            <Label style={appTextStyle.standardText}>住まい</Label>
             <Input />
           </Item>
         </Form>
