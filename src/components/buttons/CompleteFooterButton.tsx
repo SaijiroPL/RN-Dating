@@ -14,11 +14,9 @@ interface Props {
  * フッター完了ボタン
  * @author kotatanaka
  */
-const CompleteFooterButton: React.FC<Props> = ({
-  title,
-  onPress,
-  disabled
-}) => {
+const CompleteFooterButton: React.FC<Props> = (props: Props) => {
+  const { disabled, title, onPress } = props;
+
   if (disabled) {
     return (
       <Footer style={appButtonStyle.disTouchableFooter}>

@@ -30,24 +30,38 @@ export const planDetailScreenStyle = StyleSheet.create({
     marginHorizontal: 10,
     marginVertical: 5
   },
-  titleAndRoute: {
-    flexDirection: "row"
-  },
   route: {
     alignItems: "flex-end",
+    backgroundColor: Colors.baseBackgroundColor,
     flex: 1,
-    justifyContent: "center"
+    justifyContent: "center",
+    paddingHorizontal: 10
   },
   title: {
     marginLeft: 10
   },
-  description: {
+  detail: {
     marginLeft: 10
   },
   titleText: {
     fontFamily: "genju-medium",
     textDecorationColor: Colors.tintColor,
     textDecorationLine: "underline"
+  },
+  columnTitle: {
+    backgroundColor: Colors.tintColor,
+    borderRadius: 10,
+    marginRight: 5,
+    marginTop: 2,
+    paddingHorizontal: 5
+  },
+  columnTitleText: {
+    color: "white",
+    fontFamily: "genju-medium",
+    fontSize: 10
+  },
+  description: {
+    marginTop: 2
   },
   descriptionText: {
     color: Colors.textTintColor,

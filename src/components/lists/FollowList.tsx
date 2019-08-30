@@ -13,7 +13,9 @@ interface Props {
  * フォローリスト/フォロワーリストコンポーネント
  * @author kotatanaka
  */
-const FollowList: React.FC<Props> = ({ follows }) => {
+const FollowList: React.FC<Props> = (props: Props) => {
+  const { follows } = props;
+
   const renderFollowElement = ({ item }: { item: Follow }) => {
     return <FollowElement follow={item} />;
   };

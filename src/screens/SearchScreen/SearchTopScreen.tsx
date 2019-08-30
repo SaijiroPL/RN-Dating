@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { Constants } from "expo";
-import { Spinner } from "native-base";
 import { SearchBar } from "react-native-elements";
 import axios, { CancelTokenSource } from "axios";
 import { Ionicons } from "@expo/vector-icons";
@@ -10,6 +9,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { PlanList } from "app/src/types/api/TPlan";
 import { BadRequestError } from "app/src/types/api/TError";
 import Colors from "app/src/constants/Colors";
+import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
 import PlanCardList from "app/src/components/lists/PlanCardList";
 import { appTextStyle } from "app/src/styles/general-style";
 import searchScreenStyle from "app/src/styles/search-screen-style";
@@ -30,6 +30,7 @@ const SearchTopScreen: React.FC = () => {
     detail_massage: []
   });
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     const signal = axios.CancelToken.source();
@@ -60,8 +61,16 @@ const SearchTopScreen: React.FC = () => {
       });
   };
 
+  /** 検索ワードの更新 */
   const updateSearchWord = (searchWord: string) => {
     setSearchWord(searchWord);
+  };
+
+  /** プルリロード */
+  const onRefresh = () => {
+    setRefreshing(true);
+    getPlanList(axios.CancelToken.source());
+    setRefreshing(false);
   };
 
   /** 検索バーを描画する */
@@ -88,7 +97,7 @@ const SearchTopScreen: React.FC = () => {
   };
 
   if (isLoading) {
-    return <Spinner color="orange" style={{ flex: 1 }} />;
+    return LoadingSpinner;
   }
 
   return (
@@ -97,7 +106,9 @@ const SearchTopScreen: React.FC = () => {
       <View style={searchScreenStyle.planCount}>
         <Text style={appTextStyle.countText}>検索結果: {plans.total} 件</Text>
       </View>
-      <PlanCardList planList={plans.plan_list} />
+      <ScrollView refreshControl={RefreshSpinner(isRefreshing, onRefresh)}>
+        <PlanCardList planList={plans.plan_list} />
+      </ScrollView>
     </View>
   );
 };

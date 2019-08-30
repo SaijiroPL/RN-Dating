@@ -13,7 +13,9 @@ interface Props {
  * 都道府県選択フォーム
  * @author kotatanaka
  */
-const PrefecturePicker: React.FC<Props> = ({ prefecture, setPrefecture }) => {
+const PrefecturePicker: React.FC<Props> = (props: Props) => {
+  const { prefecture, setPrefecture } = props;
+
   return (
     <Picker
       mode="dropdown"
