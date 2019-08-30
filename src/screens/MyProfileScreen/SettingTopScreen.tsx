@@ -1,48 +1,47 @@
 import React from "react";
-import { Container, Header, Content, List, ListItem, Text } from "native-base";
+import { Container, Content, List, ListItem, Text } from "native-base";
 import { useNavigation } from "react-navigation-hooks";
+
 // from app
-import profileScreenStyle from "app/src/styles/profile-screen-style";
+import { appTextStyle } from "app/src/styles/general-style";
 
 /**
- * 設定成画面トップ
+ * 設定画面トップ
+ * @author itsukiyamada, kotatanaka
  */
 const SettingTopScreen: React.FC = () => {
   const { navigate } = useNavigation();
+
+  /**
+   * リンクを描画する
+   * @param name リンク表示名(設定名)
+   * @param navigateKey 画面遷移のキー名
+   * @return ListItem
+   */
+  const renderLink = (name: string, navigateKey: string) => (
+    <ListItem onPress={() => navigate(navigateKey)}>
+      <Text style={appTextStyle.standardText}>{name}</Text>
+    </ListItem>
+  );
+
   return (
     <Container>
       <Content>
         <List>
           <ListItem itemDivider>
-            <Text>アカウント</Text>
+            <Text style={appTextStyle.defaultText}>アカウント</Text>
           </ListItem>
-          <ListItem onPress={() => navigate("profile")}>
-            <Text>プロフィール設定</Text>
-          </ListItem>
-          <ListItem onPress={() => navigate("account")}>
-            <Text>リンク済みアカウント</Text>
-          </ListItem>
-          <ListItem onPress={() => navigate("pass")}>
-            <Text>パスワード変更</Text>
-          </ListItem>
-          <ListItem onPress={() => navigate("logout")}>
-            <Text>ログアウト</Text>
-          </ListItem>
+          {renderLink("プロフィール設定", "profile")}
+          {renderLink("リンク済みアカウント", "account")}
+          {renderLink("パスワード変更", "pass")}
+          {renderLink("ログアウト", "logout")}
           <ListItem itemDivider>
-            <Text>その他</Text>
+            <Text style={appTextStyle.defaultText}>その他</Text>
           </ListItem>
-          <ListItem onPress={() => navigate("faq")}>
-            <Text>ヘルプセンター</Text>
-          </ListItem>
-          <ListItem onPress={() => navigate("privacy")}>
-            <Text>プライバシーポリシー</Text>
-          </ListItem>
-          <ListItem onPress={() => navigate("terms")}>
-            <Text>利用規約</Text>
-          </ListItem>
-          <ListItem onPress={() => navigate("history")}>
-            <Text>検索履歴の削除</Text>
-          </ListItem>
+          {renderLink("ヘルプセンター", "faq")}
+          {renderLink("利用規約", "terms")}
+          {renderLink("プライバシーポリシー", "privacy")}
+          {renderLink("検索履歴の削除", "history")}
         </List>
       </Content>
     </Container>
