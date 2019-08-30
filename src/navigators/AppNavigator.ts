@@ -13,7 +13,7 @@ import EntryScreen from "app/src/screens/TopScreen/EntryScreen";
 const AppNavigator = createStackNavigator(
   {
     // トップ画面
-    top: { screen: AppTopScreen },
+    appTop: { screen: AppTopScreen },
     // ウェルカム画面
     welcome: { screen: WelcomeScreen },
     // 基本情報入力画面
