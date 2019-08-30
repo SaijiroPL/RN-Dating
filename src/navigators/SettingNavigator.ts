@@ -8,7 +8,7 @@ import EditProfileScreen from "app/src/screens/MyProfileScreen/EditProfileScreen
 import FaqScreen from "app/src/screens/MyProfileScreen/FaqScreen";
 import LinkedAccountScreen from "app/src/screens/MyProfileScreen/LinkedAccountScreen";
 import LogoutScreen from "app/src/screens/MyProfileScreen/LogoutScreen";
-import PrivacypolicyScreen from "app/src/screens/MyProfileScreen/PrivacypolicyScreen";
+import PrivacyPolicyScreen from "app/src/screens/MyProfileScreen/PrivacyPolicyScreen";
 import TermsScreen from "app/src/screens/MyProfileScreen/TermsScreen";
 import { appTextStyle } from "app/src/styles/general-style";
 
@@ -69,7 +69,7 @@ const SettingNavigator = createStackNavigator(
       })
     },
     privacy: {
-      screen: PrivacypolicyScreen,
+      screen: PrivacyPolicyScreen,
       navigationOptions: () => ({
         headerTitle: "プライバシーポリシー",
         headerTitleStyle: appTextStyle.defaultText
