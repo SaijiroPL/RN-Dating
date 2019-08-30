@@ -1,12 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Container,
   Content,
-  Button,
   ListItem,
-  /**
-   * Switch,
-   */
+  Switch,
   Text,
   Left,
   Body,
@@ -14,39 +11,37 @@ import {
 } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 
+// from app
+import Colors from "app/src/constants/Colors";
+import { appTextStyle } from "app/src/styles/general-style";
+
 /**
-   * export default class App extends Component {
-  state = {
-    switching: false
-  }
-
-    switchValue = (value) => {
-      this.setState({ switching: value });
-      const switchText = value ? 'ON' : 'OFF';
-    }
-   */
-
+ * リンク済みアカウント画面
+ * @author itsukiyamada, kotatanaka
+ */
 const LinkedAccountScreen: React.FC = () => {
-  /**
-   * アカウントリンクボタンの実装
-   * @author itsukiyamada
-   */
+  const [facebookOn, setFacebookOn] = useState(false);
+
+  const switchFacebookValue = (value: boolean) => {
+    setFacebookOn(value);
+  };
 
   return (
     <Container>
       <Content>
         <ListItem icon>
           <Left>
-            <Button style={{ backgroundColor: "#FF9501" }}>
-              <Ionicons active name="facebook" />
-            </Button>
+            <Ionicons
+              name="logo-facebook"
+              size={30}
+              color={Colors.facebookColor}
+            />
           </Left>
           <Body>
-            <Text>FaceBook</Text>
+            <Text style={appTextStyle.standardText}>Facebook</Text>
           </Body>
           <Right>
-            //** *<Switch onValueChange={this.switchValue} value={switching} />
-            *//
+            <Switch onValueChange={switchFacebookValue} value={facebookOn} />
           </Right>
         </ListItem>
       </Content>
