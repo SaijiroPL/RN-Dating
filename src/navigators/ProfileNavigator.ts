@@ -26,8 +26,7 @@ const ProfileNavigator = createStackNavigator(
     setting: {
       screen: SettingNavigator,
       navigationOptions: () => ({
-        headerTitle: "設定",
-        headerTitleStyle: appTextStyle.defaultText
+        header: null
       })
     },
     // マイフォロー一覧画面

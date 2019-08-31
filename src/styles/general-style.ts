@@ -37,6 +37,16 @@ export const appTextStyle = StyleSheet.create({
     color: Colors.textTintColor,
     fontFamily: "genju-medium"
   },
+  standardText: {
+    color: Colors.textTintColor,
+    fontFamily: "genju-medium",
+    fontSize: 14
+  },
+  standardLightText: {
+    color: Colors.textTintColor,
+    fontFamily: "genju-light",
+    fontSize: 14
+  },
   colorText: {
     color: Colors.tintColor,
     fontFamily: "genju-medium"
