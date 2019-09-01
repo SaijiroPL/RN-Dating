@@ -53,8 +53,10 @@ export const entryScreenStyle = StyleSheet.create({
   entryText: {
     color: Colors.textTintColor,
     fontFamily: "genju-medium",
-    fontSize: 20,
-    textAlign: "center"
+    fontSize: 20
+  },
+  sexTitleContainer: {
+    marginRight: 30
   }
 });
 

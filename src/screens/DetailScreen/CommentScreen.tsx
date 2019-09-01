@@ -18,16 +18,16 @@ import { appTextStyle } from "app/src/styles/general-style";
 const CommentScreen: React.FC = () => {
   const planId = useNavigationParam("id");
 
-  const [comments, setComments] = useState({
+  const [comments, setComments] = useState<TCommentList>({
     total: 0,
     comment_list: []
   });
-  const [errors, setErrors] = useState({
+  const [errors, setErrors] = useState<BadRequestError>({
     code: 0,
     message: "",
     detail_massage: []
   });
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const signal = axios.CancelToken.source();

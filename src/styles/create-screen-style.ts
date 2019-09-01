@@ -14,21 +14,6 @@ export const createPlanTopScreenStyle = StyleSheet.create({
     flex: 1,
     flexDirection: "row"
   },
-  selectButtonInactive: {
-    marginHorizontal: 5
-  },
-  selectButtonActive: {
-    backgroundColor: Colors.tintColor,
-    marginHorizontal: 5
-  },
-  selectButtonInactiveText: {
-    color: Colors.textTintColor,
-    fontFamily: "genju-medium"
-  },
-  selectButtonActiveText: {
-    color: "white",
-    fontFamily: "genju-medium"
-  },
   itemTitleText: {
     color: Colors.textTintColor,
     fontFamily: "genju-medium",

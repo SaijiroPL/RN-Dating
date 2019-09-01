@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { Button, Text } from "native-base";
 import { useNavigation } from "react-navigation-hooks";
-import { Button } from "react-native-elements";
 import { SimpleLineIcons } from "@expo/vector-icons";
 
 // from app
 import Colors from "app/src/constants/Colors";
+import SelectButton from "app/src/components/buttons/SelectButton";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
 import DatePicker from "app/src/components/contents/DatePicker";
 import PrefecturePicker from "app/src/components/contents/PrefecturePicker";
@@ -19,9 +20,11 @@ import { entryScreenStyle } from "app/src/styles/top-screen-style";
  */
 const EntryScreen: React.FC = () => {
   const { navigate } = useNavigation();
-  const [sex, setSex] = useState("");
-  const [date, setDate] = useState("1995-01-01");
-  const [prefecture, setPrefecture] = useState("");
+
+  const [isMan, setMan] = useState<boolean>(false);
+  const [isWoman, setWoman] = useState<boolean>(false);
+  const [date, setDate] = useState<string>("1995-01-01");
+  const [prefecture, setPrefecture] = useState<string>("");
 
   /** 完了ボタン押下でホーム画面に遷移する */
   const onCompleteButtonPress = () => {
@@ -32,66 +35,21 @@ const EntryScreen: React.FC = () => {
   const renderSexButtons = () => {
     return (
       <View style={entryScreenStyle.formGroup}>
-        <Text style={entryScreenStyle.entryText}>性別</Text>
-        {/* 選択したボタンの色を変える */}
-        {sex === "man" ? (
-          <Button
-            title="男性"
-            icon={
-              <SimpleLineIcons
-                name="user"
-                color={Colors.tintColor}
-                size={15}
-                style={{ paddingRight: 5 }}
-              />
-            }
-            buttonStyle={{ marginHorizontal: 20 }}
-            onPress={() => setSex("man")}
-          />
-        ) : (
-          <Button
-            type="outline"
-            title="男性"
-            icon={
-              <SimpleLineIcons
-                name="user"
-                color={Colors.tintColor}
-                size={15}
-                style={{ paddingRight: 5 }}
-              />
-            }
-            buttonStyle={{ marginHorizontal: 20 }}
-            onPress={() => setSex("man")}
-          />
-        )}
-        {sex === "woman" ? (
-          <Button
-            title="女性"
-            icon={
-              <SimpleLineIcons
-                name="user-female"
-                color={Colors.tintColor}
-                size={15}
-                style={{ paddingRight: 5 }}
-              />
-            }
-            onPress={() => setSex("woman")}
-          />
-        ) : (
-          <Button
-            type="outline"
-            title="女性"
-            icon={
-              <SimpleLineIcons
-                name="user-female"
-                color={Colors.tintColor}
-                size={15}
-                style={{ paddingRight: 5 }}
-              />
-            }
-            onPress={() => setSex("woman")}
-          />
-        )}
+        <View style={entryScreenStyle.sexTitleContainer}>
+          <Text style={entryScreenStyle.entryText}>性別</Text>
+        </View>
+        <SelectButton
+          value={isMan}
+          setValue={setMan}
+          setOtherValues={[setWoman]}
+          buttonName={"男性"}
+        />
+        <SelectButton
+          value={isWoman}
+          setValue={setWoman}
+          setOtherValues={[setMan]}
+          buttonName={"女性"}
+        />
       </View>
     );
   };
@@ -124,7 +82,7 @@ const EntryScreen: React.FC = () => {
     return (
       <View style={appStyle.emptySpace}>
         {/* 未入力項目がある場合はボタン押下不可 */}
-        {sex !== "" ? (
+        {isMan || isWoman ? (
           <CompleteButton title="決定" onPress={onCompleteButtonPress} />
         ) : (
           <CompleteButton title="決定" disabled />

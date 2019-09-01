@@ -18,16 +18,16 @@ import { appTextStyle } from "app/src/styles/general-style";
 const LikeUserScreen: React.FC = () => {
   const planId = useNavigationParam("id");
 
-  const [users, setUsers] = useState({
+  const [users, setUsers] = useState<TLikeUserList>({
     total: 0,
     liked_user_list: []
   });
-  const [errors, setErrors] = useState({
+  const [errors, setErrors] = useState<BadRequestError>({
     code: 0,
     message: "",
     detail_massage: []
   });
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const signal = axios.CancelToken.source();

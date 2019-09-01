@@ -105,5 +105,20 @@ export const appButtonStyle = StyleSheet.create({
   likeButton: {
     color: Colors.tintColor,
     marginRight: 5
+  },
+  selectButtonInactive: {
+    marginHorizontal: 5
+  },
+  selectButtonActive: {
+    backgroundColor: Colors.tintColor,
+    marginHorizontal: 5
+  },
+  selectButtonInactiveText: {
+    color: Colors.textTintColor,
+    fontFamily: "genju-medium"
+  },
+  selectButtonActiveText: {
+    color: "white",
+    fontFamily: "genju-medium"
   }
 });
