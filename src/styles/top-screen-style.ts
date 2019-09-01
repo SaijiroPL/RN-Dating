@@ -14,14 +14,13 @@ export const appTopScreenStyle = StyleSheet.create({
     flex: 2,
     justifyContent: "center"
   },
-  linkGroup: {
+  linkOrFormGroup: {
     alignItems: "center",
     flex: 3,
     justifyContent: "center"
   },
-  inputForm: {
-    marginBottom: 20,
-    width: Layout.window.width * 0.75
+  completeButtonContainer: {
+    marginTop: 20
   },
   welcomeText: {
     color: Colors.textTintColor,
