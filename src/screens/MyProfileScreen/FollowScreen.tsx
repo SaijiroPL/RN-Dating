@@ -19,16 +19,16 @@ import { appTextStyle } from "app/src/styles/general-style";
 const FollowScreen: React.FC = () => {
   const userId = useNavigationParam("id");
 
-  const [follows, setFollows] = useState({
+  const [follows, setFollows] = useState<TFollowList>({
     total: 0,
     follow_list: []
   });
-  const [errors, setErrors] = useState({
+  const [errors, setErrors] = useState<BadRequestError>({
     code: 0,
     message: "",
     detail_massage: []
   });
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const signal = axios.CancelToken.source();

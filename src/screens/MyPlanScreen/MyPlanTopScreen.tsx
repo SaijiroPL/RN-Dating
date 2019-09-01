@@ -19,17 +19,17 @@ import myPlanScreenStyle from "app/src/styles/myplan-screen-style";
 const MyPlanTopScreen: React.FC = () => {
   const loginUser = useGlobalState("loginUser");
 
-  const [plans, setPlans] = useState({
+  const [plans, setPlans] = useState<PlanList>({
     total: 0,
     plan_list: []
   });
-  const [errors, setErrors] = useState({
+  const [errors, setErrors] = useState<BadRequestError>({
     code: 0,
     message: "",
     detail_massage: []
   });
-  const [isLoading, setIsLoading] = useState(true);
-  const [isRefreshing, setRefreshing] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isRefreshing, setRefreshing] = useState<boolean>(false);
 
   useEffect(() => {
     const signal = axios.CancelToken.source();

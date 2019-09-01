@@ -19,9 +19,10 @@ import { entryScreenStyle } from "app/src/styles/top-screen-style";
  */
 const EntryScreen: React.FC = () => {
   const { navigate } = useNavigation();
-  const [sex, setSex] = useState("");
-  const [date, setDate] = useState("1995-01-01");
-  const [prefecture, setPrefecture] = useState("");
+
+  const [sex, setSex] = useState<string>("");
+  const [date, setDate] = useState<string>("1995-01-01");
+  const [prefecture, setPrefecture] = useState<string>("");
 
   /** 完了ボタン押下でホーム画面に遷移する */
   const onCompleteButtonPress = () => {

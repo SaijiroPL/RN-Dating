@@ -19,7 +19,7 @@ import profileScreenStyle from "app/src/styles/profile-screen-style";
 const MyProfileTopScreen: React.FC = () => {
   const loginUser = useGlobalState("loginUser");
 
-  const [user, setUser] = useState({
+  const [user, setUser] = useState<UserDetail>({
     user_id: "",
     name: "",
     sex: "",
@@ -32,12 +32,12 @@ const MyProfileTopScreen: React.FC = () => {
     follow_count: 0,
     follower_count: 0
   });
-  const [errors, setErrors] = useState({
+  const [errors, setErrors] = useState<BadRequestError>({
     code: 0,
     message: "",
     detail_massage: []
   });
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const signal = axios.CancelToken.source();

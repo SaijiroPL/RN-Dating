@@ -16,11 +16,11 @@ import { createPlanTopScreenStyle } from "app/src/styles/create-screen-style";
  */
 const CreatePlanTopScreen: React.FC = () => {
   const { navigate } = useNavigation();
-  const [date, setDate] = useState("");
-  const [car, setCar] = useState(false);
-  const [train, setTrain] = useState(false);
-  const [bus, setBus] = useState(false);
-  const [walk, setWalk] = useState(false);
+  const [date, setDate] = useState<string>("");
+  const [car, setCar] = useState<boolean>(false);
+  const [train, setTrain] = useState<boolean>(false);
+  const [bus, setBus] = useState<boolean>(false);
+  const [walk, setWalk] = useState<boolean>(false);
 
   const onCompleteButtonPress = () => {
     navigate("map", { trasportation: getTransportationList() });

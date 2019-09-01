@@ -20,7 +20,7 @@ import { appTextStyle } from "app/src/styles/general-style";
  * @author itsukiyamada, kotatanaka
  */
 const LinkedAccountScreen: React.FC = () => {
-  const [facebookOn, setFacebookOn] = useState(false);
+  const [facebookOn, setFacebookOn] = useState<boolean>(false);
 
   const switchFacebookValue = (value: boolean) => {
     setFacebookOn(value);

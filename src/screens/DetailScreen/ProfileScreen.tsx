@@ -19,7 +19,7 @@ import appStyle from "app/src/styles/general-style";
 const ProfileScreen: React.FC = () => {
   const userId = useNavigationParam("id");
 
-  const [user, setUser] = useState({
+  const [user, setUser] = useState<UserDetail>({
     user_id: "",
     name: "",
     sex: "",
@@ -32,12 +32,12 @@ const ProfileScreen: React.FC = () => {
     follow_count: 0,
     follower_count: 0
   });
-  const [errors, setErrors] = useState({
+  const [errors, setErrors] = useState<BadRequestError>({
     code: 0,
     message: "",
     detail_massage: []
   });
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const signal = axios.CancelToken.source();

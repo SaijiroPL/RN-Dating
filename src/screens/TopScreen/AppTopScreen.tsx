@@ -27,10 +27,10 @@ const AppTopScreen: React.FC = () => {
   const dispatch = useDispatch();
 
   // [0]初回画面 [1]メールアドレスログイン画面 [2]新規登録画面
-  const [screenPhase, setScreenPhase] = useState(0);
-  const [mailAddress, setMailAddress] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmpassword] = useState("");
+  const [screenPhase, setScreenPhase] = useState<number>(0);
+  const [mailAddress, setMailAddress] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmpassword] = useState<string>("");
 
   const setLoginUser = () => {
     dispatch({

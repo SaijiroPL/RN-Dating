@@ -55,9 +55,9 @@ const PlanDetailScreen: React.FC = () => {
     message: "",
     detail_massage: []
   });
-  const [isPlanLoading, setIsPlanLoading] = useState(true);
-  const [isCommentsLoading, setIsCommentsLoading] = useState(true);
-  const [isLiked, setIsLiked] = useState(false);
+  const [isPlanLoading, setIsPlanLoading] = useState<boolean>(true);
+  const [isCommentsLoading, setIsCommentsLoading] = useState<boolean>(true);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
 
   useEffect(() => {
     const signal = axios.CancelToken.source();

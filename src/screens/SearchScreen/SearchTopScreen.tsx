@@ -19,18 +19,18 @@ import searchScreenStyle from "app/src/styles/search-screen-style";
  * @author kotatanaka
  */
 const SearchTopScreen: React.FC = () => {
-  const [searchWord, setSearchWord] = useState("");
-  const [plans, setPlans] = useState({
+  const [searchWord, setSearchWord] = useState<string>("");
+  const [plans, setPlans] = useState<PlanList>({
     total: 0,
     plan_list: []
   });
-  const [errors, setErrors] = useState({
+  const [errors, setErrors] = useState<BadRequestError>({
     code: 0,
     message: "",
     detail_massage: []
   });
-  const [isLoading, setIsLoading] = useState(true);
-  const [isRefreshing, setRefreshing] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isRefreshing, setRefreshing] = useState<boolean>(false);
 
   useEffect(() => {
     const signal = axios.CancelToken.source();
