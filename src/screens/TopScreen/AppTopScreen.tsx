@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Text, View, Image } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
-import { Input } from "react-native-elements";
 import { FontAwesome } from "@expo/vector-icons";
 
 // from app
@@ -10,6 +9,7 @@ import { ActionType } from "app/src/Reducer";
 import Images from "app/src/constants/Images";
 import Layout from "app/src/constants/Layout";
 import Colors from "app/src/constants/Colors";
+import InputForm from "app/src/components/contents/InputForm";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
 import appStyle from "app/src/styles/general-style";
 import { appTopScreenStyle } from "app/src/styles/top-screen-style";
@@ -87,19 +87,19 @@ const AppTopScreen: React.FC = () => {
   const renderSignInScreen = () => {
     return (
       <View>
-        <Input
+        <InputForm
           placeholder="メールアドレスを入力"
-          onChangeText={mailAddress => setMailAddress(mailAddress)}
           value={mailAddress}
-          containerStyle={appTopScreenStyle.inputForm}
+          setValue={setMailAddress}
         />
-        <Input
+        <InputForm
           placeholder="パスワードを入力"
-          onChangeText={password => setPassword(password)}
           value={password}
-          containerStyle={appTopScreenStyle.inputForm}
+          setValue={setPassword}
         />
-        <CompleteButton title="ログイン" onPress={onSignInButtonPress} />
+        <View style={appTopScreenStyle.completeButtonContainer}>
+          <CompleteButton title="ログイン" onPress={onSignInButtonPress} />
+        </View>
       </View>
     );
   };
@@ -108,25 +108,24 @@ const AppTopScreen: React.FC = () => {
   const renderSignUpScreen = () => {
     return (
       <View>
-        <Input
+        <InputForm
           placeholder="メールアドレスを入力"
-          onChangeText={mailAddress => setMailAddress(mailAddress)}
           value={mailAddress}
-          containerStyle={appTopScreenStyle.inputForm}
+          setValue={setMailAddress}
         />
-        <Input
+        <InputForm
           placeholder="パスワードを入力"
-          onChangeText={password => setPassword(password)}
           value={password}
-          containerStyle={appTopScreenStyle.inputForm}
+          setValue={setPassword}
         />
-        <Input
+        <InputForm
           placeholder="パスワードを再入力"
-          onChangeText={confirmPassword => setConfirmpassword(confirmPassword)}
           value={confirmPassword}
-          containerStyle={appTopScreenStyle.inputForm}
+          setValue={setConfirmpassword}
         />
-        <CompleteButton title="新規登録" onPress={onSignUpButtonPress} />
+        <View style={appTopScreenStyle.completeButtonContainer}>
+          <CompleteButton title="新規登録" onPress={onSignUpButtonPress} />
+        </View>
       </View>
     );
   };
@@ -143,7 +142,7 @@ const AppTopScreen: React.FC = () => {
         />
         <Text style={appTopScreenStyle.welcomeText}>1Dateへようこそ</Text>
       </View>
-      <View style={appTopScreenStyle.linkGroup}>
+      <View style={appTopScreenStyle.linkOrFormGroup}>
         {screenPhase === 0 && renderTopScreen()}
         {screenPhase === 1 && renderSignInScreen()}
         {screenPhase === 2 && renderSignUpScreen()}
