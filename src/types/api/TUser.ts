@@ -26,3 +26,16 @@ export interface User {
   userAttr: string;
   userImageUrl: string;
 }
+
+/**
+ * ユーザー登録リクエストボディ
+ * @author kotatanaka
+ */
+export interface CreateUserBody {
+  name: string;
+  sex: string;
+  age: number;
+  area: string;
+  mail_address: string;
+  password: string;
+}
