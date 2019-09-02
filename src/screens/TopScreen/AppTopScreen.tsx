@@ -30,8 +30,9 @@ const AppTopScreen: React.FC = () => {
   const [screenPhase, setScreenPhase] = useState<number>(0);
   const [mailAddress, setMailAddress] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmpassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
 
+  /** ログインユーザーを永続化 */
   const setLoginUser = () => {
     dispatch({
       type: ActionType.SET_LOGIN_USER,
@@ -39,6 +40,17 @@ const AppTopScreen: React.FC = () => {
         id: loginUserId,
         name: "",
         imageUrl: ""
+      }
+    });
+  };
+
+  /** ユーザー登録に必要な情報の永続化 */
+  const setRegisterUserParts = () => {
+    dispatch({
+      type: ActionType.SET_REGISTER_USER,
+      payload: {
+        mailAddress: mailAddress,
+        password: password
       }
     });
   };
@@ -56,7 +68,12 @@ const AppTopScreen: React.FC = () => {
 
   /** 新規登録ボタン押下時の処理 */
   const onSignUpButtonPress = () => {
-    navigate("welcome");
+    if (password === confirmPassword) {
+      setRegisterUserParts();
+      navigate("welcome");
+    }
+    setPassword("");
+    setConfirmPassword("");
   };
 
   /** 初期画面を描画する */
@@ -121,7 +138,7 @@ const AppTopScreen: React.FC = () => {
         <InputForm
           placeholder="パスワードを再入力"
           value={confirmPassword}
-          setValue={setConfirmpassword}
+          setValue={setConfirmPassword}
         />
         <View style={appTopScreenStyle.completeButtonContainer}>
           <CompleteButton title="新規登録" onPress={onSignUpButtonPress} />

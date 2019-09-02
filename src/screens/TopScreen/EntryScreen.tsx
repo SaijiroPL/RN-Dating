@@ -1,16 +1,23 @@
 import React, { useState } from "react";
 import { View } from "react-native";
-import { Button, Text } from "native-base";
+import { Constants } from "expo";
+import { Text } from "native-base";
 import { useNavigation } from "react-navigation-hooks";
-import { SimpleLineIcons } from "@expo/vector-icons";
+import axios from "axios";
 
 // from app
-import Colors from "app/src/constants/Colors";
+import { useDispatch, useGlobalState } from "app/src/Store";
+import { ActionType } from "app/src/Reducer";
+import { OK } from "app/src/types/api/TSuccess";
+import { BadRequestError } from "app/src/types/api/TError";
+import { CreateUserBody } from "app/src/types/api/TUser";
+import { LoadingSpinner } from "app/src/components/Spinners";
 import SelectButton from "app/src/components/buttons/SelectButton";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
 import DatePicker from "app/src/components/contents/DatePicker";
 import PrefecturePicker from "app/src/components/contents/PrefecturePicker";
-import { getToday } from "app/src/utils/DateUtil";
+import { handleError } from "app/src/utils/ApiUtil";
+import { getToday, getAge } from "app/src/utils/DateUtil";
 import appStyle from "app/src/styles/general-style";
 import { entryScreenStyle } from "app/src/styles/top-screen-style";
 
@@ -19,16 +26,64 @@ import { entryScreenStyle } from "app/src/styles/top-screen-style";
  * @author kotatanaka
  */
 const EntryScreen: React.FC = () => {
+  const registerUser = useGlobalState("registerUser");
+  const dispatch = useDispatch();
   const { navigate } = useNavigation();
 
   const [isMan, setMan] = useState<boolean>(false);
   const [isWoman, setWoman] = useState<boolean>(false);
-  const [date, setDate] = useState<string>("1995-01-01");
+  const [birthday, setBirthday] = useState<string>("1995-01-01");
   const [prefecture, setPrefecture] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [ok, setOk] = useState<OK>();
+  const [errors, setErrors] = useState<BadRequestError>();
 
-  /** 完了ボタン押下でホーム画面に遷移する */
+  /** ユーザー登録 */
+  const createUser = () => {
+    setIsLoading(true);
+
+    const body: CreateUserBody = {
+      // TODO 名前登録フォームを作る
+      name: "xxx",
+      sex: isMan ? "man" : "woman",
+      age: getAge(birthday),
+      area: prefecture,
+      mail_address: registerUser.mailAddress,
+      password: registerUser.password
+    };
+
+    axios
+      .post(Constants.manifest.extra.apiEndpoint + "/users", body)
+      .then((response: { data: OK }) => {
+        setOk(response.data);
+        setIsLoading(false);
+        setLoginUser(response.data.id, "xxx");
+        navigate("main");
+      })
+      .catch(error => {
+        handleError(error);
+        if (error.response.stats === 400) {
+          setErrors(error.response.data);
+        }
+        setIsLoading(false);
+      });
+  };
+
+  /** 新規登録ユーザーをログインユーザーとして永続化 */
+  const setLoginUser = (id: string, name: string) => {
+    dispatch({
+      type: ActionType.SET_LOGIN_USER,
+      payload: {
+        id: id,
+        name: name,
+        imageUrl: ""
+      }
+    });
+  };
+
+  /** 完了ボタン押下でユーザー登録を行い、ホーム画面に遷移する */
   const onCompleteButtonPress = () => {
-    navigate("main");
+    createUser();
   };
 
   /** 性別選択ボタンを描画する */
@@ -59,7 +114,11 @@ const EntryScreen: React.FC = () => {
     return (
       <View style={entryScreenStyle.formGroup}>
         <Text style={entryScreenStyle.entryText}>生年月日</Text>
-        <DatePicker date={date} setDate={setDate} maxDate={getToday()} />
+        <DatePicker
+          date={birthday}
+          setDate={setBirthday}
+          maxDate={getToday()}
+        />
       </View>
     );
   };
@@ -79,10 +138,14 @@ const EntryScreen: React.FC = () => {
 
   /** 入力完了ボタンを描画する */
   const renderCompleteButton = () => {
+    if (isLoading) {
+      return <View style={entryScreenStyle.formGroup}>{LoadingSpinner}</View>;
+    }
+
     return (
       <View style={appStyle.emptySpace}>
         {/* 未入力項目がある場合はボタン押下不可 */}
-        {isMan || isWoman ? (
+        {(isMan || isWoman) && prefecture.length > 0 ? (
           <CompleteButton title="決定" onPress={onCompleteButtonPress} />
         ) : (
           <CompleteButton title="決定" disabled />

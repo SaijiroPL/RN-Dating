@@ -5,5 +5,5 @@
 export interface BadRequestError {
   code: number;
   message: string;
-  detail_massage: Array<String>;
+  detail_message: Array<string>;
 }

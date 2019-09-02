@@ -8,6 +8,10 @@ const initialState: State = {
     id: "",
     name: "",
     imageUrl: ""
+  },
+  registerUser: {
+    mailAddress: "",
+    password: ""
   }
 };
 
