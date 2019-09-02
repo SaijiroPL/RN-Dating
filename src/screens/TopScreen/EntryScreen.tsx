@@ -6,7 +6,8 @@ import { useNavigation } from "react-navigation-hooks";
 import axios from "axios";
 
 // from app
-import { useGlobalState } from "app/src/Store";
+import { useDispatch, useGlobalState } from "app/src/Store";
+import { ActionType } from "app/src/Reducer";
 import { OK } from "app/src/types/api/TSuccess";
 import { BadRequestError } from "app/src/types/api/TError";
 import { CreateUserBody } from "app/src/types/api/TUser";
@@ -26,6 +27,7 @@ import { entryScreenStyle } from "app/src/styles/top-screen-style";
  */
 const EntryScreen: React.FC = () => {
   const registerUser = useGlobalState("registerUser");
+  const dispatch = useDispatch();
   const { navigate } = useNavigation();
 
   const [isMan, setMan] = useState<boolean>(false);
@@ -55,6 +57,7 @@ const EntryScreen: React.FC = () => {
       .then((response: { data: OK }) => {
         setOk(response.data);
         setIsLoading(false);
+        setLoginUser(response.data.id, "xxx");
         navigate("main");
       })
       .catch(error => {
@@ -64,6 +67,18 @@ const EntryScreen: React.FC = () => {
         }
         setIsLoading(false);
       });
+  };
+
+  /** 新規登録ユーザーをログインユーザーとして永続化 */
+  const setLoginUser = (id: string, name: string) => {
+    dispatch({
+      type: ActionType.SET_LOGIN_USER,
+      payload: {
+        id: id,
+        name: name,
+        imageUrl: ""
+      }
+    });
   };
 
   /** 完了ボタン押下でユーザー登録を行い、ホーム画面に遷移する */
