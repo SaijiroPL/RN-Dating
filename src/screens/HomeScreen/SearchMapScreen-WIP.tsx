@@ -1,14 +1,15 @@
 import React, { useState, useRef } from "react";
+import { StyleSheet } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import MapView, { Polyline } from "react-native-maps";
 
 // from app
 import { ILocation, IHere, IMarker } from "app/src/interfaces/Map";
+import Colors from "app/src/constants/Colors";
 import MapCircle from "app/src/components/map/MapCircle";
 import MapHere from "app/src/components/map/MapHere";
 import MapPin from "app/src/components/map/MapPin";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
-import { simpleMapViewStyle } from "app/src/styles/map-component-style";
 
 const locationInitialRound = 700;
 
@@ -137,11 +138,11 @@ const SearchMapScreen: React.FC = () => {
         showsIndoorLevelPicker={false}
         toolbarEnabled={false}
         moveOnMarkerPress={false}
-        style={simpleMapViewStyle.map}
+        style={thisStyle.map}
         ref={mapRef}
         initialRegion={location}
-        //onPress={onMapPress}
-        //onRegionChangeComplete={onRegionChangeConplete}
+        // onPress={onMapPress}
+        // onRegionChangeComplete={onRegionChangeConplete}
       >
         {Line}
         {Here}
@@ -158,5 +159,17 @@ const SearchMapScreen: React.FC = () => {
     </>
   );
 };
+
+/** スタイリング */
+const thisStyle = StyleSheet.create({
+  map: {
+    borderColor: Colors.inactiveColor,
+    borderRadius: 10,
+    borderWidth: 1,
+    height: 200,
+    marginHorizontal: 10
+    // marginVertical: 5
+  }
+});
 
 export default SearchMapScreen;

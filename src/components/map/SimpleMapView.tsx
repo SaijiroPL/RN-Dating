@@ -1,10 +1,11 @@
 import React from "react";
+import { StyleSheet } from "react-native";
 import MapView from "react-native-maps";
 
 // from app
 import { ILocation } from "app/src/interfaces/Map";
 import { ISpot } from "app/src/interfaces/api/Plan";
-import { simpleMapViewStyle } from "app/src/styles/map-component-style";
+import Colors from "app/src/constants/Colors";
 
 interface Props {
   spot: ISpot;
@@ -22,7 +23,19 @@ const SimpleMapView: React.FC<Props> = (props: Props) => {
     longitudeDelta: 0.05
   };
 
-  return <MapView region={region} style={simpleMapViewStyle.map} />;
+  return <MapView region={region} style={thisStyle.map} />;
 };
+
+/** スタイリング */
+const thisStyle = StyleSheet.create({
+  map: {
+    borderColor: Colors.inactiveColor,
+    borderRadius: 10,
+    borderWidth: 1,
+    height: 200,
+    marginHorizontal: 10
+    // marginVertical: 5
+  }
+});
 
 export default SimpleMapView;

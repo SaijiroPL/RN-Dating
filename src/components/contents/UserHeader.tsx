@@ -1,12 +1,11 @@
 import React from "react";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import { Thumbnail, Text } from "native-base";
 
 // from app
 import { IUserInfo } from "app/src/interfaces/User";
 import Images from "app/src/constants/Images";
-import { userHeaderStyle } from "app/src/styles/common-component-style";
 
 interface Props {
   user: IUserInfo;
@@ -25,20 +24,41 @@ const UserHeader: React.FC<Props> = (props: Props) => {
   };
 
   return (
-    <View style={userHeaderStyle.container}>
-      <View style={userHeaderStyle.thumbnail}>
+    <View style={thisStyle.container}>
+      <View style={thisStyle.thumbnail}>
         <Thumbnail source={Images.noUserImage} />
       </View>
-      <View style={userHeaderStyle.user}>
-        <Text style={userHeaderStyle.nameText} onPress={onPress}>
+      <View style={thisStyle.user}>
+        <Text style={thisStyle.nameText} onPress={onPress}>
           {user.userName}
         </Text>
-        <Text note style={userHeaderStyle.attrText}>
+        <Text note style={thisStyle.attrText}>
           {user.userAttr}
         </Text>
       </View>
     </View>
   );
 };
+
+/** スタイリング */
+const thisStyle = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    flexDirection: "row",
+    margin: 5
+  },
+  thumbnail: {
+    padding: 5
+  },
+  user: {
+    padding: 5
+  },
+  nameText: {
+    fontFamily: "genju-medium"
+  },
+  attrText: {
+    fontFamily: "genju-light"
+  }
+});
 
 export default UserHeader;

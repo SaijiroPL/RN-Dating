@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Thumbnail, Text } from "native-base";
 import { Col, Row, Grid } from "react-native-easy-grid";
 
@@ -7,7 +7,6 @@ import { Col, Row, Grid } from "react-native-easy-grid";
 import { IComment } from "app/src/interfaces/api/Comment";
 import Images from "app/src/constants/Images";
 import { isNotNullOrUndefined } from "app/src/utils/CheckUtil";
-import { commentGridStyle } from "app/src/styles/common-component-style";
 
 interface Props {
   comments: Array<IComment>;
@@ -24,16 +23,16 @@ const CommentGrid: React.FC<Props> = (props: Props) => {
   const renderComment = (comment: IComment) => {
     if (isNotNullOrUndefined(comment)) {
       return (
-        <Row style={commentGridStyle.item}>
-          <View style={commentGridStyle.thumbnail}>
+        <Row style={thisStyle.item}>
+          <View style={thisStyle.thumbnail}>
             <Thumbnail small source={Images.noUserImage} />
           </View>
-          <View style={commentGridStyle.comment}>
-            <Text note style={commentGridStyle.nameText}>
+          <View style={thisStyle.comment}>
+            <Text note style={thisStyle.nameText}>
               {comment.user_name}
             </Text>
-            <Text style={commentGridStyle.commentText}>{comment.comment}</Text>
-            <Text note style={commentGridStyle.dateText}>
+            <Text style={thisStyle.commentText}>{comment.comment}</Text>
+            <Text note style={thisStyle.dateText}>
               {comment.create_date.substr(0, 10)}
             </Text>
           </View>
@@ -43,7 +42,7 @@ const CommentGrid: React.FC<Props> = (props: Props) => {
   };
 
   return (
-    <Grid style={commentGridStyle.container}>
+    <Grid style={thisStyle.container}>
       <Col>
         {renderComment(comments[0] as IComment)}
         {renderComment(comments[2] as IComment)}
@@ -55,5 +54,38 @@ const CommentGrid: React.FC<Props> = (props: Props) => {
     </Grid>
   );
 };
+
+/** スタイリング */
+const thisStyle = StyleSheet.create({
+  container: {
+    margin: 5
+  },
+  item: {
+    // borderBottomWidth: 1,
+    borderColor: "#eee",
+    borderTopWidth: 1,
+    flexDirection: "row",
+    margin: 5
+  },
+  thumbnail: {
+    padding: 5
+  },
+  comment: {
+    padding: 5
+  },
+  nameText: {
+    fontFamily: "genju-light",
+    fontSize: 8,
+    textDecorationLine: "underline"
+  },
+  commentText: {
+    fontFamily: "genju-light",
+    fontSize: 8
+  },
+  dateText: {
+    fontFamily: "genju-light",
+    fontSize: 8
+  }
+});
 
 export default CommentGrid;
