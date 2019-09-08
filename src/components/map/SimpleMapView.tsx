@@ -2,12 +2,12 @@ import React from "react";
 import MapView from "react-native-maps";
 
 // from app
-import { Location } from "app/src/types/TMap";
-import { Spot } from "app/src/types/api/TSpot";
+import { ILocation } from "app/src/interfaces/Map";
+import { ISpot } from "app/src/interfaces/api/Plan";
 import { simpleMapViewStyle } from "app/src/styles/map-component-style";
 
 interface Props {
-  spot: Spot;
+  spot: ISpot;
 }
 
 /**
@@ -15,7 +15,7 @@ interface Props {
  * @author kotatanaka
  */
 const SimpleMapView: React.FC<Props> = (props: Props) => {
-  const region: Location = {
+  const region: ILocation = {
     latitude: props.spot.latitude,
     longitude: props.spot.longitude,
     latitudeDelta: 0.02,

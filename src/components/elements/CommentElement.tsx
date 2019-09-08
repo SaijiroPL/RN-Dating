@@ -2,12 +2,12 @@ import React from "react";
 import { ListItem, Thumbnail, Text, Left, Body } from "native-base";
 
 // from app
-import { Comment } from "app/src/types/api/TComment";
+import { IComment } from "app/src/interfaces/api/Comment";
 import Images from "app/src/constants/Images";
 import { commentElementStyle } from "app/src/styles/common-component-style";
 
 interface Props {
-  comment: Comment;
+  comment: IComment;
 }
 
 /**

@@ -2,11 +2,11 @@ import React from "react";
 import { FlatList } from "react-native";
 
 // from app
-import { LikeUser } from "app/src/types/api/TLike";
+import { ILikeUser } from "app/src/interfaces/api/Like";
 import LikeUserElement from "app/src/components/elements/LikeUserElement";
 
 interface Props {
-  users: Array<LikeUser>;
+  users: Array<ILikeUser>;
 }
 
 /**
@@ -16,7 +16,7 @@ interface Props {
 const LikeUserList: React.FC<Props> = (props: Props) => {
   const { users } = props;
 
-  const renderLikeUserElement = ({ item }: { item: LikeUser }) => {
+  const renderLikeUserElement = ({ item }: { item: ILikeUser }) => {
     return <LikeUserElement user={item} />;
   };
 

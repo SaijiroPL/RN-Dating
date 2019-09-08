@@ -3,12 +3,12 @@ import { ListItem, Thumbnail, Text, Left, Body } from "native-base";
 import { useNavigation } from "react-navigation-hooks";
 
 // from app
-import { LikeUser } from "app/src/types/api/TLike";
+import { ILikeUser } from "app/src/interfaces/api/Like";
 import Images from "app/src/constants/Images";
 import { userElementStyle } from "app/src/styles/common-component-style";
 
 interface Props {
-  user: LikeUser;
+  user: ILikeUser;
 }
 
 /**

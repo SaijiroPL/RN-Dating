@@ -6,10 +6,10 @@ import { Container, Content, Text } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
-import { PlanFull } from "app/src/types/api/TPlan";
-import { User } from "app/src/types/api/TUser";
-import { CommentList } from "app/src/types/api/TComment";
-import { BadRequestError } from "app/src/types/api/TError";
+import { IUserInfo } from "app/src/interfaces/User";
+import { IPlanFull } from "app/src/interfaces/api/Plan";
+import { ICommentList } from "app/src/interfaces/api/Comment";
+import { IApiError } from "app/src/interfaces/api/Error";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import UserHeader from "app/src/components/contents/UserHeader";
 import ImageCarousel from "app/src/components/contents/ImageCarousel";
@@ -29,7 +29,7 @@ const PlanDetailScreen: React.FC = () => {
   const { navigate } = useNavigation();
   const planId = useNavigationParam("id");
 
-  const [plan, setPlan] = useState<PlanFull>({
+  const [plan, setPlan] = useState<IPlanFull>({
     plan_id: "",
     title: "",
     description: "",
@@ -46,14 +46,14 @@ const PlanDetailScreen: React.FC = () => {
     comment_count: 0,
     is_liked: false
   });
-  const [comments, setComments] = useState<CommentList>({
+  const [comments, setComments] = useState<ICommentList>({
     total: 0,
     comment_list: []
   });
-  const [errors, setErrors] = useState<BadRequestError>({
+  const [errors, setErrors] = useState<IApiError>({
     code: 0,
     message: "",
-    detail_massage: []
+    detail_message: []
   });
   const [isPlanLoading, setIsPlanLoading] = useState<boolean>(true);
   const [isCommentsLoading, setIsCommentsLoading] = useState<boolean>(true);
@@ -83,7 +83,7 @@ const PlanDetailScreen: React.FC = () => {
   // TODO 自分のプランの場合描画しない
   /** デートプラン作成者部分を描画する */
   const renderPlannerHeader = () => {
-    const planner: User = {
+    const planner: IUserInfo = {
       userId: plan.user_id,
       userName: plan.user_name,
       userAttr: plan.user_attr,
@@ -148,11 +148,11 @@ const PlanDetailScreen: React.FC = () => {
       .get(Constants.manifest.extra.apiEndpoint + "/plans/" + planId, {
         cancelToken: signal.token
       })
-      .then((response: { data: PlanFull }) => {
+      .then((response: { data: IPlanFull }) => {
         setPlan(Object.assign(response.data));
         setIsPlanLoading(false);
       })
-      .catch((error: BadRequestError) => {
+      .catch((error: IApiError) => {
         setErrors(Object.assign(error));
         setIsPlanLoading(false);
         if (axios.isCancel(error)) {
@@ -172,11 +172,11 @@ const PlanDetailScreen: React.FC = () => {
       .get(url, {
         cancelToken: signal.token
       })
-      .then((response: { data: CommentList }) => {
+      .then((response: { data: ICommentList }) => {
         setComments(Object.assign(response.data));
         setIsCommentsLoading(false);
       })
-      .catch((error: BadRequestError) => {
+      .catch((error: IApiError) => {
         setErrors(Object.assign(error));
         setIsCommentsLoading(false);
         if (axios.isCancel(error)) {

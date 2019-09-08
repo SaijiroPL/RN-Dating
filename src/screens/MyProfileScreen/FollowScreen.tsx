@@ -6,8 +6,8 @@ import { Container } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
-import { FollowList as TFollowList } from "app/src/types/api/TFollow";
-import { BadRequestError } from "app/src/types/api/TError";
+import { IFollowList } from "app/src/interfaces/api/Follow";
+import { IApiError } from "app/src/interfaces/api/Error";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import FollowList from "app/src/components/lists/FollowList";
 import { appTextStyle } from "app/src/styles/general-style";
@@ -19,14 +19,14 @@ import { appTextStyle } from "app/src/styles/general-style";
 const FollowScreen: React.FC = () => {
   const userId = useNavigationParam("id");
 
-  const [follows, setFollows] = useState<TFollowList>({
+  const [follows, setFollows] = useState<IFollowList>({
     total: 0,
     follow_list: []
   });
-  const [errors, setErrors] = useState<BadRequestError>({
+  const [errors, setErrors] = useState<IApiError>({
     code: 0,
     message: "",
-    detail_massage: []
+    detail_message: []
   });
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -47,11 +47,11 @@ const FollowScreen: React.FC = () => {
       .get(url, {
         cancelToken: signal.token
       })
-      .then((response: { data: TFollowList }) => {
+      .then((response: { data: IFollowList }) => {
         setFollows(Object.assign(response.data));
         setIsLoading(false);
       })
-      .catch((error: BadRequestError) => {
+      .catch((error: IApiError) => {
         setErrors(Object.assign(error));
         setIsLoading(false);
         if (axios.isCancel(error)) {

@@ -4,12 +4,12 @@ import { useNavigation } from "react-navigation-hooks";
 import { Thumbnail, Text } from "native-base";
 
 // from app
-import { User } from "app/src/types/api/TUser";
+import { IUserInfo } from "app/src/interfaces/User";
 import Images from "app/src/constants/Images";
 import { userHeaderStyle } from "app/src/styles/common-component-style";
 
 interface Props {
-  user: User;
+  user: IUserInfo;
 }
 
 /**

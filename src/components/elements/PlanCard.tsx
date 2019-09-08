@@ -8,21 +8,19 @@ import {
   Text,
   Button,
   Left,
-  Right,
-  Item,
   Thumbnail
 } from "native-base";
 import MapView from "react-native-maps";
 import { FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 
 // from app
-import { Plan } from "app/src/types/api/TPlan";
+import { IPlan } from "app/src/interfaces/api/Plan";
 import Images from "app/src/constants/Images";
 import Colors from "app/src/constants/Colors";
 import { planCardStyle } from "app/src/styles/common-component-style";
 
 interface Props {
-  plan: Plan;
+  plan: IPlan;
   myPlan?: boolean;
 }
 

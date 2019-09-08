@@ -3,12 +3,12 @@ import { useNavigation } from "react-navigation-hooks";
 import { Container } from "native-base";
 
 // from app
-import { CandidateSpot } from "app/src/types/api/TSpot";
+import { ICandidateSpot } from "app/src/interfaces/Spot";
 import SpotSwiper from "app/src/components/contents/SpotSwiper";
 import CompleteFooterButton from "app/src/components/buttons/CompleteFooterButton";
 
 // 仮データ
-const SAMPLE_SPOTS: Array<CandidateSpot> = [
+const SAMPLE_SPOTS: Array<ICandidateSpot> = [
   {
     spotName: "1Dateカフェ渋谷店",
     description: "この夏オススメのデートスポット",

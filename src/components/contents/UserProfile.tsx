@@ -4,13 +4,13 @@ import { useNavigation } from "react-navigation-hooks";
 import { Thumbnail, Text } from "native-base";
 
 // from app
-import { UserDetail } from "app/src/types/api/TUser";
+import { IUserDetail } from "app/src/interfaces/api/User";
 import Images from "app/src/constants/Images";
 import { appTextStyle } from "app/src/styles/general-style";
 import { userProfileStyle } from "app/src/styles/profile-screen-style";
 
 interface Props {
-  user: UserDetail;
+  user: IUserDetail;
   me?: boolean;
 }
 

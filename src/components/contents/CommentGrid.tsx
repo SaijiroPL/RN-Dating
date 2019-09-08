@@ -1,16 +1,16 @@
 import React from "react";
 import { View } from "react-native";
-import { Thumbnail, Text, Left, Body } from "native-base";
+import { Thumbnail, Text } from "native-base";
 import { Col, Row, Grid } from "react-native-easy-grid";
 
 // from app
-import { Comment } from "app/src/types/api/TComment";
+import { IComment } from "app/src/interfaces/api/Comment";
 import Images from "app/src/constants/Images";
 import { isNotNullOrUndefined } from "app/src/utils/CheckUtil";
 import { commentGridStyle } from "app/src/styles/common-component-style";
 
 interface Props {
-  comments: Array<Comment>;
+  comments: Array<IComment>;
 }
 
 /**
@@ -21,7 +21,7 @@ const CommentGrid: React.FC<Props> = (props: Props) => {
   const { comments } = props;
 
   // 1つのコメントを描画する
-  const renderComment = (comment: Comment) => {
+  const renderComment = (comment: IComment) => {
     if (isNotNullOrUndefined(comment)) {
       return (
         <Row style={commentGridStyle.item}>
@@ -45,12 +45,12 @@ const CommentGrid: React.FC<Props> = (props: Props) => {
   return (
     <Grid style={commentGridStyle.container}>
       <Col>
-        {renderComment(comments[0] as Comment)}
-        {renderComment(comments[2] as Comment)}
+        {renderComment(comments[0] as IComment)}
+        {renderComment(comments[2] as IComment)}
       </Col>
       <Col>
-        {renderComment(comments[1] as Comment)}
-        {renderComment(comments[3] as Comment)}
+        {renderComment(comments[1] as IComment)}
+        {renderComment(comments[3] as IComment)}
       </Col>
     </Grid>
   );

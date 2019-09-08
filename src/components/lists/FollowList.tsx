@@ -2,11 +2,11 @@ import React from "react";
 import { FlatList } from "react-native";
 
 // from app
-import { Follow } from "app/src/types/api/TFollow";
+import { IFollow } from "app/src/interfaces/api/Follow";
 import FollowElement from "app/src/components/elements/FollowElement";
 
 interface Props {
-  follows: Array<Follow>;
+  follows: Array<IFollow>;
 }
 
 /**
@@ -16,7 +16,7 @@ interface Props {
 const FollowList: React.FC<Props> = (props: Props) => {
   const { follows } = props;
 
-  const renderFollowElement = ({ item }: { item: Follow }) => {
+  const renderFollowElement = ({ item }: { item: IFollow }) => {
     return <FollowElement follow={item} />;
   };
 

@@ -8,9 +8,9 @@ import axios from "axios";
 // from app
 import { useDispatch, useGlobalState } from "app/src/Store";
 import { ActionType } from "app/src/Reducer";
-import { OK } from "app/src/types/api/TSuccess";
-import { BadRequestError } from "app/src/types/api/TError";
-import { CreateUserBody } from "app/src/types/api/TUser";
+import { IOK } from "app/src/interfaces/api/Success";
+import { IApiError } from "app/src/interfaces/api/Error";
+import { ICreateUserBody } from "app/src/interfaces/api/User";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import SelectButton from "app/src/components/buttons/SelectButton";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
@@ -35,14 +35,14 @@ const EntryScreen: React.FC = () => {
   const [birthday, setBirthday] = useState<string>("1995-01-01");
   const [prefecture, setPrefecture] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [ok, setOk] = useState<OK>();
-  const [errors, setErrors] = useState<BadRequestError>();
+  const [ok, setOk] = useState<IOK>();
+  const [errors, setErrors] = useState<IApiError>();
 
   /** ユーザー登録 */
   const createUser = () => {
     setIsLoading(true);
 
-    const body: CreateUserBody = {
+    const body: ICreateUserBody = {
       // TODO 名前登録フォームを作る
       name: "xxx",
       sex: isMan ? "man" : "woman",
@@ -54,7 +54,7 @@ const EntryScreen: React.FC = () => {
 
     axios
       .post(Constants.manifest.extra.apiEndpoint + "/users", body)
-      .then((response: { data: OK }) => {
+      .then((response: { data: IOK }) => {
         setOk(response.data);
         setIsLoading(false);
         setLoginUser(response.data.id, "xxx");

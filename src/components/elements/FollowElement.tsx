@@ -3,12 +3,12 @@ import { ListItem, Thumbnail, Text, Left, Body } from "native-base";
 import { useNavigation } from "react-navigation-hooks";
 
 // from app
-import { Follow } from "app/src/types/api/TFollow";
+import { IFollow } from "app/src/interfaces/api/Follow";
 import Images from "app/src/constants/Images";
 import { userElementStyle } from "app/src/styles/common-component-style";
 
 interface Props {
-  follow: Follow;
+  follow: IFollow;
 }
 
 /**

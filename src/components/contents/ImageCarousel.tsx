@@ -3,13 +3,13 @@ import { Image } from "react-native";
 import Carousel from "react-native-snap-carousel";
 
 // from app
-import { Plan } from "app/src/types/api/TPlan";
+import { IPlan } from "app/src/interfaces/api/Plan";
 import Images from "app/src/constants/Images";
 import Layout from "app/src/constants/Layout";
 import { imageCarouselStyle } from "app/src/styles/common-component-style";
 
 interface Props {
-  plan: Plan;
+  plan: IPlan;
 }
 
 // 仮データ
