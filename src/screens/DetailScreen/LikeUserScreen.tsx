@@ -5,11 +5,12 @@ import { Container, Text } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
-import { LikeUserList as TLikeUserList } from "app/src/types/api/TLike";
-import { BadRequestError } from "app/src/types/api/TError";
+import { ILikeUserList } from "app/src/interfaces/api/Like";
+import { IApiError } from "app/src/interfaces/api/Error";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import LikeUserList from "app/src/components/lists/LikeUserList";
-import { appTextStyle } from "app/src/styles/general-style";
+import { handleError } from "app/src/utils/ApiUtil";
+import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 /**
  * デートプランお気に入り登録者一覧画面
@@ -18,14 +19,14 @@ import { appTextStyle } from "app/src/styles/general-style";
 const LikeUserScreen: React.FC = () => {
   const planId = useNavigationParam("id");
 
-  const [users, setUsers] = useState<TLikeUserList>({
+  const [users, setUsers] = useState<ILikeUserList>({
     total: 0,
     liked_user_list: []
   });
-  const [errors, setErrors] = useState<BadRequestError>({
+  const [errors, setErrors] = useState<IApiError>({
     code: 0,
     message: "",
-    detail_massage: []
+    detail_message: []
   });
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -46,18 +47,20 @@ const LikeUserScreen: React.FC = () => {
       .get(url, {
         cancelToken: signal.token
       })
-      .then((response: { data: TLikeUserList }) => {
+      .then((response: { data: ILikeUserList }) => {
         setUsers(Object.assign(response.data));
         setIsLoading(false);
       })
-      .catch((error: BadRequestError) => {
-        setErrors(Object.assign(error));
-        setIsLoading(false);
+      .catch(error => {
         if (axios.isCancel(error)) {
           console.log("Request Cancelled: " + error.message);
         } else {
-          console.log("API Error: " + error.message);
+          handleError(error);
+          if (error.response.stats === 400) {
+            setErrors(error.response.data);
+          }
         }
+        setIsLoading(false);
       });
   };
 

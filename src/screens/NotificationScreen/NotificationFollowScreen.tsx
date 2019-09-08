@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 // from app
-import { appTextStyle } from "app/src/styles/general-style";
+import Colors from "app/src/constants/Colors";
 import { RefreshSpinner } from "app/src/components/Spinners";
-import notificationScreenStyle from "app/src/styles/notification-screen-style";
+import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 /**
  * フォロー通知一覧画面
@@ -21,7 +21,7 @@ const NotificationFollowScreen: React.FC = () => {
 
   return (
     <ScrollView refreshControl={RefreshSpinner(isRefreshing, onRefresh)}>
-      <View style={notificationScreenStyle.container}>
+      <View style={thisStyle.container}>
         {!notifications.length && (
           <Text style={appTextStyle.defaultText}>
             フォロー通知はありません。
@@ -31,5 +31,12 @@ const NotificationFollowScreen: React.FC = () => {
     </ScrollView>
   );
 };
+
+/** スタイリング */
+const thisStyle = StyleSheet.create({
+  container: {
+    backgroundColor: Colors.backgroundColor
+  }
+});
 
 export default NotificationFollowScreen;

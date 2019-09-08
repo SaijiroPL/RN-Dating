@@ -2,7 +2,7 @@ import React from "react";
 import { Picker } from "native-base";
 
 import Colors from "app/src/constants/Colors";
-import { appTextStyle } from "app/src/styles/general-style";
+import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 interface Props {
   prefecture: string;

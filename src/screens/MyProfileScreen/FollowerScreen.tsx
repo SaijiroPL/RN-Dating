@@ -6,11 +6,12 @@ import { Container } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
-import { FollowerList } from "app/src/types/api/TFollow";
-import { BadRequestError } from "app/src/types/api/TError";
+import { IFollowerList } from "app/src/interfaces/api/Follow";
+import { IApiError } from "app/src/interfaces/api/Error";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import FollowList from "app/src/components/lists/FollowList";
-import { appTextStyle } from "app/src/styles/general-style";
+import { handleError } from "app/src/utils/ApiUtil";
+import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 /**
  * フォロワーリスト一覧画面
@@ -19,14 +20,14 @@ import { appTextStyle } from "app/src/styles/general-style";
 const FollowScreen: React.FC = () => {
   const userId = useNavigationParam("id");
 
-  const [followers, setFollowers] = useState<FollowerList>({
+  const [followers, setFollowers] = useState<IFollowerList>({
     total: 0,
     follower_list: []
   });
-  const [errors, setErrors] = useState<BadRequestError>({
+  const [errors, setErrors] = useState<IApiError>({
     code: 0,
     message: "",
-    detail_massage: []
+    detail_message: []
   });
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -47,18 +48,20 @@ const FollowScreen: React.FC = () => {
       .get(url, {
         cancelToken: signal.token
       })
-      .then((response: { data: FollowerList }) => {
+      .then((response: { data: IFollowerList }) => {
         setFollowers(Object.assign(response.data));
         setIsLoading(false);
       })
-      .catch((error: BadRequestError) => {
-        setErrors(Object.assign(error));
-        setIsLoading(false);
+      .catch(error => {
         if (axios.isCancel(error)) {
           console.log("Request Cancelled: " + error.message);
         } else {
-          console.log("API Error: " + error.message);
+          handleError(error);
+          if (error.response.stats === 400) {
+            setErrors(error.response.data);
+          }
         }
+        setIsLoading(false);
       });
   };
 

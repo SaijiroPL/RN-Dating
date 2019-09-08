@@ -2,11 +2,11 @@ import React from "react";
 import { FlatList } from "react-native";
 
 // from app
-import { Plan } from "app/src/types/api/TPlan";
+import { IPlan } from "app/src/interfaces/api/Plan";
 import PlanCard from "app/src/components/elements/PlanCard";
 
 interface Props {
-  planList: Array<Plan>;
+  planList: Array<IPlan>;
   myPlan?: boolean;
 }
 
@@ -17,7 +17,7 @@ interface Props {
 const PlanCardList: React.FC<Props> = (props: Props) => {
   const { planList, myPlan } = props;
 
-  const renderPlanCard = ({ item }: { item: Plan }) => {
+  const renderPlanCard = ({ item }: { item: IPlan }) => {
     if (myPlan) {
       return <PlanCard plan={item} myPlan />;
     }

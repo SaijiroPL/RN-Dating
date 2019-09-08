@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Constants } from "expo";
 import { Text } from "native-base";
 import { useNavigation } from "react-navigation-hooks";
@@ -8,9 +8,10 @@ import axios from "axios";
 // from app
 import { useDispatch, useGlobalState } from "app/src/Store";
 import { ActionType } from "app/src/Reducer";
-import { OK } from "app/src/types/api/TSuccess";
-import { BadRequestError } from "app/src/types/api/TError";
-import { CreateUserBody } from "app/src/types/api/TUser";
+import { IOK } from "app/src/interfaces/api/Success";
+import { IApiError } from "app/src/interfaces/api/Error";
+import { ICreateUserBody } from "app/src/interfaces/api/User";
+import Colors from "app/src/constants/Colors";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import SelectButton from "app/src/components/buttons/SelectButton";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
@@ -18,8 +19,7 @@ import DatePicker from "app/src/components/contents/DatePicker";
 import PrefecturePicker from "app/src/components/contents/PrefecturePicker";
 import { handleError } from "app/src/utils/ApiUtil";
 import { getToday, getAge } from "app/src/utils/DateUtil";
-import appStyle from "app/src/styles/general-style";
-import { entryScreenStyle } from "app/src/styles/top-screen-style";
+import appStyle from "app/src/styles/GeneralStyle";
 
 /**
  * ユーザー基本情報入力画面
@@ -35,14 +35,14 @@ const EntryScreen: React.FC = () => {
   const [birthday, setBirthday] = useState<string>("1995-01-01");
   const [prefecture, setPrefecture] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [ok, setOk] = useState<OK>();
-  const [errors, setErrors] = useState<BadRequestError>();
+  const [ok, setOk] = useState<IOK>();
+  const [errors, setErrors] = useState<IApiError>();
 
   /** ユーザー登録 */
   const createUser = () => {
     setIsLoading(true);
 
-    const body: CreateUserBody = {
+    const body: ICreateUserBody = {
       // TODO 名前登録フォームを作る
       name: "xxx",
       sex: isMan ? "man" : "woman",
@@ -54,7 +54,7 @@ const EntryScreen: React.FC = () => {
 
     axios
       .post(Constants.manifest.extra.apiEndpoint + "/users", body)
-      .then((response: { data: OK }) => {
+      .then((response: { data: IOK }) => {
         setOk(response.data);
         setIsLoading(false);
         setLoginUser(response.data.id, "xxx");
@@ -89,9 +89,9 @@ const EntryScreen: React.FC = () => {
   /** 性別選択ボタンを描画する */
   const renderSexButtons = () => {
     return (
-      <View style={entryScreenStyle.formGroup}>
-        <View style={entryScreenStyle.sexTitleContainer}>
-          <Text style={entryScreenStyle.entryText}>性別</Text>
+      <View style={thisStyle.formGroup}>
+        <View style={thisStyle.sexTitleContainer}>
+          <Text style={thisStyle.entryText}>性別</Text>
         </View>
         <SelectButton
           value={isMan}
@@ -112,8 +112,8 @@ const EntryScreen: React.FC = () => {
   /** 生年月日選択フォームを描画する */
   const renderBirthdayForm = () => {
     return (
-      <View style={entryScreenStyle.formGroup}>
-        <Text style={entryScreenStyle.entryText}>生年月日</Text>
+      <View style={thisStyle.formGroup}>
+        <Text style={thisStyle.entryText}>生年月日</Text>
         <DatePicker
           date={birthday}
           setDate={setBirthday}
@@ -126,8 +126,8 @@ const EntryScreen: React.FC = () => {
   /** 都道府県選択フォームを描画する */
   const renderAddressForm = () => {
     return (
-      <View style={entryScreenStyle.formGroup}>
-        <Text style={entryScreenStyle.entryText}>住まい</Text>
+      <View style={thisStyle.formGroup}>
+        <Text style={thisStyle.entryText}>住まい</Text>
         <PrefecturePicker
           prefecture={prefecture}
           setPrefecture={setPrefecture}
@@ -139,7 +139,7 @@ const EntryScreen: React.FC = () => {
   /** 入力完了ボタンを描画する */
   const renderCompleteButton = () => {
     if (isLoading) {
-      return <View style={entryScreenStyle.formGroup}>{LoadingSpinner}</View>;
+      return <View style={thisStyle.formGroup}>{LoadingSpinner}</View>;
     }
 
     return (
@@ -165,5 +165,22 @@ const EntryScreen: React.FC = () => {
     </View>
   );
 };
+
+/** スタイリング */
+const thisStyle = StyleSheet.create({
+  formGroup: {
+    alignItems: "center",
+    flex: 1,
+    flexDirection: "row"
+  },
+  entryText: {
+    color: Colors.textTintColor,
+    fontFamily: "genju-medium",
+    fontSize: 20
+  },
+  sexTitleContainer: {
+    marginRight: 30
+  }
+});
 
 export default EntryScreen;

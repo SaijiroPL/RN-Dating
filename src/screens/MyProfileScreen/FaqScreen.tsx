@@ -13,7 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 // from app
 import Colors from "app/src/constants/Colors";
-import { appTextStyle } from "app/src/styles/general-style";
+import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 /**
  * よくある質問画面

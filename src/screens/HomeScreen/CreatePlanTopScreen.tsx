@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
-import { Button, Text } from "native-base";
+import { Text } from "native-base";
 
 // from app
+import Colors from "app/src/constants/Colors";
 import SelectButton from "app/src/components/buttons/SelectButton";
 import DatePicker from "app/src/components/contents/DatePicker";
 import CompleteFooterButton from "app/src/components/buttons/CompleteFooterButton";
 import { getToday } from "app/src/utils/DateUtil";
-import appStyle from "app/src/styles/general-style";
-import { createPlanTopScreenStyle } from "app/src/styles/create-screen-style";
+import appStyle from "app/src/styles/GeneralStyle";
 
 /**
  * デートプラン作成画面トップ(基本情報入力画面)
@@ -43,8 +43,8 @@ const CreatePlanTopScreen: React.FC = () => {
   /** 移動手段選択ボタンを描画する */
   const renderTransportationButtonGroup = () => {
     return (
-      <View style={createPlanTopScreenStyle.formGroup}>
-        <Text style={createPlanTopScreenStyle.itemTitleText}>移動手段</Text>
+      <View style={thisStyle.formGroup}>
+        <Text style={thisStyle.itemTitleText}>移動手段</Text>
         <SelectButton
           value={car}
           setValue={setCar}
@@ -77,8 +77,8 @@ const CreatePlanTopScreen: React.FC = () => {
   // FIXME 日付を選択するとエラー NativeBaseじゃないDatePickerにする?
   const renderDatePicker = () => {
     return (
-      <View style={createPlanTopScreenStyle.formGroup}>
-        <Text style={createPlanTopScreenStyle.itemTitleText}>デート予定日</Text>
+      <View style={thisStyle.formGroup}>
+        <Text style={thisStyle.itemTitleText}>デート予定日</Text>
         <DatePicker date={date} setDate={setDate} minDate={getToday()} />
       </View>
     );
@@ -104,5 +104,19 @@ const CreatePlanTopScreen: React.FC = () => {
     </View>
   );
 };
+
+/** スタイリング */
+const thisStyle = StyleSheet.create({
+  formGroup: {
+    alignItems: "center",
+    flex: 1,
+    flexDirection: "row"
+  },
+  itemTitleText: {
+    color: Colors.textTintColor,
+    fontFamily: "genju-medium",
+    marginRight: 10
+  }
+});
 
 export default CreatePlanTopScreen;

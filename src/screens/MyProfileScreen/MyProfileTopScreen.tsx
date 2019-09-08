@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Constants } from "expo";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
 import { useGlobalState } from "app/src/Store";
-import { UserDetail } from "app/src/types/api/TUser";
-import { BadRequestError } from "app/src/types/api/TError";
+import { IUserDetail } from "app/src/interfaces/api/User";
+import { IApiError } from "app/src/interfaces/api/Error";
+import Colors from "app/src/constants/Colors";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import UserProfile from "app/src/components/contents/UserProfile";
 import SettingFab from "app/src/components/buttons/SettingFab";
-import profileScreenStyle from "app/src/styles/profile-screen-style";
+import { handleError } from "app/src/utils/ApiUtil";
 
 /**
  * マイプロフィール画面トップ
@@ -19,7 +20,7 @@ import profileScreenStyle from "app/src/styles/profile-screen-style";
 const MyProfileTopScreen: React.FC = () => {
   const loginUser = useGlobalState("loginUser");
 
-  const [user, setUser] = useState<UserDetail>({
+  const [user, setUser] = useState<IUserDetail>({
     user_id: "",
     name: "",
     sex: "",
@@ -32,10 +33,10 @@ const MyProfileTopScreen: React.FC = () => {
     follow_count: 0,
     follower_count: 0
   });
-  const [errors, setErrors] = useState<BadRequestError>({
+  const [errors, setErrors] = useState<IApiError>({
     code: 0,
     message: "",
-    detail_massage: []
+    detail_message: []
   });
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -55,18 +56,20 @@ const MyProfileTopScreen: React.FC = () => {
       .get(url, {
         cancelToken: signal.token
       })
-      .then((response: { data: UserDetail }) => {
+      .then((response: { data: IUserDetail }) => {
         setUser(Object.assign(response.data));
         setIsLoading(false);
       })
-      .catch((error: BadRequestError) => {
-        setErrors(Object.assign(error));
-        setIsLoading(false);
+      .catch(error => {
         if (axios.isCancel(error)) {
           console.log("Request Cancelled: " + error.message);
         } else {
-          console.log("API Error: " + error.message);
+          handleError(error);
+          if (error.response.stats === 400) {
+            setErrors(error.response.data);
+          }
         }
+        setIsLoading(false);
       });
   };
 
@@ -75,11 +78,20 @@ const MyProfileTopScreen: React.FC = () => {
   }
 
   return (
-    <View style={profileScreenStyle.container}>
+    <View style={thisStyle.container}>
       <UserProfile user={user} me />
       <SettingFab />
     </View>
   );
 };
+
+/** スタイリング */
+const thisStyle = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center"
+  }
+});
 
 export default MyProfileTopScreen;

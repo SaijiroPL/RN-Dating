@@ -1,30 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { Constants } from "expo";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
-import { PlanList } from "app/src/types/api/TPlan";
-import { BadRequestError } from "app/src/types/api/TError";
+import { IPlanList } from "app/src/interfaces/api/Plan";
+import { IApiError } from "app/src/interfaces/api/Error";
+import Colors from "app/src/constants/Colors";
 import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
 import PlanCardList from "app/src/components/lists/PlanCardList";
 import CreatePlanFab from "app/src/components/buttons/CreatePlanFab";
-import { appTextStyle } from "app/src/styles/general-style";
-import homeScreenStyle from "app/src/styles/home-screen-style";
+import { handleError } from "app/src/utils/ApiUtil";
+import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 /**
  * ホーム画面トップ
  * @author kotatanaka
  */
 const HomeTopScreen: React.FC = () => {
-  const [plans, setPlans] = useState<PlanList>({
+  const [plans, setPlans] = useState<IPlanList>({
     total: 0,
     plan_list: []
   });
-  const [errors, setErrors] = useState<BadRequestError>({
+  const [errors, setErrors] = useState<IApiError>({
     code: 0,
     message: "",
-    detail_massage: []
+    detail_message: []
   });
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isRefreshing, setRefreshing] = useState<boolean>(false);
@@ -44,18 +45,20 @@ const HomeTopScreen: React.FC = () => {
       .get(Constants.manifest.extra.apiEndpoint + "/plans", {
         cancelToken: signal.token
       })
-      .then((response: { data: PlanList }) => {
+      .then((response: { data: IPlanList }) => {
         setPlans(Object.assign(response.data));
         setIsLoading(false);
       })
-      .catch((error: BadRequestError) => {
-        setErrors(Object.assign(error));
-        setIsLoading(false);
+      .catch(error => {
         if (axios.isCancel(error)) {
           console.log("Request Cancelled: " + error.message);
         } else {
-          console.log("API Error: " + error.message);
+          handleError(error);
+          if (error.response.stats === 400) {
+            setErrors(error.response.data);
+          }
         }
+        setIsLoading(false);
       });
   };
 
@@ -71,7 +74,7 @@ const HomeTopScreen: React.FC = () => {
   }
 
   return (
-    <View style={homeScreenStyle.container}>
+    <View style={thisStyle.container}>
       <Text style={appTextStyle.countText}>
         デートプランの数: {plans.total}
       </Text>
@@ -82,5 +85,14 @@ const HomeTopScreen: React.FC = () => {
     </View>
   );
 };
+
+/** スタイリング */
+const thisStyle = StyleSheet.create({
+  container: {
+    backgroundColor: Colors.backgroundColor,
+    flex: 1,
+    justifyContent: "center"
+  }
+});
 
 export default HomeTopScreen;

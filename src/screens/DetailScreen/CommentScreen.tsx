@@ -5,11 +5,12 @@ import { Container, Text } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
-import { CommentList as TCommentList } from "app/src/types/api/TComment";
-import { BadRequestError } from "app/src/types/api/TError";
+import { ICommentList } from "app/src/interfaces/api/Comment";
+import { IApiError } from "app/src/interfaces/api/Error";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import CommentList from "app/src/components/lists/CommentList";
-import { appTextStyle } from "app/src/styles/general-style";
+import { handleError } from "app/src/utils/ApiUtil";
+import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 /**
  * コメント一覧画面
@@ -18,14 +19,14 @@ import { appTextStyle } from "app/src/styles/general-style";
 const CommentScreen: React.FC = () => {
   const planId = useNavigationParam("id");
 
-  const [comments, setComments] = useState<TCommentList>({
+  const [comments, setComments] = useState<ICommentList>({
     total: 0,
     comment_list: []
   });
-  const [errors, setErrors] = useState<BadRequestError>({
+  const [errors, setErrors] = useState<IApiError>({
     code: 0,
     message: "",
-    detail_massage: []
+    detail_message: []
   });
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -46,18 +47,20 @@ const CommentScreen: React.FC = () => {
       .get(url, {
         cancelToken: signal.token
       })
-      .then((response: { data: TCommentList }) => {
+      .then((response: { data: ICommentList }) => {
         setComments(Object.assign(response.data));
         setIsLoading(false);
       })
-      .catch((error: BadRequestError) => {
-        setErrors(Object.assign(error));
-        setIsLoading(false);
+      .catch(error => {
         if (axios.isCancel(error)) {
           console.log("Request Cancelled: " + error.message);
         } else {
-          console.log("API Error: " + error.message);
+          handleError(error);
+          if (error.response.stats === 400) {
+            setErrors(error.response.data);
+          }
         }
+        setIsLoading(false);
       });
   };
 

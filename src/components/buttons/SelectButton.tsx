@@ -1,9 +1,9 @@
 import React from "react";
+import { StyleSheet } from "react-native";
 import { Button, Text } from "native-base";
 
 // from app
-import { appButtonStyle } from "app/src/styles/general-style";
-import { createPlanTopScreenStyle } from "app/src/styles/create-screen-style";
+import Colors from "app/src/constants/Colors";
 
 interface Props {
   // 現在のオンオフ状態
@@ -47,31 +47,49 @@ const SelectButton: React.FC<Props> = (props: Props) => {
       <Button
         small
         light
-        style={appButtonStyle.selectButtonInactive}
+        style={thisStyle.inactiveButton}
         onPress={() => setValues(true)}
       >
-        <Text style={appButtonStyle.selectButtonInactiveText}>
-          {buttonName}
-        </Text>
+        <Text style={thisStyle.inactiveText}>{buttonName}</Text>
       </Button>
     );
   } else {
     return (
       <Button
         small
-        style={appButtonStyle.selectButtonActive}
+        style={thisStyle.activeButton}
         onPress={() => {
           if (reversible) setValues(false);
         }}
       >
-        <Text style={appButtonStyle.selectButtonActiveText}>{buttonName}</Text>
+        <Text style={thisStyle.inactiveButton}>{buttonName}</Text>
       </Button>
     );
   }
 };
 
+/** デフォルト値 */
 SelectButton.defaultProps = {
   reversible: false
 };
+
+/** スタイリング */
+const thisStyle = StyleSheet.create({
+  inactiveButton: {
+    marginHorizontal: 5
+  },
+  activeButton: {
+    backgroundColor: Colors.tintColor,
+    marginHorizontal: 5
+  },
+  inactiveText: {
+    color: Colors.textTintColor,
+    fontFamily: "genju-medium"
+  },
+  activeText: {
+    color: "white",
+    fontFamily: "genju-medium"
+  }
+});
 
 export default SelectButton;

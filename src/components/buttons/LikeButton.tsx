@@ -1,9 +1,10 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
 // from app
-import { appButtonStyle, appTextStyle } from "app/src/styles/general-style";
+import Colors from "app/src/constants/Colors";
+import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 interface Props {
   likeCount: number;
@@ -22,7 +23,7 @@ const LikeButton: React.FC<Props> = (props: Props) => {
         <AntDesign
           name="heart"
           size={20}
-          style={appButtonStyle.likeButton}
+          style={thisStyle.button}
           onPress={() => props.setLiked(false)}
         />
       );
@@ -32,18 +33,34 @@ const LikeButton: React.FC<Props> = (props: Props) => {
       <AntDesign
         name="hearto"
         size={20}
-        style={appButtonStyle.likeButton}
+        style={thisStyle.button}
         onPress={() => props.setLiked(true)}
       />
     );
   };
 
   return (
-    <View style={appButtonStyle.likeButtonContainer}>
+    <View style={thisStyle.container}>
       {renderHeart()}
-      <Text style={appTextStyle.colorText}>{props.likeCount}</Text>
+      <Text style={appTextStyle.tintColorText}>{props.likeCount}</Text>
     </View>
   );
 };
+
+/** スタイリング */
+const thisStyle = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    flex: 1,
+    flexDirection: "row",
+    height: 30,
+    justifyContent: "flex-end",
+    marginRight: 10
+  },
+  button: {
+    color: Colors.tintColor,
+    marginRight: 5
+  }
+});
 
 export default LikeButton;

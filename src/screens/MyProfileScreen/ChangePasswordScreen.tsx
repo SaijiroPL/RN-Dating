@@ -7,7 +7,7 @@ import { useNavigation } from "react-navigation-hooks";
 import InputFormFloating from "app/src/components/contents/InputFormFloating";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
 import { isEmpty } from "app/src/utils/CheckUtil";
-import appStyle from "app/src/styles/general-style";
+import appStyle from "app/src/styles/GeneralStyle";
 
 /**
  * パスワード変更画面

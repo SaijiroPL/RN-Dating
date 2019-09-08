@@ -1,5 +1,5 @@
 import React from "react";
-import { Image } from "react-native";
+import { Image, StyleSheet } from "react-native";
 import {
   DeckSwiper,
   Card,
@@ -13,12 +13,11 @@ import MapView from "react-native-maps";
 import { AntDesign } from "@expo/vector-icons";
 
 // from app
-import { CandidateSpot } from "app/src/types/api/TSpot";
+import { ICandidateSpot } from "app/src/interfaces/Spot";
 import Images from "app/src/constants/Images";
-import { spotSwiperStyle } from "app/src/styles/create-screen-style";
 
 interface Props {
-  spots: Array<CandidateSpot>;
+  spots: Array<ICandidateSpot>;
 }
 
 /**
@@ -29,10 +28,10 @@ const SpotSwiper: React.FC<Props> = (props: Props) => {
   const { spots } = props;
 
   return (
-    <Content style={spotSwiperStyle.swiper}>
+    <Content style={thisStyle.swiper}>
       <DeckSwiper
         dataSource={spots}
-        renderItem={(item: CandidateSpot) => (
+        renderItem={(item: ICandidateSpot) => (
           <Card style={{ elevation: 3 }}>
             <CardItem>
               <Left>
@@ -67,5 +66,12 @@ const SpotSwiper: React.FC<Props> = (props: Props) => {
     </Content>
   );
 };
+
+/** スタイリング */
+const thisStyle = StyleSheet.create({
+  swiper: {
+    marginHorizontal: 10
+  }
+});
 
 export default SpotSwiper;

@@ -3,7 +3,7 @@ import { Container, Content, List, ListItem, Text } from "native-base";
 import { useNavigation } from "react-navigation-hooks";
 
 // from app
-import { appTextStyle } from "app/src/styles/general-style";
+import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 /**
  * 設定画面トップ

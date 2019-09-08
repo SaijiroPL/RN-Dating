@@ -1,8 +1,8 @@
 /**
- * API 400エラーレスポンスインターフェース
+ * APIエラーレスポンス
  * @author kotatanaka
  */
-export interface BadRequestError {
+export interface IApiError {
   code: number;
   message: string;
   detail_message: Array<string>;

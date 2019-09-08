@@ -1,14 +1,15 @@
 import React, { useState, useRef } from "react";
+import { StyleSheet } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import MapView, { Polyline } from "react-native-maps";
 
 // from app
-import { Location, Here, Marker } from "app/src/types/TMap";
+import { ILocation, IHere, IMarker } from "app/src/interfaces/Map";
+import Colors from "app/src/constants/Colors";
 import MapCircle from "app/src/components/map/MapCircle";
 import MapHere from "app/src/components/map/MapHere";
 import MapPin from "app/src/components/map/MapPin";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
-import { mapViewStyle } from "app/src/styles/map-component-style";
 
 const locationInitialRound = 700;
 
@@ -18,19 +19,19 @@ const locationInitialRound = 700;
  */
 const SearchMapScreen: React.FC = () => {
   const { navigate } = useNavigation();
-  const [location, setLocation] = useState<Location>({
+  const [location, setLocation] = useState<ILocation>({
     latitude: 35.658606737323325,
     longitude: 139.69814462256613,
     latitudeDelta: 0.038651027332100796,
     longitudeDelta: 0.02757163010454633
   });
-  const [here, setHere] = useState<Here>({
+  const [here, setHere] = useState<IHere>({
     latitude: 0,
     longitude: 0,
     timestamp: 0
   });
   const [accuracy, setAccuracy] = useState<number>(65);
-  const [markers, setMarkers] = useState<Array<Marker>>([]);
+  const [markers, setMarkers] = useState<Array<IMarker>>([]);
   const [lines, setLines] = useState<
     Array<{ latitude: number; longitude: number }>
   >([]);
@@ -137,11 +138,11 @@ const SearchMapScreen: React.FC = () => {
         showsIndoorLevelPicker={false}
         toolbarEnabled={false}
         moveOnMarkerPress={false}
-        style={mapViewStyle.container}
+        style={thisStyle.map}
         ref={mapRef}
         initialRegion={location}
-        //onPress={onMapPress}
-        //onRegionChangeComplete={onRegionChangeConplete}
+        // onPress={onMapPress}
+        // onRegionChangeComplete={onRegionChangeConplete}
       >
         {Line}
         {Here}
@@ -158,5 +159,17 @@ const SearchMapScreen: React.FC = () => {
     </>
   );
 };
+
+/** スタイリング */
+const thisStyle = StyleSheet.create({
+  map: {
+    borderColor: Colors.inactiveColor,
+    borderRadius: 10,
+    borderWidth: 1,
+    height: 200,
+    marginHorizontal: 10
+    // marginVertical: 5
+  }
+});
 
 export default SearchMapScreen;

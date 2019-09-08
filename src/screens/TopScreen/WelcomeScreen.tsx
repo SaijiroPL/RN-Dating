@@ -1,12 +1,13 @@
 import React from "react";
-import { Text, View, ScrollView, Image } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 
 // from app
 import Images from "app/src/constants/Images";
+import Layout from "app/src/constants/Layout";
+import Colors from "app/src/constants/Colors";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
-import appStyle from "app/src/styles/general-style";
-import { welcomeScreenStyle } from "app/src/styles/top-screen-style";
+import appStyle from "app/src/styles/GeneralStyle";
 
 // Constants
 const SLIDE_DATA = [
@@ -63,22 +64,20 @@ const WelcomeScreen: React.FC = () => {
   /** 各ステップページの描画 */
   const renderSlides = () => {
     return SLIDE_DATA.map((slide, index) => (
-      <View key={index} style={welcomeScreenStyle.slide}>
+      <View key={index} style={thisStyle.slide}>
         <View style={appStyle.emptySpace} />
 
         <Image style={{ flex: 3 }} resizeMode="contain" source={slide.uri} />
 
         {/* TODO 画像と説明の間にボーダーを入れる */}
         <View style={appStyle.standardContainer}>
-          <Text style={welcomeScreenStyle.title}>{slide.title}</Text>
-          <Text style={welcomeScreenStyle.description}>
-            {slide.description}
-          </Text>
+          <Text style={thisStyle.title}>{slide.title}</Text>
+          <Text style={thisStyle.description}>{slide.description}</Text>
         </View>
 
-        <View style={welcomeScreenStyle.footer}>
+        <View style={thisStyle.footer}>
           {renderLastButton(index)}
-          <Text style={welcomeScreenStyle.description}>{index + 1} / 5</Text>
+          <Text style={thisStyle.description}>{index + 1} / 5</Text>
         </View>
       </View>
     ));
@@ -91,5 +90,31 @@ const WelcomeScreen: React.FC = () => {
     </ScrollView>
   );
 };
+
+/** スタイリング */
+const thisStyle = StyleSheet.create({
+  slide: {
+    alignItems: "center",
+    flex: 1,
+    width: Layout.window.width
+  },
+  footer: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center"
+  },
+  title: {
+    color: Colors.textTintColor,
+    fontFamily: "genju-medium",
+    fontSize: 20,
+    padding: 10
+  },
+  description: {
+    color: Colors.textTintColor,
+    fontFamily: "genju-medium",
+    fontSize: 15,
+    padding: 10
+  }
+});
 
 export default WelcomeScreen;

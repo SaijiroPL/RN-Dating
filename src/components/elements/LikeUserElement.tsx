@@ -1,14 +1,15 @@
 import React from "react";
+import { StyleSheet } from "react-native";
 import { ListItem, Thumbnail, Text, Left, Body } from "native-base";
 import { useNavigation } from "react-navigation-hooks";
 
 // from app
-import { LikeUser } from "app/src/types/api/TLike";
+import { ILikeUser } from "app/src/interfaces/api/Like";
+import Colors from "app/src/constants/Colors";
 import Images from "app/src/constants/Images";
-import { userElementStyle } from "app/src/styles/common-component-style";
 
 interface Props {
-  user: LikeUser;
+  user: ILikeUser;
 }
 
 /**
@@ -24,16 +25,36 @@ const LikeUserElement: React.FC<Props> = (props: Props) => {
   };
 
   return (
-    <ListItem avatar onPress={onPress} style={userElementStyle.container}>
+    <ListItem avatar onPress={onPress} style={thisStyle.container}>
       <Left>
         <Thumbnail source={Images.noUserImage} />
       </Left>
       <Body>
-        <Text style={userElementStyle.nameText}>{user.user_name}</Text>
-        <Text style={userElementStyle.idText}>@{user.user_id}</Text>
+        <Text style={thisStyle.nameText}>{user.user_name}</Text>
+        <Text style={thisStyle.idText}>@{user.user_id}</Text>
       </Body>
     </ListItem>
   );
 };
+
+/** スタイリング */
+const thisStyle = StyleSheet.create({
+  container: {
+    justifyContent: "center"
+  },
+  nameText: {
+    fontFamily: "genju-medium"
+  },
+  idText: {
+    fontFamily: "genju-light",
+    fontSize: 10,
+    textDecorationColor: Colors.inactiveColor,
+    textDecorationLine: "underline"
+  },
+  dateText: {
+    fontFamily: "genju-light",
+    fontSize: 10
+  }
+});
 
 export default LikeUserElement;

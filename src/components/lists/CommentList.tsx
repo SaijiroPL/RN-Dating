@@ -2,11 +2,11 @@ import React from "react";
 import { FlatList } from "react-native";
 
 // from app
-import { Comment } from "app/src/types/api/TComment";
+import { IComment } from "app/src/interfaces/api/Comment";
 import CommentElement from "app/src/components/elements/CommentElement";
 
 interface Props {
-  commentList: Array<Comment>;
+  commentList: Array<IComment>;
 }
 
 /**
@@ -16,7 +16,7 @@ interface Props {
 const CommentList: React.FC<Props> = (props: Props) => {
   const { commentList } = props;
 
-  const renderCommentElement = ({ item }: { item: Comment }) => {
+  const renderCommentElement = ({ item }: { item: IComment }) => {
     return <CommentElement comment={item} />;
   };
 

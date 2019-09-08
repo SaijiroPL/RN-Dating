@@ -3,7 +3,8 @@ import { View, Text } from "react-native";
 
 import { useNavigation } from "react-navigation-hooks";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
-import appStyle, { appTextStyle } from "app/src/styles/general-style";
+import appStyle from "app/src/styles/GeneralStyle";
+import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 /**
  * ログアウト確認画面
