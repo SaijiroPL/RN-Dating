@@ -4,23 +4,6 @@ import { StyleSheet } from "react-native";
 import Colors from "app/src/constants/Colors";
 
 /**
- * プロフィール画面のスタイリング
- * @author kotatanaka
- */
-const profileScreenStyle = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "center"
-  },
-  settingFab: {
-    backgroundColor: Colors.tintColor
-  }
-});
-
-export default profileScreenStyle;
-
-/**
  * UserProfileコンポーネントのスタイリング
  * @author kotatanaka
  */

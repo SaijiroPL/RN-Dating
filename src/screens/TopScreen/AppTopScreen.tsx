@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, View, Image } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import { FontAwesome } from "@expo/vector-icons";
 
@@ -12,7 +12,6 @@ import Colors from "app/src/constants/Colors";
 import InputForm from "app/src/components/contents/InputForm";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
 import appStyle from "app/src/styles/general-style";
-import { appTopScreenStyle } from "app/src/styles/top-screen-style";
 
 // 仮置き定数
 // ログイン機能ができるまでは、これをDBに存在するユーザーIDに書き換えてください
@@ -90,10 +89,10 @@ const AppTopScreen: React.FC = () => {
         >
           Facebookでログイン
         </FontAwesome.Button>
-        <Text style={appTopScreenStyle.link} onPress={() => setScreenPhase(1)}>
+        <Text style={thisStyle.link} onPress={() => setScreenPhase(1)}>
           メールアドレスでログイン
         </Text>
-        <Text style={appTopScreenStyle.link} onPress={() => setScreenPhase(2)}>
+        <Text style={thisStyle.link} onPress={() => setScreenPhase(2)}>
           新規登録はこちら
         </Text>
       </View>
@@ -114,7 +113,7 @@ const AppTopScreen: React.FC = () => {
           value={password}
           setValue={setPassword}
         />
-        <View style={appTopScreenStyle.completeButtonContainer}>
+        <View style={thisStyle.completeButtonContainer}>
           <CompleteButton title="ログイン" onPress={onSignInButtonPress} />
         </View>
       </View>
@@ -140,7 +139,7 @@ const AppTopScreen: React.FC = () => {
           value={confirmPassword}
           setValue={setConfirmPassword}
         />
-        <View style={appTopScreenStyle.completeButtonContainer}>
+        <View style={thisStyle.completeButtonContainer}>
           <CompleteButton title="新規登録" onPress={onSignUpButtonPress} />
         </View>
       </View>
@@ -150,16 +149,16 @@ const AppTopScreen: React.FC = () => {
   return (
     <View style={appStyle.standardContainer}>
       <View style={appStyle.emptySpace} />
-      <View style={appTopScreenStyle.topImage}>
+      <View style={thisStyle.topImage}>
         <Image
           resizeMode="contain"
           source={Images.logo}
           style={{ flex: 1 }}
           width={Layout.window.width * 0.8}
         />
-        <Text style={appTopScreenStyle.welcomeText}>1Dateへようこそ</Text>
+        <Text style={thisStyle.welcomeText}>1Dateへようこそ</Text>
       </View>
-      <View style={appTopScreenStyle.linkOrFormGroup}>
+      <View style={thisStyle.linkOrFormGroup}>
         {screenPhase === 0 && renderTopScreen()}
         {screenPhase === 1 && renderSignInScreen()}
         {screenPhase === 2 && renderSignUpScreen()}
@@ -167,5 +166,37 @@ const AppTopScreen: React.FC = () => {
     </View>
   );
 };
+
+/** スタイリング */
+const thisStyle = StyleSheet.create({
+  topImage: {
+    alignItems: "center",
+    flex: 2,
+    justifyContent: "center"
+  },
+  linkOrFormGroup: {
+    alignItems: "center",
+    flex: 3,
+    justifyContent: "center"
+  },
+  completeButtonContainer: {
+    marginTop: 20
+  },
+  welcomeText: {
+    color: Colors.textTintColor,
+    fontFamily: "genju-medium",
+    fontSize: 20,
+    padding: 10
+  },
+  link: {
+    color: Colors.textTintColor,
+    fontFamily: "genju-medium",
+    fontSize: 20,
+    padding: 10,
+    textAlign: "center",
+    textDecorationColor: Colors.tintColor,
+    textDecorationLine: "underline"
+  }
+});
 
 export default AppTopScreen;

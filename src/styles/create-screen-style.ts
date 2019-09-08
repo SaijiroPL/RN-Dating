@@ -1,37 +1,7 @@
 import { StyleSheet } from "react-native";
 
 // from app
-import Colors from "app/src/constants/Colors";
 import Layout from "app/src/constants/Layout";
-
-/**
- * プラン作成画面のスタイリング
- * @author kotatanaka
- */
-export const createPlanTopScreenStyle = StyleSheet.create({
-  formGroup: {
-    alignItems: "center",
-    flex: 1,
-    flexDirection: "row"
-  },
-  itemTitleText: {
-    color: Colors.textTintColor,
-    fontFamily: "genju-medium",
-    marginRight: 10
-  }
-});
-
-/**
- * マップからスポット範囲指定画面のスタイリング
- * @author kotatanaka
- */
-export const searchMapScreenStyle = StyleSheet.create({
-  mapView: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "center"
-  }
-});
 
 /**
  * SpotSwiperコンポーネントのスタイリング

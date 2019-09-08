@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { Constants } from "expo";
 import axios, { CancelTokenSource } from "axios";
 
@@ -7,11 +7,11 @@ import axios, { CancelTokenSource } from "axios";
 import { useGlobalState } from "app/src/Store";
 import { IPlanList } from "app/src/interfaces/api/Plan";
 import { IApiError } from "app/src/interfaces/api/Error";
+import Colors from "app/src/constants/Colors";
 import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
 import PlanCardList from "app/src/components/lists/PlanCardList";
 import { handleError } from "app/src/utils/ApiUtil";
 import { appTextStyle } from "app/src/styles/general-style";
-import myPlanScreenStyle from "app/src/styles/myplan-screen-style";
 
 /**
  * マイプラン画面トップ
@@ -78,7 +78,7 @@ const MyPlanTopScreen: React.FC = () => {
   }
 
   return (
-    <View style={myPlanScreenStyle.container}>
+    <View style={thisStyle.container}>
       <Text style={appTextStyle.countText}>
         作成したデートプランの数: {plans.total}
       </Text>
@@ -88,5 +88,14 @@ const MyPlanTopScreen: React.FC = () => {
     </View>
   );
 };
+
+/** スタイリング */
+const thisStyle = StyleSheet.create({
+  container: {
+    backgroundColor: Colors.backgroundColor,
+    flex: 1,
+    justifyContent: "center"
+  }
+});
 
 export default MyPlanTopScreen;

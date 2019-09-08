@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Constants } from "expo";
 import axios, { CancelTokenSource } from "axios";
 
@@ -7,11 +7,11 @@ import axios, { CancelTokenSource } from "axios";
 import { useGlobalState } from "app/src/Store";
 import { IUserDetail } from "app/src/interfaces/api/User";
 import { IApiError } from "app/src/interfaces/api/Error";
+import Colors from "app/src/constants/Colors";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import UserProfile from "app/src/components/contents/UserProfile";
 import SettingFab from "app/src/components/buttons/SettingFab";
 import { handleError } from "app/src/utils/ApiUtil";
-import profileScreenStyle from "app/src/styles/profile-screen-style";
 
 /**
  * マイプロフィール画面トップ
@@ -78,11 +78,20 @@ const MyProfileTopScreen: React.FC = () => {
   }
 
   return (
-    <View style={profileScreenStyle.container}>
+    <View style={thisStyle.container}>
       <UserProfile user={user} me />
       <SettingFab />
     </View>
   );
 };
+
+/** スタイリング */
+const thisStyle = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center"
+  }
+});
 
 export default MyProfileTopScreen;

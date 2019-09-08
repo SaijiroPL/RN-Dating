@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Constants } from "expo";
 import { useNavigation, useNavigationParam } from "react-navigation-hooks";
 import { Container, Content, Text } from "native-base";
@@ -10,6 +10,7 @@ import { IUserInfo } from "app/src/interfaces/User";
 import { IPlanFull } from "app/src/interfaces/api/Plan";
 import { ICommentList } from "app/src/interfaces/api/Comment";
 import { IApiError } from "app/src/interfaces/api/Error";
+import Colors from "app/src/constants/Colors";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import UserHeader from "app/src/components/contents/UserHeader";
 import ImageCarousel from "app/src/components/contents/ImageCarousel";
@@ -19,7 +20,6 @@ import LikeButton from "app/src/components/buttons/LikeButton";
 import { handleError } from "app/src/utils/ApiUtil";
 import { formatDate } from "app/src/utils/DateUtil";
 import appStyle, { appTextStyle } from "app/src/styles/general-style";
-import { planDetailScreenStyle } from "app/src/styles/home-screen-style";
 
 /**
  * デートプラン詳細画面
@@ -145,15 +145,15 @@ const PlanDetailScreen: React.FC = () => {
   /** デートプラン説明部分を描画する */
   const renderPlanDescription = () => {
     return (
-      <View style={planDetailScreenStyle.planDescriptionContainer}>
-        <View style={planDetailScreenStyle.route}>
-          <Text note style={planDetailScreenStyle.descriptionText}>
+      <View style={thisStyle.planDescriptionContainer}>
+        <View style={thisStyle.route}>
+          <Text note style={thisStyle.descriptionText}>
             {plan.spots.map(spot => spot.spot_name).join(" > ")}
           </Text>
         </View>
         <View style={appStyle.row}>
-          <View style={planDetailScreenStyle.title}>
-            <Text style={planDetailScreenStyle.titleText}>{plan.title}</Text>
+          <View style={thisStyle.title}>
+            <Text style={thisStyle.titleText}>{plan.title}</Text>
           </View>
           <LikeButton
             likeCount={plan.like_count}
@@ -161,27 +161,21 @@ const PlanDetailScreen: React.FC = () => {
             setLiked={setIsLiked}
           />
         </View>
-        <View style={planDetailScreenStyle.detail}>
+        <View style={thisStyle.detail}>
           <View style={appStyle.row}>
-            <View style={planDetailScreenStyle.columnTitle}>
-              <Text style={planDetailScreenStyle.columnTitleText}>
-                ポイント
-              </Text>
+            <View style={thisStyle.columnTitle}>
+              <Text style={thisStyle.columnTitleText}>ポイント</Text>
             </View>
-            <View style={planDetailScreenStyle.description}>
-              <Text style={planDetailScreenStyle.descriptionText}>
-                {plan.description}
-              </Text>
+            <View style={thisStyle.description}>
+              <Text style={thisStyle.descriptionText}>{plan.description}</Text>
             </View>
           </View>
           <View style={appStyle.row}>
-            <View style={planDetailScreenStyle.columnTitle}>
-              <Text style={planDetailScreenStyle.columnTitleText}>
-                デート予定日
-              </Text>
+            <View style={thisStyle.columnTitle}>
+              <Text style={thisStyle.columnTitleText}>デート予定日</Text>
             </View>
-            <View style={planDetailScreenStyle.description}>
-              <Text style={planDetailScreenStyle.descriptionText}>
+            <View style={thisStyle.description}>
+              <Text style={thisStyle.descriptionText}>
                 {formatDate(plan.date)}
               </Text>
             </View>
@@ -214,5 +208,51 @@ const PlanDetailScreen: React.FC = () => {
     </Container>
   );
 };
+
+/** スタイリング */
+const thisStyle = StyleSheet.create({
+  planDescriptionContainer: {
+    marginHorizontal: 10,
+    marginVertical: 5
+  },
+  route: {
+    alignItems: "flex-end",
+    backgroundColor: Colors.baseBackgroundColor,
+    flex: 1,
+    justifyContent: "center",
+    paddingHorizontal: 10
+  },
+  title: {
+    marginLeft: 10
+  },
+  detail: {
+    marginLeft: 10
+  },
+  titleText: {
+    fontFamily: "genju-medium",
+    textDecorationColor: Colors.tintColor,
+    textDecorationLine: "underline"
+  },
+  columnTitle: {
+    backgroundColor: Colors.tintColor,
+    borderRadius: 10,
+    marginRight: 5,
+    marginTop: 2,
+    paddingHorizontal: 5
+  },
+  columnTitleText: {
+    color: "white",
+    fontFamily: "genju-medium",
+    fontSize: 10
+  },
+  description: {
+    marginTop: 2
+  },
+  descriptionText: {
+    color: Colors.textTintColor,
+    fontFamily: "genju-light",
+    fontSize: 10
+  }
+});
 
 export default PlanDetailScreen;

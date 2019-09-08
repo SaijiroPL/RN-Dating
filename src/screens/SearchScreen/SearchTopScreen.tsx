@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { Constants } from "expo";
 import { SearchBar } from "react-native-elements";
 import axios, { CancelTokenSource } from "axios";
@@ -13,7 +13,6 @@ import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
 import PlanCardList from "app/src/components/lists/PlanCardList";
 import { handleError } from "app/src/utils/ApiUtil";
 import { appTextStyle } from "app/src/styles/general-style";
-import searchScreenStyle from "app/src/styles/search-screen-style";
 
 /**
  * 検索画面トップ
@@ -93,8 +92,8 @@ const SearchTopScreen: React.FC = () => {
         onChangeText={searchWord => updateSearchWord(searchWord)}
         onClear={() => updateSearchWord("")}
         value={searchWord}
-        containerStyle={searchScreenStyle.searchBar}
-        inputContainerStyle={searchScreenStyle.searchInput}
+        containerStyle={thisStyle.searchBar}
+        inputContainerStyle={thisStyle.searchInput}
       />
     );
   };
@@ -104,9 +103,9 @@ const SearchTopScreen: React.FC = () => {
   }
 
   return (
-    <View style={searchScreenStyle.container}>
+    <View style={thisStyle.container}>
       {renderSearchBar()}
-      <View style={searchScreenStyle.planCount}>
+      <View style={thisStyle.planCount}>
         <Text style={appTextStyle.countText}>検索結果: {plans.total} 件</Text>
       </View>
       <ScrollView refreshControl={RefreshSpinner(isRefreshing, onRefresh)}>
@@ -115,5 +114,29 @@ const SearchTopScreen: React.FC = () => {
     </View>
   );
 };
+
+/** スタイリング */
+const thisStyle = StyleSheet.create({
+  container: {
+    backgroundColor: Colors.backgroundColor
+  },
+  searchBar: {
+    backgroundColor: "white",
+    shadowColor: "#ccc",
+    shadowOffset: {
+      height: 1,
+      width: 1
+    },
+    shadowOpacity: 1,
+    shadowRadius: 2
+  },
+  searchInput: {
+    backgroundColor: "#eee"
+  },
+  planCount: {
+    borderBottomColor: "#ccc",
+    borderBottomWidth: 1
+  }
+});
 
 export default SearchTopScreen;

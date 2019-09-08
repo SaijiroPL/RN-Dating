@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { StyleSheet } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import { Container } from "native-base";
 import MapView from "react-native-maps";
@@ -6,7 +7,6 @@ import MapView from "react-native-maps";
 // from app
 import { ILocation } from "app/src/interfaces/Map";
 import CompleteFooterButton from "app/src/components/buttons/CompleteFooterButton";
-import { searchMapScreenStyle } from "app/src/styles/create-screen-style";
 
 /**
  * マップからスポット範囲指定画面
@@ -39,7 +39,7 @@ const SearchMapScreen: React.FC = () => {
         showsIndoorLevelPicker={false}
         toolbarEnabled={false}
         moveOnMarkerPress={false}
-        style={searchMapScreenStyle.mapView}
+        style={thisStyle.mapView}
         initialRegion={location}
       />
       {/* TODO MapHeader */}
@@ -47,5 +47,14 @@ const SearchMapScreen: React.FC = () => {
     </Container>
   );
 };
+
+/** スタイリング */
+const thisStyle = StyleSheet.create({
+  mapView: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center"
+  }
+});
 
 export default SearchMapScreen;

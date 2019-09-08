@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { Constants } from "expo";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
 import { IPlanList } from "app/src/interfaces/api/Plan";
 import { IApiError } from "app/src/interfaces/api/Error";
+import Colors from "app/src/constants/Colors";
 import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
 import PlanCardList from "app/src/components/lists/PlanCardList";
 import CreatePlanFab from "app/src/components/buttons/CreatePlanFab";
 import { handleError } from "app/src/utils/ApiUtil";
 import { appTextStyle } from "app/src/styles/general-style";
-import homeScreenStyle from "app/src/styles/home-screen-style";
 
 /**
  * ホーム画面トップ
@@ -74,7 +74,7 @@ const HomeTopScreen: React.FC = () => {
   }
 
   return (
-    <View style={homeScreenStyle.container}>
+    <View style={thisStyle.container}>
       <Text style={appTextStyle.countText}>
         デートプランの数: {plans.total}
       </Text>
@@ -85,5 +85,14 @@ const HomeTopScreen: React.FC = () => {
     </View>
   );
 };
+
+/** スタイリング */
+const thisStyle = StyleSheet.create({
+  container: {
+    backgroundColor: Colors.backgroundColor,
+    flex: 1,
+    justifyContent: "center"
+  }
+});
 
 export default HomeTopScreen;
