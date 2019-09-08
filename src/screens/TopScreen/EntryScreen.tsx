@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Constants } from "expo";
+import Constants from "expo-constants";
 import { Text } from "native-base";
 import { useNavigation } from "react-navigation-hooks";
 import axios from "axios";

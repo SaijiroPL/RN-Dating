@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { Constants } from "expo";
+import Constants from "expo-constants";
 import axios, { CancelTokenSource } from "axios";
 
 // from app

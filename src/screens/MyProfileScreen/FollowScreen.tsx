@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Text } from "react-native";
-import { Constants } from "expo";
+import Constants from "expo-constants";
 import { useNavigationParam } from "react-navigation-hooks";
 import { Container } from "native-base";
 import axios, { CancelTokenSource } from "axios";
