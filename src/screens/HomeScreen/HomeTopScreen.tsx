@@ -9,6 +9,7 @@ import { IApiError } from "app/src/interfaces/api/Error";
 import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
 import PlanCardList from "app/src/components/lists/PlanCardList";
 import CreatePlanFab from "app/src/components/buttons/CreatePlanFab";
+import { handleError } from "app/src/utils/ApiUtil";
 import { appTextStyle } from "app/src/styles/general-style";
 import homeScreenStyle from "app/src/styles/home-screen-style";
 
@@ -48,14 +49,16 @@ const HomeTopScreen: React.FC = () => {
         setPlans(Object.assign(response.data));
         setIsLoading(false);
       })
-      .catch((error: IApiError) => {
-        setErrors(Object.assign(error));
-        setIsLoading(false);
+      .catch(error => {
         if (axios.isCancel(error)) {
           console.log("Request Cancelled: " + error.message);
         } else {
-          console.log("API Error: " + error.message);
+          handleError(error);
+          if (error.response.stats === 400) {
+            setErrors(error.response.data);
+          }
         }
+        setIsLoading(false);
       });
   };
 

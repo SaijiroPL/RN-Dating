@@ -16,7 +16,7 @@ import ImageCarousel from "app/src/components/contents/ImageCarousel";
 import SimpleMapView from "app/src/components/map/SimpleMapView";
 import CommentGrid from "app/src/components/contents/CommentGrid";
 import LikeButton from "app/src/components/buttons/LikeButton";
-import { isNotNullOrUndefined } from "app/src/utils/CheckUtil";
+import { handleError } from "app/src/utils/ApiUtil";
 import { formatDate } from "app/src/utils/DateUtil";
 import appStyle, { appTextStyle } from "app/src/styles/general-style";
 import { planDetailScreenStyle } from "app/src/styles/home-screen-style";
@@ -80,6 +80,55 @@ const PlanDetailScreen: React.FC = () => {
     navigate("comment", { id: plan.plan_id });
   };
 
+  /** デートプラン詳細取得 */
+  const getPlanDetail = (signal: CancelTokenSource) => {
+    axios
+      .get(Constants.manifest.extra.apiEndpoint + "/plans/" + planId, {
+        cancelToken: signal.token
+      })
+      .then((response: { data: IPlanFull }) => {
+        setPlan(Object.assign(response.data));
+        setIsPlanLoading(false);
+      })
+      .catch(error => {
+        if (axios.isCancel(error)) {
+          console.log("Request Cancelled: " + error.message);
+        } else {
+          handleError(error);
+          if (error.response.stats === 400) {
+            setErrors(error.response.data);
+          }
+        }
+        setIsPlanLoading(false);
+      });
+  };
+
+  /** コメント一覧取得 */
+  const getCommentList = (signal: CancelTokenSource) => {
+    const url =
+      Constants.manifest.extra.apiEndpoint + "/plans/" + planId + "/comments";
+
+    axios
+      .get(url, {
+        cancelToken: signal.token
+      })
+      .then((response: { data: ICommentList }) => {
+        setComments(Object.assign(response.data));
+        setIsCommentsLoading(false);
+      })
+      .catch(error => {
+        if (axios.isCancel(error)) {
+          console.log("Request Cancelled: " + error.message);
+        } else {
+          handleError(error);
+          if (error.response.stats === 400) {
+            setErrors(error.response.data);
+          }
+        }
+        setIsCommentsLoading(false);
+      });
+  };
+
   // TODO 自分のプランの場合描画しない
   /** デートプラン作成者部分を描画する */
   const renderPlannerHeader = () => {
@@ -140,51 +189,6 @@ const PlanDetailScreen: React.FC = () => {
         </View>
       </View>
     );
-  };
-
-  /** デートプラン詳細取得 */
-  const getPlanDetail = (signal: CancelTokenSource) => {
-    axios
-      .get(Constants.manifest.extra.apiEndpoint + "/plans/" + planId, {
-        cancelToken: signal.token
-      })
-      .then((response: { data: IPlanFull }) => {
-        setPlan(Object.assign(response.data));
-        setIsPlanLoading(false);
-      })
-      .catch((error: IApiError) => {
-        setErrors(Object.assign(error));
-        setIsPlanLoading(false);
-        if (axios.isCancel(error)) {
-          console.log("Request Cancelled: " + error.message);
-        } else {
-          console.log("API Error: " + error.message);
-        }
-      });
-  };
-
-  /** コメント一覧取得 */
-  const getCommentList = (signal: CancelTokenSource) => {
-    const url =
-      Constants.manifest.extra.apiEndpoint + "/plans/" + planId + "/comments";
-
-    axios
-      .get(url, {
-        cancelToken: signal.token
-      })
-      .then((response: { data: ICommentList }) => {
-        setComments(Object.assign(response.data));
-        setIsCommentsLoading(false);
-      })
-      .catch((error: IApiError) => {
-        setErrors(Object.assign(error));
-        setIsCommentsLoading(false);
-        if (axios.isCancel(error)) {
-          console.log("Request Cancelled: " + error.message);
-        } else {
-          console.log("API Error: " + error.message);
-        }
-      });
   };
 
   if (isPlanLoading || isCommentsLoading) {

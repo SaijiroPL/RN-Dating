@@ -10,6 +10,7 @@ import { IApiError } from "app/src/interfaces/api/Error";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import UserProfile from "app/src/components/contents/UserProfile";
 import SettingFab from "app/src/components/buttons/SettingFab";
+import { handleError } from "app/src/utils/ApiUtil";
 import appStyle from "app/src/styles/general-style";
 
 /**
@@ -59,14 +60,16 @@ const ProfileScreen: React.FC = () => {
         setUser(Object.assign(response.data));
         setIsLoading(false);
       })
-      .catch((error: IApiError) => {
-        setErrors(Object.assign(error));
-        setIsLoading(false);
+      .catch(error => {
         if (axios.isCancel(error)) {
           console.log("Request Cancelled: " + error.message);
         } else {
-          console.log("API Error: " + error.message);
+          handleError(error);
+          if (error.response.stats === 400) {
+            setErrors(error.response.data);
+          }
         }
+        setIsLoading(false);
       });
   };
 

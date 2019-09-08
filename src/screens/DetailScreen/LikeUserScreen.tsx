@@ -9,6 +9,7 @@ import { ILikeUserList } from "app/src/interfaces/api/Like";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import LikeUserList from "app/src/components/lists/LikeUserList";
+import { handleError } from "app/src/utils/ApiUtil";
 import { appTextStyle } from "app/src/styles/general-style";
 
 /**
@@ -50,14 +51,16 @@ const LikeUserScreen: React.FC = () => {
         setUsers(Object.assign(response.data));
         setIsLoading(false);
       })
-      .catch((error: IApiError) => {
-        setErrors(Object.assign(error));
-        setIsLoading(false);
+      .catch(error => {
         if (axios.isCancel(error)) {
           console.log("Request Cancelled: " + error.message);
         } else {
-          console.log("API Error: " + error.message);
+          handleError(error);
+          if (error.response.stats === 400) {
+            setErrors(error.response.data);
+          }
         }
+        setIsLoading(false);
       });
   };
 

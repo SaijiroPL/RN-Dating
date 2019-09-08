@@ -11,6 +11,7 @@ import { IApiError } from "app/src/interfaces/api/Error";
 import Colors from "app/src/constants/Colors";
 import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
 import PlanCardList from "app/src/components/lists/PlanCardList";
+import { handleError } from "app/src/utils/ApiUtil";
 import { appTextStyle } from "app/src/styles/general-style";
 import searchScreenStyle from "app/src/styles/search-screen-style";
 
@@ -50,14 +51,16 @@ const SearchTopScreen: React.FC = () => {
         setPlans(Object.assign(response.data));
         setIsLoading(false);
       })
-      .catch((error: IApiError) => {
-        setErrors(Object.assign(error));
-        setIsLoading(false);
+      .catch(error => {
         if (axios.isCancel(error)) {
           console.log("Request Cancelled: " + error.message);
         } else {
-          console.log("API Error: " + error.message);
+          handleError(error);
+          if (error.response.stats === 400) {
+            setErrors(error.response.data);
+          }
         }
+        setIsLoading(false);
       });
   };
 
