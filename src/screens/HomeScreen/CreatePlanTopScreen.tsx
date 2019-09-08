@@ -9,7 +9,7 @@ import SelectButton from "app/src/components/buttons/SelectButton";
 import DatePicker from "app/src/components/contents/DatePicker";
 import CompleteFooterButton from "app/src/components/buttons/CompleteFooterButton";
 import { getToday } from "app/src/utils/DateUtil";
-import appStyle from "app/src/styles/general-style";
+import appStyle from "app/src/styles/GeneralStyle";
 
 /**
  * デートプラン作成画面トップ(基本情報入力画面)

@@ -10,7 +10,7 @@ import LinkedAccountScreen from "app/src/screens/MyProfileScreen/LinkedAccountSc
 import LogoutScreen from "app/src/screens/MyProfileScreen/LogoutScreen";
 import PrivacyPolicyScreen from "app/src/screens/MyProfileScreen/PrivacyPolicyScreen";
 import TermsScreen from "app/src/screens/MyProfileScreen/TermsScreen";
-import { appTextStyle } from "app/src/styles/general-style";
+import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 /**
  * 設定画面のナビゲーター

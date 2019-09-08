@@ -7,7 +7,7 @@ import { Thumbnail, Text } from "native-base";
 import { IUserDetail } from "app/src/interfaces/api/User";
 import Colors from "app/src/constants/Colors";
 import Images from "app/src/constants/Images";
-import { appTextStyle } from "app/src/styles/general-style";
+import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 interface Props {
   user: IUserDetail;

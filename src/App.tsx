@@ -7,7 +7,7 @@ import { Provider } from "app/src/Store";
 import AppNavigator from "app/src/navigators/AppNavigator";
 import Images from "app/src/constants/Images";
 import Fonts from "app/src/constants/Fonts";
-import appStyle from "app/src/styles/general-style";
+import appStyle from "app/src/styles/GeneralStyle";
 
 interface Props {
   skipLoadingScreen: boolean;

@@ -7,7 +7,7 @@ import SwipeSpotScreen from "app/src/screens/HomeScreen/SwipeSpotScreen";
 import SelectSpotScreen from "app/src/screens/HomeScreen/SelectSpotScreen";
 import ArrangeRouteScreen from "app/src/screens/HomeScreen/ArrangeRouteScreen";
 import CompletePlanScreen from "app/src/screens/HomeScreen/CompletePlanScreen";
-import { appTextStyle } from "app/src/styles/general-style";
+import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 /**
  * プラン作成画面のナビゲーター

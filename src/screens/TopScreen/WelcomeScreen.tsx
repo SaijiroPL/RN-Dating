@@ -7,7 +7,7 @@ import Images from "app/src/constants/Images";
 import Layout from "app/src/constants/Layout";
 import Colors from "app/src/constants/Colors";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
-import appStyle from "app/src/styles/general-style";
+import appStyle from "app/src/styles/GeneralStyle";
 
 // Constants
 const SLIDE_DATA = [

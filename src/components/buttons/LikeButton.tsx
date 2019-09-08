@@ -4,7 +4,7 @@ import { AntDesign } from "@expo/vector-icons";
 
 // from app
 import Colors from "app/src/constants/Colors";
-import { appTextStyle } from "app/src/styles/general-style";
+import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 interface Props {
   likeCount: number;
@@ -42,7 +42,7 @@ const LikeButton: React.FC<Props> = (props: Props) => {
   return (
     <View style={thisStyle.container}>
       {renderHeart()}
-      <Text style={appTextStyle.colorText}>{props.likeCount}</Text>
+      <Text style={appTextStyle.tintColorText}>{props.likeCount}</Text>
     </View>
   );
 };

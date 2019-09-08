@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Content, Form, Item, Input, Label } from "native-base";
 
 // from app
-import { appTextStyle } from "app/src/styles/general-style";
+import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 /**
  * プロフィール編集画面

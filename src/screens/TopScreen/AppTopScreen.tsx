@@ -11,7 +11,7 @@ import Layout from "app/src/constants/Layout";
 import Colors from "app/src/constants/Colors";
 import InputForm from "app/src/components/contents/InputForm";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
-import appStyle from "app/src/styles/general-style";
+import appStyle from "app/src/styles/GeneralStyle";
 
 // 仮置き定数
 // ログイン機能ができるまでは、これをDBに存在するユーザーIDに書き換えてください

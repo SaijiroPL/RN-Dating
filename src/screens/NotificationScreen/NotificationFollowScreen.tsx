@@ -4,7 +4,7 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 // from app
 import Colors from "app/src/constants/Colors";
 import { RefreshSpinner } from "app/src/components/Spinners";
-import { appTextStyle } from "app/src/styles/general-style";
+import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 /**
  * フォロー通知一覧画面

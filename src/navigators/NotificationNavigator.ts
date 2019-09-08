@@ -8,7 +8,7 @@ import {
 import Colors from "app/src/constants/Colors";
 import NotificationFollowScreen from "app/src/screens/NotificationScreen/NotificationFollowScreen";
 import NotificationLikeScreen from "app/src/screens/NotificationScreen/NotificationLikeScreen";
-import { appTextStyle } from "app/src/styles/general-style";
+import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 /**
  * 通知タブのタブナビゲーター

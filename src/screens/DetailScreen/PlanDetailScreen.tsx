@@ -19,7 +19,8 @@ import CommentGrid from "app/src/components/contents/CommentGrid";
 import LikeButton from "app/src/components/buttons/LikeButton";
 import { handleError } from "app/src/utils/ApiUtil";
 import { formatDate } from "app/src/utils/DateUtil";
-import appStyle, { appTextStyle } from "app/src/styles/general-style";
+import appStyle from "app/src/styles/GeneralStyle";
+import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 /**
  * デートプラン詳細画面

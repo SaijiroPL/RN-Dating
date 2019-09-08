@@ -6,7 +6,7 @@ import FollowScreen from "app/src/screens/MyProfileScreen/FollowScreen";
 import FollowerScreen from "app/src/screens/MyProfileScreen/FollowerScreen";
 import ProfileScreen from "app/src/screens/DetailScreen/ProfileScreen";
 import SettingNavigator from "./SettingNavigator";
-import { appTextStyle } from "app/src/styles/general-style";
+import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 /**
  * プロフィールタブのナビゲーター

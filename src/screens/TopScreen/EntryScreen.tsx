@@ -19,7 +19,7 @@ import DatePicker from "app/src/components/contents/DatePicker";
 import PrefecturePicker from "app/src/components/contents/PrefecturePicker";
 import { handleError } from "app/src/utils/ApiUtil";
 import { getToday, getAge } from "app/src/utils/DateUtil";
-import appStyle from "app/src/styles/general-style";
+import appStyle from "app/src/styles/GeneralStyle";
 
 /**
  * ユーザー基本情報入力画面

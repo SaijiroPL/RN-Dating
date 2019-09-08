@@ -10,7 +10,7 @@ import { IApiError } from "app/src/interfaces/api/Error";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import CommentList from "app/src/components/lists/CommentList";
 import { handleError } from "app/src/utils/ApiUtil";
-import { appTextStyle } from "app/src/styles/general-style";
+import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 /**
  * コメント一覧画面

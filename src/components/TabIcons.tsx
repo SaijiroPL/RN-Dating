@@ -12,7 +12,7 @@ interface Props {
 /** ホームタブ */
 // TODO 1Dateのロゴに変更
 export const HomeTabIcon = (props: Props) => (
-  <Image source={Images.logo} fadeDuration={0} style={style.logo} />
+  <Image source={Images.logo} fadeDuration={0} style={tabStyle.logo} />
 );
 
 /** 検索タブ */
@@ -20,7 +20,7 @@ export const SearchTabIcon = (props: Props) => (
   <Ionicons
     name="md-search"
     size={26}
-    style={style.icon}
+    style={tabStyle.icon}
     color={props.tintColor}
   />
 );
@@ -30,7 +30,7 @@ export const MyPlanTabIcon = (props: Props) => (
   <Ionicons
     name="md-pin"
     size={26}
-    style={style.icon}
+    style={tabStyle.icon}
     color={props.tintColor}
   />
 );
@@ -40,7 +40,7 @@ export const NotificationTabIcon = (props: Props) => (
   <Ionicons
     name="md-notifications"
     size={26}
-    style={style.icon}
+    style={tabStyle.icon}
     color={props.tintColor}
   />
 );
@@ -51,13 +51,13 @@ export const ProfileTabIcon = (props: Props) => (
   <Ionicons
     name="md-person"
     size={26}
-    style={style.icon}
+    style={tabStyle.icon}
     color={props.tintColor}
   />
 );
 
 /** スタイリング */
-const style = StyleSheet.create({
+const tabStyle = StyleSheet.create({
   icon: {
     marginBottom: -3
   },

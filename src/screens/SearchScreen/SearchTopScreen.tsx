@@ -12,7 +12,7 @@ import Colors from "app/src/constants/Colors";
 import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
 import PlanCardList from "app/src/components/lists/PlanCardList";
 import { handleError } from "app/src/utils/ApiUtil";
-import { appTextStyle } from "app/src/styles/general-style";
+import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 /**
  * 検索画面トップ

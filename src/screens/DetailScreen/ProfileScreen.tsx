@@ -11,7 +11,7 @@ import { LoadingSpinner } from "app/src/components/Spinners";
 import UserProfile from "app/src/components/contents/UserProfile";
 import SettingFab from "app/src/components/buttons/SettingFab";
 import { handleError } from "app/src/utils/ApiUtil";
-import appStyle from "app/src/styles/general-style";
+import appStyle from "app/src/styles/GeneralStyle";
 
 /**
  * プロフィール(ユーザー詳細)画面トップ

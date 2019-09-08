@@ -11,7 +11,7 @@ import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
 import PlanCardList from "app/src/components/lists/PlanCardList";
 import CreatePlanFab from "app/src/components/buttons/CreatePlanFab";
 import { handleError } from "app/src/utils/ApiUtil";
-import { appTextStyle } from "app/src/styles/general-style";
+import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 /**
  * ホーム画面トップ
