@@ -1,8 +1,11 @@
 import React from "react";
+import { StyleSheet } from "react-native";
 import { Button, Footer, Text } from "native-base";
 
 // from app
-import { appButtonStyle, appTextStyle } from "app/src/styles/general-style";
+import Layout from "app/src/constants/Layout";
+import Colors from "app/src/constants/Colors";
+import { appTextStyle } from "app/src/styles/general-style";
 
 interface Props {
   title: string;
@@ -19,12 +22,8 @@ const CompleteFooterButton: React.FC<Props> = (props: Props) => {
 
   if (disabled) {
     return (
-      <Footer style={appButtonStyle.disTouchableFooter}>
-        <Button
-          transparent
-          disabled
-          style={appButtonStyle.completeFooterButton}
-        >
+      <Footer style={thisStyle.disTouchable}>
+        <Button transparent disabled style={thisStyle.button}>
           <Text style={appTextStyle.inactiveText}>{title}</Text>
         </Button>
       </Footer>
@@ -32,20 +31,31 @@ const CompleteFooterButton: React.FC<Props> = (props: Props) => {
   }
 
   return (
-    <Footer style={appButtonStyle.touchableFooter}>
-      <Button
-        transparent
-        onPress={onPress}
-        style={appButtonStyle.completeFooterButton}
-      >
+    <Footer style={thisStyle.touchable}>
+      <Button transparent onPress={onPress} style={thisStyle.button}>
         <Text style={appTextStyle.whiteText}>{title}</Text>
       </Button>
     </Footer>
   );
 };
 
+/** デフォルト値 */
 CompleteFooterButton.defaultProps = {
   disabled: false
 };
+
+/** スタイリング */
+const thisStyle = StyleSheet.create({
+  touchable: {
+    backgroundColor: Colors.tintColor
+  },
+  disTouchable: {
+    backgroundColor: Colors.baseBackgroundColor
+  },
+  button: {
+    justifyContent: "center",
+    width: Layout.window.width
+  }
+});
 
 export default CompleteFooterButton;
