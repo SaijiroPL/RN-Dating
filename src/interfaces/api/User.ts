@@ -1,8 +1,8 @@
 /**
- * ユーザー情報取得レスポンスインターフェース
+ * ユーザー情報取得APIレスポンス
  * @author kotatanaka
  */
-export interface UserDetail {
+export interface IUserDetail {
   user_id: string;
   name: string;
   sex: string;
@@ -17,21 +17,10 @@ export interface UserDetail {
 }
 
 /**
- * ユーザー情報インターフェース
+ * ユーザー登録APIリクエストボディ
  * @author kotatanaka
  */
-export interface User {
-  userId: string;
-  userName: string;
-  userAttr: string;
-  userImageUrl: string;
-}
-
-/**
- * ユーザー登録リクエストボディ
- * @author kotatanaka
- */
-export interface CreateUserBody {
+export interface ICreateUserBody {
   name: string;
   sex: string;
   age: number;

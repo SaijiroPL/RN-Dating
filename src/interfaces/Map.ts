@@ -1,8 +1,8 @@
 /**
- * 位置情報インターフェース
+ * 位置情報
  * @author kotatanaka
  */
-export interface Location {
+export interface ILocation {
   latitude: number;
   longitude: number;
   latitudeDelta: number;
@@ -10,20 +10,20 @@ export interface Location {
 }
 
 /**
- * 現在位置インターフェース
+ * 現在位置
  * @author kotatanaka
  */
-export interface Here {
+export interface IHere {
   latitude: number;
   longitude: number;
   timestamp: number;
 }
 
 /**
- * マーカーインターフェース
+ * 位置マーカー
  * @author kotatanaka
  */
-export interface Marker {
+export interface IMarker {
   key?: string;
   latitude: number;
   longitude: number;

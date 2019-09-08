@@ -1,24 +1,23 @@
-import { Spot, SpotFull } from "app/src/types/api/TSpot";
-
 /**
- * デートプラン一覧取得レスポンスインターフェース
+ * デートスポットリスト要素(簡易)
  * @author kotatanaka
  */
-export interface PlanList {
-  total: number;
-  plan_list: Array<Plan>;
+export interface ISpot {
+  spot_name: string;
+  latitude: number;
+  longitude: number;
 }
 
 /**
- * デートプラン一覧取得レスポンス要素インターフェース
+ * デートプラン一覧取得APIレスポンス要素
  * @author kotatanaka
  */
-export interface Plan {
+export interface IPlan {
   plan_id: string;
   title: string;
   description: string;
   create_date: string;
-  spots: Array<Spot>;
+  spots: Array<ISpot>;
   user_id: string;
   user_name: string;
   user_attr: string;
@@ -28,10 +27,31 @@ export interface Plan {
 }
 
 /**
- * デートプラン詳細取得レスポンスインタフェース
+ * デートプラン一覧取得APIレスポンス
  * @author kotatanaka
  */
-export interface PlanFull {
+export interface IPlanList {
+  total: number;
+  plan_list: Array<IPlan>;
+}
+
+/**
+ * デートスポットリスト要素(詳細)
+ * @author kotatanaka
+ */
+export interface ISpotFull {
+  spot_name: string;
+  latitude: number;
+  longitude: number;
+  order: number;
+  need_time: number;
+}
+
+/**
+ * デートプラン詳細取得APIレスポンス
+ * @author kotatanaka
+ */
+export interface IPlanFull {
   plan_id: string;
   title: string;
   description: string;
@@ -39,7 +59,7 @@ export interface PlanFull {
   transportation: Array<string>;
   need_time: number;
   create_date: string;
-  spots: Array<SpotFull>;
+  spots: Array<ISpotFull>;
   user_id: string;
   user_name: string;
   user_attr: string;

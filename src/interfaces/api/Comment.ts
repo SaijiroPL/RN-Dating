@@ -1,17 +1,8 @@
 /**
- * コメント一覧取得レスポンスインタフェース
+ * コメント一覧取得APIレスポンス要素
  * @author kotatanaka
  */
-export interface CommentList {
-  total: number;
-  comment_list: Array<Comment>;
-}
-
-/**
- * コメント一覧取得レスポンス要素インタフェース
- * @author kotatanaka
- */
-export interface Comment {
+export interface IComment {
   comment_id: string;
   comment: string;
   create_date: string;
@@ -19,4 +10,13 @@ export interface Comment {
   user_name: string;
   user_attr: string;
   user_image_url: string;
+}
+
+/**
+ * コメント一覧取得APIレスポンス
+ * @author kotatanaka
+ */
+export interface ICommentList {
+  total: number;
+  comment_list: Array<IComment>;
 }
