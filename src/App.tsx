@@ -1,64 +1,54 @@
-import React from "react";
-import { View, StatusBar, Platform } from "react-native";
+import React, { useState } from "react";
+import { Platform, StatusBar, View } from "react-native";
 import { AppLoading, Asset, Font } from "expo";
 
 // from app
 import { Provider } from "app/src/Store";
-import AppNavigator from "app/src/navigators/AppNavigator";
 import Images from "app/src/constants/Images";
 import Fonts from "app/src/constants/Fonts";
+import AppNavigator from "app/src/navigators/AppNavigator";
 import appStyle from "app/src/styles/GeneralStyle";
 
 interface Props {
   skipLoadingScreen: boolean;
 }
 
-interface State {
-  isLoadingComplete: boolean;
-}
-
 /**
- * アプリケーション初期化コンポーネント
+ * アプリケーションの初期化
  * @author kotatanaka
  */
-export default class App extends React.Component<Props, State> {
-  static defaultProps: Props = {
-    skipLoadingScreen: false
-  };
-
-  public state: State = {
-    isLoadingComplete: false
-  };
+const App: React.FC<Props> = (props: Props) => {
+  const [isLoadingComplete, setLoadingComplete] = useState(false);
 
   /** ローカルリソースの読み込み */
-  loadResourcesAsync: any = async () => {
+  const loadResourcesAsync = async () => {
     await Asset.loadAsync(Object.keys(Images).map(key => Images[key]));
     await Font.loadAsync(Fonts);
-    return true;
   };
 
-  render() {
-    const { isLoadingComplete } = this.state;
-    const { skipLoadingScreen } = this.props;
-
-    // リソースの読み込みが終わるまでローディング
-    if (!isLoadingComplete && !skipLoadingScreen) {
-      return (
-        <AppLoading
-          startAsync={this.loadResourcesAsync}
-          onError={error => console.warn(error)}
-          onFinish={() => this.setState({ isLoadingComplete: true })}
-        />
-      );
-    }
-
+  // リソースの読み込みが終わるまでローディング
+  if (!isLoadingComplete && !props.skipLoadingScreen) {
     return (
-      <Provider>
-        <View style={appStyle.appContainer}>
-          {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-          <AppNavigator />
-        </View>
-      </Provider>
+      <AppLoading
+        startAsync={loadResourcesAsync}
+        onError={error => console.warn(error)}
+        onFinish={() => setLoadingComplete(true)}
+      />
     );
   }
-}
+
+  return (
+    <Provider>
+      <View style={appStyle.appContainer}>
+        {Platform.OS === "ios" && <StatusBar barStyle="default" />}
+        <AppNavigator />
+      </View>
+    </Provider>
+  );
+};
+
+App.defaultProps = {
+  skipLoadingScreen: false
+};
+
+export default App;
