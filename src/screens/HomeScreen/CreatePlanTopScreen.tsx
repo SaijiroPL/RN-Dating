@@ -4,6 +4,8 @@ import { useNavigation } from "react-navigation-hooks";
 import { Text } from "native-base";
 
 // from app
+import { useDispatch } from "app/src/Store";
+import { ActionType } from "app/src/Reducer";
 import Colors from "app/src/constants/Colors";
 import SelectButton from "app/src/components/buttons/SelectButton";
 import DatePicker from "app/src/components/contents/DatePicker";
@@ -17,6 +19,7 @@ import appStyle from "app/src/styles/GeneralStyle";
  */
 const CreatePlanTopScreen: React.FC = () => {
   const { navigate } = useNavigation();
+  const dispatch = useDispatch();
   const [date, setDate] = useState<string>("");
   const [car, setCar] = useState<boolean>(false);
   const [train, setTrain] = useState<boolean>(false);
@@ -24,20 +27,25 @@ const CreatePlanTopScreen: React.FC = () => {
   const [walk, setWalk] = useState<boolean>(false);
 
   const onCompleteButtonPress = () => {
-    navigate("map", { trasportation: getTransportationList() });
+    setCreatePlan();
+    navigate("map");
   };
 
-  /**
-   * 移動手段リストを生成する
-   * @return 移動手段リスト
-   */
-  const getTransportationList = () => {
+  /** デート予定日と交通手段を永続化 */
+  const setCreatePlan = () => {
     var transportationList = new Array();
     if (car) transportationList.push("car");
     if (train) transportationList.push("train");
     if (bus) transportationList.push("bus");
     if (walk) transportationList.push("walk");
-    return transportationList;
+
+    dispatch({
+      type: ActionType.SET_CREATE_PLAN,
+      payload: {
+        date: date,
+        trasportations: transportationList
+      }
+    });
   };
 
   /** 移動手段選択ボタンを描画する */
