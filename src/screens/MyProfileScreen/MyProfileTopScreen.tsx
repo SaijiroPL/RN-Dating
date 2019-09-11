@@ -7,7 +7,6 @@ import axios, { CancelTokenSource } from "axios";
 import { useGlobalState } from "app/src/Store";
 import { IUserDetail } from "app/src/interfaces/api/User";
 import { IApiError } from "app/src/interfaces/api/Error";
-import Colors from "app/src/constants/Colors";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import UserProfile from "app/src/components/contents/UserProfile";
 import SettingFab from "app/src/components/buttons/SettingFab";

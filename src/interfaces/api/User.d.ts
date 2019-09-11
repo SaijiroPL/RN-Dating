@@ -28,3 +28,13 @@ export interface ICreateUserBody {
   mail_address: string;
   password: string;
 }
+
+/**
+ * アプリにログインAPIリクエストボディ
+ * @author kotatanaka
+ */
+export interface ILogin {
+  mail_address?: string;
+  "1did"?: string;
+  password: string;
+}
