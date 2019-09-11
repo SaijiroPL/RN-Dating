@@ -1,21 +1,24 @@
 import React, { useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
+import Constants from "expo-constants";
 import { useNavigation } from "react-navigation-hooks";
 import { FontAwesome } from "@expo/vector-icons";
+import axios from "axios";
 
 // from app
 import { useDispatch } from "app/src/Store";
 import { ActionType } from "app/src/Reducer";
+import { IOK } from "app/src/interfaces/api/Success";
+import { IApiError } from "app/src/interfaces/api/Error";
+import { ILogin } from "app/src/interfaces/api/User";
 import Images from "app/src/constants/Images";
 import Layout from "app/src/constants/Layout";
 import Colors from "app/src/constants/Colors";
+import { LoadingSpinner } from "app/src/components/Spinners";
 import InputForm from "app/src/components/contents/InputForm";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
+import { handleError } from "app/src/utils/ApiUtil";
 import appStyle from "app/src/styles/GeneralStyle";
-
-// 仮置き定数
-// ログイン機能ができるまでは、これをDBに存在するユーザーIDに書き換えてください
-const loginUserId = "20b32803-f4b1-4d32-bb61-49e7cdf5e415";
 
 /**
  * 初回起動時の画面
@@ -30,14 +33,41 @@ const AppTopScreen: React.FC = () => {
   const [mailAddress, setMailAddress] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errors, setErrors] = useState<IApiError>();
+
+  /** メールアドレスでログイン */
+  const login = () => {
+    setIsLoading(true);
+
+    const body: ILogin = {
+      mail_address: mailAddress,
+      password: password
+    };
+
+    axios
+      .post(Constants.manifest.extra.apiEndpoint + "/users/login", body)
+      .then((response: { data: IOK }) => {
+        setIsLoading(false);
+        setLoginUser(response.data.id, "xxx");
+        navigate("main");
+      })
+      .catch(error => {
+        handleError(error);
+        if (error.response.state === 400) {
+          setErrors(error.response.data);
+        }
+        setIsLoading(false);
+      });
+  };
 
   /** ログインユーザーを永続化 */
-  const setLoginUser = () => {
+  const setLoginUser = (id: string, name: string) => {
     dispatch({
       type: ActionType.SET_LOGIN_USER,
       payload: {
-        id: loginUserId,
-        name: "",
+        id: id,
+        name: name,
         imageUrl: ""
       }
     });
@@ -61,8 +91,12 @@ const AppTopScreen: React.FC = () => {
 
   /** メールアドレスログインボタン押下時の処理 */
   const onSignInButtonPress = () => {
-    setLoginUser();
-    navigate("main");
+    login();
+
+    // デートマスターでログインする
+    // const masterId = "0000aaaa-1111-bbbb-2222-cccc3333dddd";
+    // setLoginUser(masterId, "xxx");
+    // navigate("main");
   };
 
   /** 新規登録ボタン押下時の処理 */
@@ -89,7 +123,17 @@ const AppTopScreen: React.FC = () => {
         >
           Facebookでログイン
         </FontAwesome.Button>
-        <Text style={thisStyle.link} onPress={() => setScreenPhase(1)}>
+        <Text
+          style={thisStyle.link}
+          onPress={() => {
+            // デートマスターを初期値に設定しておく
+            const masterMailAddress = "master@onedate.com";
+            const masterPassword = "password";
+            setMailAddress(masterMailAddress);
+            setPassword(masterPassword);
+            setScreenPhase(1);
+          }}
+        >
           メールアドレスでログイン
         </Text>
         <Text style={thisStyle.link} onPress={() => setScreenPhase(2)}>
@@ -101,6 +145,10 @@ const AppTopScreen: React.FC = () => {
 
   /** メールアドレスログイン画面を描画する */
   const renderSignInScreen = () => {
+    if (isLoading) {
+      return LoadingSpinner;
+    }
+
     return (
       <View>
         <InputForm
@@ -114,7 +162,12 @@ const AppTopScreen: React.FC = () => {
           setValue={setPassword}
         />
         <View style={thisStyle.completeButtonContainer}>
-          <CompleteButton title="ログイン" onPress={onSignInButtonPress} />
+          {/* 未入力項目がある場合はボタン押下不可 */}
+          {mailAddress.length > 0 && password.length > 0 ? (
+            <CompleteButton title="ログイン" onPress={onSignInButtonPress} />
+          ) : (
+            <CompleteButton title="ログイン" disabled />
+          )}
         </View>
       </View>
     );
@@ -140,7 +193,14 @@ const AppTopScreen: React.FC = () => {
           setValue={setConfirmPassword}
         />
         <View style={thisStyle.completeButtonContainer}>
-          <CompleteButton title="新規登録" onPress={onSignUpButtonPress} />
+          {/* 未入力項目がある場合はボタン押下不可 */}
+          {mailAddress.length > 0 &&
+          password.length > 0 &&
+          confirmPassword.length > 0 ? (
+            <CompleteButton title="新規登録" onPress={onSignUpButtonPress} />
+          ) : (
+            <CompleteButton title="新規登録" disabled />
+          )}
         </View>
       </View>
     );

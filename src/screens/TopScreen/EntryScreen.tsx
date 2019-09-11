@@ -35,7 +35,6 @@ const EntryScreen: React.FC = () => {
   const [birthday, setBirthday] = useState<string>("1995-01-01");
   const [prefecture, setPrefecture] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [ok, setOk] = useState<IOK>();
   const [errors, setErrors] = useState<IApiError>();
 
   /** ユーザー登録 */
@@ -55,14 +54,13 @@ const EntryScreen: React.FC = () => {
     axios
       .post(Constants.manifest.extra.apiEndpoint + "/users", body)
       .then((response: { data: IOK }) => {
-        setOk(response.data);
         setIsLoading(false);
         setLoginUser(response.data.id, "xxx");
         navigate("main");
       })
       .catch(error => {
         handleError(error);
-        if (error.response.stats === 400) {
+        if (error.response.state === 400) {
           setErrors(error.response.data);
         }
         setIsLoading(false);
