@@ -1,3 +1,5 @@
+import { AreaHTMLAttributes } from "react";
+
 /**
  * ユーザー情報取得APIレスポンス
  * @author kotatanaka
@@ -37,4 +39,16 @@ export interface ILogin {
   mail_address?: string;
   "1did"?: string;
   password: string;
+}
+
+/**
+ * プロフィール編集APIレスポンス
+ * @author itsukiyamada
+ */
+export interface IUpdataUserBody {
+  name: string;
+  sex: string;
+  age: string;
+  area: AreaHTMLAttributes;
+  mail_address: string;
 }
