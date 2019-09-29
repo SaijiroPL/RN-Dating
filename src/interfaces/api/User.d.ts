@@ -1,5 +1,3 @@
-import { AreaHTMLAttributes } from "react";
-
 /**
  * ユーザー情報取得APIレスポンス
  * @author kotatanaka
@@ -49,6 +47,6 @@ export interface IUpdataUserBody {
   name: string;
   sex: string;
   age: number;
-  area: AreaHTMLAttributes;
+  area: string;
   mail_address: string;
 }
