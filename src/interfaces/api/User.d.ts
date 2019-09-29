@@ -38,3 +38,15 @@ export interface ILogin {
   "1did"?: string;
   password: string;
 }
+
+/**
+ * プロフィール編集APIレスポンス
+ * @author itsukiyamada
+ */
+export interface IUpdataUserBody {
+  name: string;
+  sex: string;
+  age: number;
+  area: string;
+  mail_address: string;
+}
