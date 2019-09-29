@@ -5,14 +5,11 @@ import axios, { CancelTokenSource } from "axios";
 // from app
 import { IUserDetail } from "app/src/interfaces/api/User";
 import { LoadingSpinner } from "app/src/components/Spinners";
-
 import { useGlobalState } from "app/src/Store";
 import appTextStyle from "app/src/styles/GeneralTextStyle";
 import { IUpdataUserBody } from "app/src/interfaces/api/User";
 import { IOK } from "app/src/interfaces/api/Success";
 import { IApiError } from "app/src/interfaces/api/Error";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Agent } from "https";
 import { Constants } from "expo";
 import { handleError } from "app/src/utils/ApiUtil";
 
@@ -20,7 +17,6 @@ import { handleError } from "app/src/utils/ApiUtil";
  * プロフィール編集画面
  * @author itsukiyamada
  */
-
 const EditProfileScreen: React.FC = () => {
   const loginUser = useGlobalState("loginUser");
   const [name, setName] = useState<string>("");
@@ -35,6 +31,7 @@ const EditProfileScreen: React.FC = () => {
   });
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
   useEffect(() => {
     const signal = axios.CancelToken.source();
     getUserDetail(signal);
@@ -43,7 +40,6 @@ const EditProfileScreen: React.FC = () => {
     };
   }, []);
 
-  /**  */
   const update = () => {
     setIsLoading(true);
 
