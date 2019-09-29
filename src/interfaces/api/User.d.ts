@@ -48,7 +48,7 @@ export interface ILogin {
 export interface IUpdataUserBody {
   name: string;
   sex: string;
-  age: string;
+  age: number;
   area: AreaHTMLAttributes;
   mail_address: string;
 }
