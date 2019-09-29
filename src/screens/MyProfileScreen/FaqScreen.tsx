@@ -5,15 +5,21 @@ import {
   Content,
   List,
   ListItem,
+  View,
   Text,
   Left,
-  Right
+  Right,
+  Input,
+  Item
 } from "native-base";
+import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 // from app
 import Colors from "app/src/constants/Colors";
 import appTextStyle from "app/src/styles/GeneralTextStyle";
+import CompleteButton from "app/src/components/buttons/CompleteButton";
+import appStyle from "app/src/styles/GeneralStyle";
 
 /**
  * よくある質問画面
@@ -23,6 +29,10 @@ const FaqScreen: React.FC = () => {
   const [isSelectA, setSelectA] = useState<boolean>(false);
   const [isSelectB, setSelectB] = useState<boolean>(false);
   const [isSelectC, setSelectC] = useState<boolean>(false);
+  const [question, setQuestion] = useState<string>("");
+  const onCompleteButtonPress = () => {
+    console.log(question);
+  };
 
   /**
    * 質問項目を描画する
@@ -69,9 +79,30 @@ const FaqScreen: React.FC = () => {
           {renderListItem("質問B", isSelectB, setSelectB)}
           {renderListItem("質問C", isSelectC, setSelectC)}
         </List>
+        <Header>
+          <Text style={appTextStyle.standardText}>質問を送信</Text>
+        </Header>
+        <Item regular>
+          <Input
+            placeholder="質問を入力"
+            onChangeText={value => setQuestion(value)}
+            value={question}
+          />
+        </Item>
+        <View style={thisStyle.item}>
+          <CompleteButton title="送信" onPress={onCompleteButtonPress} />
+        </View>
       </Content>
     </Container>
   );
 };
+
+/** スタイリング */
+const thisStyle = StyleSheet.create({
+  item: {
+    alignItems: "center",
+    marginTop: 20
+  }
+});
 
 export default FaqScreen;
