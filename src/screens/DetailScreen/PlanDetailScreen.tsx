@@ -177,7 +177,7 @@ const PlanDetailScreen: React.FC = () => {
             </View>
             <View style={thisStyle.description}>
               <Text style={thisStyle.descriptionText}>
-                {formatDate(plan.date)}
+                {formatDate(plan.date, "YYYY年MM月DD日")}
               </Text>
             </View>
           </View>
