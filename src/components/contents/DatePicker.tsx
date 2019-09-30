@@ -20,7 +20,7 @@ const DatePicker: React.FC<Props> = (props: Props) => {
       style={{ width: 200 }}
       date={date}
       mode="date"
-      format="YYYY/MM/DD"
+      format="YYYY-MM-DD"
       minDate={minDate}
       maxDate={maxDate}
       confirmBtnText="決定"

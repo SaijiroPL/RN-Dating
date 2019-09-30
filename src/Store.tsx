@@ -12,6 +12,10 @@ const initialState: State = {
   registerUser: {
     mailAddress: "",
     password: ""
+  },
+  createPlan: {
+    date: "",
+    transportations: []
   }
 };
 
