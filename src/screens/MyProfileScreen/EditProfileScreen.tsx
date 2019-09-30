@@ -20,9 +20,10 @@ import { handleError } from "app/src/utils/ApiUtil";
 const EditProfileScreen: React.FC = () => {
   const loginUser = useGlobalState("loginUser");
   const [name, setName] = useState<string>("");
+  const [profile, setProfile] = useState<string>("");
   const [sex, setSex] = useState<string>("");
   const [age, setAge] = useState<number>(0);
-  const [area, setArea] = useState<string>("");
+  const [address, setAddress] = useState<string>("");
   const [mailAddress, setMailAddress] = useState<string>("");
   const [errors, setErrors] = useState<IApiError>({
     code: 0,
@@ -45,9 +46,10 @@ const EditProfileScreen: React.FC = () => {
 
     const body: IUpdataUserBody = {
       name: name,
+      profile: profile,
       sex: sex,
       age: age,
-      area: area,
+      address: address,
       mail_address: mailAddress
     };
 
@@ -78,9 +80,10 @@ const EditProfileScreen: React.FC = () => {
       })
       .then((response: { data: IUserDetail }) => {
         setName(response.data.name);
+        setProfile(response.data.profile);
         setSex(response.data.sex);
         setAge(response.data.age);
-        setArea(response.data.area);
+        setAddress(response.data.address);
         setMailAddress(response.data.mail_address);
         setIsLoading(false);
       })
@@ -111,7 +114,7 @@ const EditProfileScreen: React.FC = () => {
           </Item>
           <Item inlineLabel>
             <Label style={appTextStyle.standardText}>自己紹介</Label>
-            <Input />
+            <Input onChangeText={value => setProfile(value)} value={profile} />
           </Item>
           <Item inlineLabel>
             <Label style={appTextStyle.standardText}>メール</Label>
@@ -130,7 +133,7 @@ const EditProfileScreen: React.FC = () => {
           </Item>
           <Item inlineLabel>
             <Label style={appTextStyle.standardText}>住まい</Label>
-            <Input onChangeText={value => setArea(value)} value={area} />
+            <Input onChangeText={value => setAddress(value)} value={address} />
           </Item>
         </Form>
       </Content>
