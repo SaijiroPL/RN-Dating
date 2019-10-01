@@ -5,6 +5,7 @@ import { Container, Content, Text } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
+import { useGlobalState } from "app/src/Store";
 import { IUserInfo } from "app/src/interfaces/User";
 import { IPlanFull } from "app/src/interfaces/api/Plan";
 import { ICommentList } from "app/src/interfaces/api/Comment";
@@ -27,6 +28,7 @@ import appTextStyle from "app/src/styles/GeneralTextStyle";
  * @author kotatanaka
  */
 const PlanDetailScreen: React.FC = () => {
+  const loginUser = useGlobalState("loginUser");
   const { navigate } = useNavigation();
   const planId = useNavigationParam("id");
 
@@ -130,7 +132,6 @@ const PlanDetailScreen: React.FC = () => {
       });
   };
 
-  // TODO 自分のプランの場合描画しない
   /** デートプラン作成者部分を描画する */
   const renderPlannerHeader = () => {
     const planner: IUserInfo = {
@@ -193,7 +194,13 @@ const PlanDetailScreen: React.FC = () => {
   return (
     <Container>
       <Content>
-        {renderPlannerHeader()}
+        {loginUser.id !== plan.user_id ? (
+          renderPlannerHeader()
+        ) : (
+          <View style={thisStyle.myPlanHeader}>
+            <Text style={appTextStyle.standardText}>マイプラン</Text>
+          </View>
+        )}
         <ImageCarousel plan={plan} />
         <SimpleMapView spot={plan.spots[0]} />
         {renderPlanDescription()}
@@ -253,6 +260,10 @@ const thisStyle = StyleSheet.create({
     color: Colors.textTintColor,
     fontFamily: "genju-light",
     fontSize: 10
+  },
+  myPlanHeader: {
+    alignItems: "center",
+    backgroundColor: Colors.baseBackgroundColor
   }
 });
 
