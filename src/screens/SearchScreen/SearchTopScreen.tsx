@@ -8,7 +8,7 @@ import { IPlanList } from "app/src/interfaces/api/Plan";
 import { IApiError } from "app/src/interfaces/api/Error";
 import Colors from "app/src/constants/Colors";
 import { API_ENDPOINT } from "app/src/constants/Api";
-import { RefreshSpinner } from "app/src/components/Spinners";
+import { Indicator, RefreshSpinner } from "app/src/components/Spinners";
 import SearchFormBar from "app/src/components/contents/SearchFormBar";
 import PlanCardList from "app/src/components/lists/PlanCardList";
 import { handleError } from "app/src/utils/ApiUtil";
@@ -43,9 +43,15 @@ const SearchTopScreen: React.FC = () => {
 
   /** デートプラン検索API */
   const searchPlanList = () => {
-    setIsLoading(true);
-    const signal = axios.CancelToken.source();
+    if (searchWord === "") {
+      return;
+    }
 
+    if (!isRefreshing) {
+      setIsLoading(true);
+    }
+
+    const signal = axios.CancelToken.source();
     const url = API_ENDPOINT.PLANS_SEARCH;
 
     axios
@@ -87,12 +93,22 @@ const SearchTopScreen: React.FC = () => {
         setValue={setSearchWord}
         onSearch={searchPlanList}
       />
-      <View style={thisStyle.planCount}>
-        <Text style={appTextStyle.countText}>検索結果: {plans.total} 件</Text>
-      </View>
-      <ScrollView refreshControl={RefreshSpinner(isRefreshing, onRefresh)}>
-        <PlanCardList planList={plans.plan_list} />
-      </ScrollView>
+      {isLoading ? (
+        <View>{Indicator}</View>
+      ) : (
+        <View>
+          <View style={thisStyle.planCount}>
+            <Text style={appTextStyle.countText}>
+              {plans.total === 0
+                ? "プランが見つかりません。"
+                : `検索結果: ${plans.total} 件`}
+            </Text>
+          </View>
+          <ScrollView refreshControl={RefreshSpinner(isRefreshing, onRefresh)}>
+            <PlanCardList planList={plans.plan_list} />
+          </ScrollView>
+        </View>
+      )}
     </View>
   );
 };
