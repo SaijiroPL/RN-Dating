@@ -9,6 +9,7 @@ import Colors from "app/src/constants/Colors";
 interface Props {
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
+  onSearch: () => void;
 }
 
 /**
@@ -16,7 +17,7 @@ interface Props {
  * @author kotatanaka
  */
 const SearchFormBar: React.FC<Props> = (props: Props) => {
-  const { value, setValue } = props;
+  const { value, setValue, onSearch } = props;
   return (
     <SearchBar
       placeholder="検索"
@@ -28,7 +29,10 @@ const SearchFormBar: React.FC<Props> = (props: Props) => {
       clearIcon={
         <Ionicons name="ios-close" size={26} color={Colors.textTintColor} />
       }
-      onChangeText={value => setValue(value)}
+      onChangeText={value => {
+        setValue(value);
+        onSearch();
+      }}
       onClear={() => setValue("")}
       value={value}
       containerStyle={thisStyle.searchBar}
