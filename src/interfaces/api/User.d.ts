@@ -8,6 +8,7 @@ export interface IUserDetail {
   profile: string;
   sex: string;
   age: number;
+  area: string;
   address: string;
   mail_address: string;
   user_attr: string;
