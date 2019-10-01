@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { SearchBar } from "react-native-elements";
-import axios, { CancelTokenSource } from "axios";
-import { Ionicons } from "@expo/vector-icons";
+import axios from "axios";
 
 // from app
+import { useGlobalState } from "app/src/Store";
 import { IPlanList } from "app/src/interfaces/api/Plan";
 import { IApiError } from "app/src/interfaces/api/Error";
 import Colors from "app/src/constants/Colors";
 import { API_ENDPOINT } from "app/src/constants/Api";
-import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
+import { Indicator, RefreshSpinner } from "app/src/components/Spinners";
+import SearchFormBar from "app/src/components/contents/SearchFormBar";
 import PlanCardList from "app/src/components/lists/PlanCardList";
 import { handleError } from "app/src/utils/ApiUtil";
 import appTextStyle from "app/src/styles/GeneralTextStyle";
@@ -19,6 +19,8 @@ import appTextStyle from "app/src/styles/GeneralTextStyle";
  * @author kotatanaka
  */
 const SearchTopScreen: React.FC = () => {
+  const loginUser = useGlobalState("loginUser");
+
   const [searchWord, setSearchWord] = useState<string>("");
   const [plans, setPlans] = useState<IPlanList>({
     total: 0,
@@ -29,22 +31,35 @@ const SearchTopScreen: React.FC = () => {
     message: "",
     detail_message: []
   });
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isRefreshing, setRefreshing] = useState<boolean>(false);
 
   useEffect(() => {
     const signal = axios.CancelToken.source();
-    getPlanList(signal);
     return () => {
       signal.cancel("Cancelling in Cleanup.");
     };
   }, []);
 
-  /** デートプラン検索APIに置き換える */
-  const getPlanList = (signal: CancelTokenSource) => {
-    const url = API_ENDPOINT.PLANS;
+  /** デートプラン検索API */
+  const searchPlanList = () => {
+    if (searchWord === "") {
+      return;
+    }
+
+    if (!isRefreshing) {
+      setIsLoading(true);
+    }
+
+    const signal = axios.CancelToken.source();
+    const url = API_ENDPOINT.PLANS_SEARCH;
+
     axios
       .get(url, {
+        params: {
+          keyword: searchWord,
+          user_id: loginUser.id
+        },
         cancelToken: signal.token
       })
       .then((response: { data: IPlanList }) => {
@@ -59,59 +74,41 @@ const SearchTopScreen: React.FC = () => {
           if (error.response.stats === 400) {
             setErrors(error.response.data);
           }
+          setIsLoading(false);
         }
-        setIsLoading(false);
       });
-  };
-
-  /** 検索ワードの更新 */
-  const updateSearchWord = (searchWord: string) => {
-    setSearchWord(searchWord);
   };
 
   /** プルリロード */
   const onRefresh = () => {
     setRefreshing(true);
-    getPlanList(axios.CancelToken.source());
+    searchPlanList();
     setRefreshing(false);
   };
 
-  /** 検索バーを描画する */
-  // TODO 入力文字のクリア
-  const renderSearchBar = () => {
-    return (
-      <SearchBar
-        placeholder="検索"
-        round
-        lightTheme
-        searchIcon={
-          <Ionicons name="ios-search" size={26} color={Colors.textTintColor} />
-        }
-        clearIcon={
-          <Ionicons name="ios-close" size={26} color={Colors.textTintColor} />
-        }
-        onChangeText={searchWord => updateSearchWord(searchWord)}
-        onClear={() => updateSearchWord("")}
-        value={searchWord}
-        containerStyle={thisStyle.searchBar}
-        inputContainerStyle={thisStyle.searchInput}
-      />
-    );
-  };
-
-  if (isLoading) {
-    return LoadingSpinner;
-  }
-
   return (
     <View style={thisStyle.container}>
-      {renderSearchBar()}
-      <View style={thisStyle.planCount}>
-        <Text style={appTextStyle.countText}>検索結果: {plans.total} 件</Text>
-      </View>
-      <ScrollView refreshControl={RefreshSpinner(isRefreshing, onRefresh)}>
-        <PlanCardList planList={plans.plan_list} />
-      </ScrollView>
+      <SearchFormBar
+        value={searchWord}
+        setValue={setSearchWord}
+        onSearch={searchPlanList}
+      />
+      {isLoading ? (
+        <View>{Indicator}</View>
+      ) : (
+        <View>
+          <View style={thisStyle.planCount}>
+            <Text style={appTextStyle.countText}>
+              {plans.total === 0
+                ? "プランが見つかりません。"
+                : `検索結果: ${plans.total} 件`}
+            </Text>
+          </View>
+          <ScrollView refreshControl={RefreshSpinner(isRefreshing, onRefresh)}>
+            <PlanCardList planList={plans.plan_list} />
+          </ScrollView>
+        </View>
+      )}
     </View>
   );
 };
@@ -121,22 +118,12 @@ const thisStyle = StyleSheet.create({
   container: {
     backgroundColor: Colors.backgroundColor
   },
-  searchBar: {
-    backgroundColor: "white",
-    shadowColor: "#ccc",
-    shadowOffset: {
-      height: 1,
-      width: 1
-    },
-    shadowOpacity: 1,
-    shadowRadius: 2
-  },
-  searchInput: {
-    backgroundColor: "#eee"
-  },
   planCount: {
     borderBottomColor: "#ccc",
     borderBottomWidth: 1
+  },
+  spinner: {
+    flex: 1
   }
 });
 
