@@ -22,9 +22,11 @@ const MyProfileTopScreen: React.FC = () => {
   const [user, setUser] = useState<IUserDetail>({
     user_id: "",
     name: "",
+    profile: "",
     sex: "",
     age: 0,
     area: "",
+    address: "",
     mail_address: "",
     user_attr: "",
     user_image_url: "",
