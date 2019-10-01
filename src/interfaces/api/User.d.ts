@@ -1,5 +1,3 @@
-import { string } from "prop-types";
-
 /**
  * ユーザー情報取得APIレスポンス
  * @author kotatanaka
