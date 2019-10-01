@@ -194,7 +194,13 @@ const PlanDetailScreen: React.FC = () => {
   return (
     <Container>
       <Content>
-        {loginUser.id !== plan.user_id && renderPlannerHeader()}
+        {loginUser.id !== plan.user_id ? (
+          renderPlannerHeader()
+        ) : (
+          <View style={thisStyle.myPlanHeader}>
+            <Text style={appTextStyle.standardText}>マイプラン</Text>
+          </View>
+        )}
         <ImageCarousel plan={plan} />
         <SimpleMapView spot={plan.spots[0]} />
         {renderPlanDescription()}
@@ -254,6 +260,10 @@ const thisStyle = StyleSheet.create({
     color: Colors.textTintColor,
     fontFamily: "genju-light",
     fontSize: 10
+  },
+  myPlanHeader: {
+    alignItems: "center",
+    backgroundColor: Colors.baseBackgroundColor
   }
 });
 
