@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
-import Constants from "expo-constants";
 import { useNavigation, useNavigationParam } from "react-navigation-hooks";
 import { Container, Content, Text } from "native-base";
 import axios, { CancelTokenSource } from "axios";
@@ -11,6 +10,7 @@ import { IPlanFull } from "app/src/interfaces/api/Plan";
 import { ICommentList } from "app/src/interfaces/api/Comment";
 import { IApiError } from "app/src/interfaces/api/Error";
 import Colors from "app/src/constants/Colors";
+import { API_ENDPOINT } from "app/src/constants/Api";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import UserHeader from "app/src/components/contents/UserHeader";
 import ImageCarousel from "app/src/components/contents/ImageCarousel";
@@ -83,8 +83,9 @@ const PlanDetailScreen: React.FC = () => {
 
   /** デートプラン詳細取得 */
   const getPlanDetail = (signal: CancelTokenSource) => {
+    const url = API_ENDPOINT.PLAN.replace("$1", planId);
     axios
-      .get(Constants.manifest.extra.apiEndpoint + "/plans/" + planId, {
+      .get(url, {
         cancelToken: signal.token
       })
       .then((response: { data: IPlanFull }) => {
@@ -106,8 +107,7 @@ const PlanDetailScreen: React.FC = () => {
 
   /** コメント一覧取得 */
   const getCommentList = (signal: CancelTokenSource) => {
-    const url =
-      Constants.manifest.extra.apiEndpoint + "/plans/" + planId + "/comments";
+    const url = API_ENDPOINT.PLAN_COMMENTS.replace("$1", planId);
 
     axios
       .get(url, {

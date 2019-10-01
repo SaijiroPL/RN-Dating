@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import Constants from "expo-constants";
 import { useNavigationParam } from "react-navigation-hooks";
 import { Container, Text } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
+import { API_ENDPOINT } from "app/src/constants/Api";
 import { ICommentList } from "app/src/interfaces/api/Comment";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { LoadingSpinner } from "app/src/components/Spinners";
@@ -40,8 +40,7 @@ const CommentScreen: React.FC = () => {
 
   /** コメント一覧取得 */
   const getCommentList = (signal: CancelTokenSource) => {
-    const url =
-      Constants.manifest.extra.apiEndpoint + "/plans/" + planId + "/comments";
+    const url = API_ENDPOINT.PLAN_COMMENTS.replace("$1", planId);
 
     axios
       .get(url, {
