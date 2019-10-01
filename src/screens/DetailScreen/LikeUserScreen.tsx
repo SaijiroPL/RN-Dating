@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import Constants from "expo-constants";
 import { useNavigationParam } from "react-navigation-hooks";
 import { Container, Text } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
+import { API_ENDPOINT } from "app/src/constants/Api";
 import { ILikeUserList } from "app/src/interfaces/api/Like";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { LoadingSpinner } from "app/src/components/Spinners";
@@ -40,8 +40,7 @@ const LikeUserScreen: React.FC = () => {
 
   /** デートプランお気に入り登録者一覧取得 */
   const getLikeUserList = (signal: CancelTokenSource) => {
-    const url =
-      Constants.manifest.extra.apiEndpoint + "/plans/" + planId + "/likes";
+    const url = API_ENDPOINT.PLAN_LIKES.replace("$1", planId);
 
     axios
       .get(url, {

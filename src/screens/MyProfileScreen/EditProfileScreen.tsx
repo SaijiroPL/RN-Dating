@@ -10,8 +10,8 @@ import appTextStyle from "app/src/styles/GeneralTextStyle";
 import { IUpdataUserBody } from "app/src/interfaces/api/User";
 import { IOK } from "app/src/interfaces/api/Success";
 import { IApiError } from "app/src/interfaces/api/Error";
-import { Constants } from "expo";
 import { handleError } from "app/src/utils/ApiUtil";
+import { API_ENDPOINT } from "app/src/constants/Api";
 
 /**
  * プロフィール編集画面
@@ -41,8 +41,11 @@ const EditProfileScreen: React.FC = () => {
     };
   }, []);
 
+  /** プロフィール編集 */
   const update = () => {
     setIsLoading(true);
+
+    const url = API_ENDPOINT.USER.replace("$1", loginUser.id);
 
     const body: IUpdataUserBody = {
       name: name,
@@ -54,10 +57,7 @@ const EditProfileScreen: React.FC = () => {
     };
 
     axios
-      .post(
-        Constants.manifest.extra.apiEndpoint + "/users/" + loginUser.id,
-        body
-      )
+      .post(url, body)
       .then((response: { data: IOK }) => {
         setIsLoading(false);
       })
@@ -72,7 +72,7 @@ const EditProfileScreen: React.FC = () => {
 
   /** ユーザー詳細取得 */
   const getUserDetail = (signal: CancelTokenSource) => {
-    const url = Constants.manifest.extra.apiEndpoint + "/users/" + loginUser.id;
+    const url = API_ENDPOINT.USER.replace("$1", loginUser.id);
 
     axios
       .get(url, {
