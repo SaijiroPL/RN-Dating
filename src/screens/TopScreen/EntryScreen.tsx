@@ -11,7 +11,7 @@ import { IOK } from "app/src/interfaces/api/Success";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { ICreateUserBody } from "app/src/interfaces/api/User";
 import Colors from "app/src/constants/Colors";
-import { API_ENDPOINT } from "app/src/constants/Api";
+import { API_ENDPOINT } from "app/src/constants/Url";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import SelectButton from "app/src/components/buttons/SelectButton";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
