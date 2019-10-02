@@ -35,7 +35,7 @@
         "appId": "1:821178705436:web:c38596c8f71344a5"
       },
       "apiEndpoint": "http://localhost:3000",
-      "webViewEndpoint": "http://localhost:3030"
+      "webEndpoint": "http://localhost:3030"
     }
   }
 }
