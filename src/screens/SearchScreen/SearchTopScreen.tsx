@@ -7,7 +7,7 @@ import { useGlobalState } from "app/src/Store";
 import { IPlanList } from "app/src/interfaces/api/Plan";
 import { IApiError } from "app/src/interfaces/api/Error";
 import Colors from "app/src/constants/Colors";
-import { API_ENDPOINT } from "app/src/constants/Api";
+import { API_ENDPOINT } from "app/src/constants/Url";
 import { Indicator, RefreshSpinner } from "app/src/components/Spinners";
 import SearchFormBar from "app/src/components/contents/SearchFormBar";
 import PlanCardList from "app/src/components/lists/PlanCardList";

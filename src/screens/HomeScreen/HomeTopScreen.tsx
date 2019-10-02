@@ -6,7 +6,7 @@ import axios, { CancelTokenSource } from "axios";
 import { IPlanList } from "app/src/interfaces/api/Plan";
 import { IApiError } from "app/src/interfaces/api/Error";
 import Colors from "app/src/constants/Colors";
-import { API_ENDPOINT } from "app/src/constants/Api";
+import { API_ENDPOINT } from "app/src/constants/Url";
 import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
 import PlanCardList from "app/src/components/lists/PlanCardList";
 import CreatePlanFab from "app/src/components/buttons/CreatePlanFab";

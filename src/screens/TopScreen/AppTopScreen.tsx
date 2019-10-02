@@ -13,7 +13,7 @@ import { ILogin } from "app/src/interfaces/api/User";
 import Images from "app/src/constants/Images";
 import Layout from "app/src/constants/Layout";
 import Colors from "app/src/constants/Colors";
-import { API_ENDPOINT } from "app/src/constants/Api";
+import { API_ENDPOINT } from "app/src/constants/Url";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import InputForm from "app/src/components/contents/InputForm";
 import CompleteButton from "app/src/components/buttons/CompleteButton";

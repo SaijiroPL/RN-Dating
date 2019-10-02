@@ -7,7 +7,7 @@ import axios, { CancelTokenSource } from "axios";
 // from app
 import { IFollowerList } from "app/src/interfaces/api/Follow";
 import { IApiError } from "app/src/interfaces/api/Error";
-import { API_ENDPOINT } from "app/src/constants/Api";
+import { API_ENDPOINT } from "app/src/constants/Url";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import FollowList from "app/src/components/lists/FollowList";
 import { handleError } from "app/src/utils/ApiUtil";

@@ -4,7 +4,7 @@ import { Container, Text } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
-import { API_ENDPOINT } from "app/src/constants/Api";
+import { API_ENDPOINT } from "app/src/constants/Url";
 import { ICommentList } from "app/src/interfaces/api/Comment";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { LoadingSpinner } from "app/src/components/Spinners";

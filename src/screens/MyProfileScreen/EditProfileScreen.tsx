@@ -11,7 +11,7 @@ import { IUpdataUserBody } from "app/src/interfaces/api/User";
 import { IOK } from "app/src/interfaces/api/Success";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { handleError } from "app/src/utils/ApiUtil";
-import { API_ENDPOINT } from "app/src/constants/Api";
+import { API_ENDPOINT } from "app/src/constants/Url";
 
 /**
  * プロフィール編集画面
