@@ -3,10 +3,10 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import { FontAwesome } from "@expo/vector-icons";
 import axios from "axios";
-
 // from app
 import { useDispatch } from "app/src/Store";
 import { ActionType } from "app/src/Reducer";
+import { facebookLogin } from "app/src/Firebase";
 import { IOK } from "app/src/interfaces/api/Success";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { ILogin } from "app/src/interfaces/api/User";
@@ -87,17 +87,14 @@ const AppTopScreen: React.FC = () => {
 
   /** Facebookログインボタン押下時の処理 */
   const onFacebookButtonPress = () => {
+    facebookLogin();
+    // FIXME ログインが完了しユーザーをストアに入れてから画面遷移する
     navigate("welcome");
   };
 
   /** メールアドレスログインボタン押下時の処理 */
   const onSignInButtonPress = () => {
     login();
-
-    // デートマスターでログインする
-    // const masterId = "0000aaaa-1111-bbbb-2222-cccc3333dddd";
-    // setLoginUser(masterId, "xxx");
-    // navigate("main");
   };
 
   /** 新規登録ボタン押下時の処理 */
