@@ -14,6 +14,7 @@ export interface IUserDetail {
   plan_count: number;
   follow_count: number;
   follower_count: number;
+  old_password: string;
 }
 
 /**
@@ -27,6 +28,8 @@ export interface ICreateUserBody {
   area: string;
   mail_address: string;
   password: string;
+  old_password: string;
+  new_password: string;
 }
 
 /**
@@ -49,4 +52,7 @@ export interface IUpdataUserBody {
   age: number;
   area: string;
   mail_address: string;
+  password_digest: string;
+  old_password: string;
+  new_password: string;
 }
