@@ -28,8 +28,6 @@ export interface ICreateUserBody {
   area: string;
   mail_address: string;
   password: string;
-  old_password: string;
-  new_password: string;
 }
 
 /**
@@ -53,6 +51,13 @@ export interface IUpdataUserBody {
   area: string;
   mail_address: string;
   password_digest: string;
+}
+
+/**
+ * パスワード編集APIレスポンス
+ * @author itsukiyamada
+ */
+export interface IUpdataPassword {
   old_password: string;
   new_password: string;
 }

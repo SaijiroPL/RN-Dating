@@ -9,15 +9,13 @@ import InputFormFloating from "app/src/components/contents/InputFormFloating";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
 import { isEmpty } from "app/src/utils/CheckUtil";
 import appStyle from "app/src/styles/GeneralStyle";
-import { IUserDetail } from "app/src/interfaces/api/User";
+import { IUpdataPassword } from "app/src/interfaces/api/User";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { useGlobalState, useDispatch } from "app/src/Store";
-import { IUpdataUserBody } from "app/src/interfaces/api/User";
 import { IOK } from "app/src/interfaces/api/Success";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { Constants } from "expo";
 import { handleError } from "app/src/utils/ApiUtil";
-import { ActionType } from "app/src/Reducer";
 
 /**
  * パスワード変更画面
@@ -41,15 +39,13 @@ const ChangePasswordScreen: React.FC = () => {
   const update = () => {
     setIsLoading(true);
 
-    const body: IUpdataUserBody = {
-      old_password: setOldPassword,
+    const body: IUpdataPassword = {
       new_Password: setNewPassword
     };
 
     axios
       .post(
         Constants.manifest.extra.apiEndpoint + "/users/" + loginUser.id,
-        body
       )
       .then((response: { data: IOK }) => {
         setIsLoading(false);
@@ -72,7 +68,6 @@ const ChangePasswordScreen: React.FC = () => {
     // TODO パスワード変更APIを叩く
     if (new_Password === new_Password) {
       navigate("top");
-      setRegisterUserParts();
     }
     setNewPassword("");
   };
