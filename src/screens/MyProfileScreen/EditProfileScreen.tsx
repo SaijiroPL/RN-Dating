@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Content, Form, Item, Input, Label } from "native-base";
+import { Container, Content, Form, Item, Input, Label, View } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
@@ -12,6 +12,7 @@ import { IOK } from "app/src/interfaces/api/Success";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { Constants } from "expo";
 import { handleError } from "app/src/utils/ApiUtil";
+import CompleteButton from "app/src/components/buttons/CompleteButton";
 
 /**
  * プロフィール編集画面
@@ -68,6 +69,17 @@ const EditProfileScreen: React.FC = () => {
         }
         setIsLoading(false);
       });
+  };
+
+
+  /** 新規登録ボタン押下時の処理 */
+  const onSignUpButtonPress = () => {
+    if (password === confirmPassword) {
+      setRegisterUserParts();
+      navigate("welcome");
+    }
+    setPassword("");
+    setConfirmPassword("");
   };
 
   /** ユーザー詳細取得 */
@@ -136,6 +148,16 @@ const EditProfileScreen: React.FC = () => {
             <Input onChangeText={value => setAddress(value)} value={address} />
           </Item>
         </Form>
+        <View style={thisStyle.completeButtonContainer}>
+          {/* 未入力項目がある場合はボタン押下不可 */}
+          {mailAddress.length > 0 &&
+          password.length > 0 &&
+          confirmPassword.length > 0 ? (
+            <CompleteButton title="新規登録" onPress={onSignUpButtonPress} />
+          ) : (
+            <CompleteButton title="新規登録" disabled />
+          )}
+        </View>
       </Content>
     </Container>
   );
