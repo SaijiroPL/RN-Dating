@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { View } from "react-native";
 import { Form } from "native-base";
 import { useNavigation } from "react-navigation-hooks";
-import axios, { CancelTokenSource } from "axios";
+import axios from "axios";
 
 // from app
 import InputFormFloating from "app/src/components/contents/InputFormFloating";
@@ -40,13 +40,17 @@ const ChangePasswordScreen: React.FC = () => {
     setIsLoading(true);
 
     const body: IUpdataPasswordBody = {
-      newpassword: setNewPassword
+      old_password: oldPassword,
+      new_password: newPassword
     };
 
     axios
       .put(
-        Constants.manifest.extra.apiEndpoint + "/users/" + loginUser.id + "/password"
-        )
+        Constants.manifest.extra.apiEndpoint +
+          "/users/" +
+          loginUser.id +
+          "/password"
+      )
       .then((_response: { data: IOK }) => {
         setIsLoading(false);
       })
@@ -91,7 +95,6 @@ const ChangePasswordScreen: React.FC = () => {
           label="現在のパスワード"
           value={oldPassword}
           setValue={setOldPassword}
-          }
         />
         <InputFormFloating
           label="新しいパスワード"
@@ -108,5 +111,6 @@ const ChangePasswordScreen: React.FC = () => {
       <View style={appStyle.emptySpace} />
     </View>
   );
+};
 
 export default ChangePasswordScreen;
