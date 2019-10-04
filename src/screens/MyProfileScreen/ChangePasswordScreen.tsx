@@ -9,7 +9,7 @@ import InputFormFloating from "app/src/components/contents/InputFormFloating";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
 import { isEmpty } from "app/src/utils/CheckUtil";
 import appStyle from "app/src/styles/GeneralStyle";
-import { IUpdataPassword } from "app/src/interfaces/api/User";
+import { IUpdataPasswordBody } from "app/src/interfaces/api/User";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { useGlobalState, useDispatch } from "app/src/Store";
 import { IOK } from "app/src/interfaces/api/Success";
@@ -25,8 +25,8 @@ const ChangePasswordScreen: React.FC = () => {
   const { navigate } = useNavigation();
   const dispatch = useDispatch();
 
-  const [old_Password, setOldPassword] = useState<string>("");
-  const [new_Password, setNewPassword] = useState<string>("");
+  const [oldPassword, setOldPassword] = useState<string>("");
+  const [newPassword, setNewPassword] = useState<string>("");
   const loginUser = useGlobalState("loginUser");
   const [errors, setErrors] = useState<IApiError>({
     code: 0,
@@ -39,15 +39,15 @@ const ChangePasswordScreen: React.FC = () => {
   const update = () => {
     setIsLoading(true);
 
-    const body: IUpdataPassword = {
-      new_Password: setNewPassword
+    const body: IUpdataPasswordBody = {
+      newpassword: setNewPassword
     };
 
     axios
-      .post(
-        Constants.manifest.extra.apiEndpoint + "/users/" + loginUser.id,
-      )
-      .then((response: { data: IOK }) => {
+      .put(
+        Constants.manifest.extra.apiEndpoint + "/users/" + loginUser.id + "/password"
+        )
+      .then((_response: { data: IOK }) => {
         setIsLoading(false);
       })
       .catch(error => {
@@ -66,7 +66,7 @@ const ChangePasswordScreen: React.FC = () => {
   /** 完了ボタン押下時の処理 */
   const onCompleteButtonPress = () => {
     // TODO パスワード変更APIを叩く
-    if (new_Password === new_Password) {
+    if (newPassword === newPassword) {
       navigate("top");
     }
     setNewPassword("");
@@ -77,7 +77,7 @@ const ChangePasswordScreen: React.FC = () => {
    * 未入力がある場合は押せないようにする
    */
   const renderCompleteButton = () => {
-    if (isEmpty(old_Password) || isEmpty(new_Password) || isEmpty(new_Password)) {
+    if (isEmpty(oldPassword) || isEmpty(newPassword) || isEmpty(newPassword)) {
       return <CompleteButton title="完了" disabled />;
     }
 
@@ -89,18 +89,18 @@ const ChangePasswordScreen: React.FC = () => {
       <Form style={{ flex: 3, justifyContent: "center" }}>
         <InputFormFloating
           label="現在のパスワード"
-          value={old_Password}
+          value={oldPassword}
           setValue={setOldPassword}
           }
         />
         <InputFormFloating
           label="新しいパスワード"
-          value={new_Password}
+          value={newPassword}
           setValue={setNewPassword}
         />
         <InputFormFloating
           label="新しいパスワードの確認"
-          value={new_Password}
+          value={newPassword}
           setValue={setNewPassword}
         />
       </Form>

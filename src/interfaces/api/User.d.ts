@@ -57,7 +57,7 @@ export interface IUpdataUserBody {
  * パスワード編集APIレスポンス
  * @author itsukiyamada
  */
-export interface IUpdataPassword {
+export interface IUpdataPasswordBody {
   old_password: string;
   new_password: string;
 }
