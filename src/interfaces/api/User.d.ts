@@ -14,7 +14,6 @@ export interface IUserDetail {
   plan_count: number;
   follow_count: number;
   follower_count: number;
-  old_password: string;
 }
 
 /**
@@ -44,20 +43,19 @@ export interface ILogin {
  * プロフィール編集APIレスポンス
  * @author itsukiyamada
  */
-export interface IUpdataUserBody {
+export interface IUpdateUserBody {
   name: string;
   sex: string;
   age: number;
   area: string;
   mail_address: string;
-  password_digest: string;
 }
 
 /**
  * パスワード編集APIレスポンス
  * @author itsukiyamada
  */
-export interface IUpdataPasswordBody {
+export interface IUpdatePasswordBody {
   old_password: string;
   new_password: string;
 }
