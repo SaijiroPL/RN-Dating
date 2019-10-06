@@ -72,9 +72,11 @@ const ChangePasswordScreen: React.FC = () => {
   const onCompleteButtonPress = () => {
     // TODO パスワード変更APIを叩く
     if (newPassword === confirmNewPassword) {
+      update();
       navigate("top");
     }
     setNewPassword("");
+    setConfirmNewPassword("");
   };
 
   /**
