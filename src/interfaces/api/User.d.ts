@@ -45,11 +45,20 @@ export interface ILogin {
  * プロフィール編集APIレスポンス
  * @author itsukiyamada
  */
-export interface IUpdataUserBody {
+export interface IUpdateUserBody {
   name: string;
   profile: string;
   sex: string;
   age: number;
   address: string;
   mail_address: string;
+}
+
+/**
+ * パスワード編集APIレスポンス
+ * @author itsukiyamada
+ */
+export interface IUpdatePasswordBody {
+  old_password: string;
+  new_password: string;
 }

@@ -2,12 +2,20 @@ import React, { useState } from "react";
 import { View } from "react-native";
 import { Form } from "native-base";
 import { useNavigation } from "react-navigation-hooks";
+import axios from "axios";
 
 // from app
 import InputFormFloating from "app/src/components/contents/InputFormFloating";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
 import { isEmpty } from "app/src/utils/CheckUtil";
 import appStyle from "app/src/styles/GeneralStyle";
+import { IUpdatePasswordBody } from "app/src/interfaces/api/User";
+import { LoadingSpinner } from "app/src/components/Spinners";
+import { useGlobalState, useDispatch } from "app/src/Store";
+import { IOK } from "app/src/interfaces/api/Success";
+import { IApiError } from "app/src/interfaces/api/Error";
+import Constants from "expo-constants";
+import { handleError } from "app/src/utils/ApiUtil";
 
 /**
  * パスワード変更画面
@@ -15,15 +23,60 @@ import appStyle from "app/src/styles/GeneralStyle";
  */
 const ChangePasswordScreen: React.FC = () => {
   const { navigate } = useNavigation();
+  const dispatch = useDispatch();
 
-  const [currentPassword, setCurrentPassword] = useState<string>("");
+  const [oldPassword, setOldPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
+  const loginUser = useGlobalState("loginUser");
+  const [errors, setErrors] = useState<IApiError>({
+    code: 0,
+    message: "",
+    detail_message: []
+  });
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const update = () => {
+    setIsLoading(true);
+
+    const body: IUpdatePasswordBody = {
+      old_password: oldPassword,
+      new_password: newPassword
+    };
+
+    axios
+      .put(
+        Constants.manifest.extra.apiEndpoint +
+          "/users/" +
+          loginUser.id +
+          "/password"
+      )
+      .then((response: { data: IOK }) => {
+        setIsLoading(false);
+      })
+      .catch(error => {
+        handleError(error);
+        if (error.response.state === 400) {
+          setErrors(error.response.data);
+        }
+        setIsLoading(false);
+      });
+  };
+
+  if (isLoading) {
+    return LoadingSpinner;
+  }
 
   /** 完了ボタン押下時の処理 */
   const onCompleteButtonPress = () => {
     // TODO パスワード変更APIを叩く
-    navigate("top");
+    if (newPassword === confirmNewPassword) {
+      update();
+      navigate("top");
+    }
+    setNewPassword("");
+    setConfirmNewPassword("");
   };
 
   /**
@@ -32,7 +85,7 @@ const ChangePasswordScreen: React.FC = () => {
    */
   const renderCompleteButton = () => {
     if (
-      isEmpty(currentPassword) ||
+      isEmpty(oldPassword) ||
       isEmpty(newPassword) ||
       isEmpty(confirmNewPassword)
     ) {
@@ -47,8 +100,8 @@ const ChangePasswordScreen: React.FC = () => {
       <Form style={{ flex: 3, justifyContent: "center" }}>
         <InputFormFloating
           label="現在のパスワード"
-          value={currentPassword}
-          setValue={setCurrentPassword}
+          value={oldPassword}
+          setValue={setOldPassword}
         />
         <InputFormFloating
           label="新しいパスワード"
