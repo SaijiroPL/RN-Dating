@@ -1,24 +1,37 @@
 import React, { useState, useEffect } from "react";
-import { Container, Content, Form, Item, Input, Label, View } from "native-base";
+import {
+  Container,
+  Content,
+  Form,
+  Item,
+  Input,
+  Label,
+  View
+} from "native-base";
 import axios, { CancelTokenSource } from "axios";
+import { useNavigation } from "react-navigation-hooks";
 
 // from app
 import { IUserDetail } from "app/src/interfaces/api/User";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { useGlobalState } from "app/src/Store";
 import appTextStyle from "app/src/styles/GeneralTextStyle";
-import { IUpdataUserBody } from "app/src/interfaces/api/User";
+import { IUpdateUserBody } from "app/src/interfaces/api/User";
 import { IOK } from "app/src/interfaces/api/Success";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { Constants } from "expo";
 import { handleError } from "app/src/utils/ApiUtil";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
+import { StyleSheet } from "react-native";
+import { isEmpty } from "app/src/utils/CheckUtil";
+import appStyle from "app/src/styles/GeneralStyle";
 
 /**
  * プロフィール編集画面
  * @author itsukiyamada
  */
 const EditProfileScreen: React.FC = () => {
+  const { navigate } = useNavigation();
   const loginUser = useGlobalState("loginUser");
   const [name, setName] = useState<string>("");
   const [profile, setProfile] = useState<string>("");
@@ -32,93 +45,106 @@ const EditProfileScreen: React.FC = () => {
     detail_message: []
   });
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    const signal = axios.CancelToken.source();
-    getUserDetail(signal);
-    return () => {
-      signal.cancel("Cancelling in Cleanup.");
-    };
-  }, []);
-
-  const update = () => {
-    setIsLoading(true);
-
-    const body: IUpdataUserBody = {
-      name: name,
-      profile: profile,
-      sex: sex,
-      age: age,
-      address: address,
-      mail_address: mailAddress
-    };
-
-    axios
-      .post(
-        Constants.manifest.extra.apiEndpoint + "/users/" + loginUser.id,
-        body
-      )
-      .then((response: { data: IOK }) => {
-        setIsLoading(false);
-      })
-      .catch(error => {
-        handleError(error);
-        if (error.response.state === 400) {
-          setErrors(error.response.data);
-        }
-        setIsLoading(false);
-      });
+  /** ユーザー情報更新ボタン押下時の処理 */
+  const onCompleteButtonPress = () => {
+    navigate("top");
   };
-
-
-  /** 新規登録ボタン押下時の処理 */
-  const onSignUpButtonPress = () => {
-    if (password === confirmPassword) {
-      setRegisterUserParts();
-      navigate("welcome");
+  /**
+   * 完了ボタンを描画する
+   * 未入力がある場合は押せないようにする
+   */
+  const renderCompleteButton = () => {
+    if (
+      isEmpty(name) ||
+      isEmpty(profile) ||
+      isEmpty(mailAddress) ||
+      isEmpty(sex) ||
+      isEmpty(`${age}`) ||
+      isEmpty(address)
+    ) {
+      return <CompleteButton title="ユーザー情報更新" disabled />;
     }
-    setPassword("");
-    setConfirmPassword("");
-  };
 
-  /** ユーザー詳細取得 */
-  const getUserDetail = (signal: CancelTokenSource) => {
-    const url = Constants.manifest.extra.apiEndpoint + "/users/" + loginUser.id;
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
-    axios
-      .get(url, {
-        cancelToken: signal.token
-      })
-      .then((response: { data: IUserDetail }) => {
-        setName(response.data.name);
-        setProfile(response.data.profile);
-        setSex(response.data.sex);
-        setAge(response.data.age);
-        setAddress(response.data.address);
-        setMailAddress(response.data.mail_address);
-        setIsLoading(false);
-      })
-      .catch(error => {
-        if (axios.isCancel(error)) {
-          console.log("Request Cancelled: " + error.message);
-        } else {
+    useEffect(() => {
+      const signal = axios.CancelToken.source();
+      getUserDetail(signal);
+      return () => {
+        signal.cancel("Cancelling in Cleanup.");
+      };
+    }, []);
+
+    const update = () => {
+      setIsLoading(true);
+
+      const body: IUpdateUserBody = {
+        name: name,
+        profile: profile,
+        sex: sex,
+        age: age,
+        address: address,
+        mail_address: mailAddress
+      };
+
+      axios
+        .post(
+          Constants.manifest.extra.apiEndpoint + "/users/" + loginUser.id,
+          body
+        )
+        .then((response: { data: IOK }) => {
+          setIsLoading(false);
+        })
+        .catch(error => {
           handleError(error);
-          if (error.response.stats === 400) {
+          if (error.response.state === 400) {
             setErrors(error.response.data);
           }
-        }
-        setIsLoading(false);
-      });
+          setIsLoading(false);
+        });
+    };
+
+    /** ユーザー詳細取得 */
+    const getUserDetail = (signal: CancelTokenSource) => {
+      const url =
+        Constants.manifest.extra.apiEndpoint + "/users/" + loginUser.id;
+
+      axios
+        .get(url, {
+          cancelToken: signal.token
+        })
+        .then((response: { data: IUserDetail }) => {
+          setName(response.data.name);
+          setProfile(response.data.profile);
+          setSex(response.data.sex);
+          setAge(response.data.age);
+          setAddress(response.data.address);
+          setMailAddress(response.data.mail_address);
+          setIsLoading(false);
+        })
+        .catch(error => {
+          if (axios.isCancel(error)) {
+            console.log("Request Cancelled: " + error.message);
+          } else {
+            handleError(error);
+            if (error.response.stats === 400) {
+              setErrors(error.response.data);
+            }
+          }
+          setIsLoading(false);
+        });
+    };
+
+    if (isLoading) {
+      return LoadingSpinner;
+    }
+
+    return <CompleteButton title="完了" onPress={onCompleteButtonPress} />;
   };
-
-  if (isLoading) {
-    return LoadingSpinner;
-  }
-
   return (
     <Container>
       <Content>
+        <View style={appStyle.standardContainer} />
         <Form>
           <Item inlineLabel>
             <Label style={appTextStyle.standardText}>名前</Label>
@@ -148,16 +174,8 @@ const EditProfileScreen: React.FC = () => {
             <Input onChangeText={value => setAddress(value)} value={address} />
           </Item>
         </Form>
-        <View style={thisStyle.completeButtonContainer}>
-          {/* 未入力項目がある場合はボタン押下不可 */}
-          {mailAddress.length > 0 &&
-          password.length > 0 &&
-          confirmPassword.length > 0 ? (
-            <CompleteButton title="新規登録" onPress={onSignUpButtonPress} />
-          ) : (
-            <CompleteButton title="新規登録" disabled />
-          )}
-        </View>
+        <View style={appStyle.standardContainer}>{renderCompleteButton()}</View>
+        <View style={appStyle.emptySpace} />
       </Content>
     </Container>
   );

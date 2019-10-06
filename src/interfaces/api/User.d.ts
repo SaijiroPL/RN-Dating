@@ -44,7 +44,7 @@ export interface ILogin {
  * プロフィール編集APIレスポンス
  * @author itsukiyamada
  */
-export interface IUpdataUserBody {
+export interface IUpdateUserBody {
   name: string;
   profile: string;
   sex: string;
