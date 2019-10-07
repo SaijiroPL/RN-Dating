@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import Constants from "expo-constants";
 import { useNavigation } from "react-navigation-hooks";
 import { FontAwesome } from "@expo/vector-icons";
 import axios from "axios";
-
 // from app
 import { useDispatch } from "app/src/Store";
 import { ActionType } from "app/src/Reducer";
+import { facebookLogin } from "app/src/Firebase";
 import { IOK } from "app/src/interfaces/api/Success";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { ILogin } from "app/src/interfaces/api/User";
 import Images from "app/src/constants/Images";
 import Layout from "app/src/constants/Layout";
 import Colors from "app/src/constants/Colors";
+import { API_ENDPOINT } from "app/src/constants/Url";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import InputForm from "app/src/components/contents/InputForm";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
@@ -40,13 +40,14 @@ const AppTopScreen: React.FC = () => {
   const login = () => {
     setIsLoading(true);
 
+    const url = API_ENDPOINT.USERS_LOGIN;
     const body: ILogin = {
       mail_address: mailAddress,
       password: password
     };
 
     axios
-      .post(Constants.manifest.extra.apiEndpoint + "/users/login", body)
+      .post(url, body)
       .then((response: { data: IOK }) => {
         setIsLoading(false);
         setLoginUser(response.data.id, "xxx");
@@ -86,17 +87,14 @@ const AppTopScreen: React.FC = () => {
 
   /** Facebookログインボタン押下時の処理 */
   const onFacebookButtonPress = () => {
+    facebookLogin();
+    // FIXME ログインが完了しユーザーをストアに入れてから画面遷移する
     navigate("welcome");
   };
 
   /** メールアドレスログインボタン押下時の処理 */
   const onSignInButtonPress = () => {
     login();
-
-    // デートマスターでログインする
-    // const masterId = "0000aaaa-1111-bbbb-2222-cccc3333dddd";
-    // setLoginUser(masterId, "xxx");
-    // navigate("main");
   };
 
   /** 新規登録ボタン押下時の処理 */

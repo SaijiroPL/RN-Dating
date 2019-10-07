@@ -19,12 +19,12 @@ import appTextStyle from "app/src/styles/GeneralTextStyle";
 import { IUpdateUserBody } from "app/src/interfaces/api/User";
 import { IOK } from "app/src/interfaces/api/Success";
 import { IApiError } from "app/src/interfaces/api/Error";
-import { Constants } from "expo";
 import { handleError } from "app/src/utils/ApiUtil";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
 import { StyleSheet } from "react-native";
 import { isEmpty } from "app/src/utils/CheckUtil";
 import appStyle from "app/src/styles/GeneralStyle";
+import { Constants } from "expo";
 
 /**
  * プロフィール編集画面

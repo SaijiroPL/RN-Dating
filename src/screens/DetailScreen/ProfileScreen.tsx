@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { View } from "react-native";
-import Constants from "expo-constants";
 import { useNavigationParam } from "react-navigation-hooks";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
 import { IUserDetail } from "app/src/interfaces/api/User";
 import { IApiError } from "app/src/interfaces/api/Error";
+import { API_ENDPOINT } from "app/src/constants/Url";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import UserProfile from "app/src/components/contents/UserProfile";
 import SettingFab from "app/src/components/buttons/SettingFab";
@@ -23,9 +23,11 @@ const ProfileScreen: React.FC = () => {
   const [user, setUser] = useState<IUserDetail>({
     user_id: "",
     name: "",
+    profile: "",
     sex: "",
     age: 0,
     area: "",
+    address: "",
     mail_address: "",
     user_attr: "",
     user_image_url: "",
@@ -50,7 +52,7 @@ const ProfileScreen: React.FC = () => {
 
   /** ユーザー詳細取得 */
   const getUserDetail = (signal: CancelTokenSource) => {
-    const url = Constants.manifest.extra.apiEndpoint + "/users/" + userId;
+    const url = API_ENDPOINT.USER.replace("$1", userId);
 
     axios
       .get(url, {

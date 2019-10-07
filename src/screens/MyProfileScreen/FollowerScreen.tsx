@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Text } from "react-native";
-import Constants from "expo-constants";
 import { useNavigationParam } from "react-navigation-hooks";
 import { Container } from "native-base";
 import axios, { CancelTokenSource } from "axios";
@@ -8,6 +7,7 @@ import axios, { CancelTokenSource } from "axios";
 // from app
 import { IFollowerList } from "app/src/interfaces/api/Follow";
 import { IApiError } from "app/src/interfaces/api/Error";
+import { API_ENDPOINT } from "app/src/constants/Url";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import FollowList from "app/src/components/lists/FollowList";
 import { handleError } from "app/src/utils/ApiUtil";
@@ -41,8 +41,7 @@ const FollowScreen: React.FC = () => {
 
   /** フォローリスト取得 */
   const getFollowList = (signal: CancelTokenSource) => {
-    const url =
-      Constants.manifest.extra.apiEndpoint + "/users/" + userId + "/followers";
+    const url = API_ENDPOINT.USER_FOLLOWERS.replace("$1", userId);
 
     axios
       .get(url, {

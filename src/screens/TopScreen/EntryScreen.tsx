@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import Constants from "expo-constants";
 import { Text } from "native-base";
 import { useNavigation } from "react-navigation-hooks";
 import axios from "axios";
@@ -12,6 +11,7 @@ import { IOK } from "app/src/interfaces/api/Success";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { ICreateUserBody } from "app/src/interfaces/api/User";
 import Colors from "app/src/constants/Colors";
+import { API_ENDPOINT } from "app/src/constants/Url";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import SelectButton from "app/src/components/buttons/SelectButton";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
@@ -41,6 +41,8 @@ const EntryScreen: React.FC = () => {
   const createUser = () => {
     setIsLoading(true);
 
+    const url = API_ENDPOINT.USER;
+
     const body: ICreateUserBody = {
       // TODO 名前登録フォームを作る
       name: "xxx",
@@ -52,7 +54,7 @@ const EntryScreen: React.FC = () => {
     };
 
     axios
-      .post(Constants.manifest.extra.apiEndpoint + "/users", body)
+      .post(url, body)
       .then((response: { data: IOK }) => {
         setIsLoading(false);
         setLoginUser(response.data.id, "xxx");

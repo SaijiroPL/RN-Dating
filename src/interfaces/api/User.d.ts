@@ -8,6 +8,7 @@ export interface IUserDetail {
   profile: string;
   sex: string;
   age: number;
+  area: string;
   address: string;
   mail_address: string;
   user_attr: string;
@@ -51,4 +52,13 @@ export interface IUpdateUserBody {
   age: number;
   address: string;
   mail_address: string;
+}
+
+/**
+ * パスワード編集APIレスポンス
+ * @author itsukiyamada
+ */
+export interface IUpdatePasswordBody {
+  old_password: string;
+  new_password: string;
 }

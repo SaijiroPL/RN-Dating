@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import Constants from "expo-constants";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
@@ -8,6 +7,7 @@ import { useGlobalState } from "app/src/Store";
 import { IPlanList } from "app/src/interfaces/api/Plan";
 import { IApiError } from "app/src/interfaces/api/Error";
 import Colors from "app/src/constants/Colors";
+import { API_ENDPOINT } from "app/src/constants/Url";
 import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
 import PlanCardList from "app/src/components/lists/PlanCardList";
 import { handleError } from "app/src/utils/ApiUtil";
@@ -42,8 +42,9 @@ const MyPlanTopScreen: React.FC = () => {
 
   /** ユーザーに紐付くデートプラン一覧取得 */
   const getPlanList = (signal: CancelTokenSource) => {
+    const url = API_ENDPOINT.PLANS;
     axios
-      .get(Constants.manifest.extra.apiEndpoint + "/plans", {
+      .get(url, {
         params: {
           user_id: loginUser.id
         },

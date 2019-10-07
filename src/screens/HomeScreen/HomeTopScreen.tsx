@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import Constants from "expo-constants";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
 import { IPlanList } from "app/src/interfaces/api/Plan";
 import { IApiError } from "app/src/interfaces/api/Error";
 import Colors from "app/src/constants/Colors";
+import { API_ENDPOINT } from "app/src/constants/Url";
 import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
 import PlanCardList from "app/src/components/lists/PlanCardList";
 import CreatePlanFab from "app/src/components/buttons/CreatePlanFab";
@@ -41,8 +41,10 @@ const HomeTopScreen: React.FC = () => {
   /** デートプラン一覧取得 */
   // TODO 自分のエリアで人気のデートプランを取得する
   const getPlanList = (signal: CancelTokenSource) => {
+    const url = API_ENDPOINT.PLANS;
+
     axios
-      .get(Constants.manifest.extra.apiEndpoint + "/plans", {
+      .get(url, {
         cancelToken: signal.token
       })
       .then((response: { data: IPlanList }) => {

@@ -2,6 +2,7 @@ import React from "react";
 import { WebView } from "react-native";
 
 // from app
+import { WEB_ENDPOINT } from "app/src/constants/Url";
 import { LoadingSpinner } from "app/src/components/Spinners";
 
 /**
@@ -11,8 +12,7 @@ import { LoadingSpinner } from "app/src/components/Spinners";
 const TermsScreen: React.FC = () => {
   return (
     <WebView
-      // TODO Webページを実装したらURLを置き換える
-      source={{ uri: "https://github.com/facebook/react-native" }}
+      source={{ uri: WEB_ENDPOINT.TERMS }}
       style={{ marginTop: 20 }}
       renderLoading={() => LoadingSpinner}
       startInLoadingState={true}

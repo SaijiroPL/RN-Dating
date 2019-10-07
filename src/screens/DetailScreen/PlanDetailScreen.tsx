@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
-import Constants from "expo-constants";
 import { useNavigation, useNavigationParam } from "react-navigation-hooks";
 import { Container, Content, Text } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
+import { useGlobalState } from "app/src/Store";
 import { IUserInfo } from "app/src/interfaces/User";
 import { IPlanFull } from "app/src/interfaces/api/Plan";
 import { ICommentList } from "app/src/interfaces/api/Comment";
 import { IApiError } from "app/src/interfaces/api/Error";
 import Colors from "app/src/constants/Colors";
+import { API_ENDPOINT } from "app/src/constants/Url";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import UserHeader from "app/src/components/contents/UserHeader";
 import ImageCarousel from "app/src/components/contents/ImageCarousel";
@@ -27,6 +28,7 @@ import appTextStyle from "app/src/styles/GeneralTextStyle";
  * @author kotatanaka
  */
 const PlanDetailScreen: React.FC = () => {
+  const loginUser = useGlobalState("loginUser");
   const { navigate } = useNavigation();
   const planId = useNavigationParam("id");
 
@@ -83,8 +85,9 @@ const PlanDetailScreen: React.FC = () => {
 
   /** デートプラン詳細取得 */
   const getPlanDetail = (signal: CancelTokenSource) => {
+    const url = API_ENDPOINT.PLAN.replace("$1", planId);
     axios
-      .get(Constants.manifest.extra.apiEndpoint + "/plans/" + planId, {
+      .get(url, {
         cancelToken: signal.token
       })
       .then((response: { data: IPlanFull }) => {
@@ -106,8 +109,7 @@ const PlanDetailScreen: React.FC = () => {
 
   /** コメント一覧取得 */
   const getCommentList = (signal: CancelTokenSource) => {
-    const url =
-      Constants.manifest.extra.apiEndpoint + "/plans/" + planId + "/comments";
+    const url = API_ENDPOINT.PLAN_COMMENTS.replace("$1", planId);
 
     axios
       .get(url, {
@@ -130,7 +132,6 @@ const PlanDetailScreen: React.FC = () => {
       });
   };
 
-  // TODO 自分のプランの場合描画しない
   /** デートプラン作成者部分を描画する */
   const renderPlannerHeader = () => {
     const planner: IUserInfo = {
@@ -193,7 +194,13 @@ const PlanDetailScreen: React.FC = () => {
   return (
     <Container>
       <Content>
-        {renderPlannerHeader()}
+        {loginUser.id !== plan.user_id ? (
+          renderPlannerHeader()
+        ) : (
+          <View style={thisStyle.myPlanHeader}>
+            <Text style={appTextStyle.standardText}>マイプラン</Text>
+          </View>
+        )}
         <ImageCarousel plan={plan} />
         <SimpleMapView spot={plan.spots[0]} />
         {renderPlanDescription()}
@@ -253,6 +260,10 @@ const thisStyle = StyleSheet.create({
     color: Colors.textTintColor,
     fontFamily: "genju-light",
     fontSize: 10
+  },
+  myPlanHeader: {
+    alignItems: "center",
+    backgroundColor: Colors.baseBackgroundColor
   }
 });
 
