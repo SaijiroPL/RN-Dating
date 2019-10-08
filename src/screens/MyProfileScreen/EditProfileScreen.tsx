@@ -10,6 +10,7 @@ import {
 } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 import { useNavigation } from "react-navigation-hooks";
+import Constants from "expo-constants";
 
 // from app
 import { IUserDetail } from "app/src/interfaces/api/User";
@@ -21,10 +22,8 @@ import { IOK } from "app/src/interfaces/api/Success";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { handleError } from "app/src/utils/ApiUtil";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
-import { StyleSheet } from "react-native";
 import { isEmpty } from "app/src/utils/CheckUtil";
 import appStyle from "app/src/styles/GeneralStyle";
-import { Constants } from "expo";
 
 /**
  * プロフィール編集画面
@@ -45,8 +44,78 @@ const EditProfileScreen: React.FC = () => {
     detail_message: []
   });
 
+  const update = () => {
+    setIsLoading(true);
+    const body: IUpdateUserBody = {
+      name: name,
+      profile: profile,
+      sex: sex,
+      age: age,
+      address: address,
+      mail_address: mailAddress
+    };
+    axios
+      .post(
+        Constants.manifest.extra.apiEndpoint + "/users/" + loginUser.id,
+        body
+      )
+      .then((response: { data: IOK }) => {
+        setIsLoading(false);
+      })
+      .catch(error => {
+        handleError(error);
+        if (error.response.state === 400) {
+          setErrors(error.response.data);
+        }
+        setIsLoading(false);
+      });
+  };
+
+  /** ユーザー詳細取得 */
+  const getUserDetail = (signal: CancelTokenSource) => {
+    const url = Constants.manifest.extra.apiEndpoint + "/users/" + loginUser.id;
+
+    axios
+      .get(url, {
+        cancelToken: signal.token
+      })
+      .then((response: { data: IUserDetail }) => {
+        setName(response.data.name);
+        setProfile(response.data.profile);
+        setSex(response.data.sex);
+        setAge(response.data.age);
+        setAddress(response.data.address);
+        setMailAddress(response.data.mail_address);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        if (axios.isCancel(error)) {
+          console.log("Request Cancelled: " + error.message);
+        } else {
+          handleError(error);
+          if (error.response.stats === 400) {
+            setErrors(error.response.data);
+          }
+        }
+        setIsLoading(false);
+      });
+  };
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  useEffect(() => {
+    const signal = axios.CancelToken.source();
+    getUserDetail(signal);
+    return () => {
+      signal.cancel("Cancelling in Cleanup.");
+    };
+  }, []);
+  if (isLoading) {
+    return LoadingSpinner;
+  }
+
   /** ユーザー情報更新ボタン押下時の処理 */
   const onCompleteButtonPress = () => {
+    update();
     navigate("top");
   };
   /**
@@ -64,83 +133,9 @@ const EditProfileScreen: React.FC = () => {
     ) {
       return <CompleteButton title="ユーザー情報更新" disabled />;
     }
-
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-
-    useEffect(() => {
-      const signal = axios.CancelToken.source();
-      getUserDetail(signal);
-      return () => {
-        signal.cancel("Cancelling in Cleanup.");
-      };
-    }, []);
-
-    const update = () => {
-      setIsLoading(true);
-
-      const body: IUpdateUserBody = {
-        name: name,
-        profile: profile,
-        sex: sex,
-        age: age,
-        address: address,
-        mail_address: mailAddress
-      };
-
-      axios
-        .post(
-          Constants.manifest.extra.apiEndpoint + "/users/" + loginUser.id,
-          body
-        )
-        .then((response: { data: IOK }) => {
-          setIsLoading(false);
-        })
-        .catch(error => {
-          handleError(error);
-          if (error.response.state === 400) {
-            setErrors(error.response.data);
-          }
-          setIsLoading(false);
-        });
-    };
-
-    /** ユーザー詳細取得 */
-    const getUserDetail = (signal: CancelTokenSource) => {
-      const url =
-        Constants.manifest.extra.apiEndpoint + "/users/" + loginUser.id;
-
-      axios
-        .get(url, {
-          cancelToken: signal.token
-        })
-        .then((response: { data: IUserDetail }) => {
-          setName(response.data.name);
-          setProfile(response.data.profile);
-          setSex(response.data.sex);
-          setAge(response.data.age);
-          setAddress(response.data.address);
-          setMailAddress(response.data.mail_address);
-          setIsLoading(false);
-        })
-        .catch(error => {
-          if (axios.isCancel(error)) {
-            console.log("Request Cancelled: " + error.message);
-          } else {
-            handleError(error);
-            if (error.response.stats === 400) {
-              setErrors(error.response.data);
-            }
-          }
-          setIsLoading(false);
-        });
-    };
-
-    if (isLoading) {
-      return LoadingSpinner;
-    }
-
     return <CompleteButton title="完了" onPress={onCompleteButtonPress} />;
   };
+
   return (
     <Container>
       <Content>
