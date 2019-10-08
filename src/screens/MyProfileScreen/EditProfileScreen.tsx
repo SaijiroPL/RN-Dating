@@ -24,6 +24,7 @@ import { handleError } from "app/src/utils/ApiUtil";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
 import { isEmpty } from "app/src/utils/CheckUtil";
 import appStyle from "app/src/styles/GeneralStyle";
+import { API_ENDPOINT } from "app/src/constants/Url";
 
 /**
  * プロフィール編集画面
@@ -43,6 +44,14 @@ const EditProfileScreen: React.FC = () => {
     message: "",
     detail_message: []
   });
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  useEffect(() => {
+    const signal = axios.CancelToken.source();
+    getUserDetail(signal);
+    return () => {
+      signal.cancel("Cancelling in Cleanup.");
+    };
+  }, []);
 
   const update = () => {
     setIsLoading(true);
@@ -55,7 +64,7 @@ const EditProfileScreen: React.FC = () => {
       mail_address: mailAddress
     };
     axios
-      .post(
+      .put(
         Constants.manifest.extra.apiEndpoint + "/users/" + loginUser.id,
         body
       )
@@ -73,7 +82,7 @@ const EditProfileScreen: React.FC = () => {
 
   /** ユーザー詳細取得 */
   const getUserDetail = (signal: CancelTokenSource) => {
-    const url = Constants.manifest.extra.apiEndpoint + "/users/" + loginUser.id;
+    const url = API_ENDPOINT.USER.replace("$1", loginUser.id);
 
     axios
       .get(url, {
@@ -101,14 +110,6 @@ const EditProfileScreen: React.FC = () => {
       });
   };
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  useEffect(() => {
-    const signal = axios.CancelToken.source();
-    getUserDetail(signal);
-    return () => {
-      signal.cancel("Cancelling in Cleanup.");
-    };
-  }, []);
   if (isLoading) {
     return LoadingSpinner;
   }
