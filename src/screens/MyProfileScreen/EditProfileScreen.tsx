@@ -1,16 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { Container, Content, Form, Item, Input, Label } from "native-base";
+import {
+  Container,
+  Content,
+  Form,
+  Item,
+  Input,
+  Label,
+  View
+} from "native-base";
 import axios, { CancelTokenSource } from "axios";
+import { useNavigation } from "react-navigation-hooks";
+import Constants from "expo-constants";
 
 // from app
 import { IUserDetail } from "app/src/interfaces/api/User";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { useGlobalState } from "app/src/Store";
 import appTextStyle from "app/src/styles/GeneralTextStyle";
-import { IUpdataUserBody } from "app/src/interfaces/api/User";
+import { IUpdateUserBody } from "app/src/interfaces/api/User";
 import { IOK } from "app/src/interfaces/api/Success";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { handleError } from "app/src/utils/ApiUtil";
+import CompleteButton from "app/src/components/buttons/CompleteButton";
+import { isEmpty } from "app/src/utils/CheckUtil";
+import appStyle from "app/src/styles/GeneralStyle";
 import { API_ENDPOINT } from "app/src/constants/Url";
 
 /**
@@ -18,6 +31,7 @@ import { API_ENDPOINT } from "app/src/constants/Url";
  * @author itsukiyamada
  */
 const EditProfileScreen: React.FC = () => {
+  const { navigate } = useNavigation();
   const loginUser = useGlobalState("loginUser");
   const [name, setName] = useState<string>("");
   const [profile, setProfile] = useState<string>("");
@@ -30,9 +44,7 @@ const EditProfileScreen: React.FC = () => {
     message: "",
     detail_message: []
   });
-
   const [isLoading, setIsLoading] = useState<boolean>(true);
-
   useEffect(() => {
     const signal = axios.CancelToken.source();
     getUserDetail(signal);
@@ -41,13 +53,9 @@ const EditProfileScreen: React.FC = () => {
     };
   }, []);
 
-  /** プロフィール編集 */
   const update = () => {
     setIsLoading(true);
-
-    const url = API_ENDPOINT.USER.replace("$1", loginUser.id);
-
-    const body: IUpdataUserBody = {
+    const body: IUpdateUserBody = {
       name: name,
       profile: profile,
       sex: sex,
@@ -55,9 +63,11 @@ const EditProfileScreen: React.FC = () => {
       address: address,
       mail_address: mailAddress
     };
-
     axios
-      .post(url, body)
+      .put(
+        Constants.manifest.extra.apiEndpoint + "/users/" + loginUser.id,
+        body
+      )
       .then((response: { data: IOK }) => {
         setIsLoading(false);
       })
@@ -104,9 +114,33 @@ const EditProfileScreen: React.FC = () => {
     return LoadingSpinner;
   }
 
+  /** ユーザー情報更新ボタン押下時の処理 */
+  const onCompleteButtonPress = () => {
+    update();
+    navigate("top");
+  };
+  /**
+   * 完了ボタンを描画する
+   * 未入力がある場合は押せないようにする
+   */
+  const renderCompleteButton = () => {
+    if (
+      isEmpty(name) ||
+      isEmpty(profile) ||
+      isEmpty(mailAddress) ||
+      isEmpty(sex) ||
+      isEmpty(`${age}`) ||
+      isEmpty(address)
+    ) {
+      return <CompleteButton title="ユーザー情報更新" disabled />;
+    }
+    return <CompleteButton title="完了" onPress={onCompleteButtonPress} />;
+  };
+
   return (
     <Container>
       <Content>
+        <View style={appStyle.standardContainer} />
         <Form>
           <Item inlineLabel>
             <Label style={appTextStyle.standardText}>名前</Label>
@@ -136,6 +170,8 @@ const EditProfileScreen: React.FC = () => {
             <Input onChangeText={value => setAddress(value)} value={address} />
           </Item>
         </Form>
+        <View style={appStyle.standardContainer}>{renderCompleteButton()}</View>
+        <View style={appStyle.emptySpace} />
       </Content>
     </Container>
   );
