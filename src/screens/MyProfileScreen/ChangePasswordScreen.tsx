@@ -18,7 +18,7 @@ import appStyle from "app/src/styles/GeneralStyle";
 import { handleError } from "app/src/utils/ApiUtil";
 /**
  * パスワード変更画面
- * @author itsukiyamada
+ * @author itsukiyamada, kotatanaka
  */
 const ChangePasswordScreen: React.FC = () => {
   const { navigate } = useNavigation();
@@ -34,7 +34,7 @@ const ChangePasswordScreen: React.FC = () => {
     detail_message: []
   });
 
-  const update = () => {
+  const updatePassword = () => {
     setIsLoading(true);
 
     const url = API_ENDPOINT.USER_PASSWORD.replace("$1", loginUser.id);
@@ -65,7 +65,7 @@ const ChangePasswordScreen: React.FC = () => {
   /** 完了ボタン押下時の処理 */
   const onCompleteButtonPress = () => {
     if (newPassword === confirmNewPassword) {
-      update();
+      updatePassword();
       navigate("top");
     }
     setNewPassword("");
