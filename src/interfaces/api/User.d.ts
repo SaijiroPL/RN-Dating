@@ -43,15 +43,16 @@ export interface ILogin {
 
 /**
  * プロフィール編集APIレスポンス
- * @author itsukiyamada
+ * @author itsukiyamada, kotatanaka
  */
 export interface IUpdateUserBody {
-  name: string;
-  profile: string;
-  sex: string;
-  age: number;
-  address: string;
-  mail_address: string;
+  name?: string;
+  profile?: string;
+  sex?: string;
+  age?: number;
+  area?: string;
+  address?: string;
+  mail_address?: string;
 }
 
 /**

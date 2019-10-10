@@ -10,7 +10,6 @@ import {
 } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 import { useNavigation } from "react-navigation-hooks";
-import Constants from "expo-constants";
 
 // from app
 import { IUserDetail } from "app/src/interfaces/api/User";
@@ -28,7 +27,7 @@ import { API_ENDPOINT } from "app/src/constants/Url";
 
 /**
  * プロフィール編集画面
- * @author itsukiyamada
+ * @author itsukiyamada, kotatanaka
  */
 const EditProfileScreen: React.FC = () => {
   const { navigate } = useNavigation();
@@ -39,12 +38,28 @@ const EditProfileScreen: React.FC = () => {
   const [age, setAge] = useState<number>(0);
   const [address, setAddress] = useState<string>("");
   const [mailAddress, setMailAddress] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [user, setUser] = useState<IUserDetail>({
+    user_id: "",
+    name: "",
+    profile: "",
+    sex: "",
+    age: 0,
+    area: "",
+    address: "",
+    mail_address: "",
+    user_attr: "",
+    user_image_url: "",
+    plan_count: 0,
+    follow_count: 0,
+    follower_count: 0
+  });
   const [errors, setErrors] = useState<IApiError>({
     code: 0,
     message: "",
     detail_message: []
   });
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+
   useEffect(() => {
     const signal = axios.CancelToken.source();
     getUserDetail(signal);
@@ -53,21 +68,22 @@ const EditProfileScreen: React.FC = () => {
     };
   }, []);
 
+  /** プロフィール更新 */
   const update = () => {
     setIsLoading(true);
+
+    const url = API_ENDPOINT.USER.replace("$1", loginUser.id);
+
     const body: IUpdateUserBody = {
-      name: name,
-      profile: profile,
-      sex: sex,
-      age: age,
-      address: address,
-      mail_address: mailAddress
+      name: name !== user.name ? name : undefined,
+      profile: profile !== user.profile ? profile : undefined,
+      sex: sex !== user.sex ? sex : undefined,
+      age: age !== user.age ? age : undefined,
+      address: address !== user.address ? address : undefined,
+      mail_address: mailAddress !== user.mail_address ? mailAddress : undefined
     };
     axios
-      .put(
-        Constants.manifest.extra.apiEndpoint + "/users/" + loginUser.id,
-        body
-      )
+      .put(url, body)
       .then((response: { data: IOK }) => {
         setIsLoading(false);
       })
@@ -89,6 +105,7 @@ const EditProfileScreen: React.FC = () => {
         cancelToken: signal.token
       })
       .then((response: { data: IUserDetail }) => {
+        setUser(response.data);
         setName(response.data.name);
         setProfile(response.data.profile);
         setSex(response.data.sex);
@@ -119,6 +136,7 @@ const EditProfileScreen: React.FC = () => {
     update();
     navigate("top");
   };
+
   /**
    * 完了ボタンを描画する
    * 未入力がある場合は押せないようにする
