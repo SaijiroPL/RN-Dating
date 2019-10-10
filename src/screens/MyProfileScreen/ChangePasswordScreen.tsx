@@ -5,40 +5,39 @@ import { useNavigation } from "react-navigation-hooks";
 import axios from "axios";
 
 // from app
+import { useGlobalState } from "app/src/Store";
+import { API_ENDPOINT } from "app/src/constants/Url";
+import { IUpdatePasswordBody } from "app/src/interfaces/api/User";
+import { IOK } from "app/src/interfaces/api/Success";
+import { IApiError } from "app/src/interfaces/api/Error";
+import { LoadingSpinner } from "app/src/components/Spinners";
 import InputFormFloating from "app/src/components/contents/InputFormFloating";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
 import { isEmpty } from "app/src/utils/CheckUtil";
 import appStyle from "app/src/styles/GeneralStyle";
-import { IUpdatePasswordBody } from "app/src/interfaces/api/User";
-import { LoadingSpinner } from "app/src/components/Spinners";
-import { useGlobalState, useDispatch } from "app/src/Store";
-import { IOK } from "app/src/interfaces/api/Success";
-import { IApiError } from "app/src/interfaces/api/Error";
-import Constants from "expo-constants";
 import { handleError } from "app/src/utils/ApiUtil";
-
 /**
  * パスワード変更画面
  * @author itsukiyamada
  */
 const ChangePasswordScreen: React.FC = () => {
   const { navigate } = useNavigation();
-  const dispatch = useDispatch();
+  const loginUser = useGlobalState("loginUser");
 
   const [oldPassword, setOldPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
-  const loginUser = useGlobalState("loginUser");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errors, setErrors] = useState<IApiError>({
     code: 0,
     message: "",
     detail_message: []
   });
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
   const update = () => {
     setIsLoading(true);
+
+    const url = API_ENDPOINT.USER_PASSWORD.replace("$1", loginUser.id);
 
     const body: IUpdatePasswordBody = {
       old_password: oldPassword,
@@ -46,12 +45,7 @@ const ChangePasswordScreen: React.FC = () => {
     };
 
     axios
-      .put(
-        Constants.manifest.extra.apiEndpoint +
-          "/users/" +
-          loginUser.id +
-          "/password"
-      )
+      .put(url, body)
       .then((response: { data: IOK }) => {
         setIsLoading(false);
       })
@@ -70,7 +64,6 @@ const ChangePasswordScreen: React.FC = () => {
 
   /** 完了ボタン押下時の処理 */
   const onCompleteButtonPress = () => {
-    // TODO パスワード変更APIを叩く
     if (newPassword === confirmNewPassword) {
       update();
       navigate("top");

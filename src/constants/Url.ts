@@ -13,6 +13,8 @@ export const API_ENDPOINT = {
   USER: API_HOST + "/users/$1",
   // メールアドレスでログイン
   USERS_LOGIN: API_HOST + "/users/login",
+  // パスワード変更
+  USER_PASSWORD: API_HOST + "/users/$1/password",
   // フォローリスト取得
   USER_FOLLOWS: API_HOST + "/users/$1/follows",
   // フォロワーリスト取得
