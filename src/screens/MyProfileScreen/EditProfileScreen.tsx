@@ -1,29 +1,21 @@
 import React, { useState, useEffect } from "react";
-import {
-  Container,
-  Content,
-  Form,
-  Item,
-  Input,
-  Label,
-  View
-} from "native-base";
-import axios, { CancelTokenSource } from "axios";
+import { StyleSheet } from "react-native";
+import { Container, Content, Form, View } from "native-base";
 import { useNavigation } from "react-navigation-hooks";
+import axios, { CancelTokenSource } from "axios";
 
 // from app
-import { IUserDetail } from "app/src/interfaces/api/User";
-import { LoadingSpinner } from "app/src/components/Spinners";
 import { useGlobalState } from "app/src/Store";
-import appTextStyle from "app/src/styles/GeneralTextStyle";
-import { IUpdateUserBody } from "app/src/interfaces/api/User";
+import { API_ENDPOINT } from "app/src/constants/Url";
+import { IUserDetail } from "app/src/interfaces/api/User";
 import { IOK } from "app/src/interfaces/api/Success";
 import { IApiError } from "app/src/interfaces/api/Error";
-import { handleError } from "app/src/utils/ApiUtil";
+import { IUpdateUserBody } from "app/src/interfaces/api/User";
+import { LoadingSpinner } from "app/src/components/Spinners";
 import CompleteButton from "app/src/components/buttons/CompleteButton";
+import InputLabelForm from "app/src/components/contents/InputLabelForm";
+import { handleError } from "app/src/utils/ApiUtil";
 import { isEmpty } from "app/src/utils/CheckUtil";
-import appStyle from "app/src/styles/GeneralStyle";
-import { API_ENDPOINT } from "app/src/constants/Url";
 
 /**
  * プロフィール編集画面
@@ -158,41 +150,38 @@ const EditProfileScreen: React.FC = () => {
   return (
     <Container>
       <Content>
-        <View style={appStyle.standardContainer} />
         <Form>
-          <Item inlineLabel>
-            <Label style={appTextStyle.standardText}>名前</Label>
-            <Input onChangeText={value => setName(value)} value={name} />
-          </Item>
-          <Item inlineLabel>
-            <Label style={appTextStyle.standardText}>自己紹介</Label>
-            <Input onChangeText={value => setProfile(value)} value={profile} />
-          </Item>
-          <Item inlineLabel>
-            <Label style={appTextStyle.standardText}>メール</Label>
-            <Input
-              onChangeText={value => setMailAddress(value)}
-              value={mailAddress}
-            />
-          </Item>
-          <Item inlineLabel>
-            <Label style={appTextStyle.standardText}>性別</Label>
-            <Input onChangeText={value => setSex(value)} value={sex} />
-          </Item>
-          <Item inlineLabel>
-            <Label style={appTextStyle.standardText}>年齢</Label>
-            <Input onChangeText={value => setAge(+value)} value={`${age}`} />
-          </Item>
-          <Item inlineLabel>
-            <Label style={appTextStyle.standardText}>住まい</Label>
-            <Input onChangeText={value => setAddress(value)} value={address} />
-          </Item>
+          <InputLabelForm label="名前" value={name} setValue={setName} />
+          <InputLabelForm
+            label="自己紹介"
+            value={profile}
+            setValue={setProfile}
+          />
+          <InputLabelForm
+            label="メール"
+            value={mailAddress}
+            setValue={setMailAddress}
+          />
+          {/** TODO 性別はボタンにする */}
+          <InputLabelForm label="性別" value={sex} setValue={setSex} />
+          <InputLabelForm label="年齢" numValue={age} setNumValue={setAge} />
+          <InputLabelForm
+            label="住まい"
+            value={address}
+            setValue={setAddress}
+          />
         </Form>
-        <View style={appStyle.standardContainer}>{renderCompleteButton()}</View>
-        <View style={appStyle.emptySpace} />
+        <View style={thisStyle.button}>{renderCompleteButton()}</View>
       </Content>
     </Container>
   );
 };
 
 export default EditProfileScreen;
+
+const thisStyle = StyleSheet.create({
+  button: {
+    alignItems: "center",
+    marginTop: 50
+  }
+});
