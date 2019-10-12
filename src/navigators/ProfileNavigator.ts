@@ -1,7 +1,7 @@
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 // from app
-import MyProfileTopScreen from "app/src/screens/MyProfileScreen/MyProfileTopScreen";
+import MyProfileScreen from "app/src/screens/MyProfileScreen";
 import FollowScreen from "app/src/screens/MyProfileScreen/FollowScreen";
 import FollowerScreen from "app/src/screens/MyProfileScreen/FollowerScreen";
 import ProfileScreen from "app/src/screens/DetailScreen/ProfileScreen";
@@ -16,7 +16,7 @@ const ProfileNavigator = createStackNavigator(
   {
     // マイプロフィール画面トップ
     top: {
-      screen: MyProfileTopScreen,
+      screen: MyProfileScreen,
       navigationOptions: () => ({
         headerTitle: "プロフィール",
         headerTitleStyle: appTextStyle.defaultText
