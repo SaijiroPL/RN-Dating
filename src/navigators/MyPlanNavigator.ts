@@ -1,7 +1,7 @@
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 // from app
-import MyPlanTopScreen from "app/src/screens/MyPlanScreen/MyPlanTopScreen";
+import MyPlanScreen from "app/src/screens/MyPlanScreen";
 import PlanDetailScreen from "app/src/screens/DetailScreen/PlanDetailScreen";
 import CommentScreen from "app/src/screens/DetailScreen/CommentScreen";
 import LikeUserScreen from "app/src/screens/DetailScreen/LikeUserScreen";
@@ -18,7 +18,7 @@ const MyPlanNavigator = createStackNavigator(
   {
     // マイプラン画面トップ
     top: {
-      screen: MyPlanTopScreen,
+      screen: MyPlanScreen,
       navigationOptions: () => ({
         headerTitle: "マイプラン",
         headerTitleStyle: appTextStyle.defaultText
