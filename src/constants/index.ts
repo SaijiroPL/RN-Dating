@@ -1,9 +1,9 @@
 /** カラー定数 */
-export * from "./Colors";
+export * from "./Color";
 /** フォント */
-export * from "./Fonts";
+export * from "./Font";
 /** 画像 */
-export * from "./Images";
+export * from "./Image";
 /** レイアウト定数 */
 export * from "./Layout";
 /** 各種URL */
