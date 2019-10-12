@@ -1,15 +1,15 @@
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 // from app
-import SettingTopScreen from "app/src/screens/MyProfileScreen/SettingTopScreen";
-import ChangePasswordScreen from "app/src/screens/MyProfileScreen/ChangePasswordScreen";
-import DeleteHistoryScreen from "app/src/screens/MyProfileScreen/DeleteHistoryScreen";
-import EditProfileScreen from "app/src/screens/MyProfileScreen/EditProfileScreen";
-import FaqScreen from "app/src/screens/MyProfileScreen/FaqScreen";
-import LinkedAccountScreen from "app/src/screens/MyProfileScreen/LinkedAccountScreen";
-import LogoutScreen from "app/src/screens/MyProfileScreen/LogoutScreen";
-import PrivacyPolicyScreen from "app/src/screens/MyProfileScreen/PrivacyPolicyScreen";
-import TermsScreen from "app/src/screens/MyProfileScreen/TermsScreen";
+import SettingTopScreen from "app/src/screens/SettingScreen/SettingTopScreen";
+import ChangePasswordScreen from "app/src/screens/SettingScreen/ChangePasswordScreen";
+import DeleteHistoryScreen from "app/src/screens/SettingScreen/DeleteHistoryScreen";
+import EditProfileScreen from "app/src/screens/SettingScreen/EditProfileScreen";
+import FaqScreen from "app/src/screens/SettingScreen/FaqScreen";
+import LinkedAccountScreen from "app/src/screens/SettingScreen/LinkedAccountScreen";
+import LogoutScreen from "app/src/screens/SettingScreen/LogoutScreen";
+import PrivacyPolicyScreen from "app/src/screens/SettingScreen/PrivacyPolicyScreen";
+import TermsScreen from "app/src/screens/SettingScreen/TermsScreen";
 import { appTextStyle } from "app/src/styles";
 
 /**
