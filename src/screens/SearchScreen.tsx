@@ -14,10 +14,10 @@ import { handleError } from "app/src/utils";
 import { appTextStyle } from "app/src/styles";
 
 /**
- * 検索画面トップ
+ * プラン検索画面
  * @author kotatanaka
  */
-const SearchTopScreen: React.FC = () => {
+const SearchScreen: React.FC = () => {
   const loginUser = useGlobalState("loginUser");
 
   const [searchWord, setSearchWord] = useState<string>("");
@@ -126,4 +126,4 @@ const thisStyle = StyleSheet.create({
   }
 });
 
-export default SearchTopScreen;
+export default SearchScreen;
