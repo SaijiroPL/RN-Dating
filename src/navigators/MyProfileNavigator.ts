@@ -2,8 +2,8 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 
 // from app
 import MyProfileScreen from "app/src/screens/UserScreen/MyProfileScreen";
-import FollowScreen from "app/src/screens/SettingScreen/FollowScreen";
-import FollowerScreen from "app/src/screens/SettingScreen/FollowerScreen";
+import FollowScreen from "app/src/screens/UserScreen/FollowScreen";
+import FollowerScreen from "app/src/screens/UserScreen/FollowerScreen";
 import ProfileScreen from "app/src/screens/UserScreen/ProfileScreen";
 import SettingNavigator from "./SettingNavigator";
 import { appTextStyle } from "app/src/styles";
