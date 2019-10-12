@@ -16,7 +16,7 @@ interface Props {
  * フォロー/フォロワーリスト要素コンポーネント
  * @author kotatanaka
  */
-const FollowElement: React.FC<Props> = (props: Props) => {
+export const FollowElement: React.FC<Props> = (props: Props) => {
   const { navigate } = useNavigation();
   const { follow } = props;
 

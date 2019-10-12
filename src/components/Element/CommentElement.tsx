@@ -15,7 +15,7 @@ interface Props {
  * コメントリスト要素コンポーネント
  * @author kotatanaka
  */
-const CommentElement: React.FC<Props> = (props: Props) => {
+export const CommentElement: React.FC<Props> = (props: Props) => {
   const { comment } = props;
 
   return (
@@ -55,5 +55,3 @@ const thisStyle = StyleSheet.create({
     fontSize: 10
   }
 });
-
-export default CommentElement;

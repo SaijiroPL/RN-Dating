@@ -27,7 +27,7 @@ interface Props {
  * デートプランコンポーネント
  * @author kotatanaka
  */
-const PlanCard: React.FC<Props> = (props: Props) => {
+export const PlanCard: React.FC<Props> = (props: Props) => {
   const { navigate } = useNavigation();
   const { plan, myPlan } = props;
 
