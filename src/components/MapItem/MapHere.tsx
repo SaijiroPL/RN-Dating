@@ -19,7 +19,7 @@ interface Props {
  * 現在位置のマーカー
  * @author kotatanaka
  */
-const MapHere: React.FC<Props> = (props: Props) => {
+export const MapHere: React.FC<Props> = (props: Props) => {
   const { location, accuracy, delta } = props;
 
   if (!location.longitude || !location.latitude) {
@@ -40,5 +40,3 @@ const MapHere: React.FC<Props> = (props: Props) => {
     </Marker>
   );
 };
-
-export default MapHere;

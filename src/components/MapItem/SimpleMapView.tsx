@@ -15,7 +15,7 @@ interface Props {
  * シンプルなマップコンポーネント
  * @author kotatanaka
  */
-const SimpleMapView: React.FC<Props> = (props: Props) => {
+export const SimpleMapView: React.FC<Props> = (props: Props) => {
   const region: ILocation = {
     latitude: props.spot.latitude,
     longitude: props.spot.longitude,
@@ -37,5 +37,3 @@ const thisStyle = StyleSheet.create({
     // marginVertical: 5
   }
 });
-
-export default SimpleMapView;

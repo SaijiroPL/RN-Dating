@@ -14,7 +14,7 @@ interface Props {
  * 範囲円
  * @author kotatanaka
  */
-const MapCircle: React.FC<Props> = (props: Props) => {
+export const MapCircle: React.FC<Props> = (props: Props) => {
   const { location } = props;
 
   return (
@@ -29,5 +29,3 @@ const MapCircle: React.FC<Props> = (props: Props) => {
     />
   );
 };
-
-export default MapCircle;

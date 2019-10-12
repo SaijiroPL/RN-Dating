@@ -21,7 +21,7 @@ interface Props {
  * ピン付けマーカー
  * @author kotatanaka
  */
-const MapPin: React.FC<Props> = (props: Props) => {
+export const MapPin: React.FC<Props> = (props: Props) => {
   const pinColor = props.center ? "black" : "red";
 
   return (
@@ -45,5 +45,3 @@ const MapPin: React.FC<Props> = (props: Props) => {
     </Marker>
   );
 };
-
-export default MapPin;
