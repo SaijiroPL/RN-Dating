@@ -16,7 +16,7 @@ import { appTextStyle } from "app/src/styles";
  * ホーム画面トップ
  * @author kotatanaka
  */
-const HomeTopScreen: React.FC = () => {
+const HomeScreen: React.FC = () => {
   const [plans, setPlans] = useState<IPlanList>({
     total: 0,
     plan_list: []
@@ -96,4 +96,4 @@ const thisStyle = StyleSheet.create({
   }
 });
 
-export default HomeTopScreen;
+export default HomeScreen;

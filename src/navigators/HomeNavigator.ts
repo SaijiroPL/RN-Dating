@@ -1,7 +1,7 @@
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 // from app
-import HomeTopScreen from "app/src/screens/HomeScreen/HomeTopScreen";
+import HomeScreen from "app/src/screens/HomeScreen";
 import PlanDetailScreen from "app/src/screens/DetailScreen/PlanDetailScreen";
 import CommentScreen from "app/src/screens/DetailScreen/CommentScreen";
 import LikeUserScreen from "app/src/screens/DetailScreen/LikeUserScreen";
@@ -19,7 +19,7 @@ const HomeNavigator = createStackNavigator(
   {
     // ホーム画面トップ
     top: {
-      screen: HomeTopScreen,
+      screen: HomeScreen,
       navigationOptions: () => ({
         headerTitle: "ホーム",
         headerTitleStyle: appTextStyle.defaultText
