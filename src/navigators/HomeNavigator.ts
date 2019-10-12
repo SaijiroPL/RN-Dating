@@ -1,7 +1,7 @@
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 // from app
-import HomeScreen from "app/src/screens/HomeScreen";
+import HomeScreen from "app/src/screens/PlanScreen/HomeScreen";
 import PlanDetailScreen from "app/src/screens/DetailScreen/PlanDetailScreen";
 import CommentScreen from "app/src/screens/DetailScreen/CommentScreen";
 import LikeUserScreen from "app/src/screens/DetailScreen/LikeUserScreen";
