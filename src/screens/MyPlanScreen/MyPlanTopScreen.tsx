@@ -9,8 +9,8 @@ import { IPlanList } from "app/src/interfaces/api/Plan";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
 import { PlanCardList } from "app/src/components/List";
-import { handleError } from "app/src/utils/ApiUtil";
-import appTextStyle from "app/src/styles/GeneralTextStyle";
+import { handleError } from "app/src/utils";
+import { appTextStyle } from "app/src/styles";
 
 /**
  * マイプラン画面トップ

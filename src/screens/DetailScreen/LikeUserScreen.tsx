@@ -9,8 +9,8 @@ import { ILikeUserList } from "app/src/interfaces/api/Like";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { LikeUserList } from "app/src/components/List";
-import { handleError } from "app/src/utils/ApiUtil";
-import appTextStyle from "app/src/styles/GeneralTextStyle";
+import { handleError } from "app/src/utils";
+import { appTextStyle } from "app/src/styles";
 
 /**
  * デートプランお気に入り登録者一覧画面

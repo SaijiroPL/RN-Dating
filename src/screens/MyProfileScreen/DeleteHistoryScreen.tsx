@@ -8,7 +8,7 @@ import { IHistoryList } from "app/src/interfaces/api/History";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { HistorySwipeList } from "app/src/components/List";
-import appTextStyle from "app/src/styles/GeneralTextStyle";
+import { appTextStyle } from "app/src/styles";
 
 /**
  * 検索履歴一覧画面

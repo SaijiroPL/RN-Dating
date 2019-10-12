@@ -4,7 +4,7 @@ import { useNavigation } from "react-navigation-hooks";
 
 // from app
 import { CompleteButton } from "app/src/components/Button";
-import appStyle from "app/src/styles/GeneralStyle";
+import { appStyle } from "app/src/styles";
 
 /**
  * デートプラン作成完了画面

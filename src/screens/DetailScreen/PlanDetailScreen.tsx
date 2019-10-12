@@ -16,10 +16,8 @@ import { ImageCarousel, UserHeader } from "app/src/components/Content";
 import { CommentGrid } from "app/src/components/List";
 import { SimpleMapView } from "app/src/components/MapItem";
 import { LikeButton } from "app/src/components/Button";
-import { handleError } from "app/src/utils/ApiUtil";
-import { formatDate } from "app/src/utils/DateUtil";
-import appStyle from "app/src/styles/GeneralStyle";
-import appTextStyle from "app/src/styles/GeneralTextStyle";
+import { formatDate, handleError } from "app/src/utils";
+import { appStyle, appTextStyle } from "app/src/styles";
 
 /**
  * デートプラン詳細画面

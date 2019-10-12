@@ -10,8 +10,8 @@ import { IFollowList } from "app/src/interfaces/api/Follow";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { FollowList } from "app/src/components/List";
-import { handleError } from "app/src/utils/ApiUtil";
-import appTextStyle from "app/src/styles/GeneralTextStyle";
+import { handleError } from "app/src/utils";
+import { appTextStyle } from "app/src/styles";
 
 /**
  * フォローリスト一覧画面

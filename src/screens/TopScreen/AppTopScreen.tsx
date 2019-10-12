@@ -3,6 +3,7 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import { FontAwesome } from "@expo/vector-icons";
 import axios from "axios";
+
 // from app
 import { useDispatch } from "app/src/Store";
 import { ActionType } from "app/src/Reducer";
@@ -14,8 +15,8 @@ import { ILogin } from "app/src/interfaces/api/User";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { InputForm } from "app/src/components/Form";
 import { CompleteButton } from "app/src/components/Button";
-import { handleError } from "app/src/utils/ApiUtil";
-import appStyle from "app/src/styles/GeneralStyle";
+import { handleError } from "app/src/utils";
+import { appStyle } from "app/src/styles";
 
 /**
  * 初回起動時の画面

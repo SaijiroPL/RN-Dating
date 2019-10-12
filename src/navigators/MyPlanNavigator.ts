@@ -8,7 +8,7 @@ import LikeUserScreen from "app/src/screens/DetailScreen/LikeUserScreen";
 import ProfileScreen from "app/src/screens/DetailScreen/ProfileScreen";
 import FollowScreen from "app/src/screens/MyProfileScreen/FollowScreen";
 import FollowerScreen from "app/src/screens/MyProfileScreen/FollowerScreen";
-import appTextStyle from "app/src/styles/GeneralTextStyle";
+import { appTextStyle } from "app/src/styles";
 
 /**
  * マイプランタブのナビゲーター

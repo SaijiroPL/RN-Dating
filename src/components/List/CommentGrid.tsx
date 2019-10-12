@@ -6,7 +6,7 @@ import { Col, Row, Grid } from "react-native-easy-grid";
 // from app
 import { IMAGE } from "app/src/constants";
 import { IComment } from "app/src/interfaces/api/Comment";
-import { isNotNullOrUndefined } from "app/src/utils/CheckUtil";
+import { isNotNullOrUndefined } from "app/src/utils";
 
 interface Props {
   comments: Array<IComment>;

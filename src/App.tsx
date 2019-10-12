@@ -6,7 +6,7 @@ import { AppLoading, Asset, Font } from "expo";
 import { Provider } from "app/src/Store";
 import { IMAGE, FONT } from "app/src/constants";
 import AppNavigator from "app/src/navigators/AppNavigator";
-import appStyle from "app/src/styles/GeneralStyle";
+import { appStyle } from "app/src/styles";
 
 interface Props {
   skipLoadingScreen: boolean;

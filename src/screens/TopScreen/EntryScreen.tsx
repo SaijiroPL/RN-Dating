@@ -14,9 +14,9 @@ import { ICreateUserBody } from "app/src/interfaces/api/User";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { SelectButton, CompleteButton } from "app/src/components/Button";
 import { DatePicker, PrefecturePicker } from "app/src/components/Form";
-import { handleError } from "app/src/utils/ApiUtil";
-import { getToday, getAge } from "app/src/utils/DateUtil";
-import appStyle from "app/src/styles/GeneralStyle";
+import { handleError } from "app/src/utils";
+import { getToday, getAge } from "app/src/utils";
+import { appStyle } from "app/src/styles";
 
 /**
  * ユーザー基本情報入力画面

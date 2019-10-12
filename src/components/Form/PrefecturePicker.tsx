@@ -3,7 +3,7 @@ import { Picker } from "native-base";
 
 // from app
 import { COLOR } from "app/src/constants";
-import appTextStyle from "app/src/styles/GeneralTextStyle";
+import { appTextStyle } from "app/src/styles";
 
 interface Props {
   prefecture: string;

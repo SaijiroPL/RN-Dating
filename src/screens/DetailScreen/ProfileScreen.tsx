@@ -10,8 +10,8 @@ import { IApiError } from "app/src/interfaces/api/Error";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { UserProfile } from "app/src/components/Content";
 import { SettingFab } from "app/src/components/Button";
-import { handleError } from "app/src/utils/ApiUtil";
-import appStyle from "app/src/styles/GeneralStyle";
+import { handleError } from "app/src/utils";
+import { appStyle } from "app/src/styles";
 
 /**
  * プロフィール(ユーザー詳細)画面トップ

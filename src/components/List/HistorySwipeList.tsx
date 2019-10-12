@@ -5,7 +5,7 @@ import { SwipeListView } from "react-native-swipe-list-view";
 // from app
 import { COLOR, LAYOUT } from "app/src/constants";
 import { IHistory } from "app/src/interfaces/api/History";
-import appTextStyle from "app/src/styles/GeneralTextStyle";
+import { appTextStyle } from "app/src/styles";
 
 interface Props {
   histories: Array<IHistory>;
