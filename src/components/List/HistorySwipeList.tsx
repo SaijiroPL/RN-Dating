@@ -17,7 +17,7 @@ interface Props {
  * 検索履歴スワイプリスト
  * @author kotatanaka
  */
-const HistorySwipeList: React.FC<Props> = (props: Props) => {
+export const HistorySwipeList: React.FC<Props> = (props: Props) => {
   const { histories, onDelete } = props;
 
   return (
@@ -62,5 +62,3 @@ const thisStyle = StyleSheet.create({
     paddingVertical: 15
   }
 });
-
-export default HistorySwipeList;

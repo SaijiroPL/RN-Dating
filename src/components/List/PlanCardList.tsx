@@ -14,7 +14,7 @@ interface Props {
  * デートプランリストコンポーネント
  * @author kotatanaka
  */
-const PlanCardList: React.FC<Props> = (props: Props) => {
+export const PlanCardList: React.FC<Props> = (props: Props) => {
   const { planList, myPlan } = props;
 
   const renderPlanCard = ({ item }: { item: IPlan }) => {
@@ -32,5 +32,3 @@ const PlanCardList: React.FC<Props> = (props: Props) => {
     />
   );
 };
-
-export default PlanCardList;

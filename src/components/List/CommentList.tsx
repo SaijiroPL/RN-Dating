@@ -13,7 +13,7 @@ interface Props {
  * コメントリストコンポーネント
  * @author kotatanaka
  */
-const CommentList: React.FC<Props> = (props: Props) => {
+export const CommentList: React.FC<Props> = (props: Props) => {
   const { commentList } = props;
 
   const renderCommentElement = ({ item }: { item: IComment }) => {
@@ -28,5 +28,3 @@ const CommentList: React.FC<Props> = (props: Props) => {
     />
   );
 };
-
-export default CommentList;

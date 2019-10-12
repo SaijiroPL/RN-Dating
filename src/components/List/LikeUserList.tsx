@@ -13,7 +13,7 @@ interface Props {
  * デートプランお気に入り登録者リストコンポーネント
  * @author kotatanaka
  */
-const LikeUserList: React.FC<Props> = (props: Props) => {
+export const LikeUserList: React.FC<Props> = (props: Props) => {
   const { users } = props;
 
   const renderLikeUserElement = ({ item }: { item: ILikeUser }) => {
@@ -28,5 +28,3 @@ const LikeUserList: React.FC<Props> = (props: Props) => {
     />
   );
 };
-
-export default LikeUserList;

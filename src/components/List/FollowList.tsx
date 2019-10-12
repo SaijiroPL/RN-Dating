@@ -13,7 +13,7 @@ interface Props {
  * フォローリスト/フォロワーリストコンポーネント
  * @author kotatanaka
  */
-const FollowList: React.FC<Props> = (props: Props) => {
+export const FollowList: React.FC<Props> = (props: Props) => {
   const { follows } = props;
 
   const renderFollowElement = ({ item }: { item: IFollow }) => {
@@ -28,5 +28,3 @@ const FollowList: React.FC<Props> = (props: Props) => {
     />
   );
 };
-
-export default FollowList;
