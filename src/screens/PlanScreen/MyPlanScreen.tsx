@@ -13,10 +13,10 @@ import { handleError } from "app/src/utils";
 import { appTextStyle } from "app/src/styles";
 
 /**
- * マイプラン画面トップ
+ * マイプラン画面
  * @author kotatanaka
  */
-const MyPlanTopScreen: React.FC = () => {
+const MyPlanScreen: React.FC = () => {
   const loginUser = useGlobalState("loginUser");
 
   const [plans, setPlans] = useState<IPlanList>({
@@ -98,4 +98,4 @@ const thisStyle = StyleSheet.create({
   }
 });
 
-export default MyPlanTopScreen;
+export default MyPlanScreen;

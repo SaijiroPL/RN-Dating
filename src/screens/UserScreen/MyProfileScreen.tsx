@@ -13,10 +13,10 @@ import { SettingFab } from "app/src/components/Button";
 import { handleError } from "app/src/utils";
 
 /**
- * マイプロフィール画面トップ
+ * マイプロフィール画面
  * @author kotatanaka
  */
-const MyProfileTopScreen: React.FC = () => {
+const MyProfileScreen: React.FC = () => {
   const loginUser = useGlobalState("loginUser");
 
   const [user, setUser] = useState<IUserDetail>({
@@ -95,4 +95,4 @@ const thisStyle = StyleSheet.create({
   }
 });
 
-export default MyProfileTopScreen;
+export default MyProfileScreen;

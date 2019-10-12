@@ -1,13 +1,13 @@
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 // from app
-import MyPlanTopScreen from "app/src/screens/MyPlanScreen/MyPlanTopScreen";
-import PlanDetailScreen from "app/src/screens/DetailScreen/PlanDetailScreen";
-import CommentScreen from "app/src/screens/DetailScreen/CommentScreen";
-import LikeUserScreen from "app/src/screens/DetailScreen/LikeUserScreen";
-import ProfileScreen from "app/src/screens/DetailScreen/ProfileScreen";
-import FollowScreen from "app/src/screens/MyProfileScreen/FollowScreen";
-import FollowerScreen from "app/src/screens/MyProfileScreen/FollowerScreen";
+import MyPlanScreen from "app/src/screens/PlanScreen/MyPlanScreen";
+import PlanDetailScreen from "app/src/screens/PlanScreen/PlanDetailScreen";
+import CommentScreen from "app/src/screens/PlanScreen/CommentScreen";
+import LikeUserScreen from "app/src/screens/PlanScreen/LikeUserScreen";
+import ProfileScreen from "app/src/screens/UserScreen/ProfileScreen";
+import FollowScreen from "app/src/screens/UserScreen/FollowScreen";
+import FollowerScreen from "app/src/screens/UserScreen/FollowerScreen";
 import { appTextStyle } from "app/src/styles";
 
 /**
@@ -18,7 +18,7 @@ const MyPlanNavigator = createStackNavigator(
   {
     // マイプラン画面トップ
     top: {
-      screen: MyPlanTopScreen,
+      screen: MyPlanScreen,
       navigationOptions: () => ({
         headerTitle: "マイプラン",
         headerTitleStyle: appTextStyle.defaultText

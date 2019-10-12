@@ -7,7 +7,7 @@ import HomeNavigator from "app/src/navigators/HomeNavigator";
 import SearchNavigator from "app/src/navigators/SearchNavigator";
 import MyPlanNavigator from "app/src/navigators/MyPlanNavigator";
 import NotificationNavigator from "app/src/navigators/NotificationNavigator";
-import ProfileNavigator from "app/src/navigators/ProfileNavigator";
+import MyProfileNavigator from "app/src/navigators/MyProfileNavigator";
 import {
   HomeTabIcon,
   SearchTabIcon,
@@ -56,7 +56,7 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
     },
     // プロフィールタブの設定
     ProfileTab: {
-      screen: ProfileNavigator,
+      screen: MyProfileNavigator,
       navigationOptions: () => ({
         title: "プロフィール",
         tabBarIcon: ProfileTabIcon
