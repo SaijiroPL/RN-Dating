@@ -3,7 +3,7 @@ import { useNavigation } from "react-navigation-hooks";
 import { Container, Content } from "native-base";
 
 // from app
-import ImageGrid from "app/src/components/contents/ImageGrid";
+import { ImageGrid } from "app/src/components/List";
 import { CompleteFooterButton } from "app/src/components/Button";
 
 /**
