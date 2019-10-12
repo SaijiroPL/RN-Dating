@@ -8,3 +8,7 @@ export * from "./FollowList";
 export * from "./LikeUserList";
 /** 検索履歴リスト */
 export * from "./HistorySwipeList";
+/** 画像選択グリッドリスト */
+export * from "./ImageGrid";
+/** コメントグリッドリスト */
+export * from "./CommentGrid";

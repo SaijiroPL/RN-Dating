@@ -16,7 +16,7 @@ interface Props {
  * コメントグリッド表示
  * @author kotatanaka
  */
-const CommentGrid: React.FC<Props> = (props: Props) => {
+export const CommentGrid: React.FC<Props> = (props: Props) => {
   const { comments } = props;
 
   // 1つのコメントを描画する
@@ -87,5 +87,3 @@ const thisStyle = StyleSheet.create({
     fontSize: 8
   }
 });
-
-export default CommentGrid;

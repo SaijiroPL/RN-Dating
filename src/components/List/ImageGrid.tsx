@@ -12,7 +12,7 @@ interface Props {}
  * 画像選択グリッド
  * @author kotatanaka
  */
-const ImageGrid: React.FC<Props> = () => {
+export const ImageGrid: React.FC<Props> = () => {
   return (
     <Grid>
       <Col>
@@ -59,5 +59,3 @@ const thisStyle = StyleSheet.create({
     width: (Layout.window.width * 0.95) / 2
   }
 });
-
-export default ImageGrid;
