@@ -2,7 +2,7 @@
  * カラー定数
  * @author tanakakota
  */
-export default {
+export const COLOR = {
   tintColor: "orange",
   textTintColor: "#666",
   inactiveColor: "#bbb",

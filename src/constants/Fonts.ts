@@ -5,7 +5,7 @@ const genjuLight = require("app/assets/fonts/GenJyuuGothic-Light.ttf");
  * フォント定数
  * @author tanakakota
  */
-export default {
+export const FONT = {
   "genju-medium": genjuMenium,
   "genju-light": genjuLight
 };
