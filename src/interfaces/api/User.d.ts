@@ -6,7 +6,6 @@ export interface IUserDetail {
   user_id: string;
   name: string;
   profile: string;
-  sex: string;
   age: number;
   area: string;
   address: string;
@@ -48,7 +47,6 @@ export interface ILogin {
 export interface IUpdateUserBody {
   name?: string;
   profile?: string;
-  sex?: string;
   age?: number;
   area?: string;
   address?: string;

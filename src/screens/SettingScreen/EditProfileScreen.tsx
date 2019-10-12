@@ -25,7 +25,6 @@ const EditProfileScreen: React.FC = () => {
   const loginUser = useGlobalState("loginUser");
   const [name, setName] = useState<string>("");
   const [profile, setProfile] = useState<string>("");
-  const [sex, setSex] = useState<string>("");
   const [age, setAge] = useState<number>(0);
   const [address, setAddress] = useState<string>("");
   const [mailAddress, setMailAddress] = useState<string>("");
@@ -34,7 +33,6 @@ const EditProfileScreen: React.FC = () => {
     user_id: "",
     name: "",
     profile: "",
-    sex: "",
     age: 0,
     area: "",
     address: "",
@@ -68,7 +66,6 @@ const EditProfileScreen: React.FC = () => {
     const body: IUpdateUserBody = {
       name: name !== user.name ? name : undefined,
       profile: profile !== user.profile ? profile : undefined,
-      sex: sex !== user.sex ? sex : undefined,
       age: age !== user.age ? age : undefined,
       address: address !== user.address ? address : undefined,
       mail_address: mailAddress !== user.mail_address ? mailAddress : undefined
@@ -99,7 +96,6 @@ const EditProfileScreen: React.FC = () => {
         setUser(response.data);
         setName(response.data.name);
         setProfile(response.data.profile);
-        setSex(response.data.sex);
         setAge(response.data.age);
         setAddress(response.data.address);
         setMailAddress(response.data.mail_address);
@@ -137,7 +133,6 @@ const EditProfileScreen: React.FC = () => {
       isEmpty(name) ||
       isEmpty(profile) ||
       isEmpty(mailAddress) ||
-      isEmpty(sex) ||
       isEmpty(`${age}`) ||
       isEmpty(address)
     ) {
@@ -161,8 +156,6 @@ const EditProfileScreen: React.FC = () => {
             value={mailAddress}
             setValue={setMailAddress}
           />
-          {/** TODO 性別はボタンにする */}
-          <InputLabelForm label="性別" value={sex} setValue={setSex} />
           <InputLabelForm label="年齢" numValue={age} setNumValue={setAge} />
           <InputLabelForm
             label="住まい"
