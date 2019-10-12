@@ -13,7 +13,7 @@ import { IApiError } from "app/src/interfaces/api/Error";
 import { IUpdateUserBody } from "app/src/interfaces/api/User";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { CompleteButton } from "app/src/components/Button";
-import InputLabelForm from "app/src/components/contents/InputLabelForm";
+import { InputLabelForm } from "app/src/components/Form";
 import { handleError } from "app/src/utils/ApiUtil";
 import { isEmpty } from "app/src/utils/CheckUtil";
 

@@ -15,7 +15,7 @@ import Layout from "app/src/constants/Layout";
 import Colors from "app/src/constants/Colors";
 import { API_ENDPOINT } from "app/src/constants/Url";
 import { LoadingSpinner } from "app/src/components/Spinners";
-import InputForm from "app/src/components/contents/InputForm";
+import { InputForm } from "app/src/components/Form";
 import { CompleteButton } from "app/src/components/Button";
 import { handleError } from "app/src/utils/ApiUtil";
 import appStyle from "app/src/styles/GeneralStyle";

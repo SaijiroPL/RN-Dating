@@ -9,7 +9,7 @@ import { IApiError } from "app/src/interfaces/api/Error";
 import Colors from "app/src/constants/Colors";
 import { API_ENDPOINT } from "app/src/constants/Url";
 import { Indicator, RefreshSpinner } from "app/src/components/Spinners";
-import SearchFormBar from "app/src/components/contents/SearchFormBar";
+import { SearchFormBar } from "app/src/components/Form";
 import { PlanCardList } from "app/src/components/List";
 import { handleError } from "app/src/utils/ApiUtil";
 import appTextStyle from "app/src/styles/GeneralTextStyle";
