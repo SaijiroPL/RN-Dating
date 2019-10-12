@@ -64,5 +64,3 @@ export const appTextStyle = StyleSheet.create({
     textDecorationLine: "underline"
   }
 });
-
-export default appTextStyle;

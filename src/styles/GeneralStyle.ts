@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 /**
  * 汎用ビュースタイリング
  */
-const appStyle = StyleSheet.create({
+export const appStyle = StyleSheet.create({
   /** 無スクロールビューのコンテナ */
   appContainer: {
     flex: 1
@@ -29,5 +29,3 @@ const appStyle = StyleSheet.create({
     flexDirection: "row"
   }
 });
-
-export default appStyle;
