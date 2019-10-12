@@ -10,7 +10,7 @@ import Colors from "app/src/constants/Colors";
  * プラン作成フローティングボタン
  * @author kotatanaka
  */
-const CreatePlanFab: React.FC = () => {
+export const CreatePlanFab: React.FC = () => {
   const { navigate } = useNavigation();
 
   return (
@@ -25,5 +25,3 @@ const CreatePlanFab: React.FC = () => {
     </Fab>
   );
 };
-
-export default CreatePlanFab;

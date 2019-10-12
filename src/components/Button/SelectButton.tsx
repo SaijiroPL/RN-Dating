@@ -22,7 +22,7 @@ interface Props {
  * 選択ボタン
  * @author kotatanaka
  */
-const SelectButton: React.FC<Props> = (props: Props) => {
+export const SelectButton: React.FC<Props> = (props: Props) => {
   const { value, setValue, setOtherValues, reversible, buttonName } = props;
 
   const setValues = (value: boolean) => {
@@ -91,5 +91,3 @@ const thisStyle = StyleSheet.create({
     fontFamily: "genju-medium"
   }
 });
-
-export default SelectButton;

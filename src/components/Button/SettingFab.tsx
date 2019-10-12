@@ -10,7 +10,7 @@ import Colors from "app/src/constants/Colors";
  * 設定フローティングボタン
  * @author kotatanaka
  */
-const SettingFab: React.FC = () => {
+export const SettingFab: React.FC = () => {
   const { navigate } = useNavigation();
 
   return (
@@ -25,5 +25,3 @@ const SettingFab: React.FC = () => {
     </Fab>
   );
 };
-
-export default SettingFab;

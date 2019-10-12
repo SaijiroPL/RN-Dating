@@ -16,7 +16,7 @@ interface Props {
  * 完了ボタン
  * @author kotatanaka
  */
-const CompleteButton: React.FC<Props> = (props: Props) => {
+export const CompleteButton: React.FC<Props> = (props: Props) => {
   const { disabled, title, onPress } = props;
 
   if (disabled) {
@@ -40,5 +40,3 @@ const thisStyle = StyleSheet.create({
     width: Layout.window.width * 0.75
   }
 });
-
-export default CompleteButton;

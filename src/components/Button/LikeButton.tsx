@@ -16,7 +16,7 @@ interface Props {
  * お気に入りボタン
  * @author kotatanaka
  */
-const LikeButton: React.FC<Props> = (props: Props) => {
+export const LikeButton: React.FC<Props> = (props: Props) => {
   const renderHeart = () => {
     if (props.liked) {
       return (
@@ -62,5 +62,3 @@ const thisStyle = StyleSheet.create({
     marginRight: 5
   }
 });
-
-export default LikeButton;

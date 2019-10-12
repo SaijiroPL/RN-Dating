@@ -17,7 +17,7 @@ interface Props {
  * フッター完了ボタン
  * @author kotatanaka
  */
-const CompleteFooterButton: React.FC<Props> = (props: Props) => {
+export const CompleteFooterButton: React.FC<Props> = (props: Props) => {
   const { disabled, title, onPress } = props;
 
   if (disabled) {
@@ -57,5 +57,3 @@ const thisStyle = StyleSheet.create({
     width: Layout.window.width
   }
 });
-
-export default CompleteFooterButton;
