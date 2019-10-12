@@ -16,7 +16,7 @@ interface Props {
  * 検索フォームバー
  * @author kotatanaka
  */
-const SearchFormBar: React.FC<Props> = (props: Props) => {
+export const SearchFormBar: React.FC<Props> = (props: Props) => {
   const { value, setValue, onSearch } = props;
   return (
     <SearchBar
@@ -57,5 +57,3 @@ const thisStyle = StyleSheet.create({
     backgroundColor: "#eee"
   }
 });
-
-export default SearchFormBar;

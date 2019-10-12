@@ -14,7 +14,7 @@ interface Props {
  * 入力中にラベルが浮く入力フォーム
  * @author kotatanaka
  */
-const IuputFormFloating: React.FC<Props> = (props: Props) => {
+export const InputFormFloating: React.FC<Props> = (props: Props) => {
   const { label, value, setValue } = props;
 
   if (value === "") {
@@ -33,5 +33,3 @@ const IuputFormFloating: React.FC<Props> = (props: Props) => {
     </Item>
   );
 };
-
-export default IuputFormFloating;

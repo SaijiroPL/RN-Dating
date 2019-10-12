@@ -13,7 +13,7 @@ interface Props {
  * 都道府県選択フォーム
  * @author kotatanaka
  */
-const PrefecturePicker: React.FC<Props> = (props: Props) => {
+export const PrefecturePicker: React.FC<Props> = (props: Props) => {
   const { prefecture, setPrefecture } = props;
 
   return (
@@ -77,5 +77,3 @@ const PrefecturePicker: React.FC<Props> = (props: Props) => {
     </Picker>
   );
 };
-
-export default PrefecturePicker;

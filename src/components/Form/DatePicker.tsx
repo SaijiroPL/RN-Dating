@@ -12,7 +12,7 @@ interface Props {
  * 日付選択フォーム
  * @author kotatanaka
  */
-const DatePicker: React.FC<Props> = (props: Props) => {
+export const DatePicker: React.FC<Props> = (props: Props) => {
   const { date, setDate, minDate, maxDate } = props;
 
   return (
@@ -35,5 +35,3 @@ DatePicker.defaultProps = {
   minDate: "1970-01-01",
   maxDate: "2020-12-31"
 };
-
-export default DatePicker;

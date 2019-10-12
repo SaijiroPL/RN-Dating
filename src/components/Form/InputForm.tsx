@@ -16,7 +16,7 @@ interface Props {
  * テキスト入力フォーム
  * @author kotatanaka
  */
-const IuputForm: React.FC<Props> = (props: Props) => {
+export const InputForm: React.FC<Props> = (props: Props) => {
   const { placeholder, value, setValue } = props;
 
   const NoInput = <View />;
@@ -48,5 +48,3 @@ const IuputForm: React.FC<Props> = (props: Props) => {
     </Item>
   );
 };
-
-export default IuputForm;

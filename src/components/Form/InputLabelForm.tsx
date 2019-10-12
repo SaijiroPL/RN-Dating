@@ -18,7 +18,7 @@ interface Props {
  * テキスト入力フォーム(ラベル付き)
  * @author kotatanaka
  */
-const IuputLabelForm: React.FC<Props> = (props: Props) => {
+export const InputLabelForm: React.FC<Props> = (props: Props) => {
   const { label, value, numValue, setValue, setNumValue } = props;
 
   /** 文字列 */
@@ -51,8 +51,6 @@ const IuputLabelForm: React.FC<Props> = (props: Props) => {
 
   return <Item />;
 };
-
-export default IuputLabelForm;
 
 /** スタイリング */
 const thisStyle = StyleSheet.create({
