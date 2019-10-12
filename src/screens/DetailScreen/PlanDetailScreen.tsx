@@ -15,7 +15,7 @@ import { API_ENDPOINT } from "app/src/constants/Url";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import UserHeader from "app/src/components/contents/UserHeader";
 import ImageCarousel from "app/src/components/contents/ImageCarousel";
-import SimpleMapView from "app/src/components/map/SimpleMapView";
+import { SimpleMapView } from "app/src/components/MapItem";
 import CommentGrid from "app/src/components/contents/CommentGrid";
 import { LikeButton } from "app/src/components/Button";
 import { handleError } from "app/src/utils/ApiUtil";
