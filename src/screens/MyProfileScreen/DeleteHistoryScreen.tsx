@@ -7,7 +7,7 @@ import axios, { CancelTokenSource } from "axios";
 import { IHistoryList } from "app/src/interfaces/api/History";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { LoadingSpinner } from "app/src/components/Spinners";
-import HistorySwipeList from "app/src/components/lists/HistorySwipeList";
+import { HistorySwipeList } from "app/src/components/List";
 import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 /**
