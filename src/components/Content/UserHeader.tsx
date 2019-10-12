@@ -15,7 +15,7 @@ interface Props {
  * ユーザーヘッダーコンポーネント
  * @author kotatanaka
  */
-const UserHeader: React.FC<Props> = (props: Props) => {
+export const UserHeader: React.FC<Props> = (props: Props) => {
   const { navigate } = useNavigation();
   const { user } = props;
 
@@ -60,5 +60,3 @@ const thisStyle = StyleSheet.create({
     fontFamily: "genju-light"
   }
 });
-
-export default UserHeader;

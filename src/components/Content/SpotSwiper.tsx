@@ -24,7 +24,7 @@ interface Props {
  * デートスポットスワイパー
  * @author kotatanaka
  */
-const SpotSwiper: React.FC<Props> = (props: Props) => {
+export const SpotSwiper: React.FC<Props> = (props: Props) => {
   const { spots } = props;
 
   return (
@@ -73,5 +73,3 @@ const thisStyle = StyleSheet.create({
     marginHorizontal: 10
   }
 });
-
-export default SpotSwiper;

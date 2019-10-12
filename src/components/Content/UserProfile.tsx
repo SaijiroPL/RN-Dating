@@ -18,7 +18,7 @@ interface Props {
  * ユーザー情報コンポーネント
  * @author kotatanaka
  */
-const UserProfile: React.FC<Props> = (props: Props) => {
+export const UserProfile: React.FC<Props> = (props: Props) => {
   const { navigate } = useNavigation();
   const { user, me } = props;
 
@@ -103,5 +103,3 @@ const thisStyle = StyleSheet.create({
     fontSize: 15
   }
 });
-
-export default UserProfile;

@@ -28,7 +28,7 @@ const SAMPLE_DATA = [
  * 画像スライドカルーセル
  * @author kotatanaka
  */
-const ImageCarousel: React.FC<Props> = (props: Props) => {
+export const ImageCarousel: React.FC<Props> = (props: Props) => {
   const renderImageItem = ({ item }: { item: any }) => {
     return <Image style={thisStyle.image} source={item.image} />;
   };
@@ -69,5 +69,3 @@ const thisStyle = StyleSheet.create({
     width: Layout.window.width * 0.8
   }
 });
-
-export default ImageCarousel;
