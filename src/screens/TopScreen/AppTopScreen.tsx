@@ -14,7 +14,7 @@ import { ILogin } from "app/src/interfaces/api/User";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { InputForm } from "app/src/components/Form";
 import { CompleteButton } from "app/src/components/Button";
-import { handleError } from "app/src/utils/ApiUtil";
+import { handleError } from "app/src/utils";
 import appStyle from "app/src/styles/GeneralStyle";
 
 /**

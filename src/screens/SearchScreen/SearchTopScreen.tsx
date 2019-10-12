@@ -10,7 +10,7 @@ import { IApiError } from "app/src/interfaces/api/Error";
 import { Indicator, RefreshSpinner } from "app/src/components/Spinners";
 import { SearchFormBar } from "app/src/components/Form";
 import { PlanCardList } from "app/src/components/List";
-import { handleError } from "app/src/utils/ApiUtil";
+import { handleError } from "app/src/utils";
 import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 /**

@@ -9,7 +9,7 @@ import { ICommentList } from "app/src/interfaces/api/Comment";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { CommentList } from "app/src/components/List";
-import { handleError } from "app/src/utils/ApiUtil";
+import { handleError } from "app/src/utils";
 import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 /**

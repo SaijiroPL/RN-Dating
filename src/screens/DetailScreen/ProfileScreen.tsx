@@ -10,7 +10,7 @@ import { IApiError } from "app/src/interfaces/api/Error";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { UserProfile } from "app/src/components/Content";
 import { SettingFab } from "app/src/components/Button";
-import { handleError } from "app/src/utils/ApiUtil";
+import { handleError } from "app/src/utils";
 import appStyle from "app/src/styles/GeneralStyle";
 
 /**
