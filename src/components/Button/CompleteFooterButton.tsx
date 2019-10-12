@@ -4,7 +4,7 @@ import { Button, Footer, Text } from "native-base";
 
 // from app
 import { LAYOUT, COLOR } from "app/src/constants";
-import appTextStyle from "app/src/styles/GeneralTextStyle";
+import { appTextStyle } from "app/src/styles";
 
 interface Props {
   title: string;

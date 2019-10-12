@@ -17,8 +17,7 @@ import { CommentGrid } from "app/src/components/List";
 import { SimpleMapView } from "app/src/components/MapItem";
 import { LikeButton } from "app/src/components/Button";
 import { formatDate, handleError } from "app/src/utils";
-import appStyle from "app/src/styles/GeneralStyle";
-import appTextStyle from "app/src/styles/GeneralTextStyle";
+import { appStyle, appTextStyle } from "app/src/styles";
 
 /**
  * デートプラン詳細画面

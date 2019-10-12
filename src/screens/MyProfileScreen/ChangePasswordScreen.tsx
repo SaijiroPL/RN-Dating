@@ -14,7 +14,7 @@ import { LoadingSpinner } from "app/src/components/Spinners";
 import { InputFormFloating } from "app/src/components/Form";
 import { CompleteButton } from "app/src/components/Button";
 import { handleError, isEmpty } from "app/src/utils";
-import appStyle from "app/src/styles/GeneralStyle";
+import { appStyle } from "app/src/styles";
 /**
  * パスワード変更画面
  * @author itsukiyamada, kotatanaka

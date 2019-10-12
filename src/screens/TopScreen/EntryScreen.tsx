@@ -16,7 +16,7 @@ import { SelectButton, CompleteButton } from "app/src/components/Button";
 import { DatePicker, PrefecturePicker } from "app/src/components/Form";
 import { handleError } from "app/src/utils";
 import { getToday, getAge } from "app/src/utils";
-import appStyle from "app/src/styles/GeneralStyle";
+import { appStyle } from "app/src/styles";
 
 /**
  * ユーザー基本情報入力画面

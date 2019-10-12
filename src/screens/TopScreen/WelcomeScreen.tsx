@@ -5,7 +5,7 @@ import { useNavigation } from "react-navigation-hooks";
 // from app
 import { COLOR, IMAGE, LAYOUT } from "app/src/constants";
 import { CompleteButton } from "app/src/components/Button";
-import appStyle from "app/src/styles/GeneralStyle";
+import { appStyle } from "app/src/styles";
 
 // Constants
 const SLIDE_DATA = [

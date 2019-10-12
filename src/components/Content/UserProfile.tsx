@@ -6,7 +6,7 @@ import { Thumbnail, Text } from "native-base";
 // from app
 import { COLOR, IMAGE } from "app/src/constants";
 import { IUserDetail } from "app/src/interfaces/api/User";
-import appTextStyle from "app/src/styles/GeneralTextStyle";
+import { appTextStyle } from "app/src/styles";
 
 interface Props {
   user: IUserDetail;

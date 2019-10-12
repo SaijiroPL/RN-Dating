@@ -10,7 +10,7 @@ import { COLOR } from "app/src/constants";
 import { SelectButton, CompleteFooterButton } from "app/src/components/Button";
 import { DatePicker } from "app/src/components/Form";
 import { getToday } from "app/src/utils";
-import appStyle from "app/src/styles/GeneralStyle";
+import { appStyle } from "app/src/styles";
 
 /**
  * デートプラン作成画面トップ(基本情報入力画面)

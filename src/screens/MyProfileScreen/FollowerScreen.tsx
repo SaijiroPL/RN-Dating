@@ -11,7 +11,7 @@ import { IApiError } from "app/src/interfaces/api/Error";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { FollowList } from "app/src/components/List";
 import { handleError } from "app/src/utils";
-import appTextStyle from "app/src/styles/GeneralTextStyle";
+import { appTextStyle } from "app/src/styles";
 
 /**
  * フォロワーリスト一覧画面

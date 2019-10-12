@@ -17,9 +17,8 @@ import { Ionicons } from "@expo/vector-icons";
 
 // from app
 import { COLOR } from "app/src/constants";
-import appTextStyle from "app/src/styles/GeneralTextStyle";
 import { CompleteButton } from "app/src/components/Button";
-import appStyle from "app/src/styles/GeneralStyle";
+import { appTextStyle } from "app/src/styles";
 
 /**
  * よくある質問画面
