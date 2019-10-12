@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 import { Button, Text } from "native-base";
 
 // from app
-import Colors from "app/src/constants/Colors";
+import { COLOR } from "app/src/constants";
 
 interface Props {
   // 現在のオンオフ状態
@@ -79,11 +79,11 @@ const thisStyle = StyleSheet.create({
     marginHorizontal: 5
   },
   activeButton: {
-    backgroundColor: Colors.tintColor,
+    backgroundColor: COLOR.tintColor,
     marginHorizontal: 5
   },
   inactiveText: {
-    color: Colors.textTintColor,
+    color: COLOR.textTintColor,
     fontFamily: "genju-medium"
   },
   activeText: {

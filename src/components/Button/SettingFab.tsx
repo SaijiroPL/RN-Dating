@@ -4,7 +4,7 @@ import { useNavigation } from "react-navigation-hooks";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 // from app
-import Colors from "app/src/constants/Colors";
+import { COLOR } from "app/src/constants";
 
 /**
  * 設定フローティングボタン
@@ -17,7 +17,7 @@ export const SettingFab: React.FC = () => {
     <Fab
       active={true}
       containerStyle={{}}
-      style={{ backgroundColor: Colors.tintColor }}
+      style={{ backgroundColor: COLOR.tintColor }}
       position="bottomRight"
       onPress={() => navigate("setting")}
     >

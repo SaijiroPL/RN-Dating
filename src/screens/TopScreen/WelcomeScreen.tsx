@@ -3,9 +3,7 @@ import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 
 // from app
-import Images from "app/src/constants/Images";
-import Layout from "app/src/constants/Layout";
-import Colors from "app/src/constants/Colors";
+import { COLOR, IMAGE, LAYOUT } from "app/src/constants";
 import { CompleteButton } from "app/src/components/Button";
 import appStyle from "app/src/styles/GeneralStyle";
 
@@ -14,27 +12,27 @@ const SLIDE_DATA = [
   {
     title: "日時の入力",
     description: "デート当日の日付と時間、移動手段を入力します。",
-    uri: Images.welcome01
+    uri: IMAGE.welcome01
   },
   {
     title: "場所とピン付け",
     description: "マップで大まかな行動範囲を設定します。",
-    uri: Images.welcome02
+    uri: IMAGE.welcome02
   },
   {
     title: "フリックでリストアップ",
     description: "デートスポット候補をフリックで選択します。",
-    uri: Images.welcome03
+    uri: IMAGE.welcome03
   },
   {
     title: "スポット厳選",
     description: "リストアップした候補を厳選します。",
-    uri: Images.welcome04
+    uri: IMAGE.welcome04
   },
   {
     title: "順番とプラン名",
     description: "訪れる順番とデートプラン名を決定します。",
-    uri: Images.welcome05
+    uri: IMAGE.welcome05
   }
 ];
 
@@ -96,7 +94,7 @@ const thisStyle = StyleSheet.create({
   slide: {
     alignItems: "center",
     flex: 1,
-    width: Layout.window.width
+    width: LAYOUT.window.width
   },
   footer: {
     alignItems: "center",
@@ -104,13 +102,13 @@ const thisStyle = StyleSheet.create({
     justifyContent: "center"
   },
   title: {
-    color: Colors.textTintColor,
+    color: COLOR.textTintColor,
     fontFamily: "genju-medium",
     fontSize: 20,
     padding: 10
   },
   description: {
-    color: Colors.textTintColor,
+    color: COLOR.textTintColor,
     fontFamily: "genju-medium",
     fontSize: 15,
     padding: 10

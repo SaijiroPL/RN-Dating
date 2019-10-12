@@ -4,9 +4,8 @@ import { useNavigation } from "react-navigation-hooks";
 import { Thumbnail, Text } from "native-base";
 
 // from app
+import { COLOR, IMAGE } from "app/src/constants";
 import { IUserDetail } from "app/src/interfaces/api/User";
-import Colors from "app/src/constants/Colors";
-import Images from "app/src/constants/Images";
 import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 interface Props {
@@ -36,7 +35,7 @@ export const UserProfile: React.FC<Props> = (props: Props) => {
 
   return (
     <View style={thisStyle.container}>
-      <Thumbnail large source={Images.noUserImage} />
+      <Thumbnail large source={IMAGE.noUserImage} />
       <View style={thisStyle.userInfoContainer}>
         <Text style={thisStyle.nameText}>{user.name}</Text>
         <Text note style={thisStyle.nameText}>
@@ -93,12 +92,12 @@ const thisStyle = StyleSheet.create({
     margin: 30
   },
   nameText: {
-    color: Colors.textTintColor,
+    color: COLOR.textTintColor,
     fontFamily: "genju-medium",
     marginTop: 20
   },
   countTitleText: {
-    color: Colors.textTintColor,
+    color: COLOR.textTintColor,
     fontFamily: "genju-light",
     fontSize: 15
   }

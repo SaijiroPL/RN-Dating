@@ -4,9 +4,9 @@ import axios, { CancelTokenSource } from "axios";
 
 // from app
 import { useGlobalState } from "app/src/Store";
+import { API_ENDPOINT } from "app/src/constants/Url";
 import { IUserDetail } from "app/src/interfaces/api/User";
 import { IApiError } from "app/src/interfaces/api/Error";
-import { API_ENDPOINT } from "app/src/constants/Url";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { UserProfile } from "app/src/components/Content";
 import { SettingFab } from "app/src/components/Button";

@@ -3,10 +3,9 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
+import { API_ENDPOINT, COLOR } from "app/src/constants";
 import { IPlanList } from "app/src/interfaces/api/Plan";
 import { IApiError } from "app/src/interfaces/api/Error";
-import Colors from "app/src/constants/Colors";
-import { API_ENDPOINT } from "app/src/constants/Url";
 import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
 import { PlanCardList } from "app/src/components/List";
 import { CreatePlanFab } from "app/src/components/Button";
@@ -91,7 +90,7 @@ const HomeTopScreen: React.FC = () => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   container: {
-    backgroundColor: Colors.backgroundColor,
+    backgroundColor: COLOR.backgroundColor,
     flex: 1,
     justifyContent: "center"
   }

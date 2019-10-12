@@ -4,7 +4,7 @@ import { SearchBar } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
 
 // from app
-import Colors from "app/src/constants/Colors";
+import { COLOR } from "app/src/constants";
 
 interface Props {
   value: string;
@@ -24,10 +24,10 @@ export const SearchFormBar: React.FC<Props> = (props: Props) => {
       round
       lightTheme
       searchIcon={
-        <Ionicons name="ios-search" size={26} color={Colors.textTintColor} />
+        <Ionicons name="ios-search" size={26} color={COLOR.textTintColor} />
       }
       clearIcon={
-        <Ionicons name="ios-close" size={26} color={Colors.textTintColor} />
+        <Ionicons name="ios-close" size={26} color={COLOR.textTintColor} />
       }
       onChangeText={value => {
         setValue(value);

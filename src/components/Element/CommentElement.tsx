@@ -3,9 +3,8 @@ import { StyleSheet } from "react-native";
 import { Body, Left, ListItem, Text, Thumbnail } from "native-base";
 
 // from app
+import { COLOR, IMAGE } from "app/src/constants";
 import { IComment } from "app/src/interfaces/api/Comment";
-import Colors from "app/src/constants/Colors";
-import Images from "app/src/constants/Images";
 
 interface Props {
   comment: IComment;
@@ -21,7 +20,7 @@ export const CommentElement: React.FC<Props> = (props: Props) => {
   return (
     <ListItem avatar style={thisStyle.container}>
       <Left>
-        <Thumbnail source={Images.noUserImage} />
+        <Thumbnail source={IMAGE.noUserImage} />
       </Left>
       <Body>
         <Text note style={thisStyle.nameText}>
@@ -43,7 +42,7 @@ const thisStyle = StyleSheet.create({
   },
   nameText: {
     fontFamily: "genju-medium",
-    textDecorationColor: Colors.inactiveColor,
+    textDecorationColor: COLOR.inactiveColor,
     textDecorationLine: "underline"
   },
   commentText: {

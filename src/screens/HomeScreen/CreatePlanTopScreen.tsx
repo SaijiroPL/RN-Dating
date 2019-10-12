@@ -6,7 +6,7 @@ import { Text } from "native-base";
 // from app
 import { useDispatch } from "app/src/Store";
 import { ActionType } from "app/src/Reducer";
-import Colors from "app/src/constants/Colors";
+import { COLOR } from "app/src/constants";
 import { SelectButton, CompleteFooterButton } from "app/src/components/Button";
 import { DatePicker } from "app/src/components/Form";
 import { getToday } from "app/src/utils/DateUtil";
@@ -120,7 +120,7 @@ const thisStyle = StyleSheet.create({
     flexDirection: "row"
   },
   itemTitleText: {
-    color: Colors.textTintColor,
+    color: COLOR.textTintColor,
     fontFamily: "genju-medium",
     marginRight: 10
   }

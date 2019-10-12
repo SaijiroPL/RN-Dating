@@ -3,8 +3,7 @@ import { Image, StyleSheet } from "react-native";
 import { Col, Row, Grid } from "react-native-easy-grid";
 
 // from app
-import Images from "app/src/constants/Images";
-import Layout from "app/src/constants/Layout";
+import { IMAGE, LAYOUT } from "app/src/constants";
 
 interface Props {}
 
@@ -17,24 +16,24 @@ export const ImageGrid: React.FC<Props> = () => {
     <Grid>
       <Col>
         <Row style={thisStyle.box}>
-          <Image style={thisStyle.image} source={Images.noImage} />
+          <Image style={thisStyle.image} source={IMAGE.noImage} />
         </Row>
         <Row style={thisStyle.box}>
-          <Image style={thisStyle.image} source={Images.noImage} />
+          <Image style={thisStyle.image} source={IMAGE.noImage} />
         </Row>
         <Row style={thisStyle.box}>
-          <Image style={thisStyle.image} source={Images.noImage} />
+          <Image style={thisStyle.image} source={IMAGE.noImage} />
         </Row>
       </Col>
       <Col>
         <Row style={thisStyle.box}>
-          <Image style={thisStyle.image} source={Images.noImage} />
+          <Image style={thisStyle.image} source={IMAGE.noImage} />
         </Row>
         <Row style={thisStyle.box}>
-          <Image style={thisStyle.image} source={Images.noImage} />
+          <Image style={thisStyle.image} source={IMAGE.noImage} />
         </Row>
         <Row style={thisStyle.box}>
-          <Image style={thisStyle.image} source={Images.noImage} />
+          <Image style={thisStyle.image} source={IMAGE.noImage} />
         </Row>
       </Col>
     </Grid>
@@ -44,7 +43,7 @@ export const ImageGrid: React.FC<Props> = () => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   box: {
-    height: Layout.window.width / 2,
+    height: LAYOUT.window.width / 2,
     justifyContent: "center",
     shadowColor: "#ccc",
     shadowOffset: {
@@ -55,7 +54,7 @@ const thisStyle = StyleSheet.create({
     shadowRadius: 1
   },
   image: {
-    height: (Layout.window.width * 0.95) / 2,
-    width: (Layout.window.width * 0.95) / 2
+    height: (LAYOUT.window.width * 0.95) / 2,
+    width: (LAYOUT.window.width * 0.95) / 2
   }
 });

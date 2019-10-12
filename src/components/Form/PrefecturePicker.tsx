@@ -1,7 +1,8 @@
 import React from "react";
 import { Picker } from "native-base";
 
-import Colors from "app/src/constants/Colors";
+// from app
+import { COLOR } from "app/src/constants";
 import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 interface Props {
@@ -20,7 +21,7 @@ export const PrefecturePicker: React.FC<Props> = (props: Props) => {
     <Picker
       mode="dropdown"
       placeholder="都道府県を選択"
-      placeholderStyle={{ color: Colors.tintColor, marginLeft: 10 }}
+      placeholderStyle={{ color: COLOR.tintColor, marginLeft: 10 }}
       style={{ width: 160, marginLeft: 10 }}
       textStyle={appTextStyle.defaultText}
       note={false}

@@ -3,15 +3,15 @@ import { ActivityIndicator, RefreshControl } from "react-native";
 import { Spinner } from "native-base";
 
 // from app
-import Colors from "app/src/constants/Colors";
+import { COLOR } from "app/src/constants";
 
 /** ローディングスピナー(画面中央) */
 export const LoadingSpinner = (
-  <Spinner color={Colors.tintColor} style={{ flex: 1 }} />
+  <Spinner color={COLOR.tintColor} style={{ flex: 1 }} />
 );
 
 /** ローディングスピナー(適宜配置) */
-export const Indicator = <ActivityIndicator color={Colors.tintColor} />;
+export const Indicator = <ActivityIndicator color={COLOR.tintColor} />;
 
 /** プルリロードスピナー */
 export const RefreshSpinner = (
@@ -21,6 +21,6 @@ export const RefreshSpinner = (
   <RefreshControl
     refreshing={isRefreshing}
     onRefresh={onRefresh}
-    tintColor={Colors.tintColor}
+    tintColor={COLOR.tintColor}
   />
 );

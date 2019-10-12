@@ -7,7 +7,7 @@ const height = Dimensions.get("window").height;
  * レイアウト定数
  * @author tanakakota
  */
-export default {
+export const LAYOUT = {
   window: {
     width,
     height

@@ -2,6 +2,7 @@ import { createAppContainer } from "react-navigation";
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
 
 // from app
+import { COLOR } from "app/src/constants";
 import HomeNavigator from "app/src/navigators/HomeNavigator";
 import SearchNavigator from "app/src/navigators/SearchNavigator";
 import MyPlanNavigator from "app/src/navigators/MyPlanNavigator";
@@ -14,7 +15,6 @@ import {
   NotificationTabIcon,
   ProfileTabIcon
 } from "app/src/components/TabIcons";
-import Colors from "app/src/constants/Colors";
 
 /**
  * メイン画面のタブナビゲーター
@@ -66,10 +66,10 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
   // タブナビゲーション全体の設定
   {
     initialRouteName: "HomeTab",
-    activeTintColor: Colors.tintColor,
-    inactiveTintColor: Colors.inactiveColor,
+    activeTintColor: COLOR.tintColor,
+    inactiveTintColor: COLOR.inactiveColor,
     barStyle: {
-      backgroundColor: Colors.backgroundColor
+      backgroundColor: COLOR.backgroundColor
     }
   }
 );

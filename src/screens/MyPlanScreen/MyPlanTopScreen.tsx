@@ -4,10 +4,9 @@ import axios, { CancelTokenSource } from "axios";
 
 // from app
 import { useGlobalState } from "app/src/Store";
+import { API_ENDPOINT, COLOR } from "app/src/constants";
 import { IPlanList } from "app/src/interfaces/api/Plan";
 import { IApiError } from "app/src/interfaces/api/Error";
-import Colors from "app/src/constants/Colors";
-import { API_ENDPOINT } from "app/src/constants/Url";
 import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
 import { PlanCardList } from "app/src/components/List";
 import { handleError } from "app/src/utils/ApiUtil";
@@ -93,7 +92,7 @@ const MyPlanTopScreen: React.FC = () => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   container: {
-    backgroundColor: Colors.backgroundColor,
+    backgroundColor: COLOR.backgroundColor,
     flex: 1,
     justifyContent: "center"
   }

@@ -16,7 +16,7 @@ import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 // from app
-import Colors from "app/src/constants/Colors";
+import { COLOR } from "app/src/constants";
 import appTextStyle from "app/src/styles/GeneralTextStyle";
 import { CompleteButton } from "app/src/components/Button";
 import appStyle from "app/src/styles/GeneralStyle";
@@ -54,7 +54,7 @@ const FaqScreen: React.FC = () => {
     return isSelect ? (
       <ListItem
         noIndent
-        style={{ backgroundColor: Colors.baseBackgroundColor }}
+        style={{ backgroundColor: COLOR.baseBackgroundColor }}
         onPress={() => setSelect(!isSelect)}
       >
         <Left>{Question}</Left>

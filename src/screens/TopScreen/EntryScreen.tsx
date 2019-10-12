@@ -7,11 +7,10 @@ import axios from "axios";
 // from app
 import { useDispatch, useGlobalState } from "app/src/Store";
 import { ActionType } from "app/src/Reducer";
+import { API_ENDPOINT, COLOR } from "app/src/constants";
 import { IOK } from "app/src/interfaces/api/Success";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { ICreateUserBody } from "app/src/interfaces/api/User";
-import Colors from "app/src/constants/Colors";
-import { API_ENDPOINT } from "app/src/constants/Url";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { SelectButton, CompleteButton } from "app/src/components/Button";
 import { DatePicker, PrefecturePicker } from "app/src/components/Form";
@@ -172,7 +171,7 @@ const thisStyle = StyleSheet.create({
     flexDirection: "row"
   },
   entryText: {
-    color: Colors.textTintColor,
+    color: COLOR.textTintColor,
     fontFamily: "genju-medium",
     fontSize: 20
   },

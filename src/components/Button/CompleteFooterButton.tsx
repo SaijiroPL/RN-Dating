@@ -3,8 +3,7 @@ import { StyleSheet } from "react-native";
 import { Button, Footer, Text } from "native-base";
 
 // from app
-import Layout from "app/src/constants/Layout";
-import Colors from "app/src/constants/Colors";
+import { LAYOUT, COLOR } from "app/src/constants";
 import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 interface Props {
@@ -47,13 +46,13 @@ CompleteFooterButton.defaultProps = {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   touchable: {
-    backgroundColor: Colors.tintColor
+    backgroundColor: COLOR.tintColor
   },
   disTouchable: {
-    backgroundColor: Colors.baseBackgroundColor
+    backgroundColor: COLOR.baseBackgroundColor
   },
   button: {
     justifyContent: "center",
-    width: Layout.window.width
+    width: LAYOUT.window.width
   }
 });

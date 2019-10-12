@@ -3,9 +3,8 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { SwipeListView } from "react-native-swipe-list-view";
 
 // from app
+import { COLOR, LAYOUT } from "app/src/constants";
 import { IHistory } from "app/src/interfaces/api/History";
-import Colors from "app/src/constants/Colors";
-import Layout from "app/src/constants/Layout";
 import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 interface Props {
@@ -36,7 +35,7 @@ export const HistorySwipeList: React.FC<Props> = (props: Props) => {
           </TouchableOpacity>
         </View>
       )}
-      rightOpenValue={-Layout.window.width * 0.25}
+      rightOpenValue={-LAYOUT.window.width * 0.25}
       disableRightSwipe
     />
   );
@@ -45,8 +44,8 @@ export const HistorySwipeList: React.FC<Props> = (props: Props) => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   delete: {
-    backgroundColor: Colors.tintColor,
-    borderBottomColor: Colors.inactiveColor,
+    backgroundColor: COLOR.tintColor,
+    borderBottomColor: COLOR.inactiveColor,
     borderBottomWidth: 1,
     flex: 1,
     flexDirection: "row",
@@ -56,7 +55,7 @@ const thisStyle = StyleSheet.create({
   },
   word: {
     backgroundColor: "white",
-    borderBottomColor: Colors.inactiveColor,
+    borderBottomColor: COLOR.inactiveColor,
     borderBottomWidth: 1,
     paddingLeft: 20,
     paddingVertical: 15

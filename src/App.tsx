@@ -4,8 +4,7 @@ import { AppLoading, Asset, Font } from "expo";
 
 // from app
 import { Provider } from "app/src/Store";
-import Images from "app/src/constants/Images";
-import Fonts from "app/src/constants/Fonts";
+import { IMAGE, FONT } from "app/src/constants";
 import AppNavigator from "app/src/navigators/AppNavigator";
 import appStyle from "app/src/styles/GeneralStyle";
 
@@ -22,8 +21,8 @@ const App: React.FC<Props> = (props: Props) => {
 
   /** ローカルリソースの読み込み */
   const loadResourcesAsync = async () => {
-    await Asset.loadAsync(Object.keys(Images).map(key => Images[key]));
-    await Font.loadAsync(Fonts);
+    await Asset.loadAsync(Object.keys(IMAGE).map(key => IMAGE[key]));
+    await Font.loadAsync(FONT);
   };
 
   // リソースの読み込みが終わるまでローディング
