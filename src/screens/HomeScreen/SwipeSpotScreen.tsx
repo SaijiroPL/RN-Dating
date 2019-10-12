@@ -4,8 +4,8 @@ import { Container } from "native-base";
 
 // from app
 import { ICandidateSpot } from "app/src/interfaces/Spot";
-import SpotSwiper from "app/src/components/contents/SpotSwiper";
-import CompleteFooterButton from "app/src/components/buttons/CompleteFooterButton";
+import { SpotSwiper } from "app/src/components/Content";
+import { CompleteFooterButton } from "app/src/components/Button";
 
 // 仮データ
 const SAMPLE_SPOTS: Array<ICandidateSpot> = [

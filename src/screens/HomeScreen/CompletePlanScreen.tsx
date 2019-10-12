@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 
 // from app
-import CompleteButton from "app/src/components/buttons/CompleteButton";
+import { CompleteButton } from "app/src/components/Button";
 import appStyle from "app/src/styles/GeneralStyle";
 
 /**

@@ -6,10 +6,8 @@ import MapView, { Polyline } from "react-native-maps";
 // from app
 import { ILocation, IHere, IMarker } from "app/src/interfaces/Map";
 import Colors from "app/src/constants/Colors";
-import MapCircle from "app/src/components/map/MapCircle";
-import MapHere from "app/src/components/map/MapHere";
-import MapPin from "app/src/components/map/MapPin";
-import CompleteButton from "app/src/components/buttons/CompleteButton";
+import { MapCircle, MapHere, MapPin } from "app/src/components/MapItem";
+import { CompleteButton } from "app/src/components/Button";
 
 const locationInitialRound = 700;
 

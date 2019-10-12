@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text } from "react-native";
 
 import { useNavigation } from "react-navigation-hooks";
-import CompleteButton from "app/src/components/buttons/CompleteButton";
+import { CompleteButton } from "app/src/components/Button";
 import appStyle from "app/src/styles/GeneralStyle";
 import appTextStyle from "app/src/styles/GeneralTextStyle";
 

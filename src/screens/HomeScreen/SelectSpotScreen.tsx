@@ -3,8 +3,8 @@ import { useNavigation } from "react-navigation-hooks";
 import { Container, Content } from "native-base";
 
 // from app
-import ImageGrid from "app/src/components/contents/ImageGrid";
-import CompleteFooterButton from "app/src/components/buttons/CompleteFooterButton";
+import { ImageGrid } from "app/src/components/List";
+import { CompleteFooterButton } from "app/src/components/Button";
 
 /**
  * デートスポット厳選画面

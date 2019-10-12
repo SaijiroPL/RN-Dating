@@ -3,7 +3,7 @@ import { Container, Content } from "native-base";
 import { useNavigation } from "react-navigation-hooks";
 
 // from app
-import CompleteFooterButton from "app/src/components/buttons/CompleteFooterButton";
+import { CompleteFooterButton } from "app/src/components/Button";
 
 /**
  * デートスポット順番並べ替え画面

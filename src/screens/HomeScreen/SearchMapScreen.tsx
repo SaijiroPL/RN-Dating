@@ -6,7 +6,7 @@ import MapView from "react-native-maps";
 
 // from app
 import { ILocation } from "app/src/interfaces/Map";
-import CompleteFooterButton from "app/src/components/buttons/CompleteFooterButton";
+import { CompleteFooterButton } from "app/src/components/Button";
 
 /**
  * マップからスポット範囲指定画面
