@@ -3,7 +3,7 @@ import { FlatList } from "react-native";
 
 // from app
 import { IPlan } from "app/src/interfaces/api/Plan";
-import PlanCard from "app/src/components/elements/PlanCard";
+import { PlanCard } from "app/src/components/Element";
 
 interface Props {
   planList: Array<IPlan>;

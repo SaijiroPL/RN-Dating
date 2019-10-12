@@ -3,7 +3,7 @@ import { FlatList } from "react-native";
 
 // from app
 import { ILikeUser } from "app/src/interfaces/api/Like";
-import LikeUserElement from "app/src/components/elements/LikeUserElement";
+import { LikeUserElement } from "app/src/components/Element";
 
 interface Props {
   users: Array<ILikeUser>;

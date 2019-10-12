@@ -3,7 +3,7 @@ import { FlatList } from "react-native";
 
 // from app
 import { IComment } from "app/src/interfaces/api/Comment";
-import CommentElement from "app/src/components/elements/CommentElement";
+import { CommentElement } from "app/src/components/Element";
 
 interface Props {
   commentList: Array<IComment>;

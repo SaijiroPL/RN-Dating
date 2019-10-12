@@ -3,7 +3,7 @@ import { FlatList } from "react-native";
 
 // from app
 import { IFollow } from "app/src/interfaces/api/Follow";
-import FollowElement from "app/src/components/elements/FollowElement";
+import { FollowElement } from "app/src/components/Element";
 
 interface Props {
   follows: Array<IFollow>;
