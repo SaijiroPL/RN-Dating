@@ -5,7 +5,7 @@ import HomeScreen from "app/src/screens/HomeScreen";
 import PlanDetailScreen from "app/src/screens/DetailScreen/PlanDetailScreen";
 import CommentScreen from "app/src/screens/DetailScreen/CommentScreen";
 import LikeUserScreen from "app/src/screens/DetailScreen/LikeUserScreen";
-import ProfileScreen from "app/src/screens/DetailScreen/ProfileScreen";
+import ProfileScreen from "app/src/screens/UserScreen/ProfileScreen";
 import FollowScreen from "app/src/screens/SettingScreen/FollowScreen";
 import FollowerScreen from "app/src/screens/SettingScreen/FollowerScreen";
 import CreatePlanNavigator from "app/src/navigators/CreatePlanNavigator";
