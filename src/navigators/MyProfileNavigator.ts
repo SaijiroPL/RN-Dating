@@ -12,7 +12,7 @@ import { appTextStyle } from "app/src/styles";
  * プロフィールタブのナビゲーター
  * @author kotatanaka
  */
-const ProfileNavigator = createStackNavigator(
+const MyProfileNavigator = createStackNavigator(
   {
     // マイプロフィール画面トップ
     top: {
@@ -75,4 +75,4 @@ const ProfileNavigator = createStackNavigator(
   }
 );
 
-export default createAppContainer(ProfileNavigator);
+export default createAppContainer(MyProfileNavigator);
