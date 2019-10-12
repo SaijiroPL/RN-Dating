@@ -14,9 +14,8 @@ import MapView from "react-native-maps";
 import { FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 
 // from app
+import { COLOR, IMAGE } from "app/src/constants";
 import { IPlan } from "app/src/interfaces/api/Plan";
-import Images from "app/src/constants/Images";
-import Colors from "app/src/constants/Colors";
 
 interface Props {
   plan: IPlan;
@@ -52,7 +51,7 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
     return (
       <CardItem>
         <Left style={thisStyle.planner}>
-          <Thumbnail source={Images.noUserImage} small />
+          <Thumbnail source={IMAGE.noUserImage} small />
           <Body>
             <Text style={thisStyle.mainText} onPress={onUserPress}>
               {plan.user_name}
@@ -71,7 +70,7 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
       <TouchableOpacity onPress={onPlanPress}>
         {!myPlan && renderPlannerHeader()}
         <CardItem cardBody>
-          <Image source={Images.noImage} style={thisStyle.image} />
+          <Image source={IMAGE.noImage} style={thisStyle.image} />
         </CardItem>
         <CardItem cardBody>
           <MapView
@@ -96,7 +95,7 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
             style={thisStyle.linkButton}
             onPress={onLikePress}
           >
-            <SimpleLineIcons name="like" size={15} color={Colors.tintColor} />
+            <SimpleLineIcons name="like" size={15} color={COLOR.tintColor} />
             <Text style={thisStyle.linkButtonText}>{plan.like_count}</Text>
           </Button>
           <Button
@@ -104,7 +103,7 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
             style={thisStyle.linkButton}
             onPress={onCommentPress}
           >
-            <FontAwesome name="comment-o" size={15} color={Colors.tintColor} />
+            <FontAwesome name="comment-o" size={15} color={COLOR.tintColor} />
             <Text style={thisStyle.linkButtonText}>{plan.comment_count}</Text>
           </Button>
         </CardItem>
@@ -143,7 +142,7 @@ const thisStyle = StyleSheet.create({
     flexDirection: "column"
   },
   linkButtonGroup: {
-    // backgroundColor: Colors.baseBackgroundColor,
+    // backgroundColor: COLOR.baseBackgroundColor,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
     height: 0,
@@ -162,7 +161,7 @@ const thisStyle = StyleSheet.create({
     fontSize: 12
   },
   linkButtonText: {
-    color: Colors.tintColor,
+    color: COLOR.tintColor,
     fontSize: 15
   }
 });

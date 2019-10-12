@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 import { Marker, Callout } from "react-native-maps";
 
 // from app
-import Images from "app/src/constants/Images";
+import { IMAGE } from "app/src/constants";
 
 interface Props {
   children: string;

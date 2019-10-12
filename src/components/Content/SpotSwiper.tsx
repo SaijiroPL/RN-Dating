@@ -13,8 +13,8 @@ import MapView from "react-native-maps";
 import { AntDesign } from "@expo/vector-icons";
 
 // from app
+import { IMAGE } from "app/src/constants";
 import { ICandidateSpot } from "app/src/interfaces/Spot";
-import Images from "app/src/constants/Images";
 
 interface Props {
   spots: Array<ICandidateSpot>;
@@ -43,7 +43,7 @@ export const SpotSwiper: React.FC<Props> = (props: Props) => {
             </CardItem>
             <CardItem cardBody>
               {/* FIXME 当該スポットの画像表示 */}
-              <Image style={{ height: 200, flex: 1 }} source={Images.noImage} />
+              <Image style={{ height: 200, flex: 1 }} source={IMAGE.noImage} />
             </CardItem>
             <CardItem cardBody>
               <MapView

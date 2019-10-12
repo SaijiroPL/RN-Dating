@@ -11,7 +11,7 @@ const welcome05 = require("app/assets/images/welcome/welcome05-min.png");
  * 画像定数
  * @author tanakakota
  */
-export const IMAGE = {
+export const IMAGE: any = {
   logo,
   noImage,
   noUserImage,

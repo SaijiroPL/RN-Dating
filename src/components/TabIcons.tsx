@@ -3,7 +3,7 @@ import { Image, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 // from app
-import Images from "app/src/constants/Images";
+import { IMAGE } from "app/src/constants";
 
 interface Props {
   tintColor: string;
@@ -12,7 +12,7 @@ interface Props {
 /** ホームタブ */
 // TODO 1Dateのロゴに変更
 export const HomeTabIcon = (props: Props) => (
-  <Image source={Images.logo} fadeDuration={0} style={tabStyle.logo} />
+  <Image source={IMAGE.logo} fadeDuration={0} style={tabStyle.logo} />
 );
 
 /** 検索タブ */

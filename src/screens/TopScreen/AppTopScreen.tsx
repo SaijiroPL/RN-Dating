@@ -7,13 +7,10 @@ import axios from "axios";
 import { useDispatch } from "app/src/Store";
 import { ActionType } from "app/src/Reducer";
 import { facebookLogin } from "app/src/Firebase";
+import { API_ENDPOINT, COLOR, IMAGE, LAYOUT } from "app/src/constants";
 import { IOK } from "app/src/interfaces/api/Success";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { ILogin } from "app/src/interfaces/api/User";
-import Images from "app/src/constants/Images";
-import Layout from "app/src/constants/Layout";
-import Colors from "app/src/constants/Colors";
-import { API_ENDPOINT } from "app/src/constants/Url";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { InputForm } from "app/src/components/Form";
 import { CompleteButton } from "app/src/components/Button";
@@ -114,7 +111,7 @@ const AppTopScreen: React.FC = () => {
         <FontAwesome.Button
           name="facebook"
           size={30}
-          backgroundColor={Colors.facebookColor}
+          backgroundColor={COLOR.facebookColor}
           borderRadius={30}
           iconStyle={{ marginLeft: 30 }}
           onPress={onFacebookButtonPress}
@@ -210,9 +207,9 @@ const AppTopScreen: React.FC = () => {
       <View style={thisStyle.topImage}>
         <Image
           resizeMode="contain"
-          source={Images.logo}
+          source={IMAGE.logo}
           style={{ flex: 1 }}
-          width={Layout.window.width * 0.8}
+          width={LAYOUT.window.width * 0.8}
         />
         <Text style={thisStyle.welcomeText}>1Dateへようこそ</Text>
       </View>
@@ -241,18 +238,18 @@ const thisStyle = StyleSheet.create({
     marginTop: 20
   },
   welcomeText: {
-    color: Colors.textTintColor,
+    color: COLOR.textTintColor,
     fontFamily: "genju-medium",
     fontSize: 20,
     padding: 10
   },
   link: {
-    color: Colors.textTintColor,
+    color: COLOR.textTintColor,
     fontFamily: "genju-medium",
     fontSize: 20,
     padding: 10,
     textAlign: "center",
-    textDecorationColor: Colors.tintColor,
+    textDecorationColor: COLOR.tintColor,
     textDecorationLine: "underline"
   }
 });

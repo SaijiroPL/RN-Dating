@@ -3,9 +3,8 @@ import { Image, StyleSheet } from "react-native";
 import Carousel from "react-native-snap-carousel";
 
 // from app
+import { IMAGE, LAYOUT } from "app/src/constants";
 import { IPlan } from "app/src/interfaces/api/Plan";
-import Images from "app/src/constants/Images";
-import Layout from "app/src/constants/Layout";
 
 interface Props {
   plan: IPlan;
@@ -14,13 +13,13 @@ interface Props {
 // 仮データ
 const SAMPLE_DATA = [
   {
-    image: Images.noImage
+    image: IMAGE.noImage
   },
   {
-    image: Images.noImage
+    image: IMAGE.noImage
   },
   {
-    image: Images.noImage
+    image: IMAGE.noImage
   }
 ];
 
@@ -37,8 +36,8 @@ export const ImageCarousel: React.FC<Props> = (props: Props) => {
     <Carousel
       data={SAMPLE_DATA}
       renderItem={renderImageItem}
-      sliderWidth={Layout.window.width}
-      itemWidth={Layout.window.width * 0.8}
+      sliderWidth={LAYOUT.window.width}
+      itemWidth={LAYOUT.window.width * 0.8}
       containerCustomStyle={thisStyle.container}
       slideStyle={thisStyle.slide}
       // layout={"default"}
@@ -55,7 +54,7 @@ const thisStyle = StyleSheet.create({
   },
   slide: {
     // flex: 1,
-    height: Layout.window.height * 0.23,
+    height: LAYOUT.window.height * 0.23,
     shadowColor: "#ccc",
     shadowOffset: {
       height: 0,
@@ -66,6 +65,6 @@ const thisStyle = StyleSheet.create({
   },
   image: {
     flex: 1,
-    width: Layout.window.width * 0.8
+    width: LAYOUT.window.width * 0.8
   }
 });

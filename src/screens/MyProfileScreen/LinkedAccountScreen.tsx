@@ -12,7 +12,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 
 // from app
-import Colors from "app/src/constants/Colors";
+import { COLOR } from "app/src/constants";
 import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 /**
@@ -34,7 +34,7 @@ const LinkedAccountScreen: React.FC = () => {
             <Ionicons
               name="logo-facebook"
               size={30}
-              color={Colors.facebookColor}
+              color={COLOR.facebookColor}
             />
           </Left>
           <Body>

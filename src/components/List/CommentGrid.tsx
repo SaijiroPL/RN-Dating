@@ -4,8 +4,8 @@ import { Thumbnail, Text } from "native-base";
 import { Col, Row, Grid } from "react-native-easy-grid";
 
 // from app
+import { IMAGE } from "app/src/constants";
 import { IComment } from "app/src/interfaces/api/Comment";
-import Images from "app/src/constants/Images";
 import { isNotNullOrUndefined } from "app/src/utils/CheckUtil";
 
 interface Props {
@@ -25,7 +25,7 @@ export const CommentGrid: React.FC<Props> = (props: Props) => {
       return (
         <Row style={thisStyle.item}>
           <View style={thisStyle.thumbnail}>
-            <Thumbnail small source={Images.noUserImage} />
+            <Thumbnail small source={IMAGE.noUserImage} />
           </View>
           <View style={thisStyle.comment}>
             <Text note style={thisStyle.nameText}>

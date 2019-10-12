@@ -3,8 +3,7 @@ import { StyleSheet } from "react-native";
 import { Button } from "react-native-elements";
 
 // from app
-import Layout from "app/src/constants/Layout";
-import Colors from "app/src/constants/Colors";
+import { LAYOUT, COLOR } from "app/src/constants";
 
 interface Props {
   title: string;
@@ -36,7 +35,7 @@ CompleteButton.defaultProps = {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   button: {
-    backgroundColor: Colors.tintColor,
-    width: Layout.window.width * 0.75
+    backgroundColor: COLOR.tintColor,
+    width: LAYOUT.window.width * 0.75
   }
 });

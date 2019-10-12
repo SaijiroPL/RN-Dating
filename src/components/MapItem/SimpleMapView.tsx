@@ -3,9 +3,9 @@ import { StyleSheet } from "react-native";
 import MapView from "react-native-maps";
 
 // from app
+import { COLOR } from "app/src/constants";
 import { ILocation } from "app/src/interfaces/Map";
 import { ISpot } from "app/src/interfaces/api/Plan";
-import Colors from "app/src/constants/Colors";
 
 interface Props {
   spot: ISpot;
@@ -29,7 +29,7 @@ export const SimpleMapView: React.FC<Props> = (props: Props) => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   map: {
-    borderColor: Colors.inactiveColor,
+    borderColor: COLOR.inactiveColor,
     borderRadius: 10,
     borderWidth: 1,
     height: 200,

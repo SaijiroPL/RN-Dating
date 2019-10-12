@@ -6,12 +6,11 @@ import axios, { CancelTokenSource } from "axios";
 
 // from app
 import { useGlobalState } from "app/src/Store";
+import { API_ENDPOINT, COLOR } from "app/src/constants";
 import { IUserInfo } from "app/src/interfaces/User";
 import { IPlanFull } from "app/src/interfaces/api/Plan";
 import { ICommentList } from "app/src/interfaces/api/Comment";
 import { IApiError } from "app/src/interfaces/api/Error";
-import Colors from "app/src/constants/Colors";
-import { API_ENDPOINT } from "app/src/constants/Url";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { ImageCarousel, UserHeader } from "app/src/components/Content";
 import { CommentGrid } from "app/src/components/List";
@@ -224,7 +223,7 @@ const thisStyle = StyleSheet.create({
   },
   route: {
     alignItems: "flex-end",
-    backgroundColor: Colors.baseBackgroundColor,
+    backgroundColor: COLOR.baseBackgroundColor,
     flex: 1,
     justifyContent: "center",
     paddingHorizontal: 10
@@ -237,11 +236,11 @@ const thisStyle = StyleSheet.create({
   },
   titleText: {
     fontFamily: "genju-medium",
-    textDecorationColor: Colors.tintColor,
+    textDecorationColor: COLOR.tintColor,
     textDecorationLine: "underline"
   },
   columnTitle: {
-    backgroundColor: Colors.tintColor,
+    backgroundColor: COLOR.tintColor,
     borderRadius: 10,
     marginRight: 5,
     marginTop: 2,
@@ -256,13 +255,13 @@ const thisStyle = StyleSheet.create({
     marginTop: 2
   },
   descriptionText: {
-    color: Colors.textTintColor,
+    color: COLOR.textTintColor,
     fontFamily: "genju-light",
     fontSize: 10
   },
   myPlanHeader: {
     alignItems: "center",
-    backgroundColor: Colors.baseBackgroundColor
+    backgroundColor: COLOR.baseBackgroundColor
   }
 });
 

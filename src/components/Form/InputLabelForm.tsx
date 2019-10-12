@@ -3,8 +3,7 @@ import { StyleSheet } from "react-native";
 import { Input, Item, Label } from "native-base";
 
 // from app
-import Colors from "app/src/constants/Colors";
-import Layout from "app/src/constants/Layout";
+import { COLOR, LAYOUT } from "app/src/constants";
 
 interface Props {
   label: string;
@@ -55,10 +54,10 @@ export const InputLabelForm: React.FC<Props> = (props: Props) => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   label: {
-    color: Colors.textTintColor,
+    color: COLOR.textTintColor,
     fontFamily: "genju-medium",
     fontSize: 14,
-    width: Layout.window.width * 0.25
+    width: LAYOUT.window.width * 0.25
   },
   input: {
     fontFamily: "genju-light"

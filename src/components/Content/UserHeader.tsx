@@ -4,8 +4,8 @@ import { useNavigation } from "react-navigation-hooks";
 import { Thumbnail, Text } from "native-base";
 
 // from app
+import { IMAGE } from "app/src/constants";
 import { IUserInfo } from "app/src/interfaces/User";
-import Images from "app/src/constants/Images";
 
 interface Props {
   user: IUserInfo;
@@ -26,7 +26,7 @@ export const UserHeader: React.FC<Props> = (props: Props) => {
   return (
     <View style={thisStyle.container}>
       <View style={thisStyle.thumbnail}>
-        <Thumbnail source={Images.noUserImage} />
+        <Thumbnail source={IMAGE.noUserImage} />
       </View>
       <View style={thisStyle.user}>
         <Text style={thisStyle.nameText} onPress={onPress}>

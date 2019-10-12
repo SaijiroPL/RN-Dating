@@ -3,7 +3,7 @@ import { Image } from "react-native";
 import { Marker } from "react-native-maps";
 
 // from app
-import Images from "app/src/constants/Images";
+import { IMAGE } from "app/src/constants";
 
 interface Props {
   location: {
@@ -36,7 +36,7 @@ export const MapHere: React.FC<Props> = (props: Props) => {
 
   return (
     <Marker key={key} coordinate={location} anchor={{ x: 0.5, y: 0.5 }}>
-      <Image source={Images.logo} style={{ width: 64, height: 64 }} />
+      <Image source={IMAGE.logo} style={{ width: 64, height: 64 }} />
     </Marker>
   );
 };

@@ -4,10 +4,9 @@ import axios from "axios";
 
 // from app
 import { useGlobalState } from "app/src/Store";
+import { API_ENDPOINT, COLOR } from "app/src/constants";
 import { IPlanList } from "app/src/interfaces/api/Plan";
 import { IApiError } from "app/src/interfaces/api/Error";
-import Colors from "app/src/constants/Colors";
-import { API_ENDPOINT } from "app/src/constants/Url";
 import { Indicator, RefreshSpinner } from "app/src/components/Spinners";
 import { SearchFormBar } from "app/src/components/Form";
 import { PlanCardList } from "app/src/components/List";
@@ -116,7 +115,7 @@ const SearchTopScreen: React.FC = () => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   container: {
-    backgroundColor: Colors.backgroundColor
+    backgroundColor: COLOR.backgroundColor
   },
   planCount: {
     borderBottomColor: "#ccc",

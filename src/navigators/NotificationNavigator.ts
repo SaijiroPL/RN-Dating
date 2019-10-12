@@ -5,7 +5,7 @@ import {
 } from "react-navigation";
 
 // from app
-import Colors from "app/src/constants/Colors";
+import { COLOR } from "app/src/constants";
 import NotificationFollowScreen from "app/src/screens/NotificationScreen/NotificationFollowScreen";
 import NotificationLikeScreen from "app/src/screens/NotificationScreen/NotificationLikeScreen";
 import appTextStyle from "app/src/styles/GeneralTextStyle";
@@ -37,10 +37,10 @@ const NotificationTabNavigator = createMaterialTopTabNavigator(
   {
     initialRouteName: "FollowTab",
     tabBarOptions: {
-      activeTintColor: Colors.tintColor,
-      inactiveTintColor: Colors.inactiveColor,
+      activeTintColor: COLOR.tintColor,
+      inactiveTintColor: COLOR.inactiveColor,
       style: {
-        backgroundColor: Colors.backgroundColor
+        backgroundColor: COLOR.backgroundColor
       }
     },
     animationEnabled: false

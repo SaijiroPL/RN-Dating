@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
 // from app
-import Colors from "app/src/constants/Colors";
+import { COLOR } from "app/src/constants";
 import appTextStyle from "app/src/styles/GeneralTextStyle";
 
 interface Props {
@@ -58,7 +58,7 @@ const thisStyle = StyleSheet.create({
     marginRight: 10
   },
   button: {
-    color: Colors.tintColor,
+    color: COLOR.tintColor,
     marginRight: 5
   }
 });

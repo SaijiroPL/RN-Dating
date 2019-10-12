@@ -4,7 +4,7 @@ import { Input, Item } from "native-base";
 import { AntDesign } from "@expo/vector-icons";
 
 // from app
-import Layout from "app/src/constants/Layout";
+import { LAYOUT } from "app/src/constants";
 
 interface Props {
   placeholder: string;
@@ -29,7 +29,7 @@ export const InputForm: React.FC<Props> = (props: Props) => {
           placeholder={placeholder}
           onChangeText={value => setValue(value)}
           value={value}
-          style={{ width: Layout.window.width * 0.75 }}
+          style={{ width: LAYOUT.window.width * 0.75 }}
         />
         {NoInput}
       </Item>
@@ -42,7 +42,7 @@ export const InputForm: React.FC<Props> = (props: Props) => {
         placeholder={placeholder}
         onChangeText={value => setValue(value)}
         value={value}
-        style={{ width: Layout.window.width * 0.75 }}
+        style={{ width: LAYOUT.window.width * 0.75 }}
       />
       {SuccessMark}
     </Item>

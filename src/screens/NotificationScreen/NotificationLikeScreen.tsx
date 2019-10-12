@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 // from app
-import Colors from "app/src/constants/Colors";
+import { COLOR } from "app/src/constants";
 import { RefreshSpinner } from "app/src/components/Spinners";
 import appTextStyle from "app/src/styles/GeneralTextStyle";
 
@@ -35,7 +35,7 @@ const NotificationLikeScreen: React.FC = () => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   container: {
-    backgroundColor: Colors.backgroundColor
+    backgroundColor: COLOR.backgroundColor
   }
 });
 

@@ -4,9 +4,8 @@ import { ListItem, Thumbnail, Text, Left, Body } from "native-base";
 import { useNavigation } from "react-navigation-hooks";
 
 // from app
+import { COLOR, IMAGE } from "app/src/constants";
 import { IFollow } from "app/src/interfaces/api/Follow";
-import Colors from "app/src/constants/Colors";
-import Images from "app/src/constants/Images";
 
 interface Props {
   follow: IFollow;
@@ -27,7 +26,7 @@ export const FollowElement: React.FC<Props> = (props: Props) => {
   return (
     <ListItem avatar onPress={onPress} style={thisStyle.container}>
       <Left>
-        <Thumbnail source={Images.noUserImage} />
+        <Thumbnail source={IMAGE.noUserImage} />
       </Left>
       <Body>
         <Text style={thisStyle.nameText}>{follow.user_name}</Text>
@@ -51,7 +50,7 @@ const thisStyle = StyleSheet.create({
   idText: {
     fontFamily: "genju-light",
     fontSize: 10,
-    textDecorationColor: Colors.inactiveColor,
+    textDecorationColor: COLOR.inactiveColor,
     textDecorationLine: "underline"
   },
   dateText: {

@@ -4,8 +4,8 @@ import { useNavigation } from "react-navigation-hooks";
 import MapView, { Polyline } from "react-native-maps";
 
 // from app
+import { COLOR } from "app/src/constants";
 import { ILocation, IHere, IMarker } from "app/src/interfaces/Map";
-import Colors from "app/src/constants/Colors";
 import { MapCircle, MapHere, MapPin } from "app/src/components/MapItem";
 import { CompleteButton } from "app/src/components/Button";
 
@@ -161,7 +161,7 @@ const SearchMapScreen: React.FC = () => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   map: {
-    borderColor: Colors.inactiveColor,
+    borderColor: COLOR.inactiveColor,
     borderRadius: 10,
     borderWidth: 1,
     height: 200,
