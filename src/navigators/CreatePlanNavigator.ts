@@ -1,12 +1,12 @@
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 // from app
-import CreatePlanTopScreen from "app/src/screens/HomeScreen/CreatePlanTopScreen";
-import SearchMapScreen from "app/src/screens/HomeScreen/SearchMapScreen";
-import SwipeSpotScreen from "app/src/screens/HomeScreen/SwipeSpotScreen";
-import SelectSpotScreen from "app/src/screens/HomeScreen/SelectSpotScreen";
-import ArrangeRouteScreen from "app/src/screens/HomeScreen/ArrangeRouteScreen";
-import CompletePlanScreen from "app/src/screens/HomeScreen/CompletePlanScreen";
+import CreatePlanTopScreen from "app/src/screens/CreatePlanScreen/CreatePlanTopScreen";
+import SearchMapScreen from "app/src/screens/CreatePlanScreen/SearchMapScreen";
+import SwipeSpotScreen from "app/src/screens/CreatePlanScreen/SwipeSpotScreen";
+import SelectSpotScreen from "app/src/screens/CreatePlanScreen/SelectSpotScreen";
+import ArrangeRouteScreen from "app/src/screens/CreatePlanScreen/ArrangeRouteScreen";
+import CompletePlanScreen from "app/src/screens/CreatePlanScreen/CompletePlanScreen";
 import { appTextStyle } from "app/src/styles";
 
 /**
