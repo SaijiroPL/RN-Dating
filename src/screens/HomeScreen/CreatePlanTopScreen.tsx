@@ -7,9 +7,8 @@ import { Text } from "native-base";
 import { useDispatch } from "app/src/Store";
 import { ActionType } from "app/src/Reducer";
 import Colors from "app/src/constants/Colors";
-import SelectButton from "app/src/components/buttons/SelectButton";
+import { SelectButton, CompleteFooterButton } from "app/src/components/Button";
 import DatePicker from "app/src/components/contents/DatePicker";
-import CompleteFooterButton from "app/src/components/buttons/CompleteFooterButton";
 import { getToday } from "app/src/utils/DateUtil";
 import appStyle from "app/src/styles/GeneralStyle";
 

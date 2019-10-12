@@ -17,7 +17,7 @@ import UserHeader from "app/src/components/contents/UserHeader";
 import ImageCarousel from "app/src/components/contents/ImageCarousel";
 import SimpleMapView from "app/src/components/map/SimpleMapView";
 import CommentGrid from "app/src/components/contents/CommentGrid";
-import LikeButton from "app/src/components/buttons/LikeButton";
+import { LikeButton } from "app/src/components/Button";
 import { handleError } from "app/src/utils/ApiUtil";
 import { formatDate } from "app/src/utils/DateUtil";
 import appStyle from "app/src/styles/GeneralStyle";

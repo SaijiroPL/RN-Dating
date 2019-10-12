@@ -9,7 +9,7 @@ import Colors from "app/src/constants/Colors";
 import { API_ENDPOINT } from "app/src/constants/Url";
 import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
 import PlanCardList from "app/src/components/lists/PlanCardList";
-import CreatePlanFab from "app/src/components/buttons/CreatePlanFab";
+import { CreatePlanFab } from "app/src/components/Button";
 import { handleError } from "app/src/utils/ApiUtil";
 import appTextStyle from "app/src/styles/GeneralTextStyle";
 

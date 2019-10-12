@@ -4,7 +4,7 @@ import { Container, Content } from "native-base";
 
 // from app
 import ImageGrid from "app/src/components/contents/ImageGrid";
-import CompleteFooterButton from "app/src/components/buttons/CompleteFooterButton";
+import { CompleteFooterButton } from "app/src/components/Button";
 
 /**
  * デートスポット厳選画面

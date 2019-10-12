@@ -9,7 +9,7 @@ import Colors from "app/src/constants/Colors";
 import MapCircle from "app/src/components/map/MapCircle";
 import MapHere from "app/src/components/map/MapHere";
 import MapPin from "app/src/components/map/MapPin";
-import CompleteButton from "app/src/components/buttons/CompleteButton";
+import { CompleteButton } from "app/src/components/Button";
 
 const locationInitialRound = 700;
 

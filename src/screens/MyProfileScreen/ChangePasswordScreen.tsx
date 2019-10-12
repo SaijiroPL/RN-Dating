@@ -12,7 +12,7 @@ import { IOK } from "app/src/interfaces/api/Success";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import InputFormFloating from "app/src/components/contents/InputFormFloating";
-import CompleteButton from "app/src/components/buttons/CompleteButton";
+import { CompleteButton } from "app/src/components/Button";
 import { isEmpty } from "app/src/utils/CheckUtil";
 import appStyle from "app/src/styles/GeneralStyle";
 import { handleError } from "app/src/utils/ApiUtil";
