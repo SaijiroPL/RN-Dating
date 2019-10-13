@@ -33,6 +33,7 @@ const EditProfileScreen: React.FC = () => {
     user_id: "",
     name: "",
     profile: "",
+    sex: "",
     age: 0,
     area: "",
     address: "",
