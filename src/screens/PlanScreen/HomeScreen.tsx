@@ -6,7 +6,7 @@ import { COLOR } from "app/src/constants";
 import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
 import { PlanCardList } from "app/src/components/List";
 import { CreatePlanFab } from "app/src/components/Button";
-import { useGetPlanList } from "app/src/hooks/useGetPlanList";
+import { useGetPlanList } from "app/src/hooks";
 import { appTextStyle } from "app/src/styles";
 
 /**
