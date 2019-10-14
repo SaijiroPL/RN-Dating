@@ -10,8 +10,9 @@ import { handleError } from "app/src/utils";
 /**
  * デートプラン一覧取得フック
  * @author kotatanaka
+ * @param userId ユーザーID(Optional:マイプラン一覧取得時に必要)
  */
-export const useGetPlanList = () => {
+export const useGetPlanList = (userId?: string) => {
   /** 正常レスポンス */
   const [plans, setPlans] = useState<IPlanList>({
     total: 0,
@@ -47,12 +48,20 @@ export const useGetPlanList = () => {
   const getPlanList = (signal: CancelTokenSource) => {
     const url = API_ENDPOINT.PLANS;
 
-    // TODO 自分のエリアで人気のデートプランを取得する
+    const cancelToken = signal.token;
+    const config = userId
+      ? // マイプラン一覧取得
+        {
+          params: {
+            userId: userId
+          },
+          cancelToken: cancelToken
+        }
+      : // 通常のプラン一覧取得 TODO 自分のエリアで人気のデートプランを取得する
+        { cancelToken: cancelToken };
 
     axios
-      .get(url, {
-        cancelToken: signal.token
-      })
+      .get(url, config)
       .then((response: { data: IPlanList }) => {
         setPlans(Object.assign(response.data));
         setIsLoading(false);
