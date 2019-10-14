@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import axios, { CancelTokenSource } from "axios";
 
 // from app
 import { useGlobalState } from "app/src/Store";
-import { API_ENDPOINT, COLOR } from "app/src/constants";
-import { IPlanList } from "app/src/interfaces/api/Plan";
-import { IApiError } from "app/src/interfaces/api/Error";
+import { COLOR } from "app/src/constants";
 import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
 import { PlanCardList } from "app/src/components/List";
-import { handleError } from "app/src/utils";
+import { useGetPlanList } from "app/src/hooks";
 import { appTextStyle } from "app/src/styles";
 
 /**
@@ -17,61 +14,13 @@ import { appTextStyle } from "app/src/styles";
  * @author kotatanaka
  */
 const MyPlanScreen: React.FC = () => {
+  /** ログイン中のユーザー */
   const loginUser = useGlobalState("loginUser");
 
-  const [plans, setPlans] = useState<IPlanList>({
-    total: 0,
-    plan_list: []
-  });
-  const [errors, setErrors] = useState<IApiError>({
-    code: 0,
-    message: "",
-    detail_message: []
-  });
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isRefreshing, setRefreshing] = useState<boolean>(false);
-
-  useEffect(() => {
-    const signal = axios.CancelToken.source();
-    getPlanList(signal);
-    return () => {
-      signal.cancel("Cancelling in Cleanup.");
-    };
-  }, []);
-
-  /** ユーザーに紐付くデートプラン一覧取得 */
-  const getPlanList = (signal: CancelTokenSource) => {
-    const url = API_ENDPOINT.PLANS;
-    axios
-      .get(url, {
-        params: {
-          user_id: loginUser.id
-        },
-        cancelToken: signal.token
-      })
-      .then((response: { data: IPlanList }) => {
-        setPlans(Object.assign(response.data));
-        setIsLoading(false);
-      })
-      .catch(error => {
-        if (axios.isCancel(error)) {
-          console.log("Request Cancelled: " + error.message);
-        } else {
-          handleError(error);
-          if (error.response.stats === 400) {
-            setErrors(error.response.data);
-          }
-        }
-        setIsLoading(false);
-      });
-  };
-
-  /** プルリロード */
-  const onRefresh = () => {
-    setRefreshing(true);
-    getPlanList(axios.CancelToken.source());
-    setRefreshing(false);
-  };
+  /** デートプラン一覧取得(マイプランのみ) */
+  const { isLoading, plans, errors, isRefreshing, onRefresh } = useGetPlanList(
+    loginUser.id
+  );
 
   if (isLoading) {
     return LoadingSpinner;
