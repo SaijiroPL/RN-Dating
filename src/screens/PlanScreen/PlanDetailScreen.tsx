@@ -1,22 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { StyleSheet, View } from "react-native";
 import { useNavigation, useNavigationParam } from "react-navigation-hooks";
 import { Container, Content, Text } from "native-base";
-import axios, { CancelTokenSource } from "axios";
 
 // from app
 import { useGlobalState } from "app/src/Store";
-import { API_ENDPOINT, COLOR } from "app/src/constants";
+import { COLOR } from "app/src/constants";
 import { IUserInfo } from "app/src/interfaces/User";
-import { IPlanFull } from "app/src/interfaces/api/Plan";
-import { ICommentList } from "app/src/interfaces/api/Comment";
-import { IApiError } from "app/src/interfaces/api/Error";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { ImageCarousel, UserHeader } from "app/src/components/Content";
 import { CommentGrid } from "app/src/components/List";
 import { SimpleMapView } from "app/src/components/MapItem";
 import { LikeButton } from "app/src/components/Button";
-import { formatDate, handleError } from "app/src/utils";
+import { useGetPlanDetail, useGetCommentList } from "app/src/hooks";
+import { formatDate } from "app/src/utils";
 import { appStyle, appTextStyle } from "app/src/styles";
 
 /**
@@ -24,111 +21,30 @@ import { appStyle, appTextStyle } from "app/src/styles";
  * @author kotatanaka
  */
 const PlanDetailScreen: React.FC = () => {
+  /** ログイン中のユーザー */
   const loginUser = useGlobalState("loginUser");
+
+  /** ナビゲーター */
   const { navigate } = useNavigation();
+
+  /** デートプランID */
   const planId = useNavigationParam("id");
 
-  const [plan, setPlan] = useState<IPlanFull>({
-    plan_id: "",
-    title: "",
-    description: "",
-    date: "",
-    transportation: [],
-    need_time: 0,
-    create_date: "",
-    spots: [],
-    user_id: "",
-    user_name: "",
-    user_attr: "",
-    user_image_url: "",
-    like_count: 0,
-    comment_count: 0,
-    is_liked: false
-  });
-  const [comments, setComments] = useState<ICommentList>({
-    total: 0,
-    comment_list: []
-  });
-  const [errors, setErrors] = useState<IApiError>({
-    code: 0,
-    message: "",
-    detail_message: []
-  });
-  const [isPlanLoading, setIsPlanLoading] = useState<boolean>(true);
-  const [isCommentsLoading, setIsCommentsLoading] = useState<boolean>(true);
-  const [isLiked, setIsLiked] = useState<boolean>(false);
+  /** デートプラン詳細取得 */
+  const { isPlanLoading, plan, isLiked, setIsLiked } = useGetPlanDetail(
+    planId,
+    loginUser.id
+  );
 
-  useEffect(() => {
-    const signal = axios.CancelToken.source();
-    getPlanDetail(signal);
-    setIsLiked(plan.is_liked);
-    return () => {
-      signal.cancel("Cancelling in Cleanup.");
-    };
-  }, []);
+  /** コメント一覧取得 */
+  const { isCommentsLoading, comments } = useGetCommentList(planId);
 
-  useEffect(() => {
-    const signal = axios.CancelToken.source();
-    getCommentList(signal);
-    return () => {
-      signal.cancel("Cancelling in Cleanup.");
-    };
-  }, []);
-
-  const onCommentPress = () => {
+  /** コメントもっと見る押下時の処理 */
+  const onMoreCommentPress = () => {
     navigate("comment", { id: plan.plan_id });
   };
 
-  /** デートプラン詳細取得 */
-  const getPlanDetail = (signal: CancelTokenSource) => {
-    const url = API_ENDPOINT.PLAN.replace("$1", planId);
-    axios
-      .get(url, {
-        cancelToken: signal.token
-      })
-      .then((response: { data: IPlanFull }) => {
-        setPlan(Object.assign(response.data));
-        setIsPlanLoading(false);
-      })
-      .catch(error => {
-        if (axios.isCancel(error)) {
-          console.log("Request Cancelled: " + error.message);
-        } else {
-          handleError(error);
-          if (error.response.stats === 400) {
-            setErrors(error.response.data);
-          }
-        }
-        setIsPlanLoading(false);
-      });
-  };
-
-  /** コメント一覧取得 */
-  const getCommentList = (signal: CancelTokenSource) => {
-    const url = API_ENDPOINT.PLAN_COMMENTS.replace("$1", planId);
-
-    axios
-      .get(url, {
-        cancelToken: signal.token
-      })
-      .then((response: { data: ICommentList }) => {
-        setComments(Object.assign(response.data));
-        setIsCommentsLoading(false);
-      })
-      .catch(error => {
-        if (axios.isCancel(error)) {
-          console.log("Request Cancelled: " + error.message);
-        } else {
-          handleError(error);
-          if (error.response.stats === 400) {
-            setErrors(error.response.data);
-          }
-        }
-        setIsCommentsLoading(false);
-      });
-  };
-
-  /** デートプラン作成者部分を描画する */
+  /** デートプラン作成者部分の描画 */
   const renderPlannerHeader = () => {
     const planner: IUserInfo = {
       userId: plan.user_id,
@@ -140,7 +56,7 @@ const PlanDetailScreen: React.FC = () => {
     return <UserHeader user={planner} />;
   };
 
-  /** デートプラン説明部分を描画する */
+  /** デートプラン説明部分の描画 */
   const renderPlanDescription = () => {
     return (
       <View style={thisStyle.planDescriptionContainer}>
@@ -183,6 +99,7 @@ const PlanDetailScreen: React.FC = () => {
     );
   };
 
+  // ローディング
   if (isPlanLoading || isCommentsLoading) {
     return LoadingSpinner;
   }
@@ -203,7 +120,10 @@ const PlanDetailScreen: React.FC = () => {
         <CommentGrid comments={comments.comment_list} />
         {comments.total > 0 && (
           <View style={{ alignItems: "flex-end", marginRight: 10 }}>
-            <Text onPress={onCommentPress} style={appTextStyle.detailLinkText}>
+            <Text
+              onPress={onMoreCommentPress}
+              style={appTextStyle.detailLinkText}
+            >
               >> 全{comments.total}件のコメントを見る
             </Text>
           </View>
