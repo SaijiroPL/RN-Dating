@@ -6,3 +6,5 @@ export * from "./useSearchPlanList";
 export * from "./useGetPlanDetail";
 /** コメント一覧取得 */
 export * from "./useGetCommentList";
+/** デートプランお気に入り登録者一覧取得 */
+export * from "./useGetLikeUserList";
