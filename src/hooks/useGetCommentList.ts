@@ -38,7 +38,10 @@ export const useGetCommentList = (planId: string) => {
     };
   }, []);
 
-  /** コメント一覧取得 */
+  /**
+   * コメント一覧取得API
+   * @param signal CancelTokenSource
+   */
   const getCommentList = (signal: CancelTokenSource) => {
     const url = API_ENDPOINT.PLAN_COMMENTS.replace("$1", planId);
 

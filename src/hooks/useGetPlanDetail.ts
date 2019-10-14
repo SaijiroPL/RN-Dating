@@ -56,7 +56,10 @@ export const useGetPlanDetail = (planId: string, userId: string) => {
     };
   }, []);
 
-  /** デートプラン詳細取得 */
+  /**
+   * デートプラン詳細取得API
+   * @param signal CancelTokenSource
+   */
   const getPlanDetail = (signal: CancelTokenSource) => {
     const url = API_ENDPOINT.PLAN.replace("$1", planId);
     axios

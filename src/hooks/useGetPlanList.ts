@@ -42,7 +42,7 @@ export const useGetPlanList = (userId?: string) => {
   }, []);
 
   /**
-   * デートプラン一覧取得
+   * デートプラン一覧取得API
    * @param signal CancelTokenSource
    */
   const getPlanList = (signal: CancelTokenSource) => {
