@@ -85,9 +85,7 @@ const AppTopScreen: React.FC = () => {
 
   /** Facebookログインボタン押下時の処理 */
   const onFacebookButtonPress = () => {
-    facebookLogin();
-    // FIXME ログインが完了しユーザーをストアに入れてから画面遷移する
-    navigate("welcome");
+    facebookLogin().then(() => navigate("welcome"));
   };
 
   /** メールアドレスログインボタン押下時の処理 */
