@@ -48,7 +48,6 @@ export interface ILogin {
 export interface IUpdateUserBody {
   name?: string;
   profile?: string;
-  sex?: string;
   age?: number;
   area?: string;
   address?: string;
