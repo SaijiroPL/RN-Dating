@@ -14,3 +14,5 @@ export * from "./useGetUserDetail";
 export * from "./useGetFollowList";
 /** フォロワーリスト取得 */
 export * from "./useGetFollowerList";
+/** パスワード変更 */
+export * from "./useUpdatePassword";
