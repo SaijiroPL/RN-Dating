@@ -16,3 +16,5 @@ export * from "./useGetFollowList";
 export * from "./useGetFollowerList";
 /** パスワード変更 */
 export * from "./useUpdatePassword";
+/** プロフィール編集*/
+export * from "./useEditProfile";
