@@ -1,91 +1,68 @@
-import React, { useState } from "react";
+import React from "react";
 import { View } from "react-native";
 import { Form } from "native-base";
 import { useNavigation } from "react-navigation-hooks";
-import axios from "axios";
 
 // from app
 import { useGlobalState } from "app/src/Store";
-import { API_ENDPOINT } from "app/src/constants/Url";
-import { IUpdatePasswordBody } from "app/src/interfaces/api/User";
-import { IOK } from "app/src/interfaces/api/Success";
-import { IApiError } from "app/src/interfaces/api/Error";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { InputFormFloating } from "app/src/components/Form";
 import { CompleteButton } from "app/src/components/Button";
-import { handleError, isEmpty } from "app/src/utils";
+import { useUpdatePassword } from "app/src/hooks";
+import { isEmpty } from "app/src/utils";
 import { appStyle } from "app/src/styles";
+
 /**
  * パスワード変更画面
  * @author itsukiyamada, kotatanaka
  */
 const ChangePasswordScreen: React.FC = () => {
+  /** ナビゲーター */
   const { navigate } = useNavigation();
+
+  /** ログイン中のユーザー */
   const loginUser = useGlobalState("loginUser");
 
-  const [oldPassword, setOldPassword] = useState<string>("");
-  const [newPassword, setNewPassword] = useState<string>("");
-  const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errors, setErrors] = useState<IApiError>({
-    code: 0,
-    message: "",
-    detail_message: []
-  });
-
-  const updatePassword = () => {
-    setIsLoading(true);
-
-    const url = API_ENDPOINT.USER_PASSWORD.replace("$1", loginUser.id);
-
-    const body: IUpdatePasswordBody = {
-      old_password: oldPassword,
-      new_password: newPassword
-    };
-
-    axios
-      .put(url, body)
-      .then((response: { data: IOK }) => {
-        setIsLoading(false);
-      })
-      .catch(error => {
-        handleError(error);
-        if (error.response.state === 400) {
-          setErrors(error.response.data);
-        }
-        setIsLoading(false);
-      });
-  };
-
-  if (isLoading) {
-    return LoadingSpinner;
-  }
+  /** パスワード変更 */
+  const {
+    oldPassword,
+    setOldPassword,
+    newPassword,
+    setNewPassword,
+    confirmNewPassword,
+    setConfirmNewPassword,
+    isLoading,
+    errors,
+    updatePassword
+  } = useUpdatePassword(loginUser.id);
 
   /** 完了ボタン押下時の処理 */
   const onCompleteButtonPress = () => {
     if (newPassword === confirmNewPassword) {
-      updatePassword();
-      navigate("top");
+      updatePassword().then(() => navigate("top"));
     }
     setNewPassword("");
     setConfirmNewPassword("");
   };
 
-  /**
-   * 完了ボタンを描画する
-   * 未入力がある場合は押せないようにする
-   */
+  /** 完了ボタンの描画 */
   const renderCompleteButton = () => {
     if (
       isEmpty(oldPassword) ||
       isEmpty(newPassword) ||
       isEmpty(confirmNewPassword)
     ) {
+      // 未入力がある場合はアクティブにしない
       return <CompleteButton title="完了" disabled />;
     }
 
     return <CompleteButton title="完了" onPress={onCompleteButtonPress} />;
   };
+
+  // ローディング
+  if (isLoading) {
+    return LoadingSpinner;
+  }
 
   return (
     <View style={appStyle.standardContainer}>
