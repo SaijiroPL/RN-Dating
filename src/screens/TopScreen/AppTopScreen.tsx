@@ -2,20 +2,14 @@ import React, { useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import { FontAwesome } from "@expo/vector-icons";
-import axios from "axios";
 
 // from app
-import { useDispatch } from "app/src/Store";
-import { ActionType } from "app/src/Reducer";
 import { facebookLogin } from "app/src/Firebase";
-import { API_ENDPOINT, COLOR, IMAGE, LAYOUT } from "app/src/constants";
-import { IOK } from "app/src/interfaces/api/Success";
-import { IApiError } from "app/src/interfaces/api/Error";
-import { ILogin } from "app/src/interfaces/api/User";
+import { COLOR, IMAGE, LAYOUT } from "app/src/constants";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { InputForm } from "app/src/components/Form";
 import { CompleteButton } from "app/src/components/Button";
-import { handleError } from "app/src/utils";
+import { useSignin, useSignup } from "app/src/hooks";
 import { appStyle } from "app/src/styles";
 
 /**
@@ -23,65 +17,31 @@ import { appStyle } from "app/src/styles";
  * @author kotatanaka
  */
 const AppTopScreen: React.FC = () => {
+  /** ナビゲーター */
   const { navigate } = useNavigation();
-  const dispatch = useDispatch();
 
-  // [0]初回画面 [1]メールアドレスログイン画面 [2]新規登録画面
+  /**
+   * 現在画面
+   * [0]初回画面
+   * [1]メールアドレスログイン画面
+   * [2]新規登録画面
+   */
   const [screenPhase, setScreenPhase] = useState<number>(0);
+
+  /** メールアドレス */
   const [mailAddress, setMailAddress] = useState<string>("");
+
+  /** パスワード */
   const [password, setPassword] = useState<string>("");
+
+  /** パスワードの確認(ユーザー登録用) */
   const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errors, setErrors] = useState<IApiError>();
 
-  /** メールアドレスでログイン */
-  const login = () => {
-    setIsLoading(true);
+  /** ログイン機能 */
+  const { isLoading, loginByEmail, errors } = useSignin();
 
-    const url = API_ENDPOINT.USERS_LOGIN;
-    const body: ILogin = {
-      mail_address: mailAddress,
-      password: password
-    };
-
-    axios
-      .post(url, body)
-      .then((response: { data: IOK }) => {
-        setIsLoading(false);
-        setLoginUser(response.data.id, "xxx");
-        navigate("main");
-      })
-      .catch(error => {
-        handleError(error);
-        if (error.response.state === 400) {
-          setErrors(error.response.data);
-        }
-        setIsLoading(false);
-      });
-  };
-
-  /** ログインユーザーを永続化 */
-  const setLoginUser = (id: string, name: string) => {
-    dispatch({
-      type: ActionType.SET_LOGIN_USER,
-      payload: {
-        id: id,
-        name: name,
-        imageUrl: ""
-      }
-    });
-  };
-
-  /** ユーザー登録に必要な情報の永続化 */
-  const setRegisterUserParts = () => {
-    dispatch({
-      type: ActionType.SET_REGISTER_USER,
-      payload: {
-        mailAddress: mailAddress,
-        password: password
-      }
-    });
-  };
+  /** ユーザー登録機能 */
+  const { setRegisterUserParts } = useSignup();
 
   /** Facebookログインボタン押下時の処理 */
   const onFacebookButtonPress = () => {
@@ -90,20 +50,20 @@ const AppTopScreen: React.FC = () => {
 
   /** メールアドレスログインボタン押下時の処理 */
   const onSignInButtonPress = () => {
-    login();
+    loginByEmail(mailAddress, password).then(() => navigate("main"));
   };
 
   /** 新規登録ボタン押下時の処理 */
   const onSignUpButtonPress = () => {
     if (password === confirmPassword) {
-      setRegisterUserParts();
+      setRegisterUserParts(mailAddress, password);
       navigate("welcome");
     }
     setPassword("");
     setConfirmPassword("");
   };
 
-  /** 初期画面を描画する */
+  /** 初期画面 */
   const renderTopScreen = () => {
     return (
       <View>
@@ -137,7 +97,7 @@ const AppTopScreen: React.FC = () => {
     );
   };
 
-  /** メールアドレスログイン画面を描画する */
+  /** メールアドレスログイン画面 */
   const renderSignInScreen = () => {
     if (isLoading) {
       return LoadingSpinner;
@@ -167,7 +127,7 @@ const AppTopScreen: React.FC = () => {
     );
   };
 
-  /** 新規登録画面を描画する */
+  /** 新規登録画面 */
   const renderSignUpScreen = () => {
     return (
       <View>
