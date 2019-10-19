@@ -1,21 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Text } from "native-base";
 import { useNavigation } from "react-navigation-hooks";
-import axios from "axios";
 
 // from app
-import { useDispatch, useGlobalState } from "app/src/Store";
-import { ActionType } from "app/src/Reducer";
-import { API_ENDPOINT, COLOR } from "app/src/constants";
-import { IOK } from "app/src/interfaces/api/Success";
-import { IApiError } from "app/src/interfaces/api/Error";
-import { ICreateUserBody } from "app/src/interfaces/api/User";
+import { COLOR } from "app/src/constants";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { SelectButton, CompleteButton } from "app/src/components/Button";
 import { DatePicker, PrefecturePicker } from "app/src/components/Form";
-import { handleError } from "app/src/utils";
-import { getToday, getAge } from "app/src/utils";
+import { useSignin, useSignup } from "app/src/hooks";
+import { getToday } from "app/src/utils";
 import { appStyle } from "app/src/styles";
 
 /**
@@ -23,67 +17,37 @@ import { appStyle } from "app/src/styles";
  * @author kotatanaka
  */
 const EntryScreen: React.FC = () => {
-  const registerUser = useGlobalState("registerUser");
-  const dispatch = useDispatch();
+  /** ナビゲーター */
   const { navigate } = useNavigation();
 
-  const [isMan, setMan] = useState<boolean>(false);
-  const [isWoman, setWoman] = useState<boolean>(false);
-  const [birthday, setBirthday] = useState<string>("1995-01-01");
-  const [prefecture, setPrefecture] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errors, setErrors] = useState<IApiError>();
+  /** ユーザー登録機能 */
+  const {
+    isMan,
+    setMan,
+    isWoman,
+    setWoman,
+    birthday,
+    setBirthday,
+    prefecture,
+    setPrefecture,
+    createUser,
+    isLoading
+  } = useSignup();
 
-  /** ユーザー登録 */
-  const createUser = () => {
-    setIsLoading(true);
+  /** ログイン機能 */
+  const { setLoginUser } = useSignin();
 
-    const url = API_ENDPOINT.USER;
-
-    const body: ICreateUserBody = {
-      // TODO 名前登録フォームを作る
-      name: "xxx",
-      sex: isMan ? "man" : "woman",
-      age: getAge(birthday),
-      area: prefecture,
-      mail_address: registerUser.mailAddress,
-      password: registerUser.password
-    };
-
-    axios
-      .post(url, body)
-      .then((response: { data: IOK }) => {
-        setIsLoading(false);
-        setLoginUser(response.data.id, "xxx");
+  /** 完了ボタン押下時の処理 */
+  const onCompleteButtonPress = () => {
+    createUser().then(createdUserId => {
+      if (typeof createdUserId === "string") {
+        setLoginUser(createdUserId, "xxx");
         navigate("main");
-      })
-      .catch(error => {
-        handleError(error);
-        if (error.response.state === 400) {
-          setErrors(error.response.data);
-        }
-        setIsLoading(false);
-      });
-  };
-
-  /** 新規登録ユーザーをログインユーザーとして永続化 */
-  const setLoginUser = (id: string, name: string) => {
-    dispatch({
-      type: ActionType.SET_LOGIN_USER,
-      payload: {
-        id: id,
-        name: name,
-        imageUrl: ""
       }
     });
   };
 
-  /** 完了ボタン押下でユーザー登録を行い、ホーム画面に遷移する */
-  const onCompleteButtonPress = () => {
-    createUser();
-  };
-
-  /** 性別選択ボタンを描画する */
+  /** 性別選択ボタンの描画 */
   const renderSexButtons = () => {
     return (
       <View style={thisStyle.formGroup}>
@@ -106,7 +70,7 @@ const EntryScreen: React.FC = () => {
     );
   };
 
-  /** 生年月日選択フォームを描画する */
+  /** 生年月日選択フォームの描画 */
   const renderBirthdayForm = () => {
     return (
       <View style={thisStyle.formGroup}>
@@ -120,7 +84,7 @@ const EntryScreen: React.FC = () => {
     );
   };
 
-  /** 都道府県選択フォームを描画する */
+  /** 都道府県選択フォームの描画 */
   const renderAddressForm = () => {
     return (
       <View style={thisStyle.formGroup}>
@@ -133,7 +97,7 @@ const EntryScreen: React.FC = () => {
     );
   };
 
-  /** 入力完了ボタンを描画する */
+  /** 入力完了ボタンの描画 */
   const renderCompleteButton = () => {
     if (isLoading) {
       return <View style={thisStyle.formGroup}>{LoadingSpinner}</View>;
