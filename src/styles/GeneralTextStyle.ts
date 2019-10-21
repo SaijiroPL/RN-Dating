@@ -33,6 +33,14 @@ export const appTextStyle = StyleSheet.create({
     fontFamily: "genju-medium"
   },
 
+  /** バリデーションエラー文字 */
+  errorText: {
+    color: "red",
+    fontFamily: "genju-light",
+    fontSize: 10,
+    textAlign: "center"
+  },
+
   /** 白文字(背景色がある場合の文字) */
   whiteText: {
     color: "white",
