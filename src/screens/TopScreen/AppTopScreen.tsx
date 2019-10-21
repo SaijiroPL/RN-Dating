@@ -50,7 +50,11 @@ const AppTopScreen: React.FC = () => {
 
   /** メールアドレスログインボタン押下時の処理 */
   const onSignInButtonPress = () => {
-    loginByEmail(mailAddress, password).then(() => navigate("main"));
+    loginByEmail(mailAddress, password).then(success => {
+      if (success) {
+        navigate("main");
+      }
+    });
   };
 
   /** 新規登録ボタン押下時の処理 */
@@ -103,17 +107,32 @@ const AppTopScreen: React.FC = () => {
       return LoadingSpinner;
     }
 
+    const emailErrors: Array<string> = [];
+    const passwordErrors: Array<string> = [];
+    if (errors && errors.detail_message.length > 0) {
+      errors.detail_message.forEach(item => {
+        if (item.match(/Mail Address/) || item === "ユーザーが見つかりません") {
+          emailErrors.push(item.replace("Mail Addressは", ""));
+        }
+        if (item.match(/Password/)) {
+          passwordErrors.push(item.replace("Passwordは", ""));
+        }
+      });
+    }
+
     return (
       <View>
         <InputForm
           placeholder="メールアドレスを入力"
           value={mailAddress}
           setValue={setMailAddress}
+          errors={emailErrors}
         />
         <InputForm
           placeholder="パスワードを入力"
           value={password}
           setValue={setPassword}
+          errors={passwordErrors}
         />
         <View style={thisStyle.completeButtonContainer}>
           {/* 未入力項目がある場合はボタン押下不可 */}

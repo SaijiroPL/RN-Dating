@@ -22,7 +22,11 @@ export const useSignin = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   /** 異常レスポンス */
-  const [errors, setErrors] = useState<IApiError>();
+  const [errors, setErrors] = useState<IApiError>({
+    code: 0,
+    message: "",
+    detail_message: []
+  });
 
   /**
    * メールアドレスでログイン
@@ -30,26 +34,24 @@ export const useSignin = () => {
    * @param password パスワード
    */
   const loginByEmail = async (mailAddress: string, password: string) => {
-    setIsLoading(true);
-
     const url = API_ENDPOINT.USERS_LOGIN;
     const body: ILogin = {
       mail_address: mailAddress,
       password: password
     };
 
-    await axios
-      .post(url, body)
-      .then((response: { data: IOK }) => {
-        setIsLoading(false);
+    return await axios
+      .post<IOK>(url, body)
+      .then(response => {
         setLoginUser(response.data.id, "xxx");
+        return true;
       })
       .catch(error => {
-        handleError(error);
-        if (error.response.state === 400) {
-          setErrors(error.response.data);
+        const apiError = handleError(error);
+        if (apiError) {
+          setErrors(apiError);
         }
-        setIsLoading(false);
+        return false;
       });
   };
 
