@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import { FontAwesome } from "@expo/vector-icons";
@@ -10,6 +10,7 @@ import { LoadingSpinner } from "app/src/components/Spinners";
 import { InputForm } from "app/src/components/Form";
 import { CompleteButton } from "app/src/components/Button";
 import { useSignin, useSignup } from "app/src/hooks";
+import { validateEmail, validateAlphaNumeric } from "app/src/utils";
 import { appStyle } from "app/src/styles";
 
 /**
@@ -28,14 +29,31 @@ const AppTopScreen: React.FC = () => {
    */
   const [screenPhase, setScreenPhase] = useState<number>(0);
 
-  /** メールアドレス */
-  const [mailAddress, setMailAddress] = useState<string>("");
+  /** メールアドレス(ログイン用) */
+  const [emailAtSignin, setEmailAtSignin] = useState<string>("");
 
-  /** パスワード */
-  const [password, setPassword] = useState<string>("");
+  /** パスワード(ログイン用) */
+  const [passAtSignin, setPassAtSignin] = useState<string>("");
 
-  /** パスワードの確認(ユーザー登録用) */
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  /** メールアドレス(新規登録用) */
+  const [emailAtSignup, setEmailAtSignup] = useState<string>("");
+
+  /** パスワード(新規登録用) */
+  const [passAtSignup, setPassAtSignup] = useState<string>("");
+
+  /** パスワードの確認(新規登録用) */
+  const [confirmPassAtSignup, setConfirmPassAtSignup] = useState<string>("");
+
+  /** メールアドレスバリデーションエラー(新規登録用) */
+  const [emailErrAtSignup, setEmailErrAtSignup] = useState<Array<string>>([]);
+
+  /** パスワードバリデーションエラー(新規登録用)  */
+  const [passErrAtSignup, setPassErrAtSignup] = useState<Array<string>>([]);
+
+  /** パスワード確認バリデーションエラー(新規登録用)  */
+  const [confirmPassErrAtSignup, setConfirmPassErrAtSignup] = useState<
+    Array<string>
+  >([]);
 
   /** ログイン機能 */
   const { isLoading, loginByEmail, errors } = useSignin();
@@ -50,7 +68,7 @@ const AppTopScreen: React.FC = () => {
 
   /** メールアドレスログインボタン押下時の処理 */
   const onSignInButtonPress = () => {
-    loginByEmail(mailAddress, password).then(success => {
+    loginByEmail(emailAtSignin, passAtSignin).then(success => {
       if (success) {
         navigate("main");
       }
@@ -59,12 +77,35 @@ const AppTopScreen: React.FC = () => {
 
   /** 新規登録ボタン押下時の処理 */
   const onSignUpButtonPress = () => {
-    if (password === confirmPassword) {
-      setRegisterUserParts(mailAddress, password);
+    const emailErrors: Array<string> = [];
+    const passErrors: Array<string> = [];
+    const confirmPassErrors: Array<string> = [];
+
+    if (!validateEmail(emailAtSignup)) {
+      emailErrors.push("メールアドレスを入力してください");
+    }
+    if (!validateAlphaNumeric(passAtSignup)) {
+      passErrors.push("半角英数を入力してください");
+    }
+    if (!validateAlphaNumeric(confirmPassAtSignup)) {
+      confirmPassErrors.push("半角英数を入力してください");
+    }
+    if (passAtSignup !== confirmPassAtSignup) {
+      confirmPassErrors.push("パスワードが一致しません");
+    }
+
+    setEmailErrAtSignup(emailErrors);
+    setPassErrAtSignup(passErrors);
+    setConfirmPassErrAtSignup(confirmPassErrors);
+
+    if (
+      emailErrors.length === 0 &&
+      passErrors.length === 0 &&
+      confirmPassErrors.length === 0
+    ) {
+      setRegisterUserParts(emailAtSignup, passAtSignup);
       navigate("welcome");
     }
-    setPassword("");
-    setConfirmPassword("");
   };
 
   /** 初期画面 */
@@ -87,8 +128,8 @@ const AppTopScreen: React.FC = () => {
             // デートマスターを初期値に設定しておく
             const masterMailAddress = "master@onedate.com";
             const masterPassword = "password";
-            setMailAddress(masterMailAddress);
-            setPassword(masterPassword);
+            setEmailAtSignin(masterMailAddress);
+            setPassAtSignin(masterPassword);
             setScreenPhase(1);
           }}
         >
@@ -107,15 +148,15 @@ const AppTopScreen: React.FC = () => {
       return LoadingSpinner;
     }
 
-    const emailErrors: Array<string> = [];
-    const passwordErrors: Array<string> = [];
+    const emailErrAtSignin: Array<string> = [];
+    const passwordErrAtSignin: Array<string> = [];
     if (errors && errors.detail_message.length > 0) {
       errors.detail_message.forEach(item => {
         if (item.match(/Mail Address/) || item === "ユーザーが見つかりません") {
-          emailErrors.push(item.replace("Mail Addressは", ""));
+          emailErrAtSignin.push(item.replace("Mail Addressは", ""));
         }
         if (item.match(/Password/)) {
-          passwordErrors.push(item.replace("Passwordは", ""));
+          passwordErrAtSignin.push(item.replace("Passwordは", ""));
         }
       });
     }
@@ -124,19 +165,19 @@ const AppTopScreen: React.FC = () => {
       <View>
         <InputForm
           placeholder="メールアドレスを入力"
-          value={mailAddress}
-          setValue={setMailAddress}
-          errors={emailErrors}
+          value={emailAtSignin}
+          setValue={setEmailAtSignin}
+          errors={emailErrAtSignin}
         />
         <InputForm
           placeholder="パスワードを入力"
-          value={password}
-          setValue={setPassword}
-          errors={passwordErrors}
+          value={passAtSignin}
+          setValue={setPassAtSignin}
+          errors={passwordErrAtSignin}
         />
         <View style={thisStyle.completeButtonContainer}>
           {/* 未入力項目がある場合はボタン押下不可 */}
-          {mailAddress.length > 0 && password.length > 0 ? (
+          {emailAtSignin.length > 0 && passAtSignin.length > 0 ? (
             <CompleteButton title="ログイン" onPress={onSignInButtonPress} />
           ) : (
             <CompleteButton title="ログイン" disabled />
@@ -152,24 +193,27 @@ const AppTopScreen: React.FC = () => {
       <View>
         <InputForm
           placeholder="メールアドレスを入力"
-          value={mailAddress}
-          setValue={setMailAddress}
+          value={emailAtSignup}
+          setValue={setEmailAtSignup}
+          errors={emailErrAtSignup}
         />
         <InputForm
           placeholder="パスワードを入力"
-          value={password}
-          setValue={setPassword}
+          value={passAtSignup}
+          setValue={setPassAtSignup}
+          errors={passErrAtSignup}
         />
         <InputForm
           placeholder="パスワードを再入力"
-          value={confirmPassword}
-          setValue={setConfirmPassword}
+          value={confirmPassAtSignup}
+          setValue={setConfirmPassAtSignup}
+          errors={confirmPassErrAtSignup}
         />
         <View style={thisStyle.completeButtonContainer}>
           {/* 未入力項目がある場合はボタン押下不可 */}
-          {mailAddress.length > 0 &&
-          password.length > 0 &&
-          confirmPassword.length > 0 ? (
+          {emailAtSignup.length > 0 &&
+          passAtSignup.length > 0 &&
+          confirmPassAtSignup.length > 0 ? (
             <CompleteButton title="新規登録" onPress={onSignUpButtonPress} />
           ) : (
             <CompleteButton title="新規登録" disabled />
