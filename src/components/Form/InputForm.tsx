@@ -1,5 +1,5 @@
 import React from "react";
-import { Input, Item, List, Text, View } from "native-base";
+import { Input, Item, Text, View } from "native-base";
 import { AntDesign } from "@expo/vector-icons";
 
 // from app
@@ -22,6 +22,7 @@ export const InputForm: React.FC<Props> = (props: Props) => {
 
   const NoInput = <View />;
   const SuccessMark = <AntDesign name="checkcircle" color="green" />;
+  const ErrorMark = <AntDesign name="closecircle" color="red" />;
 
   // 未入力
   if (value === "") {
@@ -53,7 +54,7 @@ export const InputForm: React.FC<Props> = (props: Props) => {
             value={value}
             style={{ width: LAYOUT.window.width * 0.75 }}
           />
-          {NoInput}
+          {ErrorMark}
         </Item>
         {ErrorList}
       </View>
