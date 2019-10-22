@@ -5,7 +5,6 @@ import { useNavigation } from "react-navigation-hooks";
 
 // from app
 import { COLOR, LAYOUT } from "app/src/constants";
-import { LoadingSpinner } from "app/src/components/Spinners";
 import { SelectButton, CompleteButton } from "app/src/components/Button";
 import {
   DatePicker,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import { FontAwesome } from "@expo/vector-icons";
@@ -6,7 +6,6 @@ import { FontAwesome } from "@expo/vector-icons";
 // from app
 import { facebookLogin } from "app/src/Firebase";
 import { COLOR, IMAGE, LAYOUT } from "app/src/constants";
-import { LoadingSpinner } from "app/src/components/Spinners";
 import { InputForm } from "app/src/components/Form";
 import { CompleteButton } from "app/src/components/Button";
 import { useSignin, useSignup } from "app/src/hooks";
