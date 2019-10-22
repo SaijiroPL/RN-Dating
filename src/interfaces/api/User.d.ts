@@ -42,6 +42,16 @@ export interface ILogin {
 }
 
 /**
+ * アプリにログインAPIレスポンス
+ * @author kotatanaka
+ */
+export interface ILoginUser {
+  user_id: string;
+  name: string;
+  user_image_url: string;
+}
+
+/**
  * プロフィール編集APIレスポンス
  * @author itsukiyamada, kotatanaka
  */

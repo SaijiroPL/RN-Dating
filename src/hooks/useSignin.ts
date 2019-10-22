@@ -5,7 +5,7 @@ import axios from "axios";
 import { useDispatch } from "app/src/Store";
 import { ActionType } from "app/src/Reducer";
 import { API_ENDPOINT } from "app/src/constants";
-import { IOK } from "app/src/interfaces/api/Success";
+import { ILoginUser } from "app/src/interfaces/api/User";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { ILogin } from "app/src/interfaces/api/User";
 import { handleError } from "app/src/utils";
@@ -38,10 +38,10 @@ export const useSignin = () => {
     };
 
     return await axios
-      .post<IOK>(url, body)
+      .post<ILoginUser>(url, body)
       .then(response => {
-        // TODO ログインAPIレスポンス改修にかかる改修
-        setLoginUser(response.data.id, "xxx");
+        const { user_id, name, user_image_url } = response.data;
+        setLoginUser(user_id, name, user_image_url);
         return true;
       })
       .catch(error => {
