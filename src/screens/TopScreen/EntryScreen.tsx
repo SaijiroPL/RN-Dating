@@ -46,7 +46,7 @@ const EntryScreen: React.FC = () => {
   const onCompleteButtonPress = () => {
     createUser().then(createdUserId => {
       if (typeof createdUserId === "string") {
-        setLoginUser(createdUserId, "xxx");
+        setLoginUser(createdUserId, name);
         navigate("main");
       }
     });

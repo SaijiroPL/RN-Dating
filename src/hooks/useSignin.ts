@@ -40,6 +40,7 @@ export const useSignin = () => {
     return await axios
       .post<IOK>(url, body)
       .then(response => {
+        // TODO ログインAPIレスポンス改修にかかる改修
         setLoginUser(response.data.id, "xxx");
         return true;
       })
