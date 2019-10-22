@@ -18,9 +18,6 @@ export const useSignin = () => {
   /** グローバルステート更新関数 */
   const dispatch = useDispatch();
 
-  /** ローディング状態 */
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
   /** 異常レスポンス */
   const [errors, setErrors] = useState<IApiError>({
     code: 0,
@@ -43,6 +40,7 @@ export const useSignin = () => {
     return await axios
       .post<IOK>(url, body)
       .then(response => {
+        // TODO ログインAPIレスポンス改修にかかる改修
         setLoginUser(response.data.id, "xxx");
         return true;
       })
@@ -72,5 +70,5 @@ export const useSignin = () => {
     });
   };
 
-  return { isLoading, loginByEmail, setLoginUser, errors };
+  return { loginByEmail, setLoginUser, errors };
 };

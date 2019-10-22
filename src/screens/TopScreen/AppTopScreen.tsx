@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import { FontAwesome } from "@expo/vector-icons";
@@ -6,7 +6,6 @@ import { FontAwesome } from "@expo/vector-icons";
 // from app
 import { facebookLogin } from "app/src/Firebase";
 import { COLOR, IMAGE, LAYOUT } from "app/src/constants";
-import { LoadingSpinner } from "app/src/components/Spinners";
 import { InputForm } from "app/src/components/Form";
 import { CompleteButton } from "app/src/components/Button";
 import { useSignin, useSignup } from "app/src/hooks";
@@ -56,7 +55,7 @@ const AppTopScreen: React.FC = () => {
   >([]);
 
   /** ログイン機能 */
-  const { isLoading, loginByEmail, errors } = useSignin();
+  const { loginByEmail, errors } = useSignin();
 
   /** ユーザー登録機能 */
   const { setRegisterUserParts } = useSignup();
@@ -144,10 +143,6 @@ const AppTopScreen: React.FC = () => {
 
   /** メールアドレスログイン画面 */
   const renderSignInScreen = () => {
-    if (isLoading) {
-      return LoadingSpinner;
-    }
-
     const emailErrAtSignin: Array<string> = [];
     const passwordErrAtSignin: Array<string> = [];
     if (errors && errors.detail_message.length > 0) {

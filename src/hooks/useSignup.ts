@@ -21,6 +21,9 @@ export const useSignup = () => {
   /** グローバルステート更新関数 */
   const dispatch = useDispatch();
 
+  /** ユーザー名 */
+  const [name, setName] = useState<string>("");
+
   /** 男性かどうか */
   const [isMan, setMan] = useState<boolean>(false);
 
@@ -33,21 +36,15 @@ export const useSignup = () => {
   /** 都道府県 */
   const [prefecture, setPrefecture] = useState<string>("");
 
-  /** ローディング状態 */
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
   /** 異常レスポンス */
   const [errors, setErrors] = useState<IApiError>();
 
   /** ユーザー登録 */
   const createUser = async () => {
-    setIsLoading(true);
-
     const url = API_ENDPOINT.USERS;
 
     const body: ICreateUserBody = {
-      // TODO 名前登録フォームを作る
-      name: "xxx",
+      name: name,
       sex: isMan ? "man" : "woman",
       age: getAge(birthday),
       area: prefecture,
@@ -58,15 +55,13 @@ export const useSignup = () => {
     return await axios
       .post<IOK>(url, body)
       .then(response => {
-        setIsLoading(false);
         return response.data.id;
       })
       .catch(error => {
-        handleError(error);
-        if (error.response.state === 400) {
-          setErrors(error.response.data);
+        const apiError = handleError(error);
+        if (apiError) {
+          setErrors(apiError);
         }
-        setIsLoading(false);
       });
   };
 
@@ -87,6 +82,8 @@ export const useSignup = () => {
 
   return {
     setRegisterUserParts,
+    name,
+    setName,
     isMan,
     setMan,
     isWoman,
@@ -96,6 +93,6 @@ export const useSignup = () => {
     prefecture,
     setPrefecture,
     createUser,
-    isLoading
+    errors
   };
 };
