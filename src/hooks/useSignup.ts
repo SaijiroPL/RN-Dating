@@ -36,16 +36,11 @@ export const useSignup = () => {
   /** 都道府県 */
   const [prefecture, setPrefecture] = useState<string>("");
 
-  /** ローディング状態 */
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
   /** 異常レスポンス */
   const [errors, setErrors] = useState<IApiError>();
 
   /** ユーザー登録 */
   const createUser = async () => {
-    setIsLoading(true);
-
     const url = API_ENDPOINT.USERS;
 
     const body: ICreateUserBody = {
@@ -60,15 +55,13 @@ export const useSignup = () => {
     return await axios
       .post<IOK>(url, body)
       .then(response => {
-        setIsLoading(false);
         return response.data.id;
       })
       .catch(error => {
-        handleError(error);
-        if (error.response.state === 400) {
-          setErrors(error.response.data);
+        const apiError = handleError(error);
+        if (apiError) {
+          setErrors(apiError);
         }
-        setIsLoading(false);
       });
   };
 
@@ -100,6 +93,6 @@ export const useSignup = () => {
     prefecture,
     setPrefecture,
     createUser,
-    isLoading
+    errors
   };
 };
