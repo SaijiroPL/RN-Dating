@@ -4,10 +4,14 @@ import { Text } from "native-base";
 import { useNavigation } from "react-navigation-hooks";
 
 // from app
-import { COLOR } from "app/src/constants";
+import { COLOR, LAYOUT } from "app/src/constants";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { SelectButton, CompleteButton } from "app/src/components/Button";
-import { DatePicker, PrefecturePicker } from "app/src/components/Form";
+import {
+  DatePicker,
+  InputForm,
+  PrefecturePicker
+} from "app/src/components/Form";
 import { useSignin, useSignup } from "app/src/hooks";
 import { getToday } from "app/src/utils";
 import { appStyle } from "app/src/styles";
@@ -22,6 +26,8 @@ const EntryScreen: React.FC = () => {
 
   /** ユーザー登録機能 */
   const {
+    name,
+    setName,
     isMan,
     setMan,
     isWoman,
@@ -47,11 +53,25 @@ const EntryScreen: React.FC = () => {
     });
   };
 
+  /** 名前フォームの描画 */
+  const renderNameForm = () => {
+    return (
+      <View style={thisStyle.formGroup}>
+        <View style={{ marginRight: 20 }}>
+          <Text style={thisStyle.entryText}>名前</Text>
+        </View>
+        <View style={{ width: LAYOUT.window.width * 0.4 }}>
+          <InputForm placeholder="" value={name} setValue={setName} />
+        </View>
+      </View>
+    );
+  };
+
   /** 性別選択ボタンの描画 */
   const renderSexButtons = () => {
     return (
       <View style={thisStyle.formGroup}>
-        <View style={thisStyle.sexTitleContainer}>
+        <View style={{ marginRight: 30 }}>
           <Text style={thisStyle.entryText}>性別</Text>
         </View>
         <SelectButton
@@ -118,6 +138,7 @@ const EntryScreen: React.FC = () => {
   return (
     <View style={appStyle.standardContainer}>
       <View style={appStyle.emptySpace} />
+      {renderNameForm()}
       {renderSexButtons()}
       {renderBirthdayForm()}
       {renderAddressForm()}
@@ -138,9 +159,6 @@ const thisStyle = StyleSheet.create({
     color: COLOR.textTintColor,
     fontFamily: "genju-medium",
     fontSize: 20
-  },
-  sexTitleContainer: {
-    marginRight: 30
   }
 });
 

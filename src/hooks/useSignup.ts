@@ -21,6 +21,9 @@ export const useSignup = () => {
   /** グローバルステート更新関数 */
   const dispatch = useDispatch();
 
+  /** ユーザー名 */
+  const [name, setName] = useState<string>("");
+
   /** 男性かどうか */
   const [isMan, setMan] = useState<boolean>(false);
 
@@ -46,8 +49,7 @@ export const useSignup = () => {
     const url = API_ENDPOINT.USERS;
 
     const body: ICreateUserBody = {
-      // TODO 名前登録フォームを作る
-      name: "xxx",
+      name: name,
       sex: isMan ? "man" : "woman",
       age: getAge(birthday),
       area: prefecture,
@@ -87,6 +89,8 @@ export const useSignup = () => {
 
   return {
     setRegisterUserParts,
+    name,
+    setName,
     isMan,
     setMan,
     isWoman,
