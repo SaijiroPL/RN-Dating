@@ -18,9 +18,6 @@ export const useSignin = () => {
   /** グローバルステート更新関数 */
   const dispatch = useDispatch();
 
-  /** ローディング状態 */
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
   /** 異常レスポンス */
   const [errors, setErrors] = useState<IApiError>({
     code: 0,
@@ -72,5 +69,5 @@ export const useSignin = () => {
     });
   };
 
-  return { isLoading, loginByEmail, setLoginUser, errors };
+  return { loginByEmail, setLoginUser, errors };
 };

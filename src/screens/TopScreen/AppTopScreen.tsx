@@ -56,7 +56,7 @@ const AppTopScreen: React.FC = () => {
   >([]);
 
   /** ログイン機能 */
-  const { isLoading, loginByEmail, errors } = useSignin();
+  const { loginByEmail, errors } = useSignin();
 
   /** ユーザー登録機能 */
   const { setRegisterUserParts } = useSignup();
@@ -144,10 +144,6 @@ const AppTopScreen: React.FC = () => {
 
   /** メールアドレスログイン画面 */
   const renderSignInScreen = () => {
-    if (isLoading) {
-      return LoadingSpinner;
-    }
-
     const emailErrAtSignin: Array<string> = [];
     const passwordErrAtSignin: Array<string> = [];
     if (errors && errors.detail_message.length > 0) {
