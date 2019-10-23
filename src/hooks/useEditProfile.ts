@@ -77,6 +77,7 @@ export const useEditProfile = (userId: string) => {
     return await axios
       .put<IOK>(url, body)
       .then(() => {
+        setErrors({ code: 0, message: "", detail_message: [] });
         return true;
       })
       .catch(error => {

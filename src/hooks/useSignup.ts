@@ -55,6 +55,7 @@ export const useSignup = () => {
     return await axios
       .post<IOK>(url, body)
       .then(response => {
+        setErrors({ code: 0, message: "", detail_message: [] });
         return response.data.id;
       })
       .catch(error => {
