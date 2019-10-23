@@ -20,8 +20,6 @@ export const useUpdatePassword = (userId: string) => {
   const [newPassword, setNewPassword] = useState<string>("");
   /** 新しいパスワードの確認 */
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
-  /** ローディング状態 */
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   /** 異常レスポンス */
   const [errors, setErrors] = useState<IApiError>({
     code: 0,
@@ -31,8 +29,6 @@ export const useUpdatePassword = (userId: string) => {
 
   /** パスワード変更API */
   const updatePassword = async () => {
-    setIsLoading(true);
-
     const url = API_ENDPOINT.USER_PASSWORD.replace("$1", userId);
 
     const body: IUpdatePasswordBody = {
@@ -40,17 +36,18 @@ export const useUpdatePassword = (userId: string) => {
       new_password: newPassword
     };
 
-    await axios
+    return await axios
       .put<IOK>(url, body)
-      .then(response => {
-        setIsLoading(false);
+      .then(() => {
+        setErrors({ code: 0, message: "", detail_message: [] });
+        return true;
       })
       .catch(error => {
-        handleError(error);
-        if (error.response.state === 400) {
-          setErrors(error.response.data);
+        const apiError = handleError(error);
+        if (apiError) {
+          setErrors(apiError);
         }
-        setIsLoading(false);
+        return false;
       });
   };
 
@@ -61,8 +58,7 @@ export const useUpdatePassword = (userId: string) => {
     setNewPassword,
     confirmNewPassword,
     setConfirmNewPassword,
-    isLoading,
-    errors,
-    updatePassword
+    updatePassword,
+    errors
   };
 };
