@@ -10,7 +10,7 @@ import { InputForm } from "app/src/components/Form";
 import { CompleteButton } from "app/src/components/Button";
 import { useSignin, useSignup } from "app/src/hooks";
 import { validateEmail, validateAlphaNumeric } from "app/src/utils";
-import { appStyle } from "app/src/styles";
+import { appStyle, appTextStyle } from "app/src/styles";
 
 /**
  * 初回起動時の画面
@@ -218,6 +218,21 @@ const AppTopScreen: React.FC = () => {
     );
   };
 
+  /** 利用規約とプライバシーポリシーのリンクの描画 */
+  const renderTermsLinks = () => {
+    return (
+      <View style={thisStyle.termsLinkContainer}>
+        <Text onPress={() => navigate("terms")} style={appTextStyle.linkText}>
+          利用規約
+        </Text>
+        <View style={{ width: 20 }} />
+        <Text onPress={() => navigate("privacy")} style={appTextStyle.linkText}>
+          プライバシーポリシー
+        </Text>
+      </View>
+    );
+  };
+
   return (
     <View style={appStyle.standardContainer}>
       <View style={appStyle.emptySpace} />
@@ -229,6 +244,7 @@ const AppTopScreen: React.FC = () => {
           width={LAYOUT.window.width * 0.8}
         />
         <Text style={thisStyle.welcomeText}>1Dateへようこそ</Text>
+        {renderTermsLinks()}
       </View>
       <View style={thisStyle.linkOrFormGroup}>
         {screenPhase === 0 && renderTopScreen()}
@@ -253,6 +269,9 @@ const thisStyle = StyleSheet.create({
   },
   completeButtonContainer: {
     marginTop: 20
+  },
+  termsLinkContainer: {
+    flexDirection: "row"
   },
   welcomeText: {
     color: COLOR.textTintColor,
