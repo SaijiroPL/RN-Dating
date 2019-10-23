@@ -16,3 +16,12 @@ export interface IHistoryList {
   total: number;
   history_list: Array<IHistory>;
 }
+
+/**
+ * 検索履歴削除APIレスポンス
+ * @author itsukiyamada
+ */
+export interface IDeleteHistory {
+  history_id: number;
+  user_id: string;
+}

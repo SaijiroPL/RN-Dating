@@ -1,33 +1,36 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { Header, Text } from "native-base";
+import { useState, useEffect } from "react";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
+import { API_ENDPOINT } from "app/src/constants";
 import { IHistoryList } from "app/src/interfaces/api/History";
 import { IApiError } from "app/src/interfaces/api/Error";
-import { LoadingSpinner } from "app/src/components/Spinners";
-import { HistorySwipeList } from "app/src/components/List";
-import { appTextStyle } from "app/src/styles";
 import { handleError } from "app/src/utils";
-import { API_ENDPOINT } from "app/src/constants";
-
 
 /**
- * 検索履歴一覧画面
+ * 検索履歴一覧取得フック
  * @author itsukiyamada
+ * @param userId ユーザーID(Optional:検索履歴一覧取得時に必要)
  */
-const DeleteHistoryScreen: React.FC = () => {
+export const useGetHistoryList = (userId: string) => {
+  /** 正常レスポンス */
   const [histories, setHistories] = useState<IHistoryList>({
     total: 0,
     history_list: []
   });
+
+  /** 異常レスポンス */
   const [errors, setErrors] = useState<IApiError>({
     code: 0,
     message: "",
     detail_message: []
   });
+
+  /** ローディング状態 */
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  /** リフレッシュ状態 */
+  const [isRefreshing, setRefreshing] = useState<boolean>(false);
 
   /** ライフサイクル */
   useEffect(() => {
@@ -38,14 +41,27 @@ const DeleteHistoryScreen: React.FC = () => {
     };
   }, []);
 
-  /** 検索履歴一覧取得 */
+  /**
+   * デートプラン一覧取得API
+   * @param signal CancelTokenSource
+   */
   const getHistoryList = (signal: CancelTokenSource) => {
-    const url = API_ENDPOINT.PLANS_SEARCH.replace("$1", planId);
+    const url = API_ENDPOINT.PLANS_SEARCH;
+
+    const cancelToken = signal.token;
+    const config = userId
+      ? // マイプラン一覧取得
+        {
+          params: {
+            userId: userId
+          },
+          cancelToken: cancelToken
+        }
+      : // 通常のプラン一覧取得
+        { cancelToken: cancelToken };
 
     axios
-      .get(url, {
-        cancelToken: signal.token
-      })
+      .get(url, config)
       .then((response: { data: IHistoryList }) => {
         setHistories(Object.assign(response.data));
         setIsLoading(false);
@@ -59,32 +75,16 @@ const DeleteHistoryScreen: React.FC = () => {
             setErrors(error.response.data);
           }
         }
-    setHistories(histories);
-    setIsLoading(false);
-    }
-    );
-
-  /** 検索履歴削除 */
-  const deleteHistory = (id: number) => {
-    // TODO API繋ぎこみ
+        setIsLoading(false);
+      });
   };
 
-  if (isLoading) {
-    return LoadingSpinner;
-  }
+  /** プルリロード */
+  const onRefresh = () => {
+    setRefreshing(true);
+    getHistoryList(axios.CancelToken.source());
+    setRefreshing(false);
+  };
 
-  // TODO 件数を表示する?
-  return (
-    <View>
-      <Header>
-        <Text style={appTextStyle.defaultText}>検索履歴一覧</Text>
-      </Header>
-      <HistorySwipeList
-        histories={histories.history_list}
-        onDelete={deleteHistory}
-      />
-    </View>
-  );
+  return { isLoading, histories, errors, isRefreshing, onRefresh };
 };
-
-export default DeleteHistoryScreen;
