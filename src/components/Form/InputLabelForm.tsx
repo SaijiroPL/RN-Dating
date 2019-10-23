@@ -67,12 +67,14 @@ export const InputLabelForm: React.FC<Props> = (props: Props) => {
     return (
       <Item inlineLabel>
         <Label style={thisStyle.labelText}>{label}</Label>
-        <Input
-          onChangeText={numValue => setNumValue(+numValue)}
-          value={`${numValue}`}
-          style={thisStyle.inputText}
-        />
-        {ErrorList}
+        <View style={thisStyle.inputContainer}>
+          <Input
+            onChangeText={numValue => setNumValue(+numValue)}
+            value={`${numValue}`}
+            style={thisStyle.inputText}
+          />
+          {ErrorList}
+        </View>
       </Item>
     );
   }
