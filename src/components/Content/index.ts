@@ -6,3 +6,5 @@ export * from "./SpotSwiper";
 export * from "./UserHeader";
 /** ユーザープロフィール */
 export * from "./UserProfile";
+/** WebView */
+export * from "./SimpleWebView";

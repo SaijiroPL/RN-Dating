@@ -1,0 +1,15 @@
+import React from "react";
+
+// from app
+import { WEB_ENDPOINT } from "app/src/constants/Url";
+import { SimpleWebView } from "app/src/components/Content";
+
+/**
+ * プライバシーポリシー画面
+ * @author itsukiyamada
+ */
+const PrivacypolicyScreen: React.FC = () => {
+  return <SimpleWebView uri={WEB_ENDPOINT.PRIVACY_POLICY} />;
+};
+
+export default PrivacypolicyScreen;
