@@ -4,14 +4,13 @@ import { Header, Text } from "native-base";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
-import { IHistoryList } from "app/src/interfaces/api/History";
+import { IHistoryList, IDeleteHistory } from "app/src/interfaces/api/History";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { HistorySwipeList } from "app/src/components/List";
 import { appTextStyle } from "app/src/styles";
 import { handleError } from "app/src/utils";
 import { API_ENDPOINT } from "app/src/constants";
-
 
 /**
  * 検索履歴一覧画面
@@ -59,14 +58,26 @@ const DeleteHistoryScreen: React.FC = () => {
             setErrors(error.response.data);
           }
         }
-    setHistories(histories);
-    setIsLoading(false);
-    }
-    );
+        setHistories(histories);
+        setIsLoading(false);
+      });
 
-  /** 検索履歴削除 */
-  const deleteHistory = (id: number) => {
-    // TODO API繋ぎこみ
+    /** 検索履歴削除 */
+    const deleteDeleteHistory = async (id: number) => {
+      const url = API_ENDPOINT.PLANS_SEARCH;
+
+      return await axios
+        .delete<IDeleteHistory>(url)
+        .then(response => {
+          return response.data.user_id;
+        })
+        .catch(error => {
+          const apiError = handleError(error);
+          if (apiError) {
+            setErrors(apiError);
+          }
+        });
+    };
   };
 
   if (isLoading) {
