@@ -23,11 +23,15 @@
   ],
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
-  "prettier.eslintIntegration": true,
-  "prettier.stylelintIntegration": true,
   "stylelint.enable": true,
   "typescript.tsserver.trace": "verbose",
   "[markdown]": {
     "files.trimTrailingWhitespace": false
+  },
+  "[javascript]": {
+    "editor.tabSize": 2
+  },
+  "[typescript]": {
+    "editor.tabSize": 2
   }
 }
