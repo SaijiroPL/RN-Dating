@@ -39,7 +39,7 @@ const DeleteHistoryScreen: React.FC = () => {
 
   /** 検索履歴一覧取得 */
   const getHistoryList = (signal: CancelTokenSource) => {
-    const url = API_ENDPOINT.HISTORY.replace("$1", planId);
+    const url = API_ENDPOINT.HISTORY.replace("$1", userId);
 
     axios
       .get(url, {
@@ -64,7 +64,7 @@ const DeleteHistoryScreen: React.FC = () => {
 
     /** 検索履歴削除 */
     const deleteDeleteHistory = async (id: number) => {
-      const url = API_ENDPOINT.HISTORY;
+      const url = API_ENDPOINT.HISTORY_DELETE;
 
       return await axios
         .delete<IDeleteHistory>(url)

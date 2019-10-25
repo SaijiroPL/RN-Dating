@@ -25,7 +25,7 @@ export const useDeleteHistory = (userId: string) => {
    * @param signal CancelTokenSource
    */
   const deleteHistory = async (signal: CancelTokenSource) => {
-    const url = API_ENDPOINT.PLANS_SEARCH;
+    const url = API_ENDPOINT.HISTORY_DELETE;
 
     const cancelToken = signal.token;
     const config = userId
@@ -41,7 +41,9 @@ export const useDeleteHistory = (userId: string) => {
 
     return await axios
       .delete<IOK>(url, config)
-      .then(() => {})
+      .then(() => {
+        return true;
+      })
       .catch(error => {
         if (axios.isCancel(error)) {
           console.log("Request Cancelled: " + error.message);
@@ -49,6 +51,7 @@ export const useDeleteHistory = (userId: string) => {
           handleError(error);
           if (error.response.stats === 400) {
             setErrors(error.response.data);
+            return false;
           }
         }
       });
