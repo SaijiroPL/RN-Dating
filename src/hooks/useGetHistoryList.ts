@@ -29,9 +29,6 @@ export const useGetHistoryList = (userId: string) => {
   /** ローディング状態 */
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  /** リフレッシュ状態 */
-  const [isRefreshing, setRefreshing] = useState<boolean>(false);
-
   /** ライフサイクル */
   useEffect(() => {
     const signal = axios.CancelToken.source();
@@ -42,29 +39,24 @@ export const useGetHistoryList = (userId: string) => {
   }, []);
 
   /**
-   * デートプラン一覧取得API
+   * 検索履歴一覧取得API
    * @param signal CancelTokenSource
    */
   const getHistoryList = (signal: CancelTokenSource) => {
-    const url = API_ENDPOINT.PLANS_SEARCH;
+    const url = API_ENDPOINT.HISTORY;
 
     const cancelToken = signal.token;
-    const config = userId
-      ? // マイプラン一覧取得
-        {
-          params: {
-            userId: userId
-          },
-          cancelToken: cancelToken
-        }
-      : // 通常のプラン一覧取得
-        { cancelToken: cancelToken };
+    const config = {
+      params: {
+        userId: userId
+      },
+      cancelToken: cancelToken
+    };
 
     axios
-      .get(url, config)
-      .then((response: { data: IHistoryList }) => {
+      .get<IHistoryList>(url, config)
+      .then(response => {
         setHistories(Object.assign(response.data));
-        setIsLoading(false);
       })
       .catch(error => {
         if (axios.isCancel(error)) {
@@ -79,12 +71,5 @@ export const useGetHistoryList = (userId: string) => {
       });
   };
 
-  /** プルリロード */
-  const onRefresh = () => {
-    setRefreshing(true);
-    getHistoryList(axios.CancelToken.source());
-    setRefreshing(false);
-  };
-
-  return { isLoading, histories, errors, isRefreshing, onRefresh };
+  return { isLoading, histories, errors };
 };

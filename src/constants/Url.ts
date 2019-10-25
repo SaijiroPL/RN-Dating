@@ -29,6 +29,8 @@ export const API_ENDPOINT = {
   PLAN_COMMENTS: API_HOST + "/plans/$1/comments",
   // お気に入り登録者一覧取得
   PLAN_LIKES: API_HOST + "/plans/$1/likes"
+  // 検索履歴一覧取得
+  HISTORY: API_HOST + "/histories/$1"
 };
 
 /**
