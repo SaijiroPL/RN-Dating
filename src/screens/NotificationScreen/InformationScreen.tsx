@@ -1,30 +1,39 @@
-import React, { useState } from "react";
+import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 // from app
+import { useGlobalState } from "app/src/Store";
 import { COLOR } from "app/src/constants";
 import { RefreshSpinner } from "app/src/components/Spinners";
+import { InformationList } from "app/src/components/List";
+import { useGetInformationList } from "app/src/hooks";
 import { appTextStyle } from "app/src/styles";
 
 /**
- * お気に入り通知一覧画面
+ * 運営からのお知らせ一覧画面
  * @author kotatanaka
  */
-const NotificationLikeScreen: React.FC = () => {
-  const [notifications, setNotifications] = useState<Array<any>>([]);
-  const [isRefreshing, setRefreshing] = useState<boolean>(false);
+const InformationScreen: React.FC = () => {
+  /** ログイン中のユーザー */
+  const loginUser = useGlobalState("loginUser");
 
-  const onRefresh = () => {
-    setRefreshing(true);
-    setRefreshing(false);
-  };
+  /** 運営からのお知らせ一覧取得 */
+  const {
+    isLoading,
+    isRefreshing,
+    onRefresh,
+    information,
+    errors
+  } = useGetInformationList(loginUser.id);
 
   return (
     <ScrollView refreshControl={RefreshSpinner(isRefreshing, onRefresh)}>
       <View style={thisStyle.container}>
-        {!notifications.length && (
+        {information.information_list.length ? (
+          <InformationList informationList={information.information_list} />
+        ) : (
           <Text style={appTextStyle.defaultText}>
-            お気に入り通知はありません。
+            運営からのお知らせはありません。
           </Text>
         )}
       </View>
@@ -39,4 +48,4 @@ const thisStyle = StyleSheet.create({
   }
 });
 
-export default NotificationLikeScreen;
+export default InformationScreen;
