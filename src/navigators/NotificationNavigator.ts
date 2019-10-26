@@ -6,8 +6,8 @@ import {
 
 // from app
 import { COLOR } from "app/src/constants";
-import NotificationFollowScreen from "app/src/screens/NotificationScreen/NotificationFollowScreen";
-import NotificationLikeScreen from "app/src/screens/NotificationScreen/NotificationLikeScreen";
+import NotificationAllScreen from "app/src/screens/NotificationScreen/NotificationAllScreen";
+import InformationScreen from "app/src/screens/NotificationScreen/InformationScreen";
 import { appTextStyle } from "app/src/styles";
 
 /**
@@ -16,26 +16,26 @@ import { appTextStyle } from "app/src/styles";
  */
 const NotificationTabNavigator = createMaterialTopTabNavigator(
   {
-    // フォロー通知一覧画面
-    FollowTab: {
-      screen: NotificationFollowScreen,
+    // 通知一覧画面
+    NotificationTab: {
+      screen: NotificationAllScreen,
       navigationOptions: () => ({
-        title: "フォロー",
+        title: "すべて",
         titleStyle: appTextStyle.defaultText
       })
     },
-    // お気に入り通知一覧画面
-    LikeTab: {
-      screen: NotificationLikeScreen,
+    // 運営からのお知らせ一覧画面
+    InformationTab: {
+      screen: InformationScreen,
       navigationOptions: () => ({
-        title: "お気に入り",
+        title: "お知らせ",
         titleStyle: appTextStyle.defaultText
       })
     }
   },
   // タブナビゲーション全体の設定
   {
-    initialRouteName: "FollowTab",
+    initialRouteName: "NotificationTab",
     tabBarOptions: {
       activeTintColor: COLOR.tintColor,
       inactiveTintColor: COLOR.inactiveColor,

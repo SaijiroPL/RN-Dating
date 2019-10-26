@@ -8,6 +8,10 @@ export * from "./useGetPlanList";
 export * from "./useSearchPlanList";
 /** デートプラン詳細取得 */
 export * from "./useGetPlanDetail";
+/** 通知一覧取得 */
+export * from "./useGetNotificationList";
+/** 運営からのお知らせ一覧取得 */
+export * from "./useGetInformationList";
 /** コメント一覧取得 */
 export * from "./useGetCommentList";
 /** デートプランお気に入り登録者一覧取得 */
