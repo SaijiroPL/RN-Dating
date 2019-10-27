@@ -12,6 +12,8 @@ export * from "./useGetPlanDetail";
 export * from "./useGetNotificationList";
 /** 運営からのお知らせ一覧取得 */
 export * from "./useGetInformationList";
+/** よくある質問一覧取得 */
+export * from "./useGetFaqList";
 /** コメント一覧取得 */
 export * from "./useGetCommentList";
 /** デートプランお気に入り登録者一覧取得 */
