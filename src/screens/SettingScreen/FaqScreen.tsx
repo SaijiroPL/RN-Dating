@@ -1,23 +1,11 @@
 import React, { useState } from "react";
-import {
-  Container,
-  Header,
-  Content,
-  List,
-  ListItem,
-  View,
-  Text,
-  Left,
-  Right,
-  Input,
-  Item
-} from "native-base";
-import { StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Container, Header, Content, Text } from "native-base";
 
 // from app
-import { COLOR } from "app/src/constants";
-import { CompleteButton } from "app/src/components/Button";
+import { LoadingSpinner } from "app/src/components/Spinners";
+import { FaqList } from "app/src/components/List";
+import { QuestionForm } from "app/src/components/Form";
+import { useGetFaqList } from "app/src/hooks";
 import { appTextStyle } from "app/src/styles";
 
 /**
@@ -25,47 +13,22 @@ import { appTextStyle } from "app/src/styles";
  * @author itsukiyamada, kotatanaka
  */
 const FaqScreen: React.FC = () => {
-  const [isSelectA, setSelectA] = useState<boolean>(false);
-  const [isSelectB, setSelectB] = useState<boolean>(false);
-  const [isSelectC, setSelectC] = useState<boolean>(false);
+  /** よくある質問一覧取得 */
+  const { isLoading, faqList, errors } = useGetFaqList();
+
+  /** 質問投稿内容 */
   const [question, setQuestion] = useState<string>("");
-  const onCompleteButtonPress = () => {
+
+  /** 質問送信ボタン押下時の処理 */
+  const onSendButtonPress = () => {
+    // TODO 質問投稿
     console.log(question);
   };
 
-  /**
-   * 質問項目を描画する
-   * @param question 質問
-   * @param isSelect 選択されているかどうか
-   * @param setSelect 選択状態を切り替える関数
-   */
-  const renderListItem = (
-    question: string,
-    isSelect: boolean,
-    setSelect: React.Dispatch<React.SetStateAction<boolean>>
-  ) => {
-    const Question = <Text style={appTextStyle.standardText}>{question}</Text>;
-    const ArrowForward = <Ionicons name="ios-arrow-forward" size={20} />;
-
-    // TODO 質問を選択したら展開されて回答を表示する
-
-    // 選択中の場合は背景色を変える
-    return isSelect ? (
-      <ListItem
-        noIndent
-        style={{ backgroundColor: COLOR.baseBackgroundColor }}
-        onPress={() => setSelect(!isSelect)}
-      >
-        <Left>{Question}</Left>
-        <Right>{ArrowForward}</Right>
-      </ListItem>
-    ) : (
-      <ListItem noIndent onPress={() => setSelect(!isSelect)}>
-        <Left>{Question}</Left>
-        <Right>{ArrowForward}</Right>
-      </ListItem>
-    );
-  };
+  /** ローディング */
+  if (isLoading) {
+    return LoadingSpinner;
+  }
 
   return (
     <Container>
@@ -73,35 +36,18 @@ const FaqScreen: React.FC = () => {
         <Text style={appTextStyle.standardText}>よくある質問</Text>
       </Header>
       <Content>
-        <List>
-          {renderListItem("質問A", isSelectA, setSelectA)}
-          {renderListItem("質問B", isSelectB, setSelectB)}
-          {renderListItem("質問C", isSelectC, setSelectC)}
-        </List>
+        <FaqList faqList={faqList} />
         <Header>
-          <Text style={appTextStyle.standardText}>質問を送信</Text>
+          <Text style={appTextStyle.standardText}>お問い合わせ</Text>
         </Header>
-        <Item regular>
-          <Input
-            placeholder="質問を入力"
-            onChangeText={value => setQuestion(value)}
-            value={question}
-          />
-        </Item>
-        <View style={thisStyle.item}>
-          <CompleteButton title="送信" onPress={onCompleteButtonPress} />
-        </View>
+        <QuestionForm
+          question={question}
+          setQuestion={setQuestion}
+          onSendButtonPress={onSendButtonPress}
+        />
       </Content>
     </Container>
   );
 };
-
-/** スタイリング */
-const thisStyle = StyleSheet.create({
-  item: {
-    alignItems: "center",
-    marginTop: 20
-  }
-});
 
 export default FaqScreen;

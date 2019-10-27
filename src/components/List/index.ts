@@ -10,6 +10,8 @@ export * from "./LikeUserList";
 export * from "./NotificationList";
 /** 運営からのお知らせリスト */
 export * from "./InformationList";
+/** よくある質問リスト */
+export * from "./FaqList";
 /** 検索履歴リスト */
 export * from "./HistorySwipeList";
 /** 画像選択グリッドリスト */
