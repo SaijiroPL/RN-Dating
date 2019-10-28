@@ -17,3 +17,8 @@ export interface ILikeUserList {
   total: number;
   liked_user_list: Array<ILikeUser>;
 }
+
+/** デートプランお気に入り登録APIリクエスストボディ */
+export interface ILikeBody {
+  user_id: string;
+}
