@@ -33,7 +33,7 @@ export const API_ENDPOINT = {
   PLAN: API_HOST + "/plans/$1",
   // コメント一覧取得
   PLAN_COMMENTS: API_HOST + "/plans/$1/comments",
-  // お気に入り登録者一覧取得
+  // お気に入り登録者一覧取得, お気に入り登録, お気に入り解除
   PLAN_LIKES: API_HOST + "/plans/$1/likes"
 };
 

@@ -16,6 +16,8 @@ export * from "./useGetInformationList";
 export * from "./useGetFaqList";
 /** コメント一覧取得 */
 export * from "./useGetCommentList";
+/** デートプランお気に入り登録・解除 */
+export * from "./useLikePlan";
 /** デートプランお気に入り登録者一覧取得 */
 export * from "./useGetLikeUserList";
 /** ユーザー詳細取得 */
