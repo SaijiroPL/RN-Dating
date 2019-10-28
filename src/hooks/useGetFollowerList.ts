@@ -46,10 +46,10 @@ export const useGetFollowerList = (userId: string) => {
     const url = API_ENDPOINT.USER_FOLLOWERS.replace("$1", userId);
 
     axios
-      .get(url, {
+      .get<IFollowerList>(url, {
         cancelToken: signal.token
       })
-      .then((response: { data: IFollowerList }) => {
+      .then(response => {
         setFollowers(Object.assign(response.data));
         setIsLoading(false);
       })
@@ -57,9 +57,9 @@ export const useGetFollowerList = (userId: string) => {
         if (axios.isCancel(error)) {
           console.log("Request Cancelled: " + error.message);
         } else {
-          handleError(error);
-          if (error.response.stats === 400) {
-            setErrors(error.response.data);
+          const apiError = handleError(error);
+          if (apiError) {
+            setErrors(apiError);
           }
         }
         setIsLoading(false);

@@ -63,13 +63,13 @@ export const useGetPlanDetail = (planId: string, userId: string) => {
   const getPlanDetail = (signal: CancelTokenSource) => {
     const url = API_ENDPOINT.PLAN.replace("$1", planId);
     axios
-      .get(url, {
+      .get<IPlanFull>(url, {
         params: {
           userId: userId
         },
         cancelToken: signal.token
       })
-      .then((response: { data: IPlanFull }) => {
+      .then(response => {
         setPlan(Object.assign(response.data));
         setIsPlanLoading(false);
       })
@@ -77,9 +77,9 @@ export const useGetPlanDetail = (planId: string, userId: string) => {
         if (axios.isCancel(error)) {
           console.log("Request Cancelled: " + error.message);
         } else {
-          handleError(error);
-          if (error.response.stats === 400) {
-            setErrors(error.response.data);
+          const apiError = handleError(error);
+          if (apiError) {
+            setErrors(apiError);
           }
         }
         setIsPlanLoading(false);

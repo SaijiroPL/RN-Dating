@@ -46,10 +46,10 @@ export const useGetCommentList = (planId: string) => {
     const url = API_ENDPOINT.PLAN_COMMENTS.replace("$1", planId);
 
     axios
-      .get(url, {
+      .get<ICommentList>(url, {
         cancelToken: signal.token
       })
-      .then((response: { data: ICommentList }) => {
+      .then(response => {
         setComments(Object.assign(response.data));
         setIsCommentsLoading(false);
       })
@@ -57,9 +57,9 @@ export const useGetCommentList = (planId: string) => {
         if (axios.isCancel(error)) {
           console.log("Request Cancelled: " + error.message);
         } else {
-          handleError(error);
-          if (error.response.stats === 400) {
-            setErrors(error.response.data);
+          const apiError = handleError(error);
+          if (apiError) {
+            setErrors(apiError);
           }
         }
         setIsCommentsLoading(false);

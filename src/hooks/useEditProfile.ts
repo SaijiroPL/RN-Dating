@@ -113,9 +113,9 @@ export const useEditProfile = (userId: string) => {
         if (axios.isCancel(error)) {
           console.log("Request Cancelled: " + error.message);
         } else {
-          handleError(error);
-          if (error.response.stats === 400) {
-            setErrors(error.response.data);
+          const apiError = handleError(error);
+          if (apiError) {
+            setErrors(apiError);
           }
         }
         setIsLoading(false);
