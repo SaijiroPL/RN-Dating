@@ -63,13 +63,13 @@ export const useGetPlanDetail = (planId: string, userId: string) => {
   const getPlanDetail = (signal: CancelTokenSource) => {
     const url = API_ENDPOINT.PLAN.replace("$1", planId);
     axios
-      .get(url, {
+      .get<IPlanFull>(url, {
         params: {
           userId: userId
         },
         cancelToken: signal.token
       })
-      .then((response: { data: IPlanFull }) => {
+      .then(response => {
         setPlan(Object.assign(response.data));
         setIsPlanLoading(false);
       })

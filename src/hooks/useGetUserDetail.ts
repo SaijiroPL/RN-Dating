@@ -57,10 +57,10 @@ export const useGetUserDetail = (userId: string) => {
     const url = API_ENDPOINT.USER.replace("$1", userId);
 
     axios
-      .get(url, {
+      .get<IUserDetail>(url, {
         cancelToken: signal.token
       })
-      .then((response: { data: IUserDetail }) => {
+      .then(response => {
         setUser(Object.assign(response.data));
         setIsLoading(false);
       })

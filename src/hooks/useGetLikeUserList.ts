@@ -46,10 +46,10 @@ export const useGetLikeUserList = (planId: string) => {
     const url = API_ENDPOINT.PLAN_LIKES.replace("$1", planId);
 
     axios
-      .get(url, {
+      .get<ILikeUserList>(url, {
         cancelToken: signal.token
       })
-      .then((response: { data: ILikeUserList }) => {
+      .then(response => {
         setUsers(Object.assign(response.data));
         setIsLoading(false);
       })

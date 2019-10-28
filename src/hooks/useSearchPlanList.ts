@@ -67,14 +67,14 @@ export const useSearchPlanList = () => {
     const url = API_ENDPOINT.PLANS_SEARCH;
 
     axios
-      .get(url, {
+      .get<IPlanList>(url, {
         params: {
           keyword: searchWord,
           user_id: loginUser.id
         },
         cancelToken: signal.token
       })
-      .then((response: { data: IPlanList }) => {
+      .then(response => {
         setPlans(Object.assign(response.data));
         setIsLoading(false);
       })

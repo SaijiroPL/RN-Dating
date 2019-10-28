@@ -46,10 +46,10 @@ export const useGetCommentList = (planId: string) => {
     const url = API_ENDPOINT.PLAN_COMMENTS.replace("$1", planId);
 
     axios
-      .get(url, {
+      .get<ICommentList>(url, {
         cancelToken: signal.token
       })
-      .then((response: { data: ICommentList }) => {
+      .then(response => {
         setComments(Object.assign(response.data));
         setIsCommentsLoading(false);
       })

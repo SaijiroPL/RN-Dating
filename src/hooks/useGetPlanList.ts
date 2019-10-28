@@ -61,8 +61,8 @@ export const useGetPlanList = (userId?: string) => {
         { cancelToken: cancelToken };
 
     axios
-      .get(url, config)
-      .then((response: { data: IPlanList }) => {
+      .get<IPlanList>(url, config)
+      .then(response => {
         setPlans(Object.assign(response.data));
         setIsLoading(false);
       })

@@ -46,10 +46,10 @@ export const useGetFollowerList = (userId: string) => {
     const url = API_ENDPOINT.USER_FOLLOWERS.replace("$1", userId);
 
     axios
-      .get(url, {
+      .get<IFollowerList>(url, {
         cancelToken: signal.token
       })
-      .then((response: { data: IFollowerList }) => {
+      .then(response => {
         setFollowers(Object.assign(response.data));
         setIsLoading(false);
       })
