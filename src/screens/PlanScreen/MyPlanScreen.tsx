@@ -6,7 +6,7 @@ import { useGlobalState } from "app/src/Store";
 import { COLOR } from "app/src/constants";
 import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
 import { PlanCardList } from "app/src/components/List";
-import { useGetPlanList } from "app/src/hooks";
+import { useGetLikePlanList } from "app/src/hooks";
 import { appTextStyle } from "app/src/styles";
 
 /**
@@ -17,10 +17,14 @@ const MyPlanScreen: React.FC = () => {
   /** ログイン中のユーザー */
   const loginUser = useGlobalState("loginUser");
 
-  /** デートプラン一覧取得(マイプランのみ) */
-  const { isLoading, plans, errors, isRefreshing, onRefresh } = useGetPlanList(
-    loginUser.id
-  );
+  /** 自分のお気に入りデートプラン一覧取得 */
+  const {
+    isLoading,
+    plans,
+    errors,
+    isRefreshing,
+    onRefresh
+  } = useGetLikePlanList(loginUser.id);
 
   if (isLoading) {
     return LoadingSpinner;
@@ -29,10 +33,10 @@ const MyPlanScreen: React.FC = () => {
   return (
     <View style={thisStyle.container}>
       <Text style={appTextStyle.countText}>
-        作成したデートプランの数: {plans.total}
+        お気に入りプラン数: {plans.total}
       </Text>
       <ScrollView refreshControl={RefreshSpinner(isRefreshing, onRefresh)}>
-        <PlanCardList planList={plans.plan_list} myPlan />
+        <PlanCardList planList={plans.plan_list} />
       </ScrollView>
     </View>
   );
