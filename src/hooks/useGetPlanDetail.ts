@@ -40,17 +40,10 @@ export const useGetPlanDetail = (planId: string, userId: string) => {
     detail_message: []
   });
 
-  /** ローディング状態 */
-  const [isPlanLoading, setIsPlanLoading] = useState<boolean>(true);
-
-  /** お気に入り登録しているかどうか */
-  const [isLiked, setIsLiked] = useState<boolean>(false);
-
   /** ライフサイクル */
   useEffect(() => {
     const signal = axios.CancelToken.source();
     getPlanDetail(signal);
-    setIsLiked(plan.is_liked);
     return () => {
       signal.cancel("Cancelling in Cleanup.");
     };
@@ -60,18 +53,18 @@ export const useGetPlanDetail = (planId: string, userId: string) => {
    * デートプラン詳細取得API
    * @param signal CancelTokenSource
    */
-  const getPlanDetail = (signal: CancelTokenSource) => {
+  const getPlanDetail = async (signal: CancelTokenSource) => {
     const url = API_ENDPOINT.PLAN.replace("$1", planId);
-    axios
+
+    await axios
       .get<IPlanFull>(url, {
         params: {
-          userId: userId
+          user_id: userId
         },
         cancelToken: signal.token
       })
       .then(response => {
         setPlan(Object.assign(response.data));
-        setIsPlanLoading(false);
       })
       .catch(error => {
         if (axios.isCancel(error)) {
@@ -82,9 +75,8 @@ export const useGetPlanDetail = (planId: string, userId: string) => {
             setErrors(apiError);
           }
         }
-        setIsPlanLoading(false);
       });
   };
 
-  return { isPlanLoading, plan, isLiked, setIsLiked, errors };
+  return { plan, getPlanDetail, errors };
 };
