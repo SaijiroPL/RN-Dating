@@ -4,6 +4,8 @@ export * from "./useSignin";
 export * from "./useSignup";
 /** デートプラン一覧取得 */
 export * from "./useGetPlanList";
+/** デートプラン一覧取得 */
+export * from "./useGetLikePlanList";
 /** デートプラン検索 */
 export * from "./useSearchPlanList";
 /** デートプラン詳細取得 */
