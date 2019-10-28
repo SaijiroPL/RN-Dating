@@ -53,7 +53,7 @@ export const useGetPlanList = (userId?: string) => {
       ? // マイプラン一覧取得
         {
           params: {
-            userId: userId
+            user_id: userId
           },
           cancelToken: cancelToken
         }
