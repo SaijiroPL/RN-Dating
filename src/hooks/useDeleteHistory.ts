@@ -21,41 +21,37 @@ export const useDeleteHistory = (userId: string) => {
   });
 
   /**
-   * デートプラン一覧取得API
+   * 検索履歴削除API
    * @param signal CancelTokenSource
    */
   const deleteHistory = async (signal: CancelTokenSource) => {
-    const url = API_ENDPOINT.HISTORY_DELETE;
+    const url = API_ENDPOINT.PLANS_SEARCH_HISTORY;
 
     const cancelToken = signal.token;
-    const config = userId
-      ? // マイプラン一覧取得
-        {
-          params: {
-            userId: userId
-          },
-          cancelToken: cancelToken
-        }
-      : // 通常のプラン一覧取得
-        { cancelToken: cancelToken };
+    {
+      const config = {
+        params: {
+          userId: userId
+        },
+        cancelToken: cancelToken
+      };
 
-    return await axios
-      .delete<IOK>(url, config)
-      .then(() => {
-        return true;
-      })
-      .catch(error => {
-        if (axios.isCancel(error)) {
-          console.log("Request Cancelled: " + error.message);
-        } else {
-          handleError(error);
-          if (error.response.stats === 400) {
-            setErrors(error.response.data);
+      return await axios
+        .delete<IOK>(url, config)
+        .then(() => {
+          return true;
+        })
+        .catch(error => {
+          if (axios.isCancel(error)) {
+            console.log("Request Cancelled: " + error.message);
+          } else {
+            handleError(error);
+            if (error.response.stats === 400) {
+              setErrors(error.response.data);
+            }
             return false;
           }
-        }
-      });
+        });
+    }
   };
-
-  return { errors };
 };

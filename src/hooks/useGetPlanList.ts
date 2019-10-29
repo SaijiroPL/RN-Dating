@@ -46,19 +46,15 @@ export const useGetPlanList = (userId?: string) => {
    * @param signal CancelTokenSource
    */
   const getPlanList = (signal: CancelTokenSource) => {
-    const url = API_ENDPOINT.PLANS;
+    const url = API_ENDPOINT.PLANS_SEARCH_HISTORIES;
 
     const cancelToken = signal.token;
-    const config = userId
-      ? // マイプラン一覧取得
-        {
-          params: {
-            userId: userId
-          },
-          cancelToken: cancelToken
-        }
-      : // 通常のプラン一覧取得 TODO 自分のエリアで人気のデートプランを取得する
-        { cancelToken: cancelToken };
+    const config = {
+      params: {
+        userId: userId
+      },
+      cancelToken: cancelToken
+    };
 
     axios
       .get(url, config)

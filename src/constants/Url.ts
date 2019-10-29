@@ -30,9 +30,9 @@ export const API_ENDPOINT = {
   // お気に入り登録者一覧取得
   PLAN_LIKES: API_HOST + "/plans/$1/likes",
   // 検索履歴一覧取得
-  HISTORY: API_HOST + "/plans/search/history",
+  PLANS_SEARCH_HISTORIES: API_HOST + "/plans/search/history",
   // 検索履歴削除
-  HISTORY_DELETE: API_HOST + "/plans/search/history/$1"
+  PLANS_SEARCH_HISTORY: API_HOST + "/plans/search/history/$1"
 };
 
 /**
