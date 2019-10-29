@@ -21,7 +21,6 @@ import {
 import { formatDate } from "app/src/utils";
 import { appStyle, appTextStyle } from "app/src/styles";
 
-
 /**
  * デートプラン詳細画面
  * @author kotatanaka
