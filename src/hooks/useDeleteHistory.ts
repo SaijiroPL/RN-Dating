@@ -5,7 +5,7 @@ import axios, { CancelTokenSource } from "axios";
 import { API_ENDPOINT } from "app/src/constants";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { handleError } from "app/src/utils";
-import { IOK } from "../interfaces/api/Success";
+import { IOK } from "app/src/interfaces/api/Success";
 
 /**
  * 検索履歴削除フック
@@ -28,30 +28,28 @@ export const useDeleteHistory = (userId: string) => {
     const url = API_ENDPOINT.PLANS_SEARCH_HISTORY;
 
     const cancelToken = signal.token;
-    {
-      const config = {
-        params: {
-          userId: userId
-        },
-        cancelToken: cancelToken
-      };
+    const config = {
+      params: {
+        userId: userId
+      },
+      cancelToken: cancelToken
+    };
 
-      return await axios
-        .delete<IOK>(url, config)
-        .then(() => {
-          return true;
-        })
-        .catch(error => {
-          if (axios.isCancel(error)) {
-            console.log("Request Cancelled: " + error.message);
-          } else {
-            handleError(error);
-            if (error.response.stats === 400) {
-              setErrors(error.response.data);
-            }
-            return false;
+    return await axios
+      .delete<IOK>(url, config)
+      .then(() => {
+        return true;
+      })
+      .catch(error => {
+        if (axios.isCancel(error)) {
+          console.log("Request Cancelled: " + error.message);
+        } else {
+          handleError(error);
+          if (error.response.stats === 400) {
+            setErrors(error.response.data);
           }
-        });
-    }
+          return false;
+        }
+      });
   };
 };

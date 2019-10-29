@@ -43,7 +43,7 @@ export const useGetHistoryList = (userId: string) => {
    * @param signal CancelTokenSource
    */
   const getHistoryList = (signal: CancelTokenSource) => {
-    const url = API_ENDPOINT.HISTORY;
+    const url = API_ENDPOINT.PLANS_SEARCH_HISTORIES;
 
     const cancelToken = signal.token;
     const config = {
