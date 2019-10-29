@@ -9,7 +9,7 @@ import { appTextStyle } from "app/src/styles";
 
 interface Props {
   histories: Array<IHistory>;
-  onDelete: (id: number) => void;
+  onDelete: (id: any) => void;
 }
 
 /**

@@ -15,10 +15,10 @@ import { useGlobalState } from "app/src/Store";
  */
 const DeleteHistoryScreen: React.FC = () => {
   /**検索履歴一覧取得 */
-  const { isLoading, histories, errors } = useGetHistoryList(userId);
+  const { isLoading, histories } = useGetHistoryList("userId");
 
   /**検索履歴削除 */
-  const { deleteHistory, errors } = useDeleteHistory(userId);
+  const { deleteHistory } = useDeleteHistory("userId");
 
   /** ログイン中のユーザー*/
   const loginUser = useGlobalState("loginUser");
