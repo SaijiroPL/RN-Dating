@@ -48,8 +48,8 @@ export const useDeleteHistory = (userId: string) => {
           if (error.response.stats === 400) {
             setErrors(error.response.data);
           }
-          return false;
         }
+        return false;
       });
   };
 };
