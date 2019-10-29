@@ -3,20 +3,20 @@ import axios, { CancelTokenSource } from "axios";
 
 // from app
 import { API_ENDPOINT } from "app/src/constants/Url";
-import { ICommentList } from "app/src/interfaces/api/Comment";
+import { INotificationList } from "app/src/interfaces/api/Notification";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { handleError } from "app/src/utils";
 
 /**
- * コメント一覧取得フック
+ * 通知一覧取得フック
  * @author kotatanaka
- * @param planId コメントのデートプランID
+ * @param userId 対象のユーザーID
  */
-export const useGetCommentList = (planId: string) => {
+export const useGetNotificationList = (userId: string) => {
   /** 正常レスポンス */
-  const [comments, setComments] = useState<ICommentList>({
-    total: 0,
-    comment_list: []
+  const [notifications, setNotifications] = useState<INotificationList>({
+    unread_count: 0,
+    notification_list: []
   });
 
   /** 異常レスポンス */
@@ -27,31 +27,39 @@ export const useGetCommentList = (planId: string) => {
   });
 
   /** ローディング状態 */
-  const [isCommentsLoading, setIsCommentsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  /** リフレッシュ状態 */
+  const [isRefreshing, setRefreshing] = useState<boolean>(false);
 
   /** ライフサイクル */
   useEffect(() => {
     const signal = axios.CancelToken.source();
-    getCommentList(signal);
+    getNotificationList(signal);
     return () => {
       signal.cancel("Cancelling in Cleanup.");
     };
   }, []);
 
+  const onRefresh = () => {
+    setRefreshing(true);
+    setRefreshing(false);
+  };
+
   /**
-   * コメント一覧取得API
+   * 通知一覧取得API
    * @param signal CancelTokenSource
    */
-  const getCommentList = (signal: CancelTokenSource) => {
-    const url = API_ENDPOINT.PLAN_COMMENTS.replace("$1", planId);
+  const getNotificationList = (signal: CancelTokenSource) => {
+    const url = API_ENDPOINT.USER_NOTIFICATIONS.replace("$1", userId);
 
     axios
-      .get<ICommentList>(url, {
+      .get<INotificationList>(url, {
         cancelToken: signal.token
       })
       .then(response => {
-        setComments(Object.assign(response.data));
-        setIsCommentsLoading(false);
+        setNotifications(Object.assign(response.data));
+        setIsLoading(false);
       })
       .catch(error => {
         if (axios.isCancel(error)) {
@@ -62,9 +70,9 @@ export const useGetCommentList = (planId: string) => {
             setErrors(apiError);
           }
         }
-        setIsCommentsLoading(false);
+        setIsLoading(false);
       });
   };
 
-  return { isCommentsLoading, comments, errors };
+  return { isLoading, isRefreshing, onRefresh, notifications, errors };
 };

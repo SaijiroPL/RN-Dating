@@ -3,34 +3,20 @@ import axios, { CancelTokenSource } from "axios";
 
 // from app
 import { API_ENDPOINT } from "app/src/constants";
-import { IPlanFull } from "app/src/interfaces/api/Plan";
+import { IPlanList } from "app/src/interfaces/api/Plan";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { handleError } from "app/src/utils";
 
 /**
- * デートプラン詳細取得フック
+ * 自分のお気に入りデートプラン一覧取得フック
  * @author kotatanaka
- * @param planId 取得するデートプランID
- * @param userId 取得者のユーザーID
+ * @param userId ユーザーID
  */
-export const useGetPlanDetail = (planId: string, userId: string) => {
+export const useGetLikePlanList = (userId: string) => {
   /** 正常レスポンス */
-  const [plan, setPlan] = useState<IPlanFull>({
-    plan_id: "",
-    title: "",
-    description: "",
-    date: "",
-    transportation: [],
-    need_time: 0,
-    create_date: "",
-    spots: [],
-    user_id: "",
-    user_name: "",
-    user_attr: "",
-    user_image_url: "",
-    like_count: 0,
-    comment_count: 0,
-    is_liked: false
+  const [plans, setPlans] = useState<IPlanList>({
+    total: 0,
+    plan_list: []
   });
 
   /** 異常レスポンス */
@@ -40,31 +26,38 @@ export const useGetPlanDetail = (planId: string, userId: string) => {
     detail_message: []
   });
 
+  /** ローディング状態 */
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  /** リフレッシュ状態 */
+  const [isRefreshing, setRefreshing] = useState<boolean>(false);
+
   /** ライフサイクル */
   useEffect(() => {
     const signal = axios.CancelToken.source();
-    getPlanDetail(signal);
+    getLikePlanList(signal);
     return () => {
       signal.cancel("Cancelling in Cleanup.");
     };
   }, []);
 
   /**
-   * デートプラン詳細取得API
+   * お気に入りデートプラン一覧取得API
    * @param signal CancelTokenSource
    */
-  const getPlanDetail = async (signal: CancelTokenSource) => {
-    const url = API_ENDPOINT.PLAN.replace("$1", planId);
+  const getLikePlanList = (signal: CancelTokenSource) => {
+    const url = API_ENDPOINT.USER_LIKES.replace("$1", userId);
 
-    await axios
-      .get<IPlanFull>(url, {
+    axios
+      .get<IPlanList>(url, {
         params: {
           user_id: userId
         },
         cancelToken: signal.token
       })
       .then(response => {
-        setPlan(Object.assign(response.data));
+        setPlans(Object.assign(response.data));
+        setIsLoading(false);
       })
       .catch(error => {
         if (axios.isCancel(error)) {
@@ -75,8 +68,16 @@ export const useGetPlanDetail = (planId: string, userId: string) => {
             setErrors(apiError);
           }
         }
+        setIsLoading(false);
       });
   };
 
-  return { plan, getPlanDetail, errors };
+  /** プルリロード */
+  const onRefresh = () => {
+    setRefreshing(true);
+    getLikePlanList(axios.CancelToken.source());
+    setRefreshing(false);
+  };
+
+  return { isLoading, plans, errors, isRefreshing, onRefresh };
 };

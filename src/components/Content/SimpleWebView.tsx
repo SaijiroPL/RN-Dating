@@ -2,22 +2,23 @@ import React from "react";
 import { WebView } from "react-native";
 
 // from app
-import { WEB_ENDPOINT } from "app/src/constants/Url";
 import { LoadingSpinner } from "app/src/components/Spinners";
 
+interface Props {
+  uri: string;
+}
+
 /**
- * 利用規約画面
- * @author itsukiyamada
+ * WebView
+ * @author kotatanaka
  */
-const TermsScreen: React.FC = () => {
+export const SimpleWebView: React.FC<Props> = (props: Props) => {
   return (
     <WebView
-      source={{ uri: WEB_ENDPOINT.TERMS }}
+      source={{ uri: props.uri }}
       style={{ marginTop: 20 }}
       renderLoading={() => LoadingSpinner}
       startInLoadingState={true}
     />
   );
 };
-
-export default TermsScreen;

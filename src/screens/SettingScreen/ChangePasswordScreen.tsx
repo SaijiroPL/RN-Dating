@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View } from "react-native";
 import { Form } from "native-base";
 import { useNavigation } from "react-navigation-hooks";
 
 // from app
 import { useGlobalState } from "app/src/Store";
-import { LoadingSpinner } from "app/src/components/Spinners";
 import { InputFormFloating } from "app/src/components/Form";
 import { CompleteButton } from "app/src/components/Button";
 import { useUpdatePassword } from "app/src/hooks";
@@ -31,18 +30,51 @@ const ChangePasswordScreen: React.FC = () => {
     setNewPassword,
     confirmNewPassword,
     setConfirmNewPassword,
-    isLoading,
-    errors,
-    updatePassword
+    updatePassword,
+    errors
   } = useUpdatePassword(loginUser.id);
+
+  /** 現在のパスワードのバリデーションエラー */
+  const oldPasswordErrors: Array<string> = [];
+
+  /** 新しいパスワードのバリデーションエラー */
+  const newPasswordErrors: Array<string> = [];
+
+  /** パスワードの確認のバリデーションエラー */
+  const [confirmPasswordErrors, setConfirmPasswordErrors] = useState<
+    Array<string>
+  >([]);
+
+  /** ライフサイクル */
+  useEffect(() => {
+    setConfirmPasswordErrors([]);
+  }, [newPassword, confirmNewPassword]);
+
+  // APIバリデーションエラーの分別
+  if (errors && errors.detail_message.length > 0) {
+    errors.detail_message.forEach(item => {
+      if (item.match(/Old Password/)) {
+        oldPasswordErrors.push(
+          item.replace("Old Passwordが", "現在のパスワードが")
+        );
+      } else if (item.match(/Password/)) {
+        newPasswordErrors.push(item.replace("Passwordは", ""));
+      }
+    });
+  }
 
   /** 完了ボタン押下時の処理 */
   const onCompleteButtonPress = () => {
-    if (newPassword === confirmNewPassword) {
-      updatePassword().then(() => navigate("top"));
+    if (newPassword !== confirmNewPassword) {
+      setConfirmPasswordErrors(["パスワードが間違っています"]);
+      return;
     }
-    setNewPassword("");
-    setConfirmNewPassword("");
+
+    updatePassword().then(success => {
+      if (success) {
+        navigate("top");
+      }
+    });
   };
 
   /** 完了ボタンの描画 */
@@ -59,11 +91,6 @@ const ChangePasswordScreen: React.FC = () => {
     return <CompleteButton title="完了" onPress={onCompleteButtonPress} />;
   };
 
-  // ローディング
-  if (isLoading) {
-    return LoadingSpinner;
-  }
-
   return (
     <View style={appStyle.standardContainer}>
       <Form style={{ flex: 3, justifyContent: "center" }}>
@@ -71,16 +98,19 @@ const ChangePasswordScreen: React.FC = () => {
           label="現在のパスワード"
           value={oldPassword}
           setValue={setOldPassword}
+          errors={oldPasswordErrors}
         />
         <InputFormFloating
           label="新しいパスワード"
           value={newPassword}
           setValue={setNewPassword}
+          errors={newPasswordErrors}
         />
         <InputFormFloating
           label="新しいパスワードの確認"
           value={confirmNewPassword}
           setValue={setConfirmNewPassword}
+          errors={confirmPasswordErrors}
         />
       </Form>
       <View style={appStyle.standardContainer}>{renderCompleteButton()}</View>

@@ -63,6 +63,13 @@ export const appTextStyle = StyleSheet.create({
     textDecorationLine: "underline"
   },
 
+  /** リンク */
+  linkText: {
+    color: COLOR.textTintColor,
+    fontFamily: "genju-light",
+    fontSize: 12
+  },
+
   /** もっと見るリンク */
   detailLinkText: {
     color: COLOR.textTintColor,

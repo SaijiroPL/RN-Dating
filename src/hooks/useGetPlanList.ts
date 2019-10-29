@@ -53,7 +53,7 @@ export const useGetPlanList = (userId?: string) => {
       ? // マイプラン一覧取得
         {
           params: {
-            userId: userId
+            user_id: userId
           },
           cancelToken: cancelToken
         }
@@ -61,8 +61,8 @@ export const useGetPlanList = (userId?: string) => {
         { cancelToken: cancelToken };
 
     axios
-      .get(url, config)
-      .then((response: { data: IPlanList }) => {
+      .get<IPlanList>(url, config)
+      .then(response => {
         setPlans(Object.assign(response.data));
         setIsLoading(false);
       })
@@ -70,9 +70,9 @@ export const useGetPlanList = (userId?: string) => {
         if (axios.isCancel(error)) {
           console.log("Request Cancelled: " + error.message);
         } else {
-          handleError(error);
-          if (error.response.stats === 400) {
-            setErrors(error.response.data);
+          const apiError = handleError(error);
+          if (apiError) {
+            setErrors(apiError);
           }
         }
         setIsLoading(false);

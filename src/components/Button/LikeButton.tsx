@@ -9,7 +9,9 @@ import { appTextStyle } from "app/src/styles";
 interface Props {
   likeCount: number;
   liked: boolean;
-  setLiked: React.Dispatch<React.SetStateAction<boolean>>;
+  onLike?: () => Promise<boolean>;
+  onUnlike?: () => Promise<boolean>;
+  reload?: () => Promise<void>;
 }
 
 /**
@@ -17,24 +19,48 @@ interface Props {
  * @author kotatanaka
  */
 export const LikeButton: React.FC<Props> = (props: Props) => {
+  const { likeCount, liked, onLike, onUnlike, reload } = props;
+
   const renderHeart = () => {
-    if (props.liked) {
+    if (!onLike || !onUnlike || !reload) {
+      if (liked) {
+        return <AntDesign name="heart" size={20} style={thisStyle.button} />;
+      }
+
+      return <AntDesign name="hearto" size={20} style={thisStyle.button} />;
+    }
+
+    // お気に入り登録済ボタン(解除用)
+    if (liked) {
       return (
         <AntDesign
           name="heart"
           size={20}
           style={thisStyle.button}
-          onPress={() => props.setLiked(false)}
+          onPress={() =>
+            onUnlike().then(success => {
+              if (success) {
+                reload();
+              }
+            })
+          }
         />
       );
     }
 
+    // お気に入り未登録ボタン(登録用)
     return (
       <AntDesign
         name="hearto"
         size={20}
         style={thisStyle.button}
-        onPress={() => props.setLiked(true)}
+        onPress={() =>
+          onLike().then(success => {
+            if (success) {
+              reload();
+            }
+          })
+        }
       />
     );
   };
@@ -42,7 +68,7 @@ export const LikeButton: React.FC<Props> = (props: Props) => {
   return (
     <View style={thisStyle.container}>
       {renderHeart()}
-      <Text style={appTextStyle.tintColorText}>{props.likeCount}</Text>
+      <Text style={appTextStyle.tintColorText}>{likeCount}</Text>
     </View>
   );
 };

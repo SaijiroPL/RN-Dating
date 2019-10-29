@@ -3,8 +3,41 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 // from app
 import MainTabNavigator from "app/src/navigators/MainTabNavigator";
 import AppTopScreen from "app/src/screens/TopScreen/AppTopScreen";
+import TermsScreen from "app/src/screens/TopScreen/TermsScreen";
+import PrivacyPolycyScreen from "app/src/screens/TopScreen/PrivacyPolicyScreen";
 import WelcomeScreen from "app/src/screens/TopScreen/WelcomeScreen";
 import EntryScreen from "app/src/screens/TopScreen/EntryScreen";
+import { appTextStyle } from "app/src/styles";
+
+/**
+ * アプリトップ画面のナビゲーター
+ * @author kotatanaka
+ */
+const TopNavigator = createStackNavigator(
+  {
+    // トップ画面
+    top: { screen: AppTopScreen },
+    // 利用規約
+    terms: {
+      screen: TermsScreen,
+      navigationOptions: () => ({
+        headerTitle: "利用規約",
+        headerTitleStyle: appTextStyle.defaultText
+      })
+    },
+    // プライバシーポリシー,
+    privacy: {
+      screen: PrivacyPolycyScreen,
+      navigationOptions: () => ({
+        headerTitle: "プライバシーポリシー",
+        headerTitleStyle: appTextStyle.defaultText
+      })
+    }
+  },
+  {
+    headerBackTitleVisible: false
+  }
+);
 
 /**
  * アプリケーション全体のナビゲーター
@@ -12,8 +45,8 @@ import EntryScreen from "app/src/screens/TopScreen/EntryScreen";
  */
 const AppNavigator = createStackNavigator(
   {
-    // トップ画面
-    appTop: { screen: AppTopScreen },
+    // アプリトップ画面
+    appTop: { screen: TopNavigator },
     // ウェルカム画面
     welcome: { screen: WelcomeScreen },
     // 基本情報入力画面

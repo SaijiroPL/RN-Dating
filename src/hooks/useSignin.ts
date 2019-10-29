@@ -40,6 +40,7 @@ export const useSignin = () => {
     return await axios
       .post<ILoginUser>(url, body)
       .then(response => {
+        setErrors({ code: 0, message: "", detail_message: [] });
         const { user_id, name, user_image_url } = response.data;
         setLoginUser(user_id, name, user_image_url);
         return true;
