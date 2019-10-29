@@ -67,14 +67,14 @@ export const useSearchPlanList = () => {
     const url = API_ENDPOINT.PLANS_SEARCH;
 
     axios
-      .get(url, {
+      .get<IPlanList>(url, {
         params: {
           keyword: searchWord,
           user_id: loginUser.id
         },
         cancelToken: signal.token
       })
-      .then((response: { data: IPlanList }) => {
+      .then(response => {
         setPlans(Object.assign(response.data));
         setIsLoading(false);
       })
@@ -82,12 +82,12 @@ export const useSearchPlanList = () => {
         if (axios.isCancel(error)) {
           console.log("Request Cancelled: " + error.message);
         } else {
-          handleError(error);
-          if (error.response.stats === 400) {
-            setErrors(error.response.data);
+          const apiError = handleError(error);
+          if (apiError) {
+            setErrors(apiError);
           }
-          setIsLoading(false);
         }
+        setIsLoading(false);
       });
   };
 

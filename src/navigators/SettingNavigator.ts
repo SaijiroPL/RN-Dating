@@ -8,8 +8,8 @@ import EditProfileScreen from "app/src/screens/SettingScreen/EditProfileScreen";
 import FaqScreen from "app/src/screens/SettingScreen/FaqScreen";
 import LinkedAccountScreen from "app/src/screens/SettingScreen/LinkedAccountScreen";
 import LogoutScreen from "app/src/screens/SettingScreen/LogoutScreen";
-import PrivacyPolicyScreen from "app/src/screens/SettingScreen/PrivacyPolicyScreen";
-import TermsScreen from "app/src/screens/SettingScreen/TermsScreen";
+import PrivacyPolicyScreen from "app/src/screens/TopScreen/PrivacyPolicyScreen";
+import TermsScreen from "app/src/screens/TopScreen/TermsScreen";
 import { appTextStyle } from "app/src/styles";
 
 /**

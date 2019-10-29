@@ -10,7 +10,7 @@ interface Props {
   placeholder: string;
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
-  errors?: Array<String>;
+  errors?: Array<string>;
 }
 
 /**

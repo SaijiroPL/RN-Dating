@@ -8,11 +8,11 @@ import { IApiError } from "app/src/interfaces/api/Error";
 import { handleError } from "app/src/utils";
 
 /**
- * デートプラン一覧取得フック
+ * 自分のお気に入りデートプラン一覧取得フック
  * @author kotatanaka
- * @param userId ユーザーID(Optional:マイプラン一覧取得時に必要)
+ * @param userId ユーザーID
  */
-export const useGetPlanList = (userId?: string) => {
+export const useGetLikePlanList = (userId: string) => {
   /** 正常レスポンス */
   const [plans, setPlans] = useState<IPlanList>({
     total: 0,
@@ -35,30 +35,26 @@ export const useGetPlanList = (userId?: string) => {
   /** ライフサイクル */
   useEffect(() => {
     const signal = axios.CancelToken.source();
-    getPlanList(signal);
+    getLikePlanList(signal);
     return () => {
       signal.cancel("Cancelling in Cleanup.");
     };
   }, []);
 
   /**
-   * デートプラン一覧取得API
+   * お気に入りデートプラン一覧取得API
    * @param signal CancelTokenSource
    */
-  const getPlanList = (signal: CancelTokenSource) => {
-    const url = API_ENDPOINT.PLANS_SEARCH_HISTORIES;
-
-    const cancelToken = signal.token;
-
-    const config = {
-      params: {
-        userId: userId
-      },
-      cancelToken: cancelToken
-    };
+  const getLikePlanList = (signal: CancelTokenSource) => {
+    const url = API_ENDPOINT.USER_LIKES.replace("$1", userId);
 
     axios
-      .get<IPlanList>(url, config)
+      .get<IPlanList>(url, {
+        params: {
+          user_id: userId
+        },
+        cancelToken: signal.token
+      })
       .then(response => {
         setPlans(Object.assign(response.data));
         setIsLoading(false);
@@ -79,7 +75,7 @@ export const useGetPlanList = (userId?: string) => {
   /** プルリロード */
   const onRefresh = () => {
     setRefreshing(true);
-    getPlanList(axios.CancelToken.source());
+    getLikePlanList(axios.CancelToken.source());
     setRefreshing(false);
   };
 

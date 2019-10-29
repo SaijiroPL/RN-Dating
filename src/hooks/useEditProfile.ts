@@ -63,8 +63,6 @@ export const useEditProfile = (userId: string) => {
 
   /** プロフィール更新 */
   const updateProfile = async () => {
-    setIsLoading(true);
-
     const url = API_ENDPOINT.USER.replace("$1", userId);
 
     // 変更がない項目はボディに含めない
@@ -76,17 +74,18 @@ export const useEditProfile = (userId: string) => {
       mail_address: mailAddress !== user.mail_address ? mailAddress : undefined
     };
 
-    await axios
+    return await axios
       .put<IOK>(url, body)
-      .then(response => {
-        setIsLoading(false);
+      .then(() => {
+        setErrors({ code: 0, message: "", detail_message: [] });
+        return true;
       })
       .catch(error => {
-        handleError(error);
-        if (error.response.state === 400) {
-          setErrors(error.response.data);
+        const apiError = handleError(error);
+        if (apiError) {
+          setErrors(apiError);
         }
-        setIsLoading(false);
+        return false;
       });
   };
 
@@ -114,9 +113,9 @@ export const useEditProfile = (userId: string) => {
         if (axios.isCancel(error)) {
           console.log("Request Cancelled: " + error.message);
         } else {
-          handleError(error);
-          if (error.response.stats === 400) {
-            setErrors(error.response.data);
+          const apiError = handleError(error);
+          if (apiError) {
+            setErrors(apiError);
           }
         }
         setIsLoading(false);
@@ -134,7 +133,8 @@ export const useEditProfile = (userId: string) => {
     setAddress,
     mailAddress,
     setMailAddress,
+    updateProfile,
     isLoading,
-    updateProfile
+    errors
   };
 };

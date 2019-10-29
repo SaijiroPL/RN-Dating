@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { useNavigation, useNavigationParam } from "react-navigation-hooks";
 import { Container, Content, Text } from "native-base";
+import axios from "axios";
 
 // from app
 import { useGlobalState } from "app/src/Store";
@@ -12,7 +13,11 @@ import { ImageCarousel, UserHeader } from "app/src/components/Content";
 import { CommentGrid } from "app/src/components/List";
 import { SimpleMapView } from "app/src/components/MapItem";
 import { LikeButton } from "app/src/components/Button";
-import { useGetPlanDetail, useGetCommentList } from "app/src/hooks";
+import {
+  useGetPlanDetail,
+  useGetCommentList,
+  useLikePlan
+} from "app/src/hooks";
 import { formatDate } from "app/src/utils";
 import { appStyle, appTextStyle } from "app/src/styles";
 
@@ -32,13 +37,13 @@ const PlanDetailScreen: React.FC = () => {
   const planId = useNavigationParam("id");
 
   /** デートプラン詳細取得 */
-  const { isPlanLoading, plan, isLiked, setIsLiked } = useGetPlanDetail(
-    planId,
-    loginUser.id
-  );
+  const { plan, getPlanDetail } = useGetPlanDetail(planId, loginUser.id);
 
   /** コメント一覧取得 */
   const { isCommentsLoading, comments } = useGetCommentList(planId);
+
+  /** お気に入り登録・解除 */
+  const { likePlan, unlikePlan } = useLikePlan(loginUser.id);
 
   /** コメントもっと見る押下時の処理 */
   const onMoreCommentPress = () => {
@@ -57,6 +62,24 @@ const PlanDetailScreen: React.FC = () => {
     return <UserHeader user={planner} />;
   };
 
+  /** お気に入り登録・解除ボタンの描画 */
+  const renderLikeButton = () => {
+    // 自分のプランの場合は押せない
+    if (loginUser.id === plan.user_id) {
+      return <LikeButton likeCount={plan.like_count} liked={plan.is_liked} />;
+    }
+
+    return (
+      <LikeButton
+        likeCount={plan.like_count}
+        liked={plan.is_liked}
+        onLike={() => likePlan(planId)}
+        onUnlike={() => unlikePlan(planId)}
+        reload={() => getPlanDetail(axios.CancelToken.source())}
+      />
+    );
+  };
+
   /** デートプラン説明部分の描画 */
   const renderPlanDescription = () => {
     return (
@@ -70,11 +93,7 @@ const PlanDetailScreen: React.FC = () => {
           <View style={thisStyle.title}>
             <Text style={thisStyle.titleText}>{plan.title}</Text>
           </View>
-          <LikeButton
-            likeCount={plan.like_count}
-            liked={isLiked}
-            setLiked={setIsLiked}
-          />
+          {renderLikeButton()}
         </View>
         <View style={thisStyle.detail}>
           <View style={appStyle.row}>
@@ -101,7 +120,7 @@ const PlanDetailScreen: React.FC = () => {
   };
 
   // ローディング
-  if (isPlanLoading || isCommentsLoading) {
+  if (isCommentsLoading) {
     return LoadingSpinner;
   }
 

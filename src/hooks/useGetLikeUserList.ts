@@ -46,10 +46,10 @@ export const useGetLikeUserList = (planId: string) => {
     const url = API_ENDPOINT.PLAN_LIKES.replace("$1", planId);
 
     axios
-      .get(url, {
+      .get<ILikeUserList>(url, {
         cancelToken: signal.token
       })
-      .then((response: { data: ILikeUserList }) => {
+      .then(response => {
         setUsers(Object.assign(response.data));
         setIsLoading(false);
       })
@@ -57,9 +57,9 @@ export const useGetLikeUserList = (planId: string) => {
         if (axios.isCancel(error)) {
           console.log("Request Cancelled: " + error.message);
         } else {
-          handleError(error);
-          if (error.response.stats === 400) {
-            setErrors(error.response.data);
+          const apiError = handleError(error);
+          if (apiError) {
+            setErrors(apiError);
           }
         }
         setIsLoading(false);

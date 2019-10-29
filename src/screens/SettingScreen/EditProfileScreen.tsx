@@ -34,13 +34,18 @@ const EditProfileScreen: React.FC = () => {
     setAddress,
     mailAddress,
     setMailAddress,
+    updateProfile,
     isLoading,
-    updateProfile
+    errors
   } = useEditProfile(loginUser.id);
 
   /** 更新ボタン押下時の処理 */
   const onCompleteButtonPress = () => {
-    updateProfile().then(() => navigate("top"));
+    updateProfile().then(success => {
+      if (success) {
+        navigate("top");
+      }
+    });
   };
 
   /** 更新ボタンの描画 */
@@ -63,20 +68,48 @@ const EditProfileScreen: React.FC = () => {
     return LoadingSpinner;
   }
 
+  const nameErrors: Array<string> = [];
+  const profileErrors: Array<string> = [];
+  const emailErrors: Array<string> = [];
+  const addressErrors: Array<string> = [];
+  if (errors && errors.detail_message.length > 0) {
+    errors.detail_message.forEach(item => {
+      if (item.match(/Name/)) {
+        nameErrors.push(item.replace("Nameは", ""));
+      }
+      if (item.match(/Profile/)) {
+        profileErrors.push(item.replace("Profileは", ""));
+      }
+      if (item.match(/Mail address/)) {
+        emailErrors.push(item.replace("Mail addressは", ""));
+      }
+      if (item.match(/Address/)) {
+        addressErrors.push(item.replace("Addressは", ""));
+      }
+    });
+  }
+
   return (
     <Container>
       <Content>
         <Form>
-          <InputLabelForm label="名前" value={name} setValue={setName} />
+          <InputLabelForm
+            label="名前"
+            value={name}
+            setValue={setName}
+            errors={nameErrors}
+          />
           <InputLabelForm
             label="自己紹介"
             value={profile}
             setValue={setProfile}
+            errors={profileErrors}
           />
           <InputLabelForm
             label="メール"
             value={mailAddress}
             setValue={setMailAddress}
+            errors={emailErrors}
           />
           <InputLabelForm
             label="年齢"
@@ -87,6 +120,7 @@ const EditProfileScreen: React.FC = () => {
             label="住まい"
             value={address}
             setValue={setAddress}
+            errors={addressErrors}
           />
         </Form>
         <View style={thisStyle.button}>{renderCompleteButton()}</View>

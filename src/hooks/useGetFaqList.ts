@@ -2,21 +2,19 @@ import { useState, useEffect } from "react";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
-import { API_ENDPOINT } from "app/src/constants/Url";
-import { ICommentList } from "app/src/interfaces/api/Comment";
+import { API_ENDPOINT } from "app/src/constants";
+import { IFaqList } from "app/src/interfaces/api/Question";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { handleError } from "app/src/utils";
 
 /**
- * コメント一覧取得フック
+ * よくある質問一覧取得フック
  * @author kotatanaka
- * @param planId コメントのデートプランID
  */
-export const useGetCommentList = (planId: string) => {
+export const useGetFaqList = () => {
   /** 正常レスポンス */
-  const [comments, setComments] = useState<ICommentList>({
-    total: 0,
-    comment_list: []
+  const [questions, setQuestions] = useState<IFaqList>({
+    question_list: []
   });
 
   /** 異常レスポンス */
@@ -27,31 +25,29 @@ export const useGetCommentList = (planId: string) => {
   });
 
   /** ローディング状態 */
-  const [isCommentsLoading, setIsCommentsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   /** ライフサイクル */
   useEffect(() => {
     const signal = axios.CancelToken.source();
-    getCommentList(signal);
+    getFaqList(signal);
     return () => {
       signal.cancel("Cancelling in Cleanup.");
     };
   }, []);
 
   /**
-   * コメント一覧取得API
+   * よくある質問一覧取得API
    * @param signal CancelTokenSource
    */
-  const getCommentList = (signal: CancelTokenSource) => {
-    const url = API_ENDPOINT.PLAN_COMMENTS.replace("$1", planId);
+  const getFaqList = (signal: CancelTokenSource) => {
+    const url = API_ENDPOINT.QUESTIONS_FAQ;
 
     axios
-      .get<ICommentList>(url, {
-        cancelToken: signal.token
-      })
+      .get<IFaqList>(url, { cancelToken: signal.token })
       .then(response => {
-        setComments(Object.assign(response.data));
-        setIsCommentsLoading(false);
+        setQuestions(Object.assign(response.data));
+        setIsLoading(false);
       })
       .catch(error => {
         if (axios.isCancel(error)) {
@@ -62,9 +58,9 @@ export const useGetCommentList = (planId: string) => {
             setErrors(apiError);
           }
         }
-        setIsCommentsLoading(false);
+        setIsLoading(false);
       });
   };
 
-  return { isCommentsLoading, comments, errors };
+  return { isLoading, faqList: questions.question_list, errors };
 };

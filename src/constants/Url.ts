@@ -19,6 +19,14 @@ export const API_ENDPOINT = {
   USER_FOLLOWS: API_HOST + "/users/$1/follows",
   // フォロワーリスト取得
   USER_FOLLOWERS: API_HOST + "/users/$1/followers",
+  // お気に入りデートプラン一覧取得
+  USER_LIKES: API_HOST + "/users/$1/likes",
+  // 通知一覧取得
+  USER_NOTIFICATIONS: API_HOST + "/users/$1/notifications",
+  // 運営からのお知らせ一覧取得
+  INFORMATION: API_HOST + "/information",
+  // よくある質問一覧取得
+  QUESTIONS_FAQ: API_HOST + "/questions/faq",
   // デートプラン一覧取得
   PLANS: API_HOST + "/plans",
   // デートプラン検索
