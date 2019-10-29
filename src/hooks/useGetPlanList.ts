@@ -50,12 +50,16 @@ export const useGetPlanList = (userId?: string) => {
 
     const cancelToken = signal.token;
 
-    const config = {
-      params: {
-        userId: userId
-      },
-      cancelToken: cancelToken
-    };
+    const config = userId
+      ? // マイプラン一覧取得
+        {
+          params: {
+            user_id: userId
+          },
+          cancelToken: cancelToken
+        }
+      : // 通常のプラン一覧取得 TODO 自分のエリアで人気のデートプランを取得する
+        { cancelToken: cancelToken };
 
     axios
       .get<IPlanList>(url, config)
