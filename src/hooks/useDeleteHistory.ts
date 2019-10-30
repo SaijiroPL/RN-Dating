@@ -52,4 +52,5 @@ export const useDeleteHistory = (userId: string) => {
         return false;
       });
   };
+  return { deleteHistory };
 };
