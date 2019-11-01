@@ -46,7 +46,7 @@ export const useGetPlanList = (userId?: string) => {
    * @param signal CancelTokenSource
    */
   const getPlanList = (signal: CancelTokenSource) => {
-    const url = API_ENDPOINT.PLANS_SEARCH_HISTORIES;
+    const url = API_ENDPOINT.PLANS;
 
     const cancelToken = signal.token;
 
