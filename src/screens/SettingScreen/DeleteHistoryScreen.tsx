@@ -1,12 +1,12 @@
-import { StyleSheet, View } from "react-native";
+import React from "react";
+import { View } from "react-native";
 import { Header, Text } from "native-base";
 
 // from app
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { HistorySwipeList } from "app/src/components/List";
 import { appTextStyle } from "app/src/styles";
-import { useDeleteHistory } from "app/src/hooks/useDeleteHistory";
-import { useGetHistoryList } from "app/src/hooks/useGetHistoryList";
+import { useGetHistoryList } from "app/src/hooks";
 import { useGlobalState } from "app/src/Store";
 
 /**
@@ -16,20 +16,10 @@ import { useGlobalState } from "app/src/Store";
 const DeleteHistoryScreen: React.FC = () => {
   /** ログイン中のユーザー*/
   const loginUser = useGlobalState("loginUser");
-  const userId = loginUser.id;
 
-  /**検索履歴一覧取得 */
-  const { isLoading, histories } = useGetHistoryList(userId);
+  /** 検索履歴一覧取得・検索履歴削除 */
+  const { histories, deleteHistory } = useGetHistoryList(loginUser.id);
 
-  /**検索履歴削除 */
-  const { deleteHistory } = useDeleteHistory(userId);
-
-  /**ローディング */
-  if (isLoading) {
-    return LoadingSpinner;
-  }
-
-  // TODO 件数を表示する?
   return (
     <View>
       <Header>
