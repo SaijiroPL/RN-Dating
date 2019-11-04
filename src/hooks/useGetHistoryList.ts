@@ -4,16 +4,17 @@ import axios, { CancelTokenSource } from "axios";
 // from app
 import { API_ENDPOINT } from "app/src/constants";
 import { IHistoryList } from "app/src/interfaces/api/History";
+import { IOK } from "app/src/interfaces/api/Success";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { handleError } from "app/src/utils";
 
 /**
- * 検索履歴一覧取得フック
+ * 検索履歴一覧取得・検索履歴削除フック
  * @author itsukiyamada
- * @param userId ユーザーID(Optional:検索履歴一覧取得時に必要)
+ * @param userId ユーザーID
  */
 export const useGetHistoryList = (userId: string) => {
-  /** 正常レスポンス */
+  /** 検索履歴一覧取得 正常レスポンス */
   const [histories, setHistories] = useState<IHistoryList>({
     total: 0,
     history_list: []
@@ -26,12 +27,6 @@ export const useGetHistoryList = (userId: string) => {
     detail_message: []
   });
 
-  /** ローディング状態 */
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  /** リフレッシュ状態 */
-  const [isRefreshing, setRefreshing] = useState<boolean>(false);
-
   /** ライフサイクル */
   useEffect(() => {
     const signal = axios.CancelToken.source();
@@ -42,29 +37,51 @@ export const useGetHistoryList = (userId: string) => {
   }, []);
 
   /**
-   * デートプラン一覧取得API
+   * 検索履歴一覧取得API
    * @param signal CancelTokenSource
    */
   const getHistoryList = (signal: CancelTokenSource) => {
-    const url = API_ENDPOINT.PLANS_SEARCH;
-
-    const cancelToken = signal.token;
-    const config = userId
-      ? // マイプラン一覧取得
-        {
-          params: {
-            userId: userId
-          },
-          cancelToken: cancelToken
-        }
-      : // 通常のプラン一覧取得
-        { cancelToken: cancelToken };
+    const url = API_ENDPOINT.PLANS_SEARCH_HISTORIES;
 
     axios
-      .get(url, config)
-      .then((response: { data: IHistoryList }) => {
+      .get<IHistoryList>(url, {
+        params: {
+          user_id: userId
+        },
+        cancelToken: signal.token
+      })
+      .then(response => {
         setHistories(Object.assign(response.data));
-        setIsLoading(false);
+      })
+      .catch(error => {
+        if (axios.isCancel(error)) {
+          console.log("Request Cancelled: " + error.message);
+        } else {
+          const apiError = handleError(error);
+          if (apiError) {
+            setErrors(apiError);
+          }
+        }
+      });
+  };
+
+  /**
+   * 検索履歴削除API
+   * @param id 検索履歴ID
+   */
+  const deleteHistory = async (id: number) => {
+    const url = API_ENDPOINT.PLANS_SEARCH_HISTORY.replace("$1", `${id}`);
+
+    return await axios
+      .delete<IOK>(url, {
+        params: {
+          user_id: userId
+        }
+      })
+      .then(() => {
+        // 検索履歴一覧再読み込み
+        getHistoryList(axios.CancelToken.source());
+        return true;
       })
       .catch(error => {
         if (axios.isCancel(error)) {
@@ -75,16 +92,9 @@ export const useGetHistoryList = (userId: string) => {
             setErrors(error.response.data);
           }
         }
-        setIsLoading(false);
+        return false;
       });
   };
 
-  /** プルリロード */
-  const onRefresh = () => {
-    setRefreshing(true);
-    getHistoryList(axios.CancelToken.source());
-    setRefreshing(false);
-  };
-
-  return { isLoading, histories, errors, isRefreshing, onRefresh };
+  return { histories, deleteHistory, errors };
 };
