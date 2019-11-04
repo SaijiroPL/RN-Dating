@@ -32,3 +32,5 @@ export * from "./useGetFollowerList";
 export * from "./useUpdatePassword";
 /** プロフィール編集 */
 export * from "./useEditProfile";
+/** 検索履歴一覧取得・検索履歴削除 */
+export * from "./useGetHistoryList";
