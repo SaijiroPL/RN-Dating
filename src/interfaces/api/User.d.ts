@@ -16,6 +16,7 @@ export interface IUserDetail {
   plan_count: number;
   follow_count: number;
   follower_count: number;
+  is_followed: boolean;
 }
 
 /**

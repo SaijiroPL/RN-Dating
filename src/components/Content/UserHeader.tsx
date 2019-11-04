@@ -6,9 +6,13 @@ import { Thumbnail, Text } from "native-base";
 // from app
 import { IMAGE } from "app/src/constants";
 import { IUserInfo } from "app/src/interfaces/User";
+import { FollowButton } from "app/src/components/Button";
 
 interface Props {
   user: IUserInfo;
+  onFollow?: () => Promise<boolean>;
+  onUnfollow?: () => Promise<boolean>;
+  reload?: () => Promise<void>;
 }
 
 /**
@@ -17,18 +21,34 @@ interface Props {
  */
 export const UserHeader: React.FC<Props> = (props: Props) => {
   const { navigate } = useNavigation();
-  const { user } = props;
+  const { user, onFollow, onUnfollow, reload } = props;
 
   const onPress = () => {
     navigate("profile", { id: user.userId });
   };
 
+  /** フォローボタンの描画 */
+  const renderFollowButton = () => {
+    if (user.isFollow !== undefined && onFollow && onUnfollow && reload) {
+      return (
+        <View style={thisStyle.followContainer}>
+          <FollowButton
+            followed={user.isFollow}
+            onFollow={onFollow}
+            onUnfollow={onUnfollow}
+            reload={reload}
+          />
+        </View>
+      );
+    }
+  };
+
   return (
     <View style={thisStyle.container}>
-      <View style={thisStyle.thumbnail}>
+      <View style={thisStyle.thumbnailContainer}>
         <Thumbnail source={IMAGE.noUserImage} />
       </View>
-      <View style={thisStyle.user}>
+      <View style={thisStyle.userContainer}>
         <Text style={thisStyle.nameText} onPress={onPress}>
           {user.userName}
         </Text>
@@ -36,6 +56,7 @@ export const UserHeader: React.FC<Props> = (props: Props) => {
           {user.userAttr}
         </Text>
       </View>
+      {renderFollowButton()}
     </View>
   );
 };
@@ -47,11 +68,19 @@ const thisStyle = StyleSheet.create({
     flexDirection: "row",
     margin: 5
   },
-  thumbnail: {
+  thumbnailContainer: {
     padding: 5
   },
-  user: {
+  userContainer: {
     padding: 5
+  },
+  followContainer: {
+    alignItems: "center",
+    flex: 1,
+    flexDirection: "row",
+    height: 30,
+    justifyContent: "flex-end",
+    marginRight: 10
   },
   nameText: {
     fontFamily: "genju-medium"

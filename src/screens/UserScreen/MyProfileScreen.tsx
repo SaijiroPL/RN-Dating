@@ -17,7 +17,7 @@ const MyProfileScreen: React.FC = () => {
   const loginUser = useGlobalState("loginUser");
 
   /** ユーザー詳細取得 */
-  const { isLoading, user } = useGetUserDetail(loginUser.id);
+  const { isLoading, user } = useGetUserDetail(loginUser.id, loginUser.id);
 
   // ローディング
   if (isLoading) {

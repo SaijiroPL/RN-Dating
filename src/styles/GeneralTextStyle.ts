@@ -27,6 +27,13 @@ export const appTextStyle = StyleSheet.create({
     fontSize: 14
   },
 
+  /** 白文字(サイズ指定) */
+  standardWhiteText: {
+    color: "white",
+    fontFamily: "genju-light",
+    fontSize: 14
+  },
+
   /** オレンジ文字 */
   tintColorText: {
     color: COLOR.tintColor,
