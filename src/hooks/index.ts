@@ -24,6 +24,8 @@ export * from "./useLikePlan";
 export * from "./useGetLikeUserList";
 /** ユーザー詳細取得 */
 export * from "./useGetUserDetail";
+/** アカウントフォロー・解除 */
+export * from "./useFollowUser";
 /** フォローリスト取得 */
 export * from "./useGetFollowList";
 /** フォロワーリスト取得 */

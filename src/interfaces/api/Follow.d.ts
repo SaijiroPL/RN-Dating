@@ -28,3 +28,8 @@ export interface IFollowerList {
   total: number;
   follower_list: Array<IFollow>;
 }
+
+/** アカウントフォローAPIリクエスストボディ */
+export interface IFollowBody {
+  user_id: string;
+}
