@@ -10,9 +10,10 @@ import { handleError } from "app/src/utils";
 /**
  * ユーザー詳細取得フック
  * @author kotatanaka
- * @param userId ユーザーID
+ * @param userId 対象のユーザーID
+ * @param meId 操作者のユーザーID
  */
-export const useGetUserDetail = (userId: string) => {
+export const useGetUserDetail = (userId: string, meId: string) => {
   /** 正常レスポンス */
   const [user, setUser] = useState<IUserDetail>({
     user_id: "",
@@ -27,7 +28,8 @@ export const useGetUserDetail = (userId: string) => {
     user_image_url: "",
     plan_count: 0,
     follow_count: 0,
-    follower_count: 0
+    follower_count: 0,
+    is_followed: false
   });
 
   /** 異常レスポンス */
@@ -58,6 +60,9 @@ export const useGetUserDetail = (userId: string) => {
 
     axios
       .get<IUserDetail>(url, {
+        params: {
+          me_user_id: meId
+        },
         cancelToken: signal.token
       })
       .then(response => {

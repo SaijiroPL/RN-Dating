@@ -30,7 +30,8 @@ export const useGetPlanDetail = (planId: string, userId: string) => {
     user_image_url: "",
     like_count: 0,
     comment_count: 0,
-    is_liked: false
+    is_liked: false,
+    is_followed: false
   });
 
   /** 異常レスポンス */
