@@ -4,16 +4,17 @@ import axios, { CancelTokenSource } from "axios";
 // from app
 import { API_ENDPOINT } from "app/src/constants";
 import { IHistoryList } from "app/src/interfaces/api/History";
+import { IOK } from "app/src/interfaces/api/Success";
 import { IApiError } from "app/src/interfaces/api/Error";
 import { handleError } from "app/src/utils";
 
 /**
- * 検索履歴一覧取得フック
+ * 検索履歴一覧取得・検索履歴削除フック
  * @author itsukiyamada
- * @param userId ユーザーID(Optional:検索履歴一覧取得時に必要)
+ * @param userId ユーザーID
  */
 export const useGetHistoryList = (userId: string) => {
-  /** 正常レスポンス */
+  /** 検索履歴一覧取得 正常レスポンス */
   const [histories, setHistories] = useState<IHistoryList>({
     total: 0,
     history_list: []
@@ -25,9 +26,6 @@ export const useGetHistoryList = (userId: string) => {
     message: "",
     detail_message: []
   });
-
-  /** ローディング状態 */
-  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   /** ライフサイクル */
   useEffect(() => {
@@ -45,18 +43,45 @@ export const useGetHistoryList = (userId: string) => {
   const getHistoryList = (signal: CancelTokenSource) => {
     const url = API_ENDPOINT.PLANS_SEARCH_HISTORIES;
 
-    const cancelToken = signal.token;
-    const config = {
-      params: {
-        userId: userId
-      },
-      cancelToken: cancelToken
-    };
-
     axios
-      .get<IHistoryList>(url, config)
+      .get<IHistoryList>(url, {
+        params: {
+          user_id: userId
+        },
+        cancelToken: signal.token
+      })
       .then(response => {
         setHistories(Object.assign(response.data));
+      })
+      .catch(error => {
+        if (axios.isCancel(error)) {
+          console.log("Request Cancelled: " + error.message);
+        } else {
+          const apiError = handleError(error);
+          if (apiError) {
+            setErrors(apiError);
+          }
+        }
+      });
+  };
+
+  /**
+   * 検索履歴削除API
+   * @param id 検索履歴ID
+   */
+  const deleteHistory = async (id: number) => {
+    const url = API_ENDPOINT.PLANS_SEARCH_HISTORY.replace("$1", `${id}`);
+
+    return await axios
+      .delete<IOK>(url, {
+        params: {
+          user_id: userId
+        }
+      })
+      .then(() => {
+        // 検索履歴一覧再読み込み
+        getHistoryList(axios.CancelToken.source());
+        return true;
       })
       .catch(error => {
         if (axios.isCancel(error)) {
@@ -67,9 +92,9 @@ export const useGetHistoryList = (userId: string) => {
             setErrors(error.response.data);
           }
         }
-        setIsLoading(false);
+        return false;
       });
   };
 
-  return { isLoading, histories, errors };
+  return { histories, deleteHistory, errors };
 };
