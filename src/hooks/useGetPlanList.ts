@@ -49,7 +49,6 @@ export const useGetPlanList = (userId?: string) => {
     const url = API_ENDPOINT.PLANS;
 
     const cancelToken = signal.token;
-
     const config = userId
       ? // マイプラン一覧取得
         {
