@@ -40,6 +40,9 @@ export const useGetPlanDetail = (planId: string, userId: string) => {
     detail_message: []
   });
 
+  /** ローディング状態 */
+  const [isPlanLoading, setIsPlanLoading] = useState<boolean>(true);
+
   /** ライフサイクル */
   useEffect(() => {
     const signal = axios.CancelToken.source();
@@ -65,6 +68,7 @@ export const useGetPlanDetail = (planId: string, userId: string) => {
       })
       .then(response => {
         setPlan(Object.assign(response.data));
+        setIsPlanLoading(false);
       })
       .catch(error => {
         if (axios.isCancel(error)) {
@@ -75,8 +79,9 @@ export const useGetPlanDetail = (planId: string, userId: string) => {
             setErrors(apiError);
           }
         }
+        setIsPlanLoading(false);
       });
   };
 
-  return { plan, getPlanDetail, errors };
+  return { isPlanLoading, plan, getPlanDetail, errors };
 };

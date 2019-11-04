@@ -36,7 +36,10 @@ const PlanDetailScreen: React.FC = () => {
   const planId = useNavigationParam("id");
 
   /** デートプラン詳細取得 */
-  const { plan, getPlanDetail } = useGetPlanDetail(planId, loginUser.id);
+  const { isPlanLoading, plan, getPlanDetail } = useGetPlanDetail(
+    planId,
+    loginUser.id
+  );
 
   /** コメント一覧取得 */
   const { isCommentsLoading, comments } = useGetCommentList(planId);
@@ -119,7 +122,7 @@ const PlanDetailScreen: React.FC = () => {
   };
 
   // ローディング
-  if (isCommentsLoading) {
+  if (isPlanLoading || isCommentsLoading) {
     return LoadingSpinner;
   }
 
