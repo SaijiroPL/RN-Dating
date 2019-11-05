@@ -1,5 +1,7 @@
 /** お気に入りボタン */
 export * from "./LikeButton";
+/** フォローボタン */
+export * from "./FollowButton";
 /** 完了ボタン */
 export * from "./CompleteButton";
 /** フッター完了ボタン */

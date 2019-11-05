@@ -30,7 +30,8 @@ export const useGetPlanDetail = (planId: string, userId: string) => {
     user_image_url: "",
     like_count: 0,
     comment_count: 0,
-    is_liked: false
+    is_liked: false,
+    is_followed: false
   });
 
   /** 異常レスポンス */
@@ -39,6 +40,9 @@ export const useGetPlanDetail = (planId: string, userId: string) => {
     message: "",
     detail_message: []
   });
+
+  /** ローディング状態 */
+  const [isPlanLoading, setIsPlanLoading] = useState<boolean>(true);
 
   /** ライフサイクル */
   useEffect(() => {
@@ -65,6 +69,7 @@ export const useGetPlanDetail = (planId: string, userId: string) => {
       })
       .then(response => {
         setPlan(Object.assign(response.data));
+        setIsPlanLoading(false);
       })
       .catch(error => {
         if (axios.isCancel(error)) {
@@ -75,8 +80,9 @@ export const useGetPlanDetail = (planId: string, userId: string) => {
             setErrors(apiError);
           }
         }
+        setIsPlanLoading(false);
       });
   };
 
-  return { plan, getPlanDetail, errors };
+  return { isPlanLoading, plan, getPlanDetail, errors };
 };

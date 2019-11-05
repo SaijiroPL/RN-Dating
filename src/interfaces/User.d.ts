@@ -7,4 +7,5 @@ export interface IUserInfo {
   userName: string;
   userAttr: string;
   userImageUrl: string;
+  isFollow?: boolean;
 }

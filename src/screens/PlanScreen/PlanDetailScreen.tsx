@@ -16,7 +16,8 @@ import { LikeButton } from "app/src/components/Button";
 import {
   useGetPlanDetail,
   useGetCommentList,
-  useLikePlan
+  useLikePlan,
+  useFollowUser
 } from "app/src/hooks";
 import { formatDate } from "app/src/utils";
 import { appStyle, appTextStyle } from "app/src/styles";
@@ -36,13 +37,18 @@ const PlanDetailScreen: React.FC = () => {
   const planId = useNavigationParam("id");
 
   /** デートプラン詳細取得 */
-  const { plan, getPlanDetail } = useGetPlanDetail(planId, loginUser.id);
+  const { isPlanLoading, plan, getPlanDetail } = useGetPlanDetail(
+    planId,
+    loginUser.id
+  );
 
   /** コメント一覧取得 */
   const { isCommentsLoading, comments } = useGetCommentList(planId);
 
   /** お気に入り登録・解除 */
   const { likePlan, unlikePlan } = useLikePlan(loginUser.id);
+
+  const { follow, unfollow } = useFollowUser(loginUser.id);
 
   /** コメントもっと見る押下時の処理 */
   const onMoreCommentPress = () => {
@@ -55,10 +61,18 @@ const PlanDetailScreen: React.FC = () => {
       userId: plan.user_id,
       userName: plan.user_name,
       userAttr: plan.user_attr,
-      userImageUrl: plan.user_image_url
+      userImageUrl: plan.user_image_url,
+      isFollow: plan.is_followed
     };
 
-    return <UserHeader user={planner} />;
+    return (
+      <UserHeader
+        user={planner}
+        onFollow={() => follow(planner.userId)}
+        onUnfollow={() => unfollow(planner.userId)}
+        reload={() => getPlanDetail(axios.CancelToken.source())}
+      />
+    );
   };
 
   /** お気に入り登録・解除ボタンの描画 */
@@ -119,7 +133,7 @@ const PlanDetailScreen: React.FC = () => {
   };
 
   // ローディング
-  if (isCommentsLoading) {
+  if (isPlanLoading || isCommentsLoading) {
     return LoadingSpinner;
   }
 

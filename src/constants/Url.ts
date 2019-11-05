@@ -17,7 +17,7 @@ export const API_ENDPOINT = {
   USER_PASSWORD: API_HOST + "/users/$1/password",
   // フォローリスト取得
   USER_FOLLOWS: API_HOST + "/users/$1/follows",
-  // フォロワーリスト取得
+  // フォロワーリスト取得, アカウントフォロー, アカウントフォロー解除
   USER_FOLLOWERS: API_HOST + "/users/$1/followers",
   // お気に入りデートプラン一覧取得
   USER_LIKES: API_HOST + "/users/$1/likes",
