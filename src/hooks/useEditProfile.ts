@@ -42,7 +42,8 @@ export const useEditProfile = (userId: string) => {
     user_image_url: "",
     plan_count: 0,
     follow_count: 0,
-    follower_count: 0
+    follower_count: 0,
+    is_followed: false
   });
 
   /** 異常レスポンス */
@@ -98,6 +99,9 @@ export const useEditProfile = (userId: string) => {
 
     axios
       .get<IUserDetail>(url, {
+        params: {
+          me_user_id: userId
+        },
         cancelToken: signal.token
       })
       .then(response => {
