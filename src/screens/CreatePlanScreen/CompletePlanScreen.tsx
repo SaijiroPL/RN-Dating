@@ -12,6 +12,7 @@ import { appStyle, appTextStyle } from "app/src/styles";
 const CompletePlanScreen: React.FC = () => {
   const { navigate } = useNavigation();
 
+  /* TODO 今すぐ案内が仮の値を置いている */
   return (
     <View style={appStyle.standardContainer}>
       <View style={{ marginBottom: 10 }}>

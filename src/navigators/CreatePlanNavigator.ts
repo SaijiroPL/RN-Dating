@@ -7,7 +7,7 @@ import SwipeSpotScreen from "app/src/screens/CreatePlanScreen/SwipeSpotScreen";
 import SelectSpotScreen from "app/src/screens/CreatePlanScreen/SelectSpotScreen";
 import ArrangeRouteScreen from "app/src/screens/CreatePlanScreen/ArrangeRouteScreen";
 import CompletePlanScreen from "app/src/screens/CreatePlanScreen/CompletePlanScreen";
-import MyPlanScreen from "app/src/screens/PlanScreen/MyPlanScreen";
+import PlanDetailScreen from "app/src/screens/PlanScreen/PlanDetailScreen";
 import HomeScreen from "app/src/screens/PlanScreen/HomeScreen";
 import { appTextStyle } from "app/src/styles";
 
@@ -67,9 +67,9 @@ const CreatePlanNavigator = createStackNavigator(
     },
     //プラン作成後「すぐに案内する」でルート案内画面に移動
     plan: {
-      screen: MyPlanScreen,
+      screen: PlanDetailScreen,
       navigationOptions: () => ({
-        headerTitle: "マイプラン",
+        headerTitle: "プラン詳細",
         headerTitleStyle: appTextStyle.defaultText
       })
     },
