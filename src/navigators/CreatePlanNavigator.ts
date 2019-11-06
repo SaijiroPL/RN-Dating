@@ -7,6 +7,8 @@ import SwipeSpotScreen from "app/src/screens/CreatePlanScreen/SwipeSpotScreen";
 import SelectSpotScreen from "app/src/screens/CreatePlanScreen/SelectSpotScreen";
 import ArrangeRouteScreen from "app/src/screens/CreatePlanScreen/ArrangeRouteScreen";
 import CompletePlanScreen from "app/src/screens/CreatePlanScreen/CompletePlanScreen";
+import PlanDetailScreen from "app/src/screens/PlanScreen/PlanDetailScreen";
+import HomeScreen from "app/src/screens/PlanScreen/HomeScreen";
 import { appTextStyle } from "app/src/styles";
 
 /**
@@ -60,6 +62,22 @@ const CreatePlanNavigator = createStackNavigator(
       screen: CompletePlanScreen,
       navigationOptions: () => ({
         headerTitle: "完成！",
+        headerTitleStyle: appTextStyle.defaultText
+      })
+    },
+    //プラン作成後「すぐに案内する」でルート案内画面に移動
+    plan: {
+      screen: PlanDetailScreen,
+      navigationOptions: () => ({
+        headerTitle: "プラン詳細",
+        headerTitleStyle: appTextStyle.defaultText
+      })
+    },
+    //プラン作成後「ホームへ」でホーム画面に移動
+    home: {
+      screen: HomeScreen,
+      navigationOptions: () => ({
+        headerTitle: "ホーム",
         headerTitleStyle: appTextStyle.defaultText
       })
     }
