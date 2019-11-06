@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { Container, Content, Form, View } from "native-base";
-import { useNavigation } from "react-navigation-hooks";
+import FlashMessage, { showMessage } from "react-native-flash-message";
 
 // from app
 import { useGlobalState } from "app/src/Store";
@@ -16,9 +16,6 @@ import { isEmpty } from "app/src/utils";
  * @author itsukiyamada, kotatanaka
  */
 const EditProfileScreen: React.FC = () => {
-  /** ナビゲーター */
-  const { navigate } = useNavigation();
-
   /** ログイン中のユーザー */
   const loginUser = useGlobalState("loginUser");
 
@@ -43,7 +40,10 @@ const EditProfileScreen: React.FC = () => {
   const onCompleteButtonPress = () => {
     updateProfile().then(success => {
       if (success) {
-        navigate("top");
+        showMessage({
+          message: "プロフィールを更新しました。",
+          type: "success"
+        });
       }
     });
   };
@@ -89,6 +89,15 @@ const EditProfileScreen: React.FC = () => {
     });
   }
 
+  /** 更新成功時メッセージ */
+  const SuccessMessage = (
+    <FlashMessage
+      position="bottom"
+      duration={2500}
+      titleStyle={{ fontFamily: "genju-medium", textAlign: "center" }}
+    />
+  );
+
   return (
     <Container>
       <Content>
@@ -125,6 +134,7 @@ const EditProfileScreen: React.FC = () => {
         </Form>
         <View style={thisStyle.button}>{renderCompleteButton()}</View>
       </Content>
+      {SuccessMessage}
     </Container>
   );
 };
