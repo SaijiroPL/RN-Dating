@@ -1,12 +1,13 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 
 // from app
 import { useGlobalState } from "app/src/Store";
-import { LoadingSpinner } from "app/src/components/Spinners";
+import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
 import { UserProfile } from "app/src/components/Content";
 import { SettingFab } from "app/src/components/Button";
-import { useGetUserDetail } from "app/src/hooks";
+import { useGetUserDetail, useGetPlanList } from "app/src/hooks";
+import { PlanCardList } from "app/src/components/List";
 
 /**
  * マイプロフィール画面
@@ -19,6 +20,9 @@ const MyProfileScreen: React.FC = () => {
   /** ユーザー詳細取得 */
   const { isLoading, user } = useGetUserDetail(loginUser.id, loginUser.id);
 
+  /** デートプラン取得 */
+  const { plans, errors, isRefreshing, onRefresh } = useGetPlanList();
+
   // ローディング
   if (isLoading) {
     return LoadingSpinner;
@@ -27,6 +31,9 @@ const MyProfileScreen: React.FC = () => {
   return (
     <View style={thisStyle.container}>
       <UserProfile user={user} me />
+      <ScrollView refreshControl={RefreshSpinner(isRefreshing, onRefresh)}>
+        <PlanCardList planList={plans.plan_list} />
+      </ScrollView>
       <SettingFab />
     </View>
   );

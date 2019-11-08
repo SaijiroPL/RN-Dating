@@ -44,6 +44,12 @@ export const UserProfile: React.FC<Props> = (props: Props) => {
       </View>
       <View style={thisStyle.countContainer}>
         <View style={thisStyle.countItem}>
+          <Text style={thisStyle.countTitleText}>プラン数</Text>
+          <Text style={appTextStyle.countText} onPress={onPlanPress}>
+            {user.plan_count}
+          </Text>
+        </View>
+        <View style={thisStyle.countItem}>
           <Text style={thisStyle.countTitleText}>フォロー</Text>
           <Text style={appTextStyle.countText} onPress={onFollowPress}>
             {user.follow_count}
@@ -53,14 +59,6 @@ export const UserProfile: React.FC<Props> = (props: Props) => {
           <Text style={thisStyle.countTitleText}>フォロワー</Text>
           <Text style={appTextStyle.countText} onPress={onFollowerPress}>
             {user.follower_count}
-          </Text>
-        </View>
-      </View>
-      <View style={thisStyle.countContainer}>
-        <View style={thisStyle.countItem}>
-          <Text style={thisStyle.countTitleText}>プラン数</Text>
-          <Text style={appTextStyle.countText} onPress={onPlanPress}>
-            {user.plan_count}
           </Text>
         </View>
       </View>
@@ -76,11 +74,12 @@ UserProfile.defaultProps = {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   container: {
-    alignItems: "center"
+    alignItems: "center",
+    marginTop: 20
   },
   userInfoContainer: {
     alignItems: "center",
-    marginBottom: 30
+    marginBottom: 10
   },
   countContainer: {
     alignContent: "space-around",
@@ -89,12 +88,12 @@ const thisStyle = StyleSheet.create({
   countItem: {
     alignItems: "center",
     flexDirection: "column",
-    margin: 30
+    margin: 10
   },
   nameText: {
     color: COLOR.textTintColor,
     fontFamily: "genju-medium",
-    marginTop: 20
+    marginTop: 5
   },
   countTitleText: {
     color: COLOR.textTintColor,

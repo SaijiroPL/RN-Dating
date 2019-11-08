@@ -1,14 +1,15 @@
 import React from "react";
-import { View } from "react-native";
+import { View, ScrollView } from "react-native";
 import { useNavigationParam } from "react-navigation-hooks";
 
 // from app
 import { useGlobalState } from "app/src/Store";
-import { LoadingSpinner } from "app/src/components/Spinners";
+import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
 import { UserProfile } from "app/src/components/Content";
 import { SettingFab } from "app/src/components/Button";
-import { useGetUserDetail } from "app/src/hooks";
+import { useGetUserDetail, useGetPlanList } from "app/src/hooks";
 import { appStyle } from "app/src/styles";
+import { PlanCardList } from "app/src/components/List";
 
 /**
  * プロフィール(ユーザー詳細)画面トップ
@@ -29,10 +30,16 @@ const ProfileScreen: React.FC = () => {
     return LoadingSpinner;
   }
 
+  /** デートプラン取得 */
+  const { plans, errors, isRefreshing, onRefresh } = useGetPlanList();
+
   return (
     <View style={appStyle.standardContainer}>
       <UserProfile user={user} />
-      <SettingFab />
+      <ScrollView refreshControl={RefreshSpinner(isRefreshing, onRefresh)}>
+        <PlanCardList planList={plans.plan_list} />
+      </ScrollView>
+      　<SettingFab />
     </View>
   );
 };
