@@ -36,7 +36,7 @@
       "facebook": {
         "appId": "488030672048305"
       },
-      "apiEndpoint": "http://localhost:3000",
+      "apiEndpoint": "http://localhost:3080",
       "webEndpoint": "http://localhost:3030"
     }
   }

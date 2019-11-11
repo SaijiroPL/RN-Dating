@@ -51,7 +51,7 @@ Expo Client アプリ内部でAPIを利用するためにはローカルサー�
 ```
 "extra": {
   ...
-  "apiEndpoint": "http://xxx.xxx.xxx.xxx:3000"
+  "apiEndpoint": "http://xxx.xxx.xxx.xxx:3080"
 }
 ```
 
