@@ -3,6 +3,7 @@
  * @author kotatanaka
  */
 export interface IUserDetail {
+  Id(Id: any): { plans: any; errors: any; isRefreshing: any; onRefresh: any };
   user_id: string;
   name: string;
   profile: string;

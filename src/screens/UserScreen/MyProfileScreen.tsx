@@ -21,7 +21,9 @@ const MyProfileScreen: React.FC = () => {
   const { isLoading, user } = useGetUserDetail(loginUser.id, loginUser.id);
 
   /** デートプラン取得 */
-  const { plans, errors, isRefreshing, onRefresh } = useGetPlanList();
+  const { plans, errors, isRefreshing, onRefresh } = useGetPlanList(
+    loginUser.id
+  );
 
   // ローディング
   if (isLoading) {
