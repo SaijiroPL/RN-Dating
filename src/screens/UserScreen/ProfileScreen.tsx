@@ -31,7 +31,7 @@ const ProfileScreen: React.FC = () => {
   }
 
   /** デートプラン取得 */
-  const { plans, errors, isRefreshing, onRefresh } = useGetPlanList(user.Id);
+  const { plans, errors, isRefreshing, onRefresh } = useGetPlanList(userId);
 
   return (
     <View style={appStyle.standardContainer}>
