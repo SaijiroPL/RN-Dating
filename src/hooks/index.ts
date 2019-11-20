@@ -36,3 +36,5 @@ export * from "./useUpdatePassword";
 export * from "./useEditProfile";
 /** 検索履歴一覧取得・検索履歴削除 */
 export * from "./useGetHistoryList";
+/** 画像選択アップロード */
+export * from "./useUploadImage";
