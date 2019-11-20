@@ -6,7 +6,11 @@ import { useGlobalState } from "app/src/Store";
 import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
 import { UserProfile } from "app/src/components/Content";
 import { SettingFab } from "app/src/components/Button";
-import { useGetUserDetail, useGetPlanList } from "app/src/hooks";
+import {
+  useGetUserDetail,
+  useGetPlanList,
+  useUploadImage
+} from "app/src/hooks";
 import { PlanCardList } from "app/src/components/List";
 
 /**
@@ -25,6 +29,9 @@ const MyProfileScreen: React.FC = () => {
     loginUser.id
   );
 
+  /** 画像選択アップロード */
+  const { image, pickImage } = useUploadImage();
+
   // ローディング
   if (isLoading) {
     return LoadingSpinner;
@@ -32,7 +39,7 @@ const MyProfileScreen: React.FC = () => {
 
   return (
     <View style={thisStyle.container}>
-      <UserProfile user={user} me />
+      <UserProfile user={user} me image={image} pickImage={pickImage} />
       <ScrollView refreshControl={RefreshSpinner(isRefreshing, onRefresh)}>
         <PlanCardList planList={plans.plan_list} />
       </ScrollView>
