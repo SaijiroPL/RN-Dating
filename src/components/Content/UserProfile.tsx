@@ -6,11 +6,14 @@ import { Thumbnail, Text } from "native-base";
 // from app
 import { COLOR, IMAGE } from "app/src/constants";
 import { IUserDetail } from "app/src/interfaces/api/User";
+import { ImagePickerButton } from "app/src/components/Button";
 import { appTextStyle } from "app/src/styles";
 
 interface Props {
   user: IUserDetail;
   me?: boolean;
+  image?: any;
+  pickImage?: () => Promise<void>;
 }
 
 /**
@@ -19,7 +22,7 @@ interface Props {
  */
 export const UserProfile: React.FC<Props> = (props: Props) => {
   const { navigate } = useNavigation();
-  const { user, me } = props;
+  const { user, me, image, pickImage } = props;
 
   const onFollowPress = () => {
     navigate(me ? "myFollow" : "follow", { id: user.user_id });
@@ -35,7 +38,8 @@ export const UserProfile: React.FC<Props> = (props: Props) => {
 
   return (
     <View style={thisStyle.container}>
-      <Thumbnail large source={IMAGE.noUserImage} />
+      <Thumbnail large source={image ? { uri: image } : IMAGE.noUserImage} />
+      {me && pickImage && <ImagePickerButton pickImage={pickImage} />}
       <View style={thisStyle.userInfoContainer}>
         <Text style={thisStyle.nameText}>{user.name}</Text>
         <Text note style={thisStyle.nameText}>
