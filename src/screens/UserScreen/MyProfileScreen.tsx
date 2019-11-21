@@ -22,10 +22,10 @@ const MyProfileScreen: React.FC = () => {
   const loginUser = useGlobalState("loginUser");
 
   /** ユーザー詳細取得 */
-  const { isLoading, user } = useGetUserDetail(loginUser.id, loginUser.id);
+  const { isUserLoading, user } = useGetUserDetail(loginUser.id, loginUser.id);
 
   /** デートプラン取得 */
-  const { plans, errors, isRefreshing, onRefresh } = useGetPlanList(
+  const { plans, isPlanListLoading, isRefreshing, onRefresh } = useGetPlanList(
     loginUser.id
   );
 
@@ -33,7 +33,7 @@ const MyProfileScreen: React.FC = () => {
   const { image, pickImage } = useUploadImage();
 
   // ローディング
-  if (isLoading) {
+  if (isUserLoading || isPlanListLoading) {
     return LoadingSpinner;
   }
 
