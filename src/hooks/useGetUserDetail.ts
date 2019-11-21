@@ -40,7 +40,7 @@ export const useGetUserDetail = (userId: string, meId: string) => {
   });
 
   /** ローディング状態 */
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isUserLoading, setIsUserLoading] = useState<boolean>(true);
 
   /** ライフサイクル */
   useEffect(() => {
@@ -67,7 +67,7 @@ export const useGetUserDetail = (userId: string, meId: string) => {
       })
       .then(response => {
         setUser(Object.assign(response.data));
-        setIsLoading(false);
+        setIsUserLoading(false);
       })
       .catch(error => {
         if (axios.isCancel(error)) {
@@ -78,9 +78,9 @@ export const useGetUserDetail = (userId: string, meId: string) => {
             setErrors(apiError);
           }
         }
-        setIsLoading(false);
+        setIsUserLoading(false);
       });
   };
 
-  return { isLoading, user, errors };
+  return { isUserLoading, user, errors };
 };

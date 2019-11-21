@@ -16,7 +16,7 @@ import { appTextStyle } from "app/src/styles";
 const HomeScreen: React.FC = () => {
   /** デートプラン一覧取得 */
   const {
-    isLoading,
+    isPlanListLoading,
     plans,
     errors,
     isRefreshing,
@@ -24,7 +24,7 @@ const HomeScreen: React.FC = () => {
   } = useGetPlanList();
 
   /** ローディング */
-  if (isLoading) {
+  if (isPlanListLoading) {
     return LoadingSpinner;
   }
 

@@ -27,7 +27,7 @@ export const useGetPlanList = (userId?: string) => {
   });
 
   /** ローディング状態 */
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isPlanListLoading, setIsPlanListLoading] = useState<boolean>(true);
 
   /** リフレッシュ状態 */
   const [isRefreshing, setRefreshing] = useState<boolean>(false);
@@ -64,7 +64,7 @@ export const useGetPlanList = (userId?: string) => {
       .get<IPlanList>(url, config)
       .then(response => {
         setPlans(Object.assign(response.data));
-        setIsLoading(false);
+        setIsPlanListLoading(false);
       })
       .catch(error => {
         if (axios.isCancel(error)) {
@@ -75,7 +75,7 @@ export const useGetPlanList = (userId?: string) => {
             setErrors(apiError);
           }
         }
-        setIsLoading(false);
+        setIsPlanListLoading(false);
       });
   };
 
@@ -86,5 +86,5 @@ export const useGetPlanList = (userId?: string) => {
     setRefreshing(false);
   };
 
-  return { isLoading, plans, errors, isRefreshing, onRefresh };
+  return { isPlanListLoading, plans, errors, isRefreshing, onRefresh };
 };

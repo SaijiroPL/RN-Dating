@@ -23,15 +23,17 @@ const ProfileScreen: React.FC = () => {
   const loginUser = useGlobalState("loginUser");
 
   /** ユーザー詳細取得 */
-  const { isLoading, user } = useGetUserDetail(userId, loginUser.id);
-
-  // ローディング
-  if (isLoading) {
-    return LoadingSpinner;
-  }
+  const { isUserLoading, user } = useGetUserDetail(userId, loginUser.id);
 
   /** デートプラン取得 */
-  const { plans, errors, isRefreshing, onRefresh } = useGetPlanList(userId);
+  const { isPlanListLoading, plans, isRefreshing, onRefresh } = useGetPlanList(
+    userId
+  );
+
+  // ローディング
+  if (isUserLoading || isPlanListLoading) {
+    return LoadingSpinner;
+  }
 
   return (
     <View style={appStyle.standardContainer}>
@@ -39,7 +41,7 @@ const ProfileScreen: React.FC = () => {
       <ScrollView refreshControl={RefreshSpinner(isRefreshing, onRefresh)}>
         <PlanCardList planList={plans.plan_list} />
       </ScrollView>
-      　<SettingFab />
+      <SettingFab />
     </View>
   );
 };
