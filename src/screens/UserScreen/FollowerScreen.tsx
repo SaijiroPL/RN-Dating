@@ -30,7 +30,7 @@ const FollowScreen: React.FC = () => {
       <Text style={appTextStyle.countText}>
         フォロワー数: {followers.total}
       </Text>
-      <FollowList follows={followers.follower_list} />
+      <FollowList followers={followers.follower_list} />
     </Container>
   );
 };
