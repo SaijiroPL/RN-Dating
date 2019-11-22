@@ -20,22 +20,24 @@ export const FollowElement: React.FC<Props> = (props: Props) => {
   const { navigate } = useNavigation();
   const { follow, follower } = props;
 
-  /** ユーザー押下時の処理 */
-  const onPress = () => {
-    const followUserId = follow && !follower ? follow.user_id : "";
-    const followerUserId = !follow && follower ? follower.user_id : "";
+  /** フォローユーザー押下時の処理 */
+  const onPressFollow = () => {
+    if (follow) {
+      navigate("profile", { id: follow.user_id });
+    }
+  };
 
-    if (followUserId) {
-      navigate("profile", { id: followUserId });
-    } else if (followUserId) {
-      navigate("profile", { id: followerUserId });
+  /** フォロワー押下時の処理 */
+  const onPressFollower = () => {
+    if (follower) {
+      navigate("profile", { id: follower.user_id });
     }
   };
 
   // フォローリスト
   if (follow && !follower) {
     return (
-      <ListItem avatar onPress={onPress} style={thisStyle.container}>
+      <ListItem avatar onPress={onPressFollow} style={thisStyle.container}>
         <Left>
           <Thumbnail source={IMAGE.noUserImage} />
         </Left>
@@ -53,7 +55,7 @@ export const FollowElement: React.FC<Props> = (props: Props) => {
   // フォロワーリスト
   if (!follow && follower) {
     return (
-      <ListItem avatar onPress={onPress} style={thisStyle.container}>
+      <ListItem avatar onPress={onPressFollower} style={thisStyle.container}>
         <Left>
           <Thumbnail source={IMAGE.noUserImage} />
         </Left>
