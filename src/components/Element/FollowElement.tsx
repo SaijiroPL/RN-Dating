@@ -1,15 +1,19 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { ListItem, Thumbnail, Text, Left, Body } from "native-base";
+import { ListItem, Thumbnail, Text, Left, Body, Right } from "native-base";
 import { useNavigation } from "react-navigation-hooks";
 
 // from app
 import { COLOR, IMAGE } from "app/src/constants";
 import { IFollow, IFollower } from "app/src/interfaces/api/Follow";
+import { FollowButton } from "app/src/components/Button";
 
 interface Props {
   follow?: IFollow;
   follower?: IFollower;
+  onFollow: (id: string) => Promise<boolean>;
+  onUnfollow: (id: string) => Promise<boolean>;
+  reload: () => Promise<void>;
 }
 
 /**
@@ -18,7 +22,7 @@ interface Props {
  */
 export const FollowElement: React.FC<Props> = (props: Props) => {
   const { navigate } = useNavigation();
-  const { follow, follower } = props;
+  const { follow, follower, onFollow, onUnfollow, reload } = props;
 
   /** フォローユーザー押下時の処理 */
   const onPressFollow = () => {
@@ -48,6 +52,15 @@ export const FollowElement: React.FC<Props> = (props: Props) => {
             followd at {follow.follow_date.substr(0, 10)}
           </Text>
         </Body>
+        <Right>
+          <FollowButton
+            targetUserId={follow.user_id}
+            followed={true}
+            onFollow={onFollow}
+            onUnfollow={onUnfollow}
+            reload={reload}
+          />
+        </Right>
       </ListItem>
     );
   }
@@ -66,6 +79,15 @@ export const FollowElement: React.FC<Props> = (props: Props) => {
             followd at {follower.followed_date.substr(0, 10)}
           </Text>
         </Body>
+        <Right>
+          <FollowButton
+            targetUserId={follower.user_id}
+            followed={follower.is_follow}
+            onFollow={onFollow}
+            onUnfollow={onUnfollow}
+            reload={reload}
+          />
+        </Right>
       </ListItem>
     );
   }
@@ -76,6 +98,7 @@ export const FollowElement: React.FC<Props> = (props: Props) => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   container: {
+    alignContent: "space-around",
     justifyContent: "center"
   },
   nameText: {

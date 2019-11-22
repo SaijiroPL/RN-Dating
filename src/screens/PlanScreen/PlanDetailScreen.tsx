@@ -48,6 +48,7 @@ const PlanDetailScreen: React.FC = () => {
   /** お気に入り登録・解除 */
   const { likePlan, unlikePlan } = useLikePlan(loginUser.id);
 
+  /** フォロー・フォロー解除 */
   const { follow, unfollow } = useFollowUser(loginUser.id);
 
   /** コメントもっと見る押下時の処理 */
@@ -62,15 +63,15 @@ const PlanDetailScreen: React.FC = () => {
       userName: plan.user_name,
       userAttr: plan.user_attr,
       userImageUrl: plan.user_image_url,
-      isFollow: plan.is_followed
+      isFollow: plan.is_follow
     };
 
     return (
       <UserHeader
         user={planner}
-        onFollow={() => follow(planner.userId)}
-        onUnfollow={() => unfollow(planner.userId)}
-        reload={() => getPlanDetail(axios.CancelToken.source())}
+        onFollow={follow}
+        onUnfollow={unfollow}
+        reload={getPlanDetail}
       />
     );
   };

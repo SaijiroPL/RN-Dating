@@ -6,7 +6,7 @@ import { Container } from "native-base";
 // from app
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { FollowList } from "app/src/components/List";
-import { useGetFollowList } from "app/src/hooks";
+import { useGetFollowList, useFollowUser } from "app/src/hooks";
 import { appTextStyle } from "app/src/styles";
 
 /**
@@ -18,7 +18,10 @@ const FollowScreen: React.FC = () => {
   const userId = useNavigationParam("id");
 
   /** フォローリスト取得 */
-  const { isLoading, follows } = useGetFollowList(userId);
+  const { isLoading, follows, getFollowList } = useGetFollowList(userId);
+
+  /** フォロー・フォロー解除 */
+  const { follow, unfollow } = useFollowUser(userId);
 
   /** ローディング */
   if (isLoading) {
@@ -28,7 +31,12 @@ const FollowScreen: React.FC = () => {
   return (
     <Container>
       <Text style={appTextStyle.countText}>フォロー数: {follows.total}</Text>
-      <FollowList follows={follows.follow_list} />
+      <FollowList
+        follows={follows.follow_list}
+        onFollow={follow}
+        onUnfollow={unfollow}
+        reload={getFollowList}
+      />
     </Container>
   );
 };

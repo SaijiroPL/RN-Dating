@@ -10,8 +10,8 @@ import { FollowButton } from "app/src/components/Button";
 
 interface Props {
   user: IUserInfo;
-  onFollow?: () => Promise<boolean>;
-  onUnfollow?: () => Promise<boolean>;
+  onFollow?: (id: string) => Promise<boolean>;
+  onUnfollow?: (id: string) => Promise<boolean>;
   reload?: () => Promise<void>;
 }
 
@@ -33,6 +33,7 @@ export const UserHeader: React.FC<Props> = (props: Props) => {
       return (
         <View style={thisStyle.followContainer}>
           <FollowButton
+            targetUserId={user.userId}
             followed={user.isFollow}
             onFollow={onFollow}
             onUnfollow={onUnfollow}

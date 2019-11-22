@@ -29,7 +29,7 @@ export const useGetUserDetail = (userId: string, meId: string) => {
     plan_count: 0,
     follow_count: 0,
     follower_count: 0,
-    is_followed: false
+    is_follow: false
   });
 
   /** 異常レスポンス */
