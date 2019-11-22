@@ -31,7 +31,7 @@ export const useGetPlanDetail = (planId: string, userId: string) => {
     like_count: 0,
     comment_count: 0,
     is_liked: false,
-    is_followed: false
+    is_follow: false
   });
 
   /** 異常レスポンス */
@@ -57,15 +57,18 @@ export const useGetPlanDetail = (planId: string, userId: string) => {
    * デートプラン詳細取得API
    * @param signal CancelTokenSource
    */
-  const getPlanDetail = async (signal: CancelTokenSource) => {
+  const getPlanDetail = async (signal?: CancelTokenSource) => {
     const url = API_ENDPOINT.PLAN.replace("$1", planId);
+    const cancelToken = signal
+      ? signal.token
+      : axios.CancelToken.source().token;
 
     await axios
       .get<IPlanFull>(url, {
         params: {
           user_id: userId
         },
-        cancelToken: signal.token
+        cancelToken: cancelToken
       })
       .then(response => {
         setPlan(Object.assign(response.data));

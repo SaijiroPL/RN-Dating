@@ -8,9 +8,10 @@ import { COLOR } from "app/src/constants";
 import { appTextStyle } from "app/src/styles";
 
 interface Props {
+  targetUserId: string;
   followed: boolean;
-  onFollow: () => Promise<boolean>;
-  onUnfollow: () => Promise<boolean>;
+  onFollow: (id: string) => Promise<boolean>;
+  onUnfollow: (id: string) => Promise<boolean>;
   reload: () => Promise<void>;
 }
 
@@ -19,7 +20,25 @@ interface Props {
  * @author kotatanaka
  */
 export const FollowButton: React.FC<Props> = (props: Props) => {
-  const { followed, onFollow, onUnfollow, reload } = props;
+  const { targetUserId, followed, onFollow, onUnfollow, reload } = props;
+
+  /** フォロー */
+  const follow = async () => {
+    await onFollow(targetUserId).then(success => {
+      if (success) {
+        reload();
+      }
+    });
+  };
+
+  /** アンフォロー */
+  const unfollow = async () => {
+    await onUnfollow(targetUserId).then(success => {
+      if (success) {
+        reload();
+      }
+    });
+  };
 
   const renderFollowButton = () => {
     // アンフォローボタン(フォロー済み状態)
@@ -30,13 +49,7 @@ export const FollowButton: React.FC<Props> = (props: Props) => {
           rounded
           color={"white"}
           style={thisStyle.unfollowButton}
-          onPress={() =>
-            onUnfollow().then(success => {
-              if (success) {
-                reload();
-              }
-            })
-          }
+          onPress={unfollow}
         >
           <Text style={appTextStyle.standardWhiteText}>フォロー中</Text>
         </Button>
@@ -45,19 +58,7 @@ export const FollowButton: React.FC<Props> = (props: Props) => {
 
     // フォローボタン(未フォロー状態)
     return (
-      <Button
-        small
-        rounded
-        light
-        color={COLOR.textTintColor}
-        onPress={() =>
-          onFollow().then(success => {
-            if (success) {
-              reload();
-            }
-          })
-        }
-      >
+      <Button small rounded light color={COLOR.textTintColor} onPress={follow}>
         {/* <AntDesign
           name="pluscircleo"
           size={15}
