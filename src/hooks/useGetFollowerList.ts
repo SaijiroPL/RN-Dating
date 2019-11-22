@@ -32,22 +32,25 @@ export const useGetFollowerList = (userId: string) => {
   /** ライフサイクル */
   useEffect(() => {
     const signal = axios.CancelToken.source();
-    getFollowList(signal);
+    getFollowerList(signal);
     return () => {
       signal.cancel("Cancelling in Cleanup.");
     };
   }, []);
 
   /**
-   * フォローリスト取得
+   * フォロワーリスト取得
    * @param signal CancelTokenSource
    */
-  const getFollowList = (signal: CancelTokenSource) => {
+  const getFollowerList = async (signal?: CancelTokenSource) => {
     const url = API_ENDPOINT.USER_FOLLOWERS.replace("$1", userId);
+    const cancelToken = signal
+      ? signal.token
+      : axios.CancelToken.source().token;
 
-    axios
+    await axios
       .get<IFollowerList>(url, {
-        cancelToken: signal.token
+        cancelToken: cancelToken
       })
       .then(response => {
         setFollowers(Object.assign(response.data));
@@ -66,5 +69,5 @@ export const useGetFollowerList = (userId: string) => {
       });
   };
 
-  return { isLoading, followers, errors };
+  return { isLoading, followers, getFollowerList, errors };
 };

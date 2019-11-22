@@ -42,12 +42,15 @@ export const useGetFollowList = (userId: string) => {
    * フォローリスト取得API
    * @param signal CancelTokenSource
    */
-  const getFollowList = (signal: CancelTokenSource) => {
+  const getFollowList = async (signal?: CancelTokenSource) => {
     const url = API_ENDPOINT.USER_FOLLOWS.replace("$1", userId);
+    const cancelToken = signal
+      ? signal.token
+      : axios.CancelToken.source().token;
 
-    axios
+    await axios
       .get<IFollowList>(url, {
-        cancelToken: signal.token
+        cancelToken: cancelToken
       })
       .then(response => {
         setFollows(Object.assign(response.data));
@@ -66,5 +69,5 @@ export const useGetFollowList = (userId: string) => {
       });
   };
 
-  return { isLoading, follows, errors };
+  return { isLoading, follows, getFollowList, errors };
 };
