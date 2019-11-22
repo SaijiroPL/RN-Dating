@@ -8,6 +8,9 @@ import { FollowElement } from "app/src/components/Element";
 interface Props {
   follows?: Array<IFollow>;
   followers?: Array<IFollower>;
+  onFollow: (id: string) => Promise<boolean>;
+  onUnfollow: (id: string) => Promise<boolean>;
+  reload: () => Promise<void>;
 }
 
 /**
@@ -15,16 +18,30 @@ interface Props {
  * @author kotatanaka
  */
 export const FollowList: React.FC<Props> = (props: Props) => {
-  const { follows, followers } = props;
+  const { follows, followers, onFollow, onUnfollow, reload } = props;
 
   /** フォローリスト要素の描画 */
   const renderFollow = ({ item }: { item: IFollow }) => {
-    return <FollowElement follow={item} />;
+    return (
+      <FollowElement
+        follow={item}
+        onFollow={onFollow}
+        onUnfollow={onUnfollow}
+        reload={reload}
+      />
+    );
   };
 
   /** フォロワーリスト要素の描画 */
   const renderFollower = ({ item }: { item: IFollower }) => {
-    return <FollowElement follower={item} />;
+    return (
+      <FollowElement
+        follower={item}
+        onFollow={onFollow}
+        onUnfollow={onUnfollow}
+        reload={reload}
+      />
+    );
   };
 
   // フォローリスト
