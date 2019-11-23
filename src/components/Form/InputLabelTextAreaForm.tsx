@@ -14,7 +14,8 @@ interface Props {
  * 自己紹介編集フォーム
  * @author itsukiyamada, kotatanaka
  */
-export const profileForm: React.FC<Props> = (props: Props) => {
+export const InputLabelTextAreaForm: React.FC<Props> = (props: Props) => {
+  const { label, value, setValue, errors } = props;
   // TODO エラーメッセージ出力
 
   // 正常入力
