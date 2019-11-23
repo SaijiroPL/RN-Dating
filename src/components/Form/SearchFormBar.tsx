@@ -31,8 +31,8 @@ export const SearchFormBar: React.FC<Props> = (props: Props) => {
       }
       onChangeText={value => {
         setValue(value);
-        onSearch();
       }}
+      onEndEditing={onSearch}
       onClear={() => setValue("")}
       value={value}
       containerStyle={thisStyle.searchBar}
