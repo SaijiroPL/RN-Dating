@@ -8,6 +8,7 @@ import { useGlobalState } from "app/src/Store";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { CompleteButton } from "app/src/components/Button";
 import { InputLabelForm } from "app/src/components/Form";
+import { InputLabelTextAreaForm } from "app/src/components/Form";
 import { useEditProfile } from "app/src/hooks";
 import { isEmpty } from "app/src/utils";
 
@@ -108,7 +109,7 @@ const EditProfileScreen: React.FC = () => {
             setValue={setName}
             errors={nameErrors}
           />
-          <profileForm
+          <InputLabelTextAreaForm
             label="自己紹介"
             value={profile}
             setValue={setProfile}

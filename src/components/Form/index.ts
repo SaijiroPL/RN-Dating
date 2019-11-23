@@ -13,4 +13,4 @@ export * from "./DatePicker";
 /** 都道府県選択フォーム(ピッカー) */
 export * from "./PrefecturePicker";
 /** 自己紹介編集フォーム */
-export * from "./profileForm";
+export * from "./InputLabelTextAreaForm";
