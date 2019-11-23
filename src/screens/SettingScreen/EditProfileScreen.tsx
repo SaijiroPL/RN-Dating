@@ -108,7 +108,7 @@ const EditProfileScreen: React.FC = () => {
             setValue={setName}
             errors={nameErrors}
           />
-          <InputLabelForm
+          <profileForm
             label="自己紹介"
             value={profile}
             setValue={setProfile}
