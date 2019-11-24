@@ -1,7 +1,8 @@
 import React from "react";
-import { Content, Form, Textarea, View, Item, Label } from "native-base";
+import { Content, Form, Textarea, View, Item, Label, Text } from "native-base";
 import { StyleSheet } from "react-native";
 import { COLOR, LAYOUT } from "app/src/constants";
+import { appTextStyle } from "app/src/styles";
 
 interface Props {
   label: string;
@@ -11,12 +12,21 @@ interface Props {
 }
 
 /**
- * 自己紹介編集フォーム
+ * ラベル付きテキストエリアフォーム
  * @author itsukiyamada, kotatanaka
  */
 export const InputLabelTextAreaForm: React.FC<Props> = (props: Props) => {
   const { label, value, setValue, errors } = props;
-  // TODO エラーメッセージ出力
+
+  // エラーメッセージ出力
+  const ErrorList =
+    errors &&
+    errors.length > 0 &&
+    errors.map(item => (
+      <View style={thisStyle.errorTextContainter}>
+        <Text style={appTextStyle.errorText}>{item}</Text>
+      </View>
+    ));
 
   // 正常入力
   return (
@@ -32,6 +42,7 @@ export const InputLabelTextAreaForm: React.FC<Props> = (props: Props) => {
             onChangeText={value => setValue(value)}
             value={value}
           />
+          {ErrorList}
         </Form>
       </Content>
     </Item>
@@ -40,6 +51,9 @@ export const InputLabelTextAreaForm: React.FC<Props> = (props: Props) => {
 
 /** スタイリング */
 const thisStyle = StyleSheet.create({
+  errorTextContainter: {
+    alignItems: "flex-start"
+  },
   labelText: {
     color: COLOR.textTintColor,
     fontFamily: "genju-medium",

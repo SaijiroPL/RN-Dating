@@ -51,13 +51,7 @@ const EditProfileScreen: React.FC = () => {
 
   /** 更新ボタンの描画 */
   const renderCompleteButton = () => {
-    if (
-      isEmpty(name) ||
-      isEmpty(profile) ||
-      isEmpty(mailAddress) ||
-      isEmpty(`${age}`) ||
-      isEmpty(address)
-    ) {
+    if (isEmpty(name) || isEmpty(mailAddress) || isEmpty(`${age}`)) {
       // 未入力がある場合はアクティブにしない
       return <CompleteButton title="更新" disabled />;
     }
