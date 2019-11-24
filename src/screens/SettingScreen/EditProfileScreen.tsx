@@ -8,6 +8,7 @@ import { useGlobalState } from "app/src/Store";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { CompleteButton } from "app/src/components/Button";
 import { InputLabelForm } from "app/src/components/Form";
+import { InputLabelTextAreaForm } from "app/src/components/Form";
 import { useEditProfile } from "app/src/hooks";
 import { isEmpty } from "app/src/utils";
 
@@ -50,13 +51,7 @@ const EditProfileScreen: React.FC = () => {
 
   /** 更新ボタンの描画 */
   const renderCompleteButton = () => {
-    if (
-      isEmpty(name) ||
-      isEmpty(profile) ||
-      isEmpty(mailAddress) ||
-      isEmpty(`${age}`) ||
-      isEmpty(address)
-    ) {
+    if (isEmpty(name) || isEmpty(mailAddress) || isEmpty(`${age}`)) {
       // 未入力がある場合はアクティブにしない
       return <CompleteButton title="更新" disabled />;
     }
@@ -108,7 +103,7 @@ const EditProfileScreen: React.FC = () => {
             setValue={setName}
             errors={nameErrors}
           />
-          <InputLabelForm
+          <InputLabelTextAreaForm
             label="自己紹介"
             value={profile}
             setValue={setProfile}
