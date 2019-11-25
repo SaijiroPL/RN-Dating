@@ -12,6 +12,7 @@ import {
   useUploadImage
 } from "app/src/hooks";
 import { PlanCardList } from "app/src/components/List";
+import { LAYOUT } from "app/src/constants";
 
 /**
  * マイプロフィール画面
@@ -40,7 +41,10 @@ const MyProfileScreen: React.FC = () => {
   return (
     <View style={thisStyle.container}>
       <UserProfile user={user} me image={image} pickImage={pickImage} />
-      <ScrollView refreshControl={RefreshSpinner(isRefreshing, onRefresh)}>
+      <ScrollView
+        refreshControl={RefreshSpinner(isRefreshing, onRefresh)}
+        style={thisStyle.scroll}
+      >
         <PlanCardList planList={plans.plan_list} />
       </ScrollView>
       <SettingFab />
@@ -54,6 +58,9 @@ const thisStyle = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     justifyContent: "center"
+  },
+  scroll: {
+    width: LAYOUT.window.width
   }
 });
 
