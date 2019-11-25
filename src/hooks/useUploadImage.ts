@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Platform } from "react-native";
+// FIXME expo-image-picker と expo-permissions からのインポートに置き換えたい
 import { ImagePicker, Permissions } from "expo";
 
 /**
@@ -20,24 +21,30 @@ export const useUploadImage = () => {
   /** パーミッションの許可 */
   const getPermissionAsync = async () => {
     if (Platform.OS === "ios") {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      setHasPermission(status === "granted");
+      try {
+        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        setHasPermission(status === "granted");
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
   /** カメラロールから画像の選択 */
   const pickImage = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1
-    });
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1
+      });
 
-    console.log(result);
-
-    if (!result.cancelled) {
-      setImage(result.uri);
+      if (!result.cancelled) {
+        setImage(result.uri);
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
