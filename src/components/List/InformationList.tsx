@@ -25,7 +25,7 @@ export const InformationList: React.FC<Props> = (props: Props) => {
     <FlatList
       data={informationList}
       renderItem={renderNotificationElement}
-      keyExtractor={item => item.notification_id}
+      keyExtractor={item => `${item.notification_id}`}
     />
   );
 };

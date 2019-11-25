@@ -39,7 +39,7 @@ export const NotificationList: React.FC<Props> = (props: Props) => {
     <FlatList
       data={notificationList}
       renderItem={renderNotificationElement}
-      keyExtractor={item => item.notification_id}
+      keyExtractor={item => `${item.notification_id}`}
     />
   );
 };
