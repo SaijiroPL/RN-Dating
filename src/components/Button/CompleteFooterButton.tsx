@@ -46,10 +46,12 @@ CompleteFooterButton.defaultProps = {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   touchable: {
-    backgroundColor: COLOR.tintColor
+    backgroundColor: COLOR.tintColor,
+    height: LAYOUT.window.height * 0.03
   },
   disTouchable: {
-    backgroundColor: COLOR.baseBackgroundColor
+    backgroundColor: COLOR.baseBackgroundColor,
+    height: LAYOUT.window.height * 0.03
   },
   button: {
     justifyContent: "center",
