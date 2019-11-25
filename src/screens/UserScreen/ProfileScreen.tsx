@@ -1,5 +1,5 @@
 import React from "react";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, StyleSheet } from "react-native";
 import { useNavigationParam } from "react-navigation-hooks";
 
 // from app
@@ -10,6 +10,7 @@ import { SettingFab } from "app/src/components/Button";
 import { useGetUserDetail, useGetPlanList } from "app/src/hooks";
 import { appStyle } from "app/src/styles";
 import { PlanCardList } from "app/src/components/List";
+import { LAYOUT } from "app/src/constants";
 
 /**
  * プロフィール(ユーザー詳細)画面トップ
@@ -38,12 +39,22 @@ const ProfileScreen: React.FC = () => {
   return (
     <View style={appStyle.standardContainer}>
       <UserProfile user={user} />
-      <ScrollView refreshControl={RefreshSpinner(isRefreshing, onRefresh)}>
+      <ScrollView
+        refreshControl={RefreshSpinner(isRefreshing, onRefresh)}
+        style={thisStyle.container}
+      >
         <PlanCardList planList={plans.plan_list} />
       </ScrollView>
       <SettingFab />
     </View>
   );
 };
+
+/** スタイリング */
+const thisStyle = StyleSheet.create({
+  container: {
+    width: LAYOUT.window.width
+  }
+});
 
 export default ProfileScreen;
