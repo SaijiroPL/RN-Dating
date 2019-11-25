@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Platform } from "react-native";
-// FIXME expo-image-picker と expo-permissions からのインポートに置き換えたい
-import { ImagePicker, Permissions } from "expo";
+import * as Permissions from "expo-permissions";
+import * as ImagePicker from "expo-image-picker";
 
 /**
  * 画像アップロードフック
@@ -12,7 +12,7 @@ export const useUploadImage = () => {
   const [hasPermission, setHasPermission] = useState<boolean>(false);
 
   /** 選択画像 */
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState("");
 
   useEffect(() => {
     getPermissionAsync();
