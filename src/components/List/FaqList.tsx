@@ -50,7 +50,7 @@ export const FaqList: React.FC<Props> = (props: Props) => {
     /** 選択中の質問は回答を展開する */
     if (selectedFaqIndex === faq.question_id) {
       return (
-        <View>
+        <View key={faq.question_id}>
           <ListItem
             noIndent
             style={{ backgroundColor: COLOR.baseBackgroundColor }}
@@ -65,7 +65,7 @@ export const FaqList: React.FC<Props> = (props: Props) => {
     }
 
     return (
-      <View>
+      <View key={faq.question_id}>
         <ListItem noIndent onPress={() => setSelectedFaqIndex(faq.question_id)}>
           <Left>{Question}</Left>
           <Right>{ArrowForward}</Right>
