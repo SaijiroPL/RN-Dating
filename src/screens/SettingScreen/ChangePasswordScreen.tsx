@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Form } from "native-base";
 import { useNavigation } from "react-navigation-hooks";
 
@@ -92,8 +92,8 @@ const ChangePasswordScreen: React.FC = () => {
   };
 
   return (
-    <View style={appStyle.standardContainer}>
-      <Form style={{ flex: 3, justifyContent: "center" }}>
+    <View style={thisStyle.container}>
+      <Form>
         <InputFormFloating
           label="現在のパスワード"
           value={oldPassword}
@@ -118,5 +118,14 @@ const ChangePasswordScreen: React.FC = () => {
     </View>
   );
 };
+
+/** スタイリング */
+const thisStyle = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    flex: 0.7,
+    justifyContent: "center"
+  }
+});
 
 export default ChangePasswordScreen;
