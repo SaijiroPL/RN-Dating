@@ -60,7 +60,7 @@ const thisStyle = StyleSheet.create({
     justifyContent: "center"
   },
   scroll: {
-    width: LAYOUT.window.width
+    width: LAYOUT.window.width * 0.9
   }
 });
 
