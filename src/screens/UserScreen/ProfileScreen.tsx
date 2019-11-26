@@ -53,7 +53,7 @@ const ProfileScreen: React.FC = () => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   container: {
-    width: LAYOUT.window.width
+    width: LAYOUT.window.width * 0.9
   }
 });
 
