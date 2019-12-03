@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
@@ -21,53 +21,53 @@ interface Props {
 export const LikeButton: React.FC<Props> = (props: Props) => {
   const { likeCount, liked, onLike, onUnlike, reload } = props;
 
-  const renderHeart = () => {
-    if (!onLike || !onUnlike || !reload) {
-      if (liked) {
-        return <AntDesign name="heart" size={20} style={thisStyle.button} />;
-      }
+  // お気に入り登録,解除機能を持たせないボタン
+  if (!onLike || !onUnlike || !reload) {
+    return (
+      <View style={thisStyle.container}>
+        {liked ? (
+          <AntDesign name="heart" size={20} style={thisStyle.button} />
+        ) : (
+          <AntDesign name="hearto" size={20} style={thisStyle.button} />
+        )}
+        <Text style={appTextStyle.tintColorText}>{likeCount}</Text>
+      </View>
+    );
+  }
 
-      return <AntDesign name="hearto" size={20} style={thisStyle.button} />;
+  /** お気に入り登録 */
+  const handleLike = useCallback(async () => {
+    const result = await onLike();
+    if (result) {
+      reload();
     }
+  }, []);
 
-    // お気に入り登録済ボタン(解除用)
-    if (liked) {
-      return (
+  /** お気に入り解除 */
+  const handleUnlike = useCallback(async () => {
+    const result = await onUnlike();
+    if (result) {
+      reload();
+    }
+  }, []);
+
+  return (
+    <View style={thisStyle.container}>
+      {liked ? (
         <AntDesign
           name="heart"
           size={20}
           style={thisStyle.button}
-          onPress={() =>
-            onUnlike().then(success => {
-              if (success) {
-                reload();
-              }
-            })
-          }
+          onPress={handleUnlike}
         />
-      );
-    }
-
-    // お気に入り未登録ボタン(登録用)
-    return (
-      <AntDesign
-        name="hearto"
-        size={20}
-        style={thisStyle.button}
-        onPress={() =>
-          onLike().then(success => {
-            if (success) {
-              reload();
-            }
-          })
-        }
-      />
-    );
-  };
-
-  return (
-    <View style={thisStyle.container}>
-      {renderHeart()}
+      ) : (
+        <AntDesign
+          name="hearto"
+          size={20}
+          style={thisStyle.button}
+          onPress={handleLike}
+        />
+      )}
       <Text style={appTextStyle.tintColorText}>{likeCount}</Text>
     </View>
   );
