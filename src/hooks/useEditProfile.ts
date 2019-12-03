@@ -75,19 +75,18 @@ export const useEditProfile = (userId: string) => {
       mail_address: mailAddress !== user.mail_address ? mailAddress : undefined
     };
 
-    return await axios
-      .put<IOK>(url, body)
-      .then(() => {
-        setErrors({ code: 0, message: "", detail_message: [] });
-        return true;
-      })
-      .catch(error => {
-        const apiError = handleError(error);
-        if (apiError) {
-          setErrors(apiError);
-        }
-        return false;
-      });
+    try {
+      await axios.put<IOK>(url, body);
+    } catch (err) {
+      const apiError = handleError(err);
+      if (apiError) {
+        setErrors(apiError);
+      }
+      return false;
+    }
+
+    setErrors({ code: 0, message: "", detail_message: [] });
+    return true;
   };
 
   /**

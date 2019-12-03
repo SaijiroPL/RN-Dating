@@ -25,52 +25,50 @@ export const useLikePlan = (userId: string) => {
    * お気に入り登録API
    * @param planId デートプランID
    */
-  const likePlan = async (planId: string) => {
+  const likePlan = async (planId: string): Promise<boolean> => {
     const url = API_ENDPOINT.PLAN_LIKES.replace("$1", planId);
 
     const body: ILikeBody = {
       user_id: userId
     };
 
-    return await axios
-      .post<IOK>(url, body)
-      .then(() => {
-        setErrors({ code: 0, message: "", detail_message: [] });
-        return true;
-      })
-      .catch(error => {
-        const apiError = handleError(error);
-        if (apiError) {
-          setErrors(apiError);
-        }
-        return false;
-      });
+    try {
+      await axios.post<IOK>(url, body);
+    } catch (err) {
+      const apiError = handleError(err);
+      if (apiError) {
+        setErrors(apiError);
+      }
+      return false;
+    }
+
+    setErrors({ code: 0, message: "", detail_message: [] });
+    return true;
   };
 
   /**
    * お気に入り解除API
    * @param planId デートプランID
    */
-  const unlikePlan = async (planId: string) => {
+  const unlikePlan = async (planId: string): Promise<boolean> => {
     const url = API_ENDPOINT.PLAN_LIKES.replace("$1", planId);
 
-    return await axios
-      .delete<IOK>(url, {
+    try {
+      await axios.delete<IOK>(url, {
         params: {
           user_id: userId
         }
-      })
-      .then(() => {
-        setErrors({ code: 0, message: "", detail_message: [] });
-        return true;
-      })
-      .catch(error => {
-        const apiError = handleError(error);
-        if (apiError) {
-          setErrors(apiError);
-        }
-        return false;
       });
+    } catch (err) {
+      const apiError = handleError(err);
+      if (apiError) {
+        setErrors(apiError);
+      }
+      return false;
+    }
+
+    setErrors({ code: 0, message: "", detail_message: [] });
+    return true;
   };
 
   return {

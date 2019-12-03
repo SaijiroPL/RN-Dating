@@ -40,60 +40,52 @@ export const useGetHistoryList = (userId: string) => {
    * 検索履歴一覧取得API
    * @param signal CancelTokenSource
    */
-  const getHistoryList = (signal: CancelTokenSource) => {
+  const getHistoryList = async (signal: CancelTokenSource): Promise<void> => {
     const url = API_ENDPOINT.PLANS_SEARCH_HISTORIES;
 
-    axios
-      .get<IHistoryList>(url, {
+    try {
+      const { data } = await axios.get<IHistoryList>(url, {
         params: {
           user_id: userId
         },
         cancelToken: signal.token
-      })
-      .then(response => {
-        setHistories(Object.assign(response.data));
-      })
-      .catch(error => {
-        if (axios.isCancel(error)) {
-          console.log("Request Cancelled: " + error.message);
-        } else {
-          const apiError = handleError(error);
-          if (apiError) {
-            setErrors(apiError);
-          }
-        }
       });
+      setHistories(Object.assign(data));
+    } catch (err) {
+      if (axios.isCancel(err)) {
+        console.log("Request Cancelled: " + err.message);
+      } else {
+        const apiError = handleError(err);
+        if (apiError) {
+          setErrors(apiError);
+        }
+      }
+    }
   };
 
   /**
    * 検索履歴削除API
    * @param id 検索履歴ID
    */
-  const deleteHistory = async (id: number) => {
+  const deleteHistory = async (id: number): Promise<boolean> => {
     const url = API_ENDPOINT.PLANS_SEARCH_HISTORY.replace("$1", `${id}`);
 
-    return await axios
-      .delete<IOK>(url, {
+    try {
+      await axios.delete<IOK>(url, {
         params: {
           user_id: userId
         }
-      })
-      .then(() => {
-        // 検索履歴一覧再読み込み
-        getHistoryList(axios.CancelToken.source());
-        return true;
-      })
-      .catch(error => {
-        if (axios.isCancel(error)) {
-          console.log("Request Cancelled: " + error.message);
-        } else {
-          handleError(error);
-          if (error.response.stats === 400) {
-            setErrors(error.response.data);
-          }
-        }
-        return false;
       });
+    } catch (err) {
+      const apiError = handleError(err);
+      if (apiError) {
+        setErrors(apiError);
+      }
+      return false;
+    }
+
+    getHistoryList(axios.CancelToken.source());
+    return true;
   };
 
   return { histories, deleteHistory, errors };
