@@ -42,28 +42,26 @@ export const useGetLikeUserList = (planId: string) => {
    * デートプランお気に入り登録者一覧取得API
    * @param signal CancelTokenSource
    */
-  const getLikeUserList = (signal: CancelTokenSource) => {
+  const getLikeUserList = async (signal: CancelTokenSource): Promise<void> => {
     const url = API_ENDPOINT.PLAN_LIKES.replace("$1", planId);
 
-    axios
-      .get<ILikeUserList>(url, {
+    try {
+      const { data } = await axios.get<ILikeUserList>(url, {
         cancelToken: signal.token
-      })
-      .then(response => {
-        setUsers(Object.assign(response.data));
-        setIsLoading(false);
-      })
-      .catch(error => {
-        if (axios.isCancel(error)) {
-          console.log("Request Cancelled: " + error.message);
-        } else {
-          const apiError = handleError(error);
-          if (apiError) {
-            setErrors(apiError);
-          }
-        }
-        setIsLoading(false);
       });
+      setUsers(Object.assign(data));
+    } catch (err) {
+      if (axios.isCancel(err)) {
+        console.log("Request Cancelled: " + err.message);
+      } else {
+        const apiError = handleError(err);
+        if (apiError) {
+          setErrors(apiError);
+        }
+      }
+    }
+
+    setIsLoading(false);
   };
 
   return { isLoading, users, errors };

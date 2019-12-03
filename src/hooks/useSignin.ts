@@ -30,28 +30,30 @@ export const useSignin = () => {
    * @param mailAddress メールアドレス
    * @param password パスワード
    */
-  const loginByEmail = async (mailAddress: string, password: string) => {
+  const loginByEmail = async (
+    mailAddress: string,
+    password: string
+  ): Promise<boolean> => {
     const url = API_ENDPOINT.USERS_LOGIN;
     const body: ILogin = {
       mail_address: mailAddress,
       password: password
     };
 
-    return await axios
-      .post<ILoginUser>(url, body)
-      .then(response => {
-        setErrors({ code: 0, message: "", detail_message: [] });
-        const { user_id, name, user_image_url } = response.data;
-        setLoginUser(user_id, name, user_image_url);
-        return true;
-      })
-      .catch(error => {
-        const apiError = handleError(error);
-        if (apiError) {
-          setErrors(apiError);
-        }
-        return false;
-      });
+    try {
+      const { data } = await axios.post<ILoginUser>(url, body);
+      const { user_id, name, user_image_url } = data;
+      setLoginUser(user_id, name, user_image_url);
+    } catch (err) {
+      const apiError = handleError(err);
+      if (apiError) {
+        setErrors(apiError);
+      }
+      return false;
+    }
+
+    setErrors({ code: 0, message: "", detail_message: [] });
+    return true;
   };
 
   /**

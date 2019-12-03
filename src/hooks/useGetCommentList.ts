@@ -42,28 +42,26 @@ export const useGetCommentList = (planId: string) => {
    * コメント一覧取得API
    * @param signal CancelTokenSource
    */
-  const getCommentList = (signal: CancelTokenSource) => {
+  const getCommentList = async (signal: CancelTokenSource): Promise<void> => {
     const url = API_ENDPOINT.PLAN_COMMENTS.replace("$1", planId);
 
-    axios
-      .get<ICommentList>(url, {
+    try {
+      const { data } = await axios.get<ICommentList>(url, {
         cancelToken: signal.token
-      })
-      .then(response => {
-        setComments(Object.assign(response.data));
-        setIsCommentsLoading(false);
-      })
-      .catch(error => {
-        if (axios.isCancel(error)) {
-          console.log("Request Cancelled: " + error.message);
-        } else {
-          const apiError = handleError(error);
-          if (apiError) {
-            setErrors(apiError);
-          }
-        }
-        setIsCommentsLoading(false);
       });
+      setComments(Object.assign(data));
+    } catch (err) {
+      if (axios.isCancel(err)) {
+        console.log("Request Cancelled: " + err.message);
+      } else {
+        const apiError = handleError(err);
+        if (apiError) {
+          setErrors(apiError);
+        }
+      }
+    }
+
+    setIsCommentsLoading(false);
   };
 
   return { isCommentsLoading, comments, errors };

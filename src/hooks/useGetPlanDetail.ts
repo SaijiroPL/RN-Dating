@@ -57,34 +57,32 @@ export const useGetPlanDetail = (planId: string, userId: string) => {
    * デートプラン詳細取得API
    * @param signal CancelTokenSource
    */
-  const getPlanDetail = async (signal?: CancelTokenSource) => {
+  const getPlanDetail = async (signal?: CancelTokenSource): Promise<void> => {
     const url = API_ENDPOINT.PLAN.replace("$1", planId);
     const cancelToken = signal
       ? signal.token
       : axios.CancelToken.source().token;
 
-    await axios
-      .get<IPlanFull>(url, {
+    try {
+      const { data } = await axios.get<IPlanFull>(url, {
         params: {
           user_id: userId
         },
         cancelToken: cancelToken
-      })
-      .then(response => {
-        setPlan(Object.assign(response.data));
-        setIsPlanLoading(false);
-      })
-      .catch(error => {
-        if (axios.isCancel(error)) {
-          console.log("Request Cancelled: " + error.message);
-        } else {
-          const apiError = handleError(error);
-          if (apiError) {
-            setErrors(apiError);
-          }
-        }
-        setIsPlanLoading(false);
       });
+      setPlan(Object.assign(data));
+    } catch (err) {
+      if (axios.isCancel(err)) {
+        console.log("Request Cancelled: " + err.message);
+      } else {
+        const apiError = handleError(err);
+        if (apiError) {
+          setErrors(apiError);
+        }
+      }
+    }
+
+    setIsPlanLoading(false);
   };
 
   return { isPlanLoading, plan, getPlanDetail, errors };

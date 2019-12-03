@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
@@ -41,40 +41,40 @@ export const useGetInformationList = (userId: string) => {
     };
   }, []);
 
-  const onRefresh = () => {
+  const onRefresh = useCallback(() => {
     setRefreshing(true);
     setRefreshing(false);
-  };
+  }, []);
 
   /**
    * 通知一覧取得API
    * @param signal CancelTokenSource
    */
-  const getInformationList = (signal: CancelTokenSource) => {
+  const getInformationList = async (
+    signal: CancelTokenSource
+  ): Promise<void> => {
     const url = API_ENDPOINT.INFORMATION;
 
-    axios
-      .get<IInformationList>(url, {
+    try {
+      const { data } = await axios.get<IInformationList>(url, {
         params: {
           user_id: userId
         },
         cancelToken: signal.token
-      })
-      .then(response => {
-        setInformation(Object.assign(response.data));
-        setIsLoading(false);
-      })
-      .catch(error => {
-        if (axios.isCancel(error)) {
-          console.log("Request Cancelled: " + error.message);
-        } else {
-          const apiError = handleError(error);
-          if (apiError) {
-            setErrors(apiError);
-          }
-        }
-        setIsLoading(false);
       });
+      setInformation(Object.assign(data));
+    } catch (err) {
+      if (axios.isCancel(err)) {
+        console.log("Request Cancelled: " + err.message);
+      } else {
+        const apiError = handleError(err);
+        if (apiError) {
+          setErrors(apiError);
+        }
+      }
+    }
+
+    setIsLoading(false);
   };
 
   return { isLoading, isRefreshing, onRefresh, information, errors };

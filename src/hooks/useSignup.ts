@@ -40,7 +40,7 @@ export const useSignup = () => {
   const [errors, setErrors] = useState<IApiError>();
 
   /** ユーザー登録 */
-  const createUser = async () => {
+  const createUser = async (): Promise<string | undefined> => {
     const url = API_ENDPOINT.USERS;
 
     const body: ICreateUserBody = {
@@ -52,18 +52,16 @@ export const useSignup = () => {
       password: registerUser.password
     };
 
-    return await axios
-      .post<IOK>(url, body)
-      .then(response => {
-        setErrors({ code: 0, message: "", detail_message: [] });
-        return response.data.id;
-      })
-      .catch(error => {
-        const apiError = handleError(error);
-        if (apiError) {
-          setErrors(apiError);
-        }
-      });
+    try {
+      const { data } = await axios.post<IOK>(url, body);
+      setErrors({ code: 0, message: "", detail_message: [] });
+      return data.id;
+    } catch (err) {
+      const apiError = handleError(err);
+      if (apiError) {
+        setErrors(apiError);
+      }
+    }
   };
 
   /**

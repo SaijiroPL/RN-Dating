@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
@@ -41,37 +41,38 @@ export const useGetNotificationList = (userId: string) => {
     };
   }, []);
 
-  const onRefresh = () => {
+  /** プルリロード */
+  const onRefresh = useCallback(() => {
     setRefreshing(true);
     setRefreshing(false);
-  };
+  }, []);
 
   /**
    * 通知一覧取得API
    * @param signal CancelTokenSource
    */
-  const getNotificationList = (signal: CancelTokenSource) => {
+  const getNotificationList = async (
+    signal: CancelTokenSource
+  ): Promise<void> => {
     const url = API_ENDPOINT.USER_NOTIFICATIONS.replace("$1", userId);
 
-    axios
-      .get<INotificationList>(url, {
+    try {
+      const { data } = await axios.get<INotificationList>(url, {
         cancelToken: signal.token
-      })
-      .then(response => {
-        setNotifications(Object.assign(response.data));
-        setIsLoading(false);
-      })
-      .catch(error => {
-        if (axios.isCancel(error)) {
-          console.log("Request Cancelled: " + error.message);
-        } else {
-          const apiError = handleError(error);
-          if (apiError) {
-            setErrors(apiError);
-          }
-        }
-        setIsLoading(false);
       });
+      setNotifications(Object.assign(data));
+    } catch (err) {
+      if (axios.isCancel(err)) {
+        console.log("Request Cancelled: " + err.message);
+      } else {
+        const apiError = handleError(err);
+        if (apiError) {
+          setErrors(apiError);
+        }
+      }
+    }
+
+    setIsLoading(false);
   };
 
   return { isLoading, isRefreshing, onRefresh, notifications, errors };

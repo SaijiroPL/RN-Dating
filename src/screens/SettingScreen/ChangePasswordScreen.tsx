@@ -64,17 +64,16 @@ const ChangePasswordScreen: React.FC = () => {
   }
 
   /** 完了ボタン押下時の処理 */
-  const onCompleteButtonPress = () => {
+  const onCompleteButtonPress = async (): Promise<void> => {
     if (newPassword !== confirmNewPassword) {
       setConfirmPasswordErrors(["パスワードが間違っています"]);
       return;
     }
 
-    updatePassword().then(success => {
-      if (success) {
-        navigate("top");
-      }
-    });
+    const result = await updatePassword();
+    if (result) {
+      navigate("top");
+    }
   };
 
   /** 完了ボタンの描画 */

@@ -28,7 +28,7 @@ export const useUpdatePassword = (userId: string) => {
   });
 
   /** パスワード変更API */
-  const updatePassword = async () => {
+  const updatePassword = async (): Promise<boolean> => {
     const url = API_ENDPOINT.USER_PASSWORD.replace("$1", userId);
 
     const body: IUpdatePasswordBody = {
@@ -36,19 +36,18 @@ export const useUpdatePassword = (userId: string) => {
       new_password: newPassword
     };
 
-    return await axios
-      .put<IOK>(url, body)
-      .then(() => {
-        setErrors({ code: 0, message: "", detail_message: [] });
-        return true;
-      })
-      .catch(error => {
-        const apiError = handleError(error);
-        if (apiError) {
-          setErrors(apiError);
-        }
-        return false;
-      });
+    try {
+      await axios.put<IOK>(url, body);
+    } catch (err) {
+      const apiError = handleError(err);
+      if (apiError) {
+        setErrors(apiError);
+      }
+      return false;
+    }
+
+    setErrors({ code: 0, message: "", detail_message: [] });
+    return true;
   };
 
   return {

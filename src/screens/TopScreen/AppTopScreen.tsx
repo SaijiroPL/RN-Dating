@@ -61,17 +61,19 @@ const AppTopScreen: React.FC = () => {
   const { setRegisterUserParts } = useSignup();
 
   /** Facebookログインボタン押下時の処理 */
-  const onFacebookButtonPress = () => {
-    facebookLogin().then(() => navigate("welcome"));
+  const onFacebookButtonPress = async (): Promise<void> => {
+    const result = await facebookLogin();
+    if (result) {
+      navigate("welcome");
+    }
   };
 
   /** メールアドレスログインボタン押下時の処理 */
-  const onSignInButtonPress = () => {
-    loginByEmail(emailAtSignin, passAtSignin).then(success => {
-      if (success) {
-        navigate("main");
-      }
-    });
+  const onSignInButtonPress = async () => {
+    const result = await loginByEmail(emailAtSignin, passAtSignin);
+    if (result) {
+      navigate("main");
+    }
   };
 
   /** 新規登録ボタン押下時の処理 */

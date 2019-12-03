@@ -55,31 +55,29 @@ export const useGetUserDetail = (userId: string, meId: string) => {
    * ユーザー詳細取得API
    * @param signal CancelTokenSource
    */
-  const getUserDetail = (signal: CancelTokenSource) => {
+  const getUserDetail = async (signal: CancelTokenSource): Promise<void> => {
     const url = API_ENDPOINT.USER.replace("$1", userId);
 
-    axios
-      .get<IUserDetail>(url, {
+    try {
+      const { data } = await axios.get<IUserDetail>(url, {
         params: {
           me_user_id: meId
         },
         cancelToken: signal.token
-      })
-      .then(response => {
-        setUser(Object.assign(response.data));
-        setIsUserLoading(false);
-      })
-      .catch(error => {
-        if (axios.isCancel(error)) {
-          console.log("Request Cancelled: " + error.message);
-        } else {
-          const apiError = handleError(error);
-          if (apiError) {
-            setErrors(apiError);
-          }
-        }
-        setIsUserLoading(false);
       });
+      setUser(Object.assign(data));
+    } catch (err) {
+      if (axios.isCancel(err)) {
+        console.log("Request Cancelled: " + err.message);
+      } else {
+        const apiError = handleError(err);
+        if (apiError) {
+          setErrors(apiError);
+        }
+      }
+    }
+
+    setIsUserLoading(false);
   };
 
   return { isUserLoading, user, errors };

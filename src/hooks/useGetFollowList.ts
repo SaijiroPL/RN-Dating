@@ -42,31 +42,29 @@ export const useGetFollowList = (userId: string) => {
    * フォローリスト取得API
    * @param signal CancelTokenSource
    */
-  const getFollowList = async (signal?: CancelTokenSource) => {
+  const getFollowList = async (signal?: CancelTokenSource): Promise<void> => {
     const url = API_ENDPOINT.USER_FOLLOWS.replace("$1", userId);
     const cancelToken = signal
       ? signal.token
       : axios.CancelToken.source().token;
 
-    await axios
-      .get<IFollowList>(url, {
+    try {
+      const { data } = await axios.get<IFollowList>(url, {
         cancelToken: cancelToken
-      })
-      .then(response => {
-        setFollows(Object.assign(response.data));
-        setIsLoading(false);
-      })
-      .catch(error => {
-        if (axios.isCancel(error)) {
-          console.log("Request Cancelled: " + error.message);
-        } else {
-          const apiError = handleError(error);
-          if (apiError) {
-            setErrors(apiError);
-          }
-        }
-        setIsLoading(false);
       });
+      setFollows(Object.assign(data));
+    } catch (err) {
+      if (axios.isCancel(err)) {
+        console.log("Request Cancelled: " + err.message);
+      } else {
+        const apiError = handleError(err);
+        if (apiError) {
+          setErrors(apiError);
+        }
+      }
+    }
+
+    setIsLoading(false);
   };
 
   return { isLoading, follows, getFollowList, errors };
