@@ -93,36 +93,34 @@ export const useEditProfile = (userId: string) => {
    * ユーザー詳細取得
    * @param signal CancelTokenSource
    */
-  const getUserDetail = (signal: CancelTokenSource) => {
+  const getUserDetail = async (signal: CancelTokenSource): Promise<void> => {
     const url = API_ENDPOINT.USER.replace("$1", userId);
 
-    axios
-      .get<IUserDetail>(url, {
+    try {
+      const { data } = await axios.get<IUserDetail>(url, {
         params: {
           me_user_id: userId
         },
         cancelToken: signal.token
-      })
-      .then(response => {
-        setUser(response.data);
-        setName(response.data.name);
-        setProfile(response.data.profile);
-        setAge(response.data.age);
-        setAddress(response.data.address);
-        setMailAddress(response.data.mail_address);
-        setIsLoading(false);
-      })
-      .catch(error => {
-        if (axios.isCancel(error)) {
-          console.log("Request Cancelled: " + error.message);
-        } else {
-          const apiError = handleError(error);
-          if (apiError) {
-            setErrors(apiError);
-          }
-        }
-        setIsLoading(false);
       });
+      setUser(data);
+      setName(data.name);
+      setProfile(data.profile);
+      setAge(data.age);
+      setAddress(data.address);
+      setMailAddress(data.mail_address);
+    } catch (err) {
+      if (axios.isCancel(err)) {
+        console.log("Request Cancelled: " + err.message);
+      } else {
+        const apiError = handleError(err);
+        if (apiError) {
+          setErrors(apiError);
+        }
+      }
+    }
+
+    setIsLoading(false);
   };
 
   return {

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
@@ -51,7 +51,7 @@ export const useSearchPlanList = () => {
    * デートプラン検索API
    * @param signal CancelTokenSource(Optional)
    */
-  const searchPlanList = (signal?: CancelTokenSource) => {
+  const searchPlanList = async (signal?: CancelTokenSource): Promise<void> => {
     if (searchWord === "") {
       return;
     }
@@ -66,37 +66,35 @@ export const useSearchPlanList = () => {
 
     const url = API_ENDPOINT.PLANS_SEARCH;
 
-    axios
-      .get<IPlanList>(url, {
+    try {
+      const { data } = await axios.get<IPlanList>(url, {
         params: {
           keyword: searchWord,
           user_id: loginUser.id
         },
         cancelToken: signal.token
-      })
-      .then(response => {
-        setPlans(Object.assign(response.data));
-        setIsLoading(false);
-      })
-      .catch(error => {
-        if (axios.isCancel(error)) {
-          console.log("Request Cancelled: " + error.message);
-        } else {
-          const apiError = handleError(error);
-          if (apiError) {
-            setErrors(apiError);
-          }
-        }
-        setIsLoading(false);
       });
+      setPlans(Object.assign(data));
+    } catch (err) {
+      if (axios.isCancel(err)) {
+        console.log("Request Cancelled: " + err.message);
+      } else {
+        const apiError = handleError(err);
+        if (apiError) {
+          setErrors(apiError);
+        }
+      }
+    }
+
+    setIsLoading(false);
   };
 
   /** プルリロード */
-  const onRefresh = () => {
+  const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    searchPlanList();
+    await searchPlanList();
     setRefreshing(false);
-  };
+  }, []);
 
   return {
     isLoading,

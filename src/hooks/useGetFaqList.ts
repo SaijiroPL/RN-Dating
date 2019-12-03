@@ -40,26 +40,26 @@ export const useGetFaqList = () => {
    * よくある質問一覧取得API
    * @param signal CancelTokenSource
    */
-  const getFaqList = (signal: CancelTokenSource) => {
+  const getFaqList = async (signal: CancelTokenSource): Promise<void> => {
     const url = API_ENDPOINT.QUESTIONS_FAQ;
 
-    axios
-      .get<IFaqList>(url, { cancelToken: signal.token })
-      .then(response => {
-        setQuestions(Object.assign(response.data));
-        setIsLoading(false);
-      })
-      .catch(error => {
-        if (axios.isCancel(error)) {
-          console.log("Request Cancelled: " + error.message);
-        } else {
-          const apiError = handleError(error);
-          if (apiError) {
-            setErrors(apiError);
-          }
-        }
-        setIsLoading(false);
+    try {
+      const { data } = await axios.get<IFaqList>(url, {
+        cancelToken: signal.token
       });
+      setQuestions(Object.assign(data));
+    } catch (err) {
+      if (axios.isCancel(err)) {
+        console.log("Request Cancelled: " + err.message);
+      } else {
+        const apiError = handleError(err);
+        if (apiError) {
+          setErrors(apiError);
+        }
+      }
+    }
+
+    setIsLoading(false);
   };
 
   return { isLoading, faqList: questions.question_list, errors };

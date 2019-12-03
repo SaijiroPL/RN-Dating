@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios, { CancelTokenSource } from "axios";
 
 // from app
@@ -45,39 +45,37 @@ export const useGetLikePlanList = (userId: string) => {
    * お気に入りデートプラン一覧取得API
    * @param signal CancelTokenSource
    */
-  const getLikePlanList = (signal: CancelTokenSource) => {
+  const getLikePlanList = async (signal: CancelTokenSource): Promise<void> => {
     const url = API_ENDPOINT.USER_LIKES.replace("$1", userId);
 
-    axios
-      .get<IPlanList>(url, {
+    try {
+      const { data } = await axios.get<IPlanList>(url, {
         params: {
           user_id: userId
         },
         cancelToken: signal.token
-      })
-      .then(response => {
-        setPlans(Object.assign(response.data));
-        setIsLoading(false);
-      })
-      .catch(error => {
-        if (axios.isCancel(error)) {
-          console.log("Request Cancelled: " + error.message);
-        } else {
-          const apiError = handleError(error);
-          if (apiError) {
-            setErrors(apiError);
-          }
-        }
-        setIsLoading(false);
       });
+      setPlans(Object.assign(data));
+    } catch (err) {
+      if (axios.isCancel(err)) {
+        console.log("Request Cancelled: " + err.message);
+      } else {
+        const apiError = handleError(err);
+        if (apiError) {
+          setErrors(apiError);
+        }
+      }
+    }
+
+    setIsLoading(false);
   };
 
   /** プルリロード */
-  const onRefresh = () => {
+  const onRefresh = useCallback(() => {
     setRefreshing(true);
     getLikePlanList(axios.CancelToken.source());
     setRefreshing(false);
-  };
+  }, []);
 
   return { isLoading, plans, errors, isRefreshing, onRefresh };
 };
