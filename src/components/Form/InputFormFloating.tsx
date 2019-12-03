@@ -33,7 +33,9 @@ export const InputFormFloating: React.FC<Props> = (props: Props) => {
   // 異常入力
   if (errors && errors.length > 0) {
     const ErrorList = errors.map(item => (
-      <Text style={appTextStyle.errorText}>{item}</Text>
+      <Text key={item} style={appTextStyle.errorText}>
+        {item}
+      </Text>
     ));
 
     return (

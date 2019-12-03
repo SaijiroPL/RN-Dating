@@ -23,7 +23,7 @@ export const InputLabelTextAreaForm: React.FC<Props> = (props: Props) => {
     errors &&
     errors.length > 0 &&
     errors.map(item => (
-      <View style={thisStyle.errorTextContainter}>
+      <View key={item} style={thisStyle.errorTextContainter}>
         <Text style={appTextStyle.errorText}>{item}</Text>
       </View>
     ));
