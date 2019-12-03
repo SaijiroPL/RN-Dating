@@ -43,13 +43,12 @@ const EntryScreen: React.FC = () => {
   const { setLoginUser } = useSignin();
 
   /** 完了ボタン押下時の処理 */
-  const onCompleteButtonPress = () => {
-    createUser().then(createdUserId => {
-      if (typeof createdUserId === "string") {
-        setLoginUser(createdUserId, name);
-        navigate("main");
-      }
-    });
+  const onCompleteButtonPress = async () => {
+    const newUserId = await createUser();
+    if (typeof newUserId === "string") {
+      setLoginUser(newUserId, name);
+      navigate("main");
+    }
   };
 
   /** 名前フォームの描画 */

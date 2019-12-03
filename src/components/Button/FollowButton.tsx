@@ -24,20 +24,18 @@ export const FollowButton: React.FC<Props> = (props: Props) => {
 
   /** フォロー */
   const follow = async () => {
-    await onFollow(targetUserId).then(success => {
-      if (success) {
-        reload();
-      }
-    });
+    const result = await onFollow(targetUserId);
+    if (result) {
+      reload();
+    }
   };
 
   /** アンフォロー */
   const unfollow = async () => {
-    await onUnfollow(targetUserId).then(success => {
-      if (success) {
-        reload();
-      }
-    });
+    const result = await onUnfollow(targetUserId);
+    if (result) {
+      reload();
+    }
   };
 
   const renderFollowButton = () => {

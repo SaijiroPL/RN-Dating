@@ -38,15 +38,14 @@ const EditProfileScreen: React.FC = () => {
   } = useEditProfile(loginUser.id);
 
   /** 更新ボタン押下時の処理 */
-  const onCompleteButtonPress = () => {
-    updateProfile().then(success => {
-      if (success) {
-        showMessage({
-          message: "プロフィールを更新しました。",
-          type: "success"
-        });
-      }
-    });
+  const onCompleteButtonPress = async (): Promise<void> => {
+    const result = await updateProfile();
+    if (result) {
+      showMessage({
+        message: "プロフィールを更新しました。",
+        type: "success"
+      });
+    }
   };
 
   /** 更新ボタンの描画 */
