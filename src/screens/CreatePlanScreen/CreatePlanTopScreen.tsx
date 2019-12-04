@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { StyleSheet, View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import { Text } from "native-base";
@@ -19,19 +19,15 @@ import { appStyle } from "app/src/styles";
 const CreatePlanTopScreen: React.FC = () => {
   const { navigate } = useNavigation();
   const dispatch = useDispatch();
+
   const [date, setDate] = useState<string>("");
   const [car, setCar] = useState<boolean>(false);
   const [train, setTrain] = useState<boolean>(false);
   const [bus, setBus] = useState<boolean>(false);
   const [walk, setWalk] = useState<boolean>(false);
 
-  const onCompleteButtonPress = () => {
-    setCreatePlan();
-    navigate("map");
-  };
-
   /** デート予定日と交通手段を永続化 */
-  const setCreatePlan = () => {
+  const setCreatePlan = useCallback(() => {
     var transportationList = new Array();
     if (car) transportationList.push("car");
     if (train) transportationList.push("train");
@@ -45,69 +41,58 @@ const CreatePlanTopScreen: React.FC = () => {
         trasportations: transportationList
       }
     });
-  };
+  }, [car, train, bus, walk, date]);
 
-  /** 移動手段選択ボタンを描画する */
-  const renderTransportationButtonGroup = () => {
-    return (
-      <View style={thisStyle.formGroup}>
-        <Text style={thisStyle.itemTitleText}>移動手段</Text>
-        <SelectButton
-          value={car}
-          setValue={setCar}
-          reversible
-          buttonName={"車"}
-        />
-        <SelectButton
-          value={train}
-          setValue={setTrain}
-          reversible
-          buttonName={"電車"}
-        />
-        <SelectButton
-          value={bus}
-          setValue={setBus}
-          reversible
-          buttonName={"バス"}
-        />
-        <SelectButton
-          value={walk}
-          setValue={setWalk}
-          reversible
-          buttonName={"徒歩"}
-        />
-      </View>
-    );
-  };
+  const onCompleteButtonPress = useCallback(() => {
+    setCreatePlan();
+    navigate("map");
+  }, [setCreatePlan]);
 
-  /** 日付選択フォームを描画する */
-  // FIXME 日付を選択するとエラー NativeBaseじゃないDatePickerにする?
-  const renderDatePicker = () => {
-    return (
-      <View style={thisStyle.formGroup}>
-        <Text style={thisStyle.itemTitleText}>デート予定日</Text>
-        <DatePicker date={date} setDate={setDate} minDate={getToday()} />
-      </View>
-    );
-  };
-
-  const renderCompleteButton = () => {
-    if (date == "" || (!car && !train && !bus && !walk)) {
-      return <CompleteFooterButton title="次へ" disabled />;
-    } else {
-      return (
-        <CompleteFooterButton title="次へ" onPress={onCompleteButtonPress} />
-      );
-    }
-  };
+  /** 移動手段選択ボタン */
+  const TransportationButtonGroup: JSX.Element = (
+    <View style={thisStyle.formGroup}>
+      <Text style={thisStyle.itemTitleText}>移動手段</Text>
+      <SelectButton
+        value={car}
+        setValue={setCar}
+        reversible
+        buttonName={"車"}
+      />
+      <SelectButton
+        value={train}
+        setValue={setTrain}
+        reversible
+        buttonName={"電車"}
+      />
+      <SelectButton
+        value={bus}
+        setValue={setBus}
+        reversible
+        buttonName={"バス"}
+      />
+      <SelectButton
+        value={walk}
+        setValue={setWalk}
+        reversible
+        buttonName={"徒歩"}
+      />
+    </View>
+  );
 
   return (
     <View style={appStyle.standardContainer}>
       <View style={appStyle.emptySpace} />
-      {renderDatePicker()}
-      {renderTransportationButtonGroup()}
+      <View style={thisStyle.formGroup}>
+        <Text style={thisStyle.itemTitleText}>デート予定日</Text>
+        <DatePicker date={date} setDate={setDate} minDate={getToday()} />
+      </View>
+      {TransportationButtonGroup}
       <View style={appStyle.emptySpace} />
-      {renderCompleteButton()}
+      {date == "" || (!car && !train && !bus && !walk) ? (
+        <CompleteFooterButton title="次へ" disabled />
+      ) : (
+        <CompleteFooterButton title="次へ" onPress={onCompleteButtonPress} />
+      )}
     </View>
   );
 };

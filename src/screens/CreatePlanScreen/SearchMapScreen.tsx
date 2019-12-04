@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { StyleSheet } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import { Container } from "native-base";
@@ -21,9 +21,9 @@ const SearchMapScreen: React.FC = () => {
     longitudeDelta: 0.02757163010454633
   });
 
-  const onCompleteButtonPress = () => {
+  const onCompleteButtonPress = useCallback(() => {
     navigate("flick");
-  };
+  }, []);
 
   return (
     <Container>

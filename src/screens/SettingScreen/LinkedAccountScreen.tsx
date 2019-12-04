@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   Container,
   Content,
@@ -22,9 +22,9 @@ import { appTextStyle } from "app/src/styles";
 const LinkedAccountScreen: React.FC = () => {
   const [facebookOn, setFacebookOn] = useState<boolean>(false);
 
-  const switchFacebookValue = (value: boolean) => {
+  const handleSwitchFacebookValue = useCallback((value: boolean) => {
     setFacebookOn(value);
-  };
+  }, []);
 
   return (
     <Container>
@@ -41,7 +41,10 @@ const LinkedAccountScreen: React.FC = () => {
             <Text style={appTextStyle.standardText}>Facebook</Text>
           </Body>
           <Right>
-            <Switch onValueChange={switchFacebookValue} value={facebookOn} />
+            <Switch
+              onValueChange={handleSwitchFacebookValue}
+              value={facebookOn}
+            />
           </Right>
         </ListItem>
       </Content>

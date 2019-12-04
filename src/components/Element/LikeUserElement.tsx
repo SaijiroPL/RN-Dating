@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { StyleSheet } from "react-native";
 import { ListItem, Thumbnail, Text, Left, Body } from "native-base";
 import { useNavigation } from "react-navigation-hooks";
@@ -19,9 +19,10 @@ export const LikeUserElement: React.FC<Props> = (props: Props) => {
   const { navigate } = useNavigation();
   const { user } = props;
 
-  const onPress = () => {
+  /** ユーザー押下時の処理 */
+  const onPress = useCallback(() => {
     navigate("profile", { id: user.user_id });
-  };
+  }, [user]);
 
   return (
     <ListItem avatar onPress={onPress} style={thisStyle.container}>

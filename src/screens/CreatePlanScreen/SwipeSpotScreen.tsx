@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useNavigation } from "react-navigation-hooks";
 import { Container } from "native-base";
 
@@ -32,9 +32,9 @@ const SAMPLE_SPOTS: Array<ICandidateSpot> = [
 const SwipeSpotScreen: React.FC = () => {
   const { navigate } = useNavigation();
 
-  const onCompleteButtonPress = () => {
+  const onCompleteButtonPress = useCallback(() => {
     navigate("select");
-  };
+  }, []);
 
   return (
     <Container>

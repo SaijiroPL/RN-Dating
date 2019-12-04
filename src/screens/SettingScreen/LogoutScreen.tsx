@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { View, Text } from "react-native";
 
 import { useNavigation } from "react-navigation-hooks";
@@ -12,9 +12,9 @@ import { appStyle, appTextStyle } from "app/src/styles";
 const LogoutScreen: React.FC = () => {
   const { navigate } = useNavigation();
 
-  const onCompleteButtonPress = () => {
+  const onCompleteButtonPress = useCallback(() => {
     navigate("appTop");
-  };
+  }, []);
 
   return (
     <View style={appStyle.standardContainer}>

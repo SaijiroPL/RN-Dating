@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import {
@@ -30,45 +30,47 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
   const { navigate } = useNavigation();
   const { plan, myPlan } = props;
 
-  const onPlanPress = () => {
+  /** プラン押下時の処理 */
+  const onPlanPress = useCallback(() => {
     navigate("detail", { id: plan.plan_id });
-  };
+  }, [plan]);
 
-  const onCommentPress = () => {
+  /** コメント数押下時の処理 */
+  const onCommentPress = useCallback(() => {
     navigate("comment", { id: plan.plan_id });
-  };
+  }, [plan]);
 
-  const onLikePress = () => {
+  /** お気に入り数押下時の処理 */
+  const onLikePress = useCallback(() => {
     navigate("like", { id: plan.plan_id });
-  };
+  }, [plan]);
 
-  const onUserPress = () => {
+  /** ユーザー押下時の処理 */
+  const onUserPress = useCallback(() => {
     navigate("profile", { id: plan.user_id });
-  };
+  }, [plan]);
 
-  /** プラン作成者ヘッダーを描画する */
-  const renderPlannerHeader = () => {
-    return (
-      <CardItem>
-        <Left style={thisStyle.planner}>
-          <Thumbnail source={IMAGE.noUserImage} small />
-          <Body>
-            <Text style={thisStyle.mainText} onPress={onUserPress}>
-              {plan.user_name}
-            </Text>
-            <Text note style={thisStyle.mainText}>
-              {plan.user_attr}
-            </Text>
-          </Body>
-        </Left>
-      </CardItem>
-    );
-  };
+  /** プラン作成者ヘッダー */
+  const PlannerHeader = (
+    <CardItem>
+      <Left style={thisStyle.planner}>
+        <Thumbnail source={IMAGE.noUserImage} small />
+        <Body>
+          <Text style={thisStyle.mainText} onPress={onUserPress}>
+            {plan.user_name}
+          </Text>
+          <Text note style={thisStyle.mainText}>
+            {plan.user_attr}
+          </Text>
+        </Body>
+      </Left>
+    </CardItem>
+  );
 
   return (
     <Card style={thisStyle.card}>
       <TouchableOpacity onPress={onPlanPress}>
-        {!myPlan && renderPlannerHeader()}
+        {!myPlan && PlannerHeader}
         <CardItem cardBody>
           <Image source={IMAGE.noImage} style={thisStyle.image} />
         </CardItem>

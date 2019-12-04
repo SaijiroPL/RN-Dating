@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { StyleSheet, View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import { Thumbnail, Text } from "native-base";
@@ -23,26 +23,10 @@ export const UserHeader: React.FC<Props> = (props: Props) => {
   const { navigate } = useNavigation();
   const { user, onFollow, onUnfollow, reload } = props;
 
-  const onPress = () => {
+  /** ユーザー押下時の処理 */
+  const onPress = useCallback(() => {
     navigate("profile", { id: user.userId });
-  };
-
-  /** フォローボタンの描画 */
-  const renderFollowButton = () => {
-    if (user.isFollow !== undefined && onFollow && onUnfollow && reload) {
-      return (
-        <View style={thisStyle.followContainer}>
-          <FollowButton
-            targetUserId={user.userId}
-            followed={user.isFollow}
-            onFollow={onFollow}
-            onUnfollow={onUnfollow}
-            reload={reload}
-          />
-        </View>
-      );
-    }
-  };
+  }, []);
 
   return (
     <View style={thisStyle.container}>
@@ -57,7 +41,17 @@ export const UserHeader: React.FC<Props> = (props: Props) => {
           {user.userAttr}
         </Text>
       </View>
-      {renderFollowButton()}
+      {user.isFollow !== undefined && onFollow && onUnfollow && reload && (
+        <View style={thisStyle.followContainer}>
+          <FollowButton
+            targetUserId={user.userId}
+            followed={user.isFollow}
+            onFollow={onFollow}
+            onUnfollow={onUnfollow}
+            reload={reload}
+          />
+        </View>
+      )}
     </View>
   );
 };

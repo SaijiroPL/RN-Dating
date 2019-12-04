@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { StyleSheet } from "react-native";
 import { ListItem, Thumbnail, Text, Left, Body, Right } from "native-base";
 import { useNavigation } from "react-navigation-hooks";
@@ -25,18 +25,18 @@ export const FollowElement: React.FC<Props> = (props: Props) => {
   const { follow, follower, onFollow, onUnfollow, reload } = props;
 
   /** フォローユーザー押下時の処理 */
-  const onPressFollow = () => {
+  const onPressFollow = useCallback(() => {
     if (follow) {
       navigate("profile", { id: follow.user_id });
     }
-  };
+  }, [follow]);
 
   /** フォロワー押下時の処理 */
-  const onPressFollower = () => {
+  const onPressFollower = useCallback(() => {
     if (follower) {
       navigate("profile", { id: follower.user_id });
     }
-  };
+  }, [follower]);
 
   // フォローリスト
   if (follow && !follower) {
