@@ -60,6 +60,31 @@ const AppTopScreen: React.FC = () => {
   /** ユーザー登録機能 */
   const { setRegisterUserParts } = useSignup();
 
+  /** 利用規約リンク押下時の処理 */
+  const toTerms = useCallback(() => {
+    navigate("terms");
+  }, []);
+
+  /** プライバシーポリシーリンク押下時の処理 */
+  const toPrivacy = useCallback(() => {
+    navigate("privacy");
+  }, []);
+
+  /** メールアドレスでログイン押下時の処理 */
+  const openMailAddressScreen = useCallback(() => {
+    // デートマスターを初期値に設定しておく
+    const masterMailAddress = "master@onedate.com";
+    const masterPassword = "password";
+    setEmailAtSignin(masterMailAddress);
+    setPassAtSignin(masterPassword);
+    setScreenPhase(1);
+  }, [emailAtSignin, passAtSignin]);
+
+  /** 新規登録はこちら押下時の処理 */
+  const openSignUpScreen = useCallback(() => {
+    setScreenPhase(2);
+  }, [emailAtSignin, passAtSignin]);
+
   /** Facebookログインボタン押下時の処理 */
   const onFacebookButtonPress = useCallback(async (): Promise<void> => {
     const result = await facebookLogin();
@@ -122,20 +147,10 @@ const AppTopScreen: React.FC = () => {
       >
         Facebookでログイン
       </FontAwesome.Button>
-      <Text
-        style={thisStyle.link}
-        onPress={() => {
-          // デートマスターを初期値に設定しておく
-          const masterMailAddress = "master@onedate.com";
-          const masterPassword = "password";
-          setEmailAtSignin(masterMailAddress);
-          setPassAtSignin(masterPassword);
-          setScreenPhase(1);
-        }}
-      >
+      <Text style={thisStyle.link} onPress={openMailAddressScreen}>
         メールアドレスでログイン
       </Text>
-      <Text style={thisStyle.link} onPress={() => setScreenPhase(2)}>
+      <Text style={thisStyle.link} onPress={openSignUpScreen}>
         新規登録はこちら
       </Text>
     </View>
@@ -219,11 +234,11 @@ const AppTopScreen: React.FC = () => {
   /** 利用規約とプライバシーポリシーのリンク */
   const TermsLinks: JSX.Element = (
     <View style={thisStyle.termsLinkContainer}>
-      <Text onPress={() => navigate("terms")} style={appTextStyle.linkText}>
+      <Text onPress={toTerms} style={appTextStyle.linkText}>
         利用規約
       </Text>
       <View style={{ width: 20 }} />
-      <Text onPress={() => navigate("privacy")} style={appTextStyle.linkText}>
+      <Text onPress={toPrivacy} style={appTextStyle.linkText}>
         プライバシーポリシー
       </Text>
     </View>

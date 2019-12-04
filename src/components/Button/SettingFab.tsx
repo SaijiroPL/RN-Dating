@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Fab } from "native-base";
 import { useNavigation } from "react-navigation-hooks";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -13,13 +13,18 @@ import { COLOR } from "app/src/constants";
 export const SettingFab: React.FC = () => {
   const { navigate } = useNavigation();
 
+  /** 設定一覧に遷移 */
+  const toSetting = useCallback(() => {
+    navigate("setting");
+  }, []);
+
   return (
     <Fab
       active={true}
       containerStyle={{}}
       style={{ backgroundColor: COLOR.tintColor }}
       position="bottomRight"
-      onPress={() => navigate("setting")}
+      onPress={toSetting}
     >
       <MaterialCommunityIcons name="settings" />
     </Fab>

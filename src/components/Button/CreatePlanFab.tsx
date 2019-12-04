@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Fab } from "native-base";
 import { useNavigation } from "react-navigation-hooks";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -13,13 +13,18 @@ import { COLOR } from "app/src/constants";
 export const CreatePlanFab: React.FC = () => {
   const { navigate } = useNavigation();
 
+  /** プラン作成トップに遷移 */
+  const toCreate = useCallback(() => {
+    navigate("create");
+  }, []);
+
   return (
     <Fab
       active={true}
       containerStyle={{}}
       style={{ backgroundColor: COLOR.tintColor }}
       position="bottomRight"
-      onPress={() => navigate("create")}
+      onPress={toCreate}
     >
       <MaterialCommunityIcons name="map-marker-plus" />
     </Fab>

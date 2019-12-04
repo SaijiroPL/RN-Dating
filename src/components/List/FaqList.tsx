@@ -35,6 +35,10 @@ export const FaqList: React.FC<Props> = (props: Props) => {
       <Text style={appTextStyle.standardText}>{faq.question}</Text>
     );
 
+    const handleChangeSelectedFaq = () => {
+      setSelectedFaqIndex(faq.question_id);
+    };
+
     /** 選択中の質問は回答を展開する */
     if (selectedFaqIndex === faq.question_id) {
       return (
@@ -42,7 +46,7 @@ export const FaqList: React.FC<Props> = (props: Props) => {
           <ListItem
             noIndent
             style={{ backgroundColor: COLOR.baseBackgroundColor }}
-            onPress={() => setSelectedFaqIndex(faq.question_id)}
+            onPress={handleChangeSelectedFaq}
           >
             <Left>{Question}</Left>
             <Right>{ArrowForward}</Right>
@@ -58,7 +62,7 @@ export const FaqList: React.FC<Props> = (props: Props) => {
 
     return (
       <View key={faq.question_id}>
-        <ListItem noIndent onPress={() => setSelectedFaqIndex(faq.question_id)}>
+        <ListItem noIndent onPress={handleChangeSelectedFaq}>
           <Left>{Question}</Left>
           <Right>{ArrowForward}</Right>
         </ListItem>
