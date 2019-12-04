@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { StyleSheet } from "react-native";
 import { Container, Content, Form, View } from "native-base";
 import FlashMessage, { showMessage } from "react-native-flash-message";
@@ -37,8 +37,13 @@ const EditProfileScreen: React.FC = () => {
     errors
   } = useEditProfile(loginUser.id);
 
+  // ローディング
+  if (isLoading) {
+    return LoadingSpinner;
+  }
+
   /** 更新ボタン押下時の処理 */
-  const onCompleteButtonPress = async (): Promise<void> => {
+  const onCompleteButtonPress = useCallback(async (): Promise<void> => {
     const result = await updateProfile();
     if (result) {
       showMessage({
@@ -46,21 +51,7 @@ const EditProfileScreen: React.FC = () => {
         type: "success"
       });
     }
-  };
-
-  /** 更新ボタンの描画 */
-  const renderCompleteButton = () => {
-    if (isEmpty(name) || isEmpty(mailAddress) || isEmpty(`${age}`)) {
-      // 未入力がある場合はアクティブにしない
-      return <CompleteButton title="更新" disabled />;
-    }
-    return <CompleteButton title="更新" onPress={onCompleteButtonPress} />;
-  };
-
-  // ローディング
-  if (isLoading) {
-    return LoadingSpinner;
-  }
+  }, [updateProfile]);
 
   const nameErrors: Array<string> = [];
   const profileErrors: Array<string> = [];
@@ -82,6 +73,18 @@ const EditProfileScreen: React.FC = () => {
       }
     });
   }
+
+  /** 更新ボタンの描画 */
+  const UpdateButton = (
+    <View style={thisStyle.button}>
+      {/* 更新ボタン(必須項目が未入力の場合は非活性) */}
+      {isEmpty(name) || isEmpty(mailAddress) || isEmpty(`${age}`) ? (
+        <CompleteButton title="更新" disabled />
+      ) : (
+        <CompleteButton title="更新" onPress={onCompleteButtonPress} />
+      )}
+    </View>
+  );
 
   /** 更新成功時メッセージ */
   const SuccessMessage = (
@@ -126,7 +129,7 @@ const EditProfileScreen: React.FC = () => {
             errors={addressErrors}
           />
         </Form>
-        <View style={thisStyle.button}>{renderCompleteButton()}</View>
+        {UpdateButton}
       </Content>
       {SuccessMessage}
     </Container>
