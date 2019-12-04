@@ -90,7 +90,7 @@ export const useSearchPlanList = () => {
   };
 
   /** プルリロード */
-  const onRefresh = useCallback(async () => {
+  const onRefresh = useCallback(async (): Promise<void> => {
     setRefreshing(true);
     await searchPlanList();
     setRefreshing(false);

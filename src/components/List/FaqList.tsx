@@ -26,24 +26,12 @@ export const FaqList: React.FC<Props> = (props: Props) => {
   const ArrowForward = <Ionicons name="ios-arrow-forward" size={20} />;
 
   /**
-   * 回答項目の描画
-   * @param answer 回答
-   */
-  const renderAnswer = (answer: string) => {
-    return (
-      <Body>
-        <Text style={appTextStyle.standardLightText}>{answer}</Text>
-      </Body>
-    );
-  };
-
-  /**
    * 質問項目の描画
    * @param faq FAQデータ
    */
-  const renderQuestion = (faq: IFaq) => {
+  const renderQuestion = (faq: IFaq): JSX.Element => {
     /** 質問テキスト */
-    const Question = (
+    const Question: JSX.Element = (
       <Text style={appTextStyle.standardText}>{faq.question}</Text>
     );
 
@@ -59,7 +47,11 @@ export const FaqList: React.FC<Props> = (props: Props) => {
             <Left>{Question}</Left>
             <Right>{ArrowForward}</Right>
           </ListItem>
-          <ListItem>{renderAnswer(faq.answer)}</ListItem>
+          <ListItem>
+            <Body>
+              <Text style={appTextStyle.standardLightText}>{faq.answer}</Text>
+            </Body>
+          </ListItem>
         </View>
       );
     }

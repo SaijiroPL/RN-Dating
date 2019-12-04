@@ -16,7 +16,11 @@ interface Props {
 export const LikeUserList: React.FC<Props> = (props: Props) => {
   const { users } = props;
 
-  const renderLikeUserElement = ({ item }: { item: ILikeUser }) => {
+  const renderLikeUserElement = ({
+    item
+  }: {
+    item: ILikeUser;
+  }): JSX.Element => {
     return <LikeUserElement user={item} />;
   };
 

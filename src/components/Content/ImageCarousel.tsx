@@ -28,7 +28,7 @@ const SAMPLE_DATA = [
  * @author kotatanaka
  */
 export const ImageCarousel: React.FC<Props> = (props: Props) => {
-  const renderImageItem = ({ item }: { item: any }) => {
+  const renderImageItem = ({ item }: { item: any }): JSX.Element => {
     return <Image style={thisStyle.image} source={item.image} />;
   };
 

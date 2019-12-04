@@ -36,7 +36,7 @@ export const LikeButton: React.FC<Props> = (props: Props) => {
   }
 
   /** お気に入り登録 */
-  const handleLike = useCallback(async () => {
+  const handleLike = useCallback(async (): Promise<void> => {
     const result = await onLike();
     if (result) {
       reload();
@@ -44,7 +44,7 @@ export const LikeButton: React.FC<Props> = (props: Props) => {
   }, []);
 
   /** お気に入り解除 */
-  const handleUnlike = useCallback(async () => {
+  const handleUnlike = useCallback(async (): Promise<void> => {
     const result = await onUnlike();
     if (result) {
       reload();

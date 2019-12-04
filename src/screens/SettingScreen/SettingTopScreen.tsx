@@ -18,7 +18,7 @@ const SettingTopScreen: React.FC = () => {
    * @param navigateKey 画面遷移のキー名
    * @return ListItem
    */
-  const renderLink = (name: string, navigateKey: string) => (
+  const renderLink = (name: string, navigateKey: string): JSX.Element => (
     <ListItem onPress={() => navigate(navigateKey)}>
       <Text style={appTextStyle.standardText}>{name}</Text>
     </ListItem>
