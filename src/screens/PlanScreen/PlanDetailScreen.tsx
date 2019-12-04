@@ -90,14 +90,19 @@ const PlanDetailScreen: React.FC = () => {
         </View>
         {/* お気に入り登録解除ボタン(自分のプランの場合は押せない) */}
         {loginUser.id === plan.user_id ? (
-          <LikeButton likeCount={plan.like_count} liked={plan.is_liked} />
-        ) : (
           <LikeButton
+            targetPlanId={plan.plan_id}
             likeCount={plan.like_count}
             liked={plan.is_liked}
-            onLike={() => likePlan(planId)}
-            onUnlike={() => unlikePlan(planId)}
-            reload={() => getPlanDetail(axios.CancelToken.source())}
+          />
+        ) : (
+          <LikeButton
+            targetPlanId={plan.plan_id}
+            likeCount={plan.like_count}
+            liked={plan.is_liked}
+            onLike={likePlan}
+            onUnlike={unlikePlan}
+            reload={getPlanDetail}
           />
         )}
       </View>
