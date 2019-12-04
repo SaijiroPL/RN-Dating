@@ -17,7 +17,11 @@ export const InformationList: React.FC<Props> = (props: Props) => {
   const { informationList } = props;
 
   /** 運営からのお知らせリスト要素の描画 */
-  const renderNotificationElement = ({ item }: { item: IInformation }) => {
+  const renderNotificationElement = ({
+    item
+  }: {
+    item: IInformation;
+  }): JSX.Element => {
     return <InformationElement notification={item} />;
   };
 

@@ -19,22 +19,38 @@ interface Props {
 export const HistorySwipeList: React.FC<Props> = (props: Props) => {
   const { histories, onDelete } = props;
 
+  const renderHistoryItem = ({ item }: { item: IHistory }): JSX.Element => {
+    return (
+      <View style={thisStyle.word}>
+        <Text style={appTextStyle.standardLightText}>{item.word}</Text>
+      </View>
+    );
+  };
+
+  const renderDeletableHistoryItem = ({
+    item
+  }: {
+    item: IHistory;
+  }): JSX.Element => {
+    const handleDelete = () => {
+      onDelete(item.history_id);
+    };
+
+    return (
+      <View style={thisStyle.delete}>
+        <TouchableOpacity onPress={handleDelete}>
+          <Text style={appTextStyle.whiteText}>削除</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
   return (
     <SwipeListView
       keyExtractor={item => `${item.history_id}`}
       data={histories}
-      renderItem={(data: { item: IHistory }) => (
-        <View style={thisStyle.word}>
-          <Text style={appTextStyle.standardLightText}>{data.item.word}</Text>
-        </View>
-      )}
-      renderHiddenItem={data => (
-        <View style={thisStyle.delete}>
-          <TouchableOpacity onPress={() => onDelete(data.item.history_id)}>
-            <Text style={appTextStyle.whiteText}>削除</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+      renderItem={renderHistoryItem}
+      renderHiddenItem={renderDeletableHistoryItem}
       rightOpenValue={-LAYOUT.window.width * 0.25}
       disableRightSwipe
     />

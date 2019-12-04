@@ -63,7 +63,7 @@ export const useEditProfile = (userId: string) => {
   }, []);
 
   /** プロフィール更新 */
-  const updateProfile = async () => {
+  const updateProfile = async (): Promise<boolean> => {
     const url = API_ENDPOINT.USER.replace("$1", userId);
 
     // 変更がない項目はボディに含めない

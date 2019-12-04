@@ -6,18 +6,20 @@ import { Spinner } from "native-base";
 import { COLOR } from "app/src/constants";
 
 /** ローディングスピナー(画面中央) */
-export const LoadingSpinner = (
+export const LoadingSpinner: JSX.Element = (
   <Spinner color={COLOR.tintColor} style={{ flex: 1 }} />
 );
 
 /** ローディングスピナー(適宜配置) */
-export const Indicator = <ActivityIndicator color={COLOR.tintColor} />;
+export const Indicator: JSX.Element = (
+  <ActivityIndicator color={COLOR.tintColor} />
+);
 
 /** プルリロードスピナー */
 export const RefreshSpinner = (
   isRefreshing: boolean,
   onRefresh: () => void
-) => (
+): JSX.Element => (
   <RefreshControl
     refreshing={isRefreshing}
     onRefresh={onRefresh}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useNavigation } from "react-navigation-hooks";
 import { Container, Content } from "native-base";
 
@@ -13,9 +13,9 @@ import { CompleteFooterButton } from "app/src/components/Button";
 const SelectSpotScreen: React.FC = () => {
   const { navigate } = useNavigation();
 
-  const onCompleteButtonPress = () => {
+  const onCompleteButtonPress = useCallback(() => {
     navigate("arrange");
-  };
+  }, []);
 
   return (
     <Container>

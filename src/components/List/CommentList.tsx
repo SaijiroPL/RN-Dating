@@ -16,7 +16,7 @@ interface Props {
 export const CommentList: React.FC<Props> = (props: Props) => {
   const { commentList } = props;
 
-  const renderCommentElement = ({ item }: { item: IComment }) => {
+  const renderCommentElement = ({ item }: { item: IComment }): JSX.Element => {
     return <CommentElement comment={item} />;
   };
 

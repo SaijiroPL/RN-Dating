@@ -22,7 +22,11 @@ export const NotificationList: React.FC<Props> = (props: Props) => {
   const { notificationList } = props;
 
   /** 通知リスト要素の描画 */
-  const renderNotificationElement = ({ item }: { item: INotification }) => {
+  const renderNotificationElement = ({
+    item
+  }: {
+    item: INotification;
+  }): JSX.Element => {
     switch (item.notification_category) {
       case NOTIFICATION_CATEGORY.FOLLOW:
         return <NotificationFollowElement notification={item} />;

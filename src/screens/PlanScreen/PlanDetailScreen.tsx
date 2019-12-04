@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { StyleSheet, View } from "react-native";
 import { useNavigation, useNavigationParam } from "react-navigation-hooks";
 import { Container, Content, Text } from "native-base";
@@ -7,7 +7,6 @@ import axios from "axios";
 // from app
 import { useGlobalState } from "app/src/Store";
 import { COLOR } from "app/src/constants";
-import { IUserInfo } from "app/src/interfaces/User";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { ImageCarousel, UserHeader } from "app/src/components/Content";
 import { CommentGrid } from "app/src/components/List";
@@ -52,97 +51,89 @@ const PlanDetailScreen: React.FC = () => {
   const { follow, unfollow } = useFollowUser(loginUser.id);
 
   /** コメントもっと見る押下時の処理 */
-  const onMoreCommentPress = () => {
+  const onMoreCommentPress = useCallback(() => {
     navigate("comment", { id: plan.plan_id });
-  };
-
-  /** デートプラン作成者部分の描画 */
-  const renderPlannerHeader = () => {
-    const planner: IUserInfo = {
-      userId: plan.user_id,
-      userName: plan.user_name,
-      userAttr: plan.user_attr,
-      userImageUrl: plan.user_image_url,
-      isFollow: plan.is_follow
-    };
-
-    return (
-      <UserHeader
-        user={planner}
-        onFollow={follow}
-        onUnfollow={unfollow}
-        reload={getPlanDetail}
-      />
-    );
-  };
-
-  /** お気に入り登録・解除ボタンの描画 */
-  const renderLikeButton = () => {
-    // 自分のプランの場合は押せない
-    if (loginUser.id === plan.user_id) {
-      return <LikeButton likeCount={plan.like_count} liked={plan.is_liked} />;
-    }
-
-    return (
-      <LikeButton
-        likeCount={plan.like_count}
-        liked={plan.is_liked}
-        onLike={() => likePlan(planId)}
-        onUnlike={() => unlikePlan(planId)}
-        reload={() => getPlanDetail(axios.CancelToken.source())}
-      />
-    );
-  };
-
-  /** デートプラン説明部分の描画 */
-  const renderPlanDescription = () => {
-    return (
-      <View style={thisStyle.planDescriptionContainer}>
-        <View style={thisStyle.route}>
-          <Text note style={thisStyle.descriptionText}>
-            {plan.spots.map(spot => spot.spot_name).join(" > ")}
-          </Text>
-        </View>
-        <View style={appStyle.row}>
-          <View style={thisStyle.title}>
-            <Text style={thisStyle.titleText}>{plan.title}</Text>
-          </View>
-          {renderLikeButton()}
-        </View>
-        <View style={thisStyle.detail}>
-          <View style={appStyle.row}>
-            <View style={thisStyle.columnTitle}>
-              <Text style={thisStyle.columnTitleText}>ポイント</Text>
-            </View>
-            <View style={thisStyle.description}>
-              <Text style={thisStyle.descriptionText}>{plan.description}</Text>
-            </View>
-          </View>
-          <View style={appStyle.row}>
-            <View style={thisStyle.columnTitle}>
-              <Text style={thisStyle.columnTitleText}>デート予定日</Text>
-            </View>
-            <View style={thisStyle.description}>
-              <Text style={thisStyle.descriptionText}>
-                {formatDate(plan.date, "YYYY年MM月DD日")}
-              </Text>
-            </View>
-          </View>
-        </View>
-      </View>
-    );
-  };
+  }, [plan]);
 
   // ローディング
   if (isPlanLoading || isCommentsLoading) {
     return LoadingSpinner;
   }
 
+  /** デートプラン作成者部分の描画 */
+  const PlannerHeader: JSX.Element = (
+    <UserHeader
+      user={{
+        userId: plan.user_id,
+        userName: plan.user_name,
+        userAttr: plan.user_attr,
+        userImageUrl: plan.user_image_url,
+        isFollow: plan.is_follow
+      }}
+      onFollow={follow}
+      onUnfollow={unfollow}
+      reload={getPlanDetail}
+    />
+  );
+
+  /** デートプラン説明部分 */
+  const PlanDescription: JSX.Element = (
+    <View style={thisStyle.planDescriptionContainer}>
+      <View style={thisStyle.route}>
+        <Text note style={thisStyle.descriptionText}>
+          {plan.spots.map(spot => spot.spot_name).join(" > ")}
+        </Text>
+      </View>
+      <View style={appStyle.row}>
+        <View style={thisStyle.title}>
+          <Text style={thisStyle.titleText}>{plan.title}</Text>
+        </View>
+        {/* お気に入り登録解除ボタン(自分のプランの場合は押せない) */}
+        {loginUser.id === plan.user_id ? (
+          <LikeButton
+            targetPlanId={plan.plan_id}
+            likeCount={plan.like_count}
+            liked={plan.is_liked}
+          />
+        ) : (
+          <LikeButton
+            targetPlanId={plan.plan_id}
+            likeCount={plan.like_count}
+            liked={plan.is_liked}
+            onLike={likePlan}
+            onUnlike={unlikePlan}
+            reload={getPlanDetail}
+          />
+        )}
+      </View>
+      <View style={thisStyle.detail}>
+        <View style={appStyle.row}>
+          <View style={thisStyle.columnTitle}>
+            <Text style={thisStyle.columnTitleText}>ポイント</Text>
+          </View>
+          <View style={thisStyle.description}>
+            <Text style={thisStyle.descriptionText}>{plan.description}</Text>
+          </View>
+        </View>
+        <View style={appStyle.row}>
+          <View style={thisStyle.columnTitle}>
+            <Text style={thisStyle.columnTitleText}>デート予定日</Text>
+          </View>
+          <View style={thisStyle.description}>
+            <Text style={thisStyle.descriptionText}>
+              {formatDate(plan.date, "YYYY年MM月DD日")}
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  );
+
   return (
     <Container>
       <Content>
         {loginUser.id !== plan.user_id ? (
-          renderPlannerHeader()
+          PlannerHeader
         ) : (
           <View style={thisStyle.myPlanHeader}>
             <Text style={appTextStyle.standardText}>マイプラン</Text>
@@ -150,7 +141,7 @@ const PlanDetailScreen: React.FC = () => {
         )}
         <ImageCarousel plan={plan} />
         <SimpleMapView spot={plan.spots[0]} />
-        {renderPlanDescription()}
+        {PlanDescription}
         <CommentGrid comments={comments.comment_list} />
         {comments.total > 0 && (
           <View style={{ alignItems: "flex-end", marginRight: 10 }}>

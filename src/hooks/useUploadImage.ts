@@ -12,14 +12,14 @@ export const useUploadImage = () => {
   const [hasPermission, setHasPermission] = useState<boolean>(false);
 
   /** 選択画像 */
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState<string>("");
 
   useEffect(() => {
     getPermissionAsync();
   }, []);
 
   /** パーミッションの許可 */
-  const getPermissionAsync = async () => {
+  const getPermissionAsync = async (): Promise<void> => {
     if (Platform.OS === "ios") {
       try {
         const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -31,7 +31,7 @@ export const useUploadImage = () => {
   };
 
   /** カメラロールから画像の選択 */
-  const pickImage = async () => {
+  const pickImage = async (): Promise<void> => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,

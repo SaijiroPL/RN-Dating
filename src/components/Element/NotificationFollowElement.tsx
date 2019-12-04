@@ -18,15 +18,6 @@ interface Props {
 export const NotificationFollowElement: React.FC<Props> = (props: Props) => {
   const { notification } = props;
 
-  /** フォローイコン */
-  const FollowIcon = (
-    <SimpleLineIcons
-      name="user-follow"
-      size={20}
-      style={thisStyle.followIcon}
-    />
-  );
-
   return (
     <ListItem avatar style={thisStyle.container}>
       <Left>
@@ -34,7 +25,11 @@ export const NotificationFollowElement: React.FC<Props> = (props: Props) => {
       </Left>
       <Body>
         <View style={thisStyle.titleContainer}>
-          {FollowIcon}
+          <SimpleLineIcons
+            name="user-follow"
+            size={20}
+            style={thisStyle.followIcon}
+          />
           <Text style={thisStyle.titleLinkText}>{notification.user_name} </Text>
           <Text style={thisStyle.titleText}>
             さんがあなたをフォローしました。

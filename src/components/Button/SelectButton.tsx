@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { StyleSheet } from "react-native";
 import { Button, Text } from "native-base";
 
@@ -25,10 +25,11 @@ interface Props {
 export const SelectButton: React.FC<Props> = (props: Props) => {
   const { value, setValue, setOtherValues, reversible, buttonName } = props;
 
-  const setValues = (value: boolean) => {
-    setValue(value);
+  /** ボタンをオン状態にする */
+  const handleChangeTrue = useCallback(() => {
+    setValue(true);
 
-    // 他のボタンのオンオフを当該ボタンの逆の状態に更新する
+    // 他のボタンを当該ボタンの逆の状態にする
     if (
       setOtherValues !== undefined &&
       setOtherValues !== null &&
@@ -36,11 +37,31 @@ export const SelectButton: React.FC<Props> = (props: Props) => {
     ) {
       setOtherValues.forEach(
         (setValue: React.Dispatch<React.SetStateAction<boolean>>) => {
-          setValue(!value);
+          setValue(false);
         }
       );
     }
-  };
+  }, [value]);
+
+  /** ボタンをオフ状態にする */
+  const handleChangeFalse = useCallback(() => {
+    if (!reversible) return;
+
+    setValue(false);
+
+    // 他のボタンを当該ボタンの逆の状態にする
+    if (
+      setOtherValues !== undefined &&
+      setOtherValues !== null &&
+      setOtherValues.length
+    ) {
+      setOtherValues.forEach(
+        (setValue: React.Dispatch<React.SetStateAction<boolean>>) => {
+          setValue(true);
+        }
+      );
+    }
+  }, [value]);
 
   if (!value) {
     return (
@@ -48,24 +69,18 @@ export const SelectButton: React.FC<Props> = (props: Props) => {
         small
         light
         style={thisStyle.inactiveButton}
-        onPress={() => setValues(true)}
+        onPress={handleChangeTrue}
       >
         <Text style={thisStyle.inactiveText}>{buttonName}</Text>
       </Button>
     );
-  } else {
-    return (
-      <Button
-        small
-        style={thisStyle.activeButton}
-        onPress={() => {
-          if (reversible) setValues(false);
-        }}
-      >
-        <Text style={thisStyle.inactiveButton}>{buttonName}</Text>
-      </Button>
-    );
   }
+
+  return (
+    <Button small style={thisStyle.activeButton} onPress={handleChangeFalse}>
+      <Text style={thisStyle.inactiveButton}>{buttonName}</Text>
+    </Button>
+  );
 };
 
 /** デフォルト値 */

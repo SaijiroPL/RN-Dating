@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import { FontAwesome } from "@expo/vector-icons";
@@ -60,24 +60,49 @@ const AppTopScreen: React.FC = () => {
   /** ユーザー登録機能 */
   const { setRegisterUserParts } = useSignup();
 
+  /** 利用規約リンク押下時の処理 */
+  const toTerms = useCallback(() => {
+    navigate("terms");
+  }, []);
+
+  /** プライバシーポリシーリンク押下時の処理 */
+  const toPrivacy = useCallback(() => {
+    navigate("privacy");
+  }, []);
+
+  /** メールアドレスでログイン押下時の処理 */
+  const openMailAddressScreen = useCallback(() => {
+    // デートマスターを初期値に設定しておく
+    const masterMailAddress = "master@onedate.com";
+    const masterPassword = "password";
+    setEmailAtSignin(masterMailAddress);
+    setPassAtSignin(masterPassword);
+    setScreenPhase(1);
+  }, [emailAtSignin, passAtSignin]);
+
+  /** 新規登録はこちら押下時の処理 */
+  const openSignUpScreen = useCallback(() => {
+    setScreenPhase(2);
+  }, [emailAtSignin, passAtSignin]);
+
   /** Facebookログインボタン押下時の処理 */
-  const onFacebookButtonPress = async (): Promise<void> => {
+  const onFacebookButtonPress = useCallback(async (): Promise<void> => {
     const result = await facebookLogin();
     if (result) {
       navigate("welcome");
     }
-  };
+  }, []);
 
   /** メールアドレスログインボタン押下時の処理 */
-  const onSignInButtonPress = async () => {
+  const onSignInButtonPress = useCallback(async (): Promise<void> => {
     const result = await loginByEmail(emailAtSignin, passAtSignin);
     if (result) {
       navigate("main");
     }
-  };
+  }, [emailAtSignin, passAtSignin]);
 
   /** 新規登録ボタン押下時の処理 */
-  const onSignUpButtonPress = () => {
+  const onSignUpButtonPress = useCallback(() => {
     const emailErrors: Array<string> = [];
     const passErrors: Array<string> = [];
     const confirmPassErrors: Array<string> = [];
@@ -107,44 +132,32 @@ const AppTopScreen: React.FC = () => {
       setRegisterUserParts(emailAtSignup, passAtSignup);
       navigate("welcome");
     }
-  };
+  }, [emailAtSignup, passAtSignup, confirmPassAtSignup]);
 
   /** 初期画面 */
-  const renderTopScreen = () => {
-    return (
-      <View>
-        <FontAwesome.Button
-          name="facebook"
-          size={30}
-          backgroundColor={COLOR.facebookColor}
-          borderRadius={30}
-          iconStyle={{ marginLeft: 30 }}
-          onPress={onFacebookButtonPress}
-        >
-          Facebookでログイン
-        </FontAwesome.Button>
-        <Text
-          style={thisStyle.link}
-          onPress={() => {
-            // デートマスターを初期値に設定しておく
-            const masterMailAddress = "master@onedate.com";
-            const masterPassword = "password";
-            setEmailAtSignin(masterMailAddress);
-            setPassAtSignin(masterPassword);
-            setScreenPhase(1);
-          }}
-        >
-          メールアドレスでログイン
-        </Text>
-        <Text style={thisStyle.link} onPress={() => setScreenPhase(2)}>
-          新規登録はこちら
-        </Text>
-      </View>
-    );
-  };
+  const TopScreen: JSX.Element = (
+    <View>
+      <FontAwesome.Button
+        name="facebook"
+        size={30}
+        backgroundColor={COLOR.facebookColor}
+        borderRadius={30}
+        iconStyle={{ marginLeft: 30 }}
+        onPress={onFacebookButtonPress}
+      >
+        Facebookでログイン
+      </FontAwesome.Button>
+      <Text style={thisStyle.link} onPress={openMailAddressScreen}>
+        メールアドレスでログイン
+      </Text>
+      <Text style={thisStyle.link} onPress={openSignUpScreen}>
+        新規登録はこちら
+      </Text>
+    </View>
+  );
 
   /** メールアドレスログイン画面 */
-  const renderSignInScreen = () => {
+  const renderSignInScreen = (): JSX.Element => {
     const emailErrAtSignin: Array<string> = [];
     const passwordErrAtSignin: Array<string> = [];
     if (errors && errors.detail_message.length > 0) {
@@ -185,55 +198,51 @@ const AppTopScreen: React.FC = () => {
   };
 
   /** 新規登録画面 */
-  const renderSignUpScreen = () => {
-    return (
-      <View>
-        <InputForm
-          placeholder="メールアドレスを入力"
-          value={emailAtSignup}
-          setValue={setEmailAtSignup}
-          errors={emailErrAtSignup}
-        />
-        <InputForm
-          placeholder="パスワードを入力"
-          value={passAtSignup}
-          setValue={setPassAtSignup}
-          errors={passErrAtSignup}
-        />
-        <InputForm
-          placeholder="パスワードを再入力"
-          value={confirmPassAtSignup}
-          setValue={setConfirmPassAtSignup}
-          errors={confirmPassErrAtSignup}
-        />
-        <View style={thisStyle.completeButtonContainer}>
-          {/* 未入力項目がある場合はボタン押下不可 */}
-          {emailAtSignup.length > 0 &&
-          passAtSignup.length > 0 &&
-          confirmPassAtSignup.length > 0 ? (
-            <CompleteButton title="新規登録" onPress={onSignUpButtonPress} />
-          ) : (
-            <CompleteButton title="新規登録" disabled />
-          )}
-        </View>
+  const SignUpScreen: JSX.Element = (
+    <View>
+      <InputForm
+        placeholder="メールアドレスを入力"
+        value={emailAtSignup}
+        setValue={setEmailAtSignup}
+        errors={emailErrAtSignup}
+      />
+      <InputForm
+        placeholder="パスワードを入力"
+        value={passAtSignup}
+        setValue={setPassAtSignup}
+        errors={passErrAtSignup}
+      />
+      <InputForm
+        placeholder="パスワードを再入力"
+        value={confirmPassAtSignup}
+        setValue={setConfirmPassAtSignup}
+        errors={confirmPassErrAtSignup}
+      />
+      <View style={thisStyle.completeButtonContainer}>
+        {/* 未入力項目がある場合はボタン押下不可 */}
+        {emailAtSignup.length > 0 &&
+        passAtSignup.length > 0 &&
+        confirmPassAtSignup.length > 0 ? (
+          <CompleteButton title="新規登録" onPress={onSignUpButtonPress} />
+        ) : (
+          <CompleteButton title="新規登録" disabled />
+        )}
       </View>
-    );
-  };
+    </View>
+  );
 
-  /** 利用規約とプライバシーポリシーのリンクの描画 */
-  const renderTermsLinks = () => {
-    return (
-      <View style={thisStyle.termsLinkContainer}>
-        <Text onPress={() => navigate("terms")} style={appTextStyle.linkText}>
-          利用規約
-        </Text>
-        <View style={{ width: 20 }} />
-        <Text onPress={() => navigate("privacy")} style={appTextStyle.linkText}>
-          プライバシーポリシー
-        </Text>
-      </View>
-    );
-  };
+  /** 利用規約とプライバシーポリシーのリンク */
+  const TermsLinks: JSX.Element = (
+    <View style={thisStyle.termsLinkContainer}>
+      <Text onPress={toTerms} style={appTextStyle.linkText}>
+        利用規約
+      </Text>
+      <View style={{ width: 20 }} />
+      <Text onPress={toPrivacy} style={appTextStyle.linkText}>
+        プライバシーポリシー
+      </Text>
+    </View>
+  );
 
   return (
     <View style={appStyle.standardContainer}>
@@ -246,12 +255,12 @@ const AppTopScreen: React.FC = () => {
           width={LAYOUT.window.width * 0.8}
         />
         <Text style={thisStyle.welcomeText}>1Dateへようこそ</Text>
-        {renderTermsLinks()}
+        {TermsLinks}
       </View>
       <View style={thisStyle.linkOrFormGroup}>
-        {screenPhase === 0 && renderTopScreen()}
+        {screenPhase === 0 && TopScreen}
         {screenPhase === 1 && renderSignInScreen()}
-        {screenPhase === 2 && renderSignUpScreen()}
+        {screenPhase === 2 && SignUpScreen}
       </View>
     </View>
   );

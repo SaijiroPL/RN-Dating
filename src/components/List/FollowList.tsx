@@ -21,7 +21,7 @@ export const FollowList: React.FC<Props> = (props: Props) => {
   const { follows, followers, onFollow, onUnfollow, reload } = props;
 
   /** フォローリスト要素の描画 */
-  const renderFollow = ({ item }: { item: IFollow }) => {
+  const renderFollow = ({ item }: { item: IFollow }): JSX.Element => {
     return (
       <FollowElement
         follow={item}
@@ -33,7 +33,7 @@ export const FollowList: React.FC<Props> = (props: Props) => {
   };
 
   /** フォロワーリスト要素の描画 */
-  const renderFollower = ({ item }: { item: IFollower }) => {
+  const renderFollower = ({ item }: { item: IFollower }): JSX.Element => {
     return (
       <FollowElement
         follower={item}

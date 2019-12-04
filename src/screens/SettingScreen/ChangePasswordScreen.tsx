@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { View, StyleSheet } from "react-native";
 import { Form } from "native-base";
 import { useNavigation } from "react-navigation-hooks";
@@ -64,7 +64,7 @@ const ChangePasswordScreen: React.FC = () => {
   }
 
   /** 完了ボタン押下時の処理 */
-  const onCompleteButtonPress = async (): Promise<void> => {
+  const onCompleteButtonPress = useCallback(async (): Promise<void> => {
     if (newPassword !== confirmNewPassword) {
       setConfirmPasswordErrors(["パスワードが間違っています"]);
       return;
@@ -74,21 +74,20 @@ const ChangePasswordScreen: React.FC = () => {
     if (result) {
       navigate("top");
     }
-  };
+  }, [newPassword, confirmNewPassword]);
 
-  /** 完了ボタンの描画 */
-  const renderCompleteButton = () => {
-    if (
-      isEmpty(oldPassword) ||
+  /** 完了ボタン */
+  const ChangePasswordButton: JSX.Element = (
+    <View style={appStyle.standardContainer}>
+      {isEmpty(oldPassword) ||
       isEmpty(newPassword) ||
-      isEmpty(confirmNewPassword)
-    ) {
-      // 未入力がある場合はアクティブにしない
-      return <CompleteButton title="完了" disabled />;
-    }
-
-    return <CompleteButton title="完了" onPress={onCompleteButtonPress} />;
-  };
+      isEmpty(confirmNewPassword) ? (
+        <CompleteButton title="完了" disabled />
+      ) : (
+        <CompleteButton title="完了" onPress={onCompleteButtonPress} />
+      )}
+    </View>
+  );
 
   return (
     <View style={thisStyle.container}>
@@ -112,7 +111,7 @@ const ChangePasswordScreen: React.FC = () => {
           errors={confirmPasswordErrors}
         />
       </Form>
-      <View style={appStyle.standardContainer}>{renderCompleteButton()}</View>
+      {ChangePasswordButton}
       <View style={appStyle.emptySpace} />
     </View>
   );

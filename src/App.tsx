@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Platform, StatusBar, View } from "react-native";
 import { AppLoading } from "expo";
 import { Asset } from "expo-asset";
@@ -19,21 +19,32 @@ interface Props {
  * @author kotatanaka
  */
 const App: React.FC<Props> = (props: Props) => {
-  const [isLoadingComplete, setLoadingComplete] = useState(false);
+  /** ローディング状態 */
+  const [isLoadingComplete, setLoadingComplete] = useState<boolean>(false);
 
   /** ローカルリソースの読み込み */
-  const loadResourcesAsync = async () => {
+  const loadResourcesAsync = useCallback(async (): Promise<void> => {
     await Asset.loadAsync(Object.keys(IMAGE).map(key => IMAGE[key]));
     await Font.loadAsync(FONT);
-  };
+  }, []);
+
+  /** ローディングエラー時の処理 */
+  const handleLoadingError = useCallback(error => {
+    console.warn(error);
+  }, []);
+
+  /** ローディング成功時の処理 */
+  const handleLoadingComplete = useCallback(() => {
+    setLoadingComplete(true);
+  }, []);
 
   // リソースの読み込みが終わるまでローディング
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return (
       <AppLoading
         startAsync={loadResourcesAsync}
-        onError={error => console.warn(error)}
-        onFinish={() => setLoadingComplete(true)}
+        onError={handleLoadingError}
+        onFinish={handleLoadingComplete}
       />
     );
   }

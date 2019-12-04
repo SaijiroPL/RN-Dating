@@ -26,26 +26,18 @@ export const FaqList: React.FC<Props> = (props: Props) => {
   const ArrowForward = <Ionicons name="ios-arrow-forward" size={20} />;
 
   /**
-   * 回答項目の描画
-   * @param answer 回答
-   */
-  const renderAnswer = (answer: string) => {
-    return (
-      <Body>
-        <Text style={appTextStyle.standardLightText}>{answer}</Text>
-      </Body>
-    );
-  };
-
-  /**
    * 質問項目の描画
    * @param faq FAQデータ
    */
-  const renderQuestion = (faq: IFaq) => {
+  const renderQuestion = (faq: IFaq): JSX.Element => {
     /** 質問テキスト */
-    const Question = (
+    const Question: JSX.Element = (
       <Text style={appTextStyle.standardText}>{faq.question}</Text>
     );
+
+    const handleChangeSelectedFaq = () => {
+      setSelectedFaqIndex(faq.question_id);
+    };
 
     /** 選択中の質問は回答を展開する */
     if (selectedFaqIndex === faq.question_id) {
@@ -54,19 +46,23 @@ export const FaqList: React.FC<Props> = (props: Props) => {
           <ListItem
             noIndent
             style={{ backgroundColor: COLOR.baseBackgroundColor }}
-            onPress={() => setSelectedFaqIndex(faq.question_id)}
+            onPress={handleChangeSelectedFaq}
           >
             <Left>{Question}</Left>
             <Right>{ArrowForward}</Right>
           </ListItem>
-          <ListItem>{renderAnswer(faq.answer)}</ListItem>
+          <ListItem>
+            <Body>
+              <Text style={appTextStyle.standardLightText}>{faq.answer}</Text>
+            </Body>
+          </ListItem>
         </View>
       );
     }
 
     return (
       <View key={faq.question_id}>
-        <ListItem noIndent onPress={() => setSelectedFaqIndex(faq.question_id)}>
+        <ListItem noIndent onPress={handleChangeSelectedFaq}>
           <Left>{Question}</Left>
           <Right>{ArrowForward}</Right>
         </ListItem>

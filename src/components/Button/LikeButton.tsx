@@ -7,10 +7,11 @@ import { COLOR } from "app/src/constants";
 import { appTextStyle } from "app/src/styles";
 
 interface Props {
+  targetPlanId: string;
   likeCount: number;
   liked: boolean;
-  onLike?: () => Promise<boolean>;
-  onUnlike?: () => Promise<boolean>;
+  onLike?: (id: string) => Promise<boolean>;
+  onUnlike?: (id: string) => Promise<boolean>;
   reload?: () => Promise<void>;
 }
 
@@ -19,7 +20,7 @@ interface Props {
  * @author kotatanaka
  */
 export const LikeButton: React.FC<Props> = (props: Props) => {
-  const { likeCount, liked, onLike, onUnlike, reload } = props;
+  const { targetPlanId, likeCount, liked, onLike, onUnlike, reload } = props;
 
   // お気に入り登録,解除機能を持たせないボタン
   if (!onLike || !onUnlike || !reload) {
@@ -36,16 +37,16 @@ export const LikeButton: React.FC<Props> = (props: Props) => {
   }
 
   /** お気に入り登録 */
-  const handleLike = useCallback(async () => {
-    const result = await onLike();
+  const handleLike = useCallback(async (): Promise<void> => {
+    const result = await onLike(targetPlanId);
     if (result) {
       reload();
     }
   }, []);
 
   /** お気に入り解除 */
-  const handleUnlike = useCallback(async () => {
-    const result = await onUnlike();
+  const handleUnlike = useCallback(async (): Promise<void> => {
+    const result = await onUnlike(targetPlanId);
     if (result) {
       reload();
     }

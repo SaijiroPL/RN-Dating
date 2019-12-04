@@ -17,7 +17,7 @@ interface Props {
 export const PlanCardList: React.FC<Props> = (props: Props) => {
   const { planList, myPlan } = props;
 
-  const renderPlanCard = ({ item }: { item: IPlan }) => {
+  const renderPlanCard = ({ item }: { item: IPlan }): JSX.Element => {
     if (myPlan) {
       return <PlanCard plan={item} myPlan />;
     }

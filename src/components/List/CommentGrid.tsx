@@ -20,7 +20,7 @@ export const CommentGrid: React.FC<Props> = (props: Props) => {
   const { comments } = props;
 
   // 1つのコメントを描画する
-  const renderComment = (comment: IComment) => {
+  const renderComment = (comment: IComment): JSX.Element | undefined => {
     if (isNotNullOrUndefined(comment)) {
       return (
         <Row style={thisStyle.item}>

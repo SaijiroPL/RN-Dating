@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { StyleSheet } from "react-native";
 import { SearchBar } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
@@ -18,6 +18,15 @@ interface Props {
  */
 export const SearchFormBar: React.FC<Props> = (props: Props) => {
   const { value, setValue, onSearch } = props;
+
+  /** テキスト変更 */
+  const handleChangeValue = useCallback(value => setValue(value), [value]);
+
+  /** テキストクリア */
+  const handleClear = useCallback(() => {
+    setValue("");
+  }, []);
+
   return (
     <SearchBar
       placeholder="検索"
@@ -29,11 +38,9 @@ export const SearchFormBar: React.FC<Props> = (props: Props) => {
       clearIcon={
         <Ionicons name="ios-close" size={26} color={COLOR.textTintColor} />
       }
-      onChangeText={value => {
-        setValue(value);
-      }}
+      onChangeText={handleChangeValue}
       onEndEditing={onSearch}
-      onClear={() => setValue("")}
+      onClear={handleClear}
       value={value}
       containerStyle={thisStyle.searchBar}
       inputContainerStyle={thisStyle.searchInput}

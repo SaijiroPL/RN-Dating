@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 
@@ -44,47 +44,34 @@ const WelcomeScreen: React.FC = () => {
   const { navigate } = useNavigation();
 
   /** 完了ボタン押下で基本情報入力画面に遷移する */
-  const onStartButtonPress = () => {
+  const onStartButtonPress = useCallback(() => {
     navigate("entry");
-  };
+  }, []);
 
-  /** 最後のページに完了ボタンを配置する */
-  const renderLastButton = (index: number) => {
-    if (index === SLIDE_DATA.length - 1) {
-      return (
-        <View>
-          <CompleteButton title="完了" onPress={onStartButtonPress} />
-        </View>
-      );
-    }
-  };
-
-  /** 各ステップページの描画 */
-  const renderSlides = () => {
-    return SLIDE_DATA.map((slide, index) => (
-      <View key={index} style={thisStyle.slide}>
-        <View style={appStyle.emptySpace} />
-
-        <Image style={{ flex: 3 }} resizeMode="contain" source={slide.uri} />
-
-        {/* TODO 画像と説明の間にボーダーを入れる */}
-        <View style={appStyle.standardContainer}>
-          <Text style={thisStyle.title}>{slide.title}</Text>
-          <Text style={thisStyle.description}>{slide.description}</Text>
-        </View>
-
-        <View style={thisStyle.footer}>
-          {renderLastButton(index)}
-          <Text style={thisStyle.description}>{index + 1} / 5</Text>
-        </View>
-      </View>
-    ));
-  };
-
-  /** スクロールビューの描画 */
   return (
     <ScrollView horizontal pagingEnabled style={{ flex: 1 }}>
-      {renderSlides()}
+      {SLIDE_DATA.map((slide, index) => (
+        <View key={index} style={thisStyle.slide}>
+          <View style={appStyle.emptySpace} />
+          <Image style={{ flex: 3 }} resizeMode="contain" source={slide.uri} />
+
+          {/* TODO 画像と説明の間にボーダーを入れる */}
+          <View style={appStyle.standardContainer}>
+            <Text style={thisStyle.title}>{slide.title}</Text>
+            <Text style={thisStyle.description}>{slide.description}</Text>
+          </View>
+
+          <View style={thisStyle.footer}>
+            {/* 最後のページに完了ボタンを配置する */}
+            {index === SLIDE_DATA.length - 1 && (
+              <View>
+                <CompleteButton title="完了" onPress={onStartButtonPress} />
+              </View>
+            )}
+            <Text style={thisStyle.description}>{index + 1} / 5</Text>
+          </View>
+        </View>
+      ))}
     </ScrollView>
   );
 };

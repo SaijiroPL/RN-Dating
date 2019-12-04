@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import axios from "axios";
 
 // from app
@@ -69,15 +69,18 @@ export const useSignup = () => {
    * @param mailAddress メールアドレスう
    * @param password パスワード
    */
-  const setRegisterUserParts = (mailAddress: string, password: string) => {
-    dispatch({
-      type: ActionType.SET_REGISTER_USER,
-      payload: {
-        mailAddress: mailAddress,
-        password: password
-      }
-    });
-  };
+  const setRegisterUserParts = useCallback(
+    (mailAddress: string, password: string) => {
+      dispatch({
+        type: ActionType.SET_REGISTER_USER,
+        payload: {
+          mailAddress: mailAddress,
+          password: password
+        }
+      });
+    },
+    []
+  );
 
   return {
     setRegisterUserParts,

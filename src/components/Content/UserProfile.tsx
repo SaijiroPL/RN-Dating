@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { StyleSheet, View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import { Thumbnail, Text } from "native-base";
@@ -24,17 +24,20 @@ export const UserProfile: React.FC<Props> = (props: Props) => {
   const { navigate } = useNavigation();
   const { user, me, image, pickImage } = props;
 
-  const onFollowPress = () => {
+  /** フォロー数押下時の処理 */
+  const onFollowPress = useCallback(() => {
     navigate(me ? "myFollow" : "follow", { id: user.user_id });
-  };
+  }, [me, user]);
 
-  const onFollowerPress = () => {
+  /** フォロワー数押下時の処理 */
+  const onFollowerPress = useCallback(() => {
     navigate(me ? "myFollower" : "follower", { id: user.user_id });
-  };
+  }, [me, user]);
 
-  const onPlanPress = () => {
+  /** プラン数押下時の処理 */
+  const onPlanPress = useCallback(() => {
     navigate("MyPlanTab");
-  };
+  }, []);
 
   return (
     <View style={thisStyle.container}>
