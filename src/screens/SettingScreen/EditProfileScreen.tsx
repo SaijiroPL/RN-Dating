@@ -37,11 +37,6 @@ const EditProfileScreen: React.FC = () => {
     errors
   } = useEditProfile(loginUser.id);
 
-  // ローディング
-  if (isLoading) {
-    return LoadingSpinner;
-  }
-
   /** 更新ボタン押下時の処理 */
   const onCompleteButtonPress = useCallback(async (): Promise<void> => {
     const result = await updateProfile();
@@ -72,6 +67,11 @@ const EditProfileScreen: React.FC = () => {
         addressErrors.push(item.replace("Addressは", ""));
       }
     });
+  }
+
+  // ローディング
+  if (isLoading) {
+    return LoadingSpinner;
   }
 
   /** 更新ボタンの描画 */

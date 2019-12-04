@@ -50,15 +50,15 @@ const PlanDetailScreen: React.FC = () => {
   /** フォロー・フォロー解除 */
   const { follow, unfollow } = useFollowUser(loginUser.id);
 
-  // ローディング
-  if (isPlanLoading || isCommentsLoading) {
-    return LoadingSpinner;
-  }
-
   /** コメントもっと見る押下時の処理 */
   const onMoreCommentPress = useCallback(() => {
     navigate("comment", { id: plan.plan_id });
   }, [plan]);
+
+  // ローディング
+  if (isPlanLoading || isCommentsLoading) {
+    return LoadingSpinner;
+  }
 
   /** デートプラン作成者部分の描画 */
   const PlannerHeader: JSX.Element = (
