@@ -18,11 +18,6 @@ interface Props {
 export const NotificationLikeElement: React.FC<Props> = (props: Props) => {
   const { notification } = props;
 
-  /** お気に入りアイコン */
-  const LikeIcon = (
-    <AntDesign name="hearto" size={20} style={thisStyle.likeIcon} />
-  );
-
   return (
     <ListItem avatar style={thisStyle.container}>
       <Left>
@@ -30,7 +25,7 @@ export const NotificationLikeElement: React.FC<Props> = (props: Props) => {
       </Left>
       <Body style={thisStyle.bodyContainer}>
         <View style={thisStyle.titleContainer}>
-          {LikeIcon}
+          <AntDesign name="hearto" size={20} style={thisStyle.likeIcon} />
           <Text style={thisStyle.titleLinkText}>{notification.user_name}</Text>
           <Text style={thisStyle.titleText}>
             {" "}

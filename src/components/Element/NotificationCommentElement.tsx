@@ -18,11 +18,6 @@ interface Props {
 export const NotificationCommentElement: React.FC<Props> = (props: Props) => {
   const { notification } = props;
 
-  /** コメントアイコン */
-  const CommentIcon = (
-    <FontAwesome name="comment-o" size={20} style={thisStyle.commentIcon} />
-  );
-
   return (
     <ListItem avatar style={thisStyle.container}>
       <Left>
@@ -30,7 +25,11 @@ export const NotificationCommentElement: React.FC<Props> = (props: Props) => {
       </Left>
       <Body>
         <View style={thisStyle.titleContainer}>
-          {CommentIcon}
+          <FontAwesome
+            name="comment-o"
+            size={20}
+            style={thisStyle.commentIcon}
+          />
           <Text style={thisStyle.titleLinkText}>{notification.user_name}</Text>
           <Text style={thisStyle.titleText}> さんがコメントしました。</Text>
         </View>
