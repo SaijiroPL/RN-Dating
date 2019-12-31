@@ -38,6 +38,7 @@ const FollowScreen: React.FC = () => {
         フォロワー数: {followers.total}
       </Text>
       <FollowList
+        meId={loginUser.id}
         followers={followers.follower_list}
         onFollow={follow}
         onUnfollow={unfollow}

@@ -36,6 +36,7 @@ const FollowScreen: React.FC = () => {
     <Container>
       <Text style={appTextStyle.countText}>フォロー数: {follows.total}</Text>
       <FollowList
+        meId={loginUser.id}
         follows={follows.follow_list}
         onFollow={follow}
         onUnfollow={unfollow}
