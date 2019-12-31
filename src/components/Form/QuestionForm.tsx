@@ -1,14 +1,15 @@
-import React from "react";
-import { Content, Form, Textarea, View } from "native-base";
+import React, { useMemo } from "react";
+import { Content, Form, Text, Textarea, View } from "native-base";
 import { StyleSheet } from "react-native";
 
 // from app
 import { CompleteButton } from "app/src/components/Button";
+import { appTextStyle } from "app/src/styles";
 
 interface Props {
   question: string;
   setQuestion: React.Dispatch<React.SetStateAction<string>>;
-  onSendButtonPress: () => void;
+  onSendButtonPress: () => Promise<void>;
   errors?: Array<string>;
 }
 
@@ -19,7 +20,18 @@ interface Props {
 export const QuestionForm: React.FC<Props> = (props: Props) => {
   const { question, setQuestion, onSendButtonPress, errors } = props;
 
-  // TODO エラーメッセージ出力
+  /** エラーメッセージ */
+  const ErrorList = useMemo(
+    () =>
+      errors && errors.length > 0
+        ? errors.map(item => (
+            <Text key={item} style={appTextStyle.errorText}>
+              {item}
+            </Text>
+          ))
+        : [],
+    [errors]
+  );
 
   // 正常入力
   return (
@@ -34,6 +46,7 @@ export const QuestionForm: React.FC<Props> = (props: Props) => {
           value={question}
         />
       </Form>
+      {ErrorList.length > 0 && ErrorList}
       <View style={thisStyle.item}>
         <CompleteButton title="送信" onPress={onSendButtonPress} />
       </View>
