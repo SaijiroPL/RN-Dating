@@ -55,7 +55,7 @@ export const FollowElement: React.FC<Props> = (props: Props) => {
         <Right>
           <FollowButton
             targetUserId={follow.user_id}
-            followed={true}
+            followed={follow.is_followed}
             onFollow={onFollow}
             onUnfollow={onUnfollow}
             reload={reload}
