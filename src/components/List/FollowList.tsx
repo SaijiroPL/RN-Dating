@@ -6,6 +6,7 @@ import { IFollow, IFollower } from "app/src/interfaces/api/Follow";
 import { FollowElement } from "app/src/components/Element";
 
 interface Props {
+  meId: string;
   follows?: Array<IFollow>;
   followers?: Array<IFollower>;
   onFollow: (id: string) => Promise<boolean>;
@@ -18,12 +19,13 @@ interface Props {
  * @author kotatanaka
  */
 export const FollowList: React.FC<Props> = (props: Props) => {
-  const { follows, followers, onFollow, onUnfollow, reload } = props;
+  const { meId, follows, followers, onFollow, onUnfollow, reload } = props;
 
   /** フォローリスト要素の描画 */
   const renderFollow = ({ item }: { item: IFollow }): JSX.Element => {
     return (
       <FollowElement
+        meId={meId}
         follow={item}
         onFollow={onFollow}
         onUnfollow={onUnfollow}
@@ -36,6 +38,7 @@ export const FollowList: React.FC<Props> = (props: Props) => {
   const renderFollower = ({ item }: { item: IFollower }): JSX.Element => {
     return (
       <FollowElement
+        meId={meId}
         follower={item}
         onFollow={onFollow}
         onUnfollow={onUnfollow}

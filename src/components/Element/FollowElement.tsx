@@ -9,6 +9,7 @@ import { IFollow, IFollower } from "app/src/interfaces/api/Follow";
 import { FollowButton } from "app/src/components/Button";
 
 interface Props {
+  meId: string;
   follow?: IFollow;
   follower?: IFollower;
   onFollow: (id: string) => Promise<boolean>;
@@ -22,7 +23,7 @@ interface Props {
  */
 export const FollowElement: React.FC<Props> = (props: Props) => {
   const { navigate } = useNavigation();
-  const { follow, follower, onFollow, onUnfollow, reload } = props;
+  const { meId, follow, follower, onFollow, onUnfollow, reload } = props;
 
   /** フォローユーザー押下時の処理 */
   const onPressFollow = useCallback(() => {
@@ -53,13 +54,15 @@ export const FollowElement: React.FC<Props> = (props: Props) => {
           </Text>
         </Body>
         <Right>
-          <FollowButton
-            targetUserId={follow.user_id}
-            followed={true}
-            onFollow={onFollow}
-            onUnfollow={onUnfollow}
-            reload={reload}
-          />
+          {meId !== follow.user_id && (
+            <FollowButton
+              targetUserId={follow.user_id}
+              followed={follow.is_followed}
+              onFollow={onFollow}
+              onUnfollow={onUnfollow}
+              reload={reload}
+            />
+          )}
         </Right>
       </ListItem>
     );
@@ -80,13 +83,15 @@ export const FollowElement: React.FC<Props> = (props: Props) => {
           </Text>
         </Body>
         <Right>
-          <FollowButton
-            targetUserId={follower.user_id}
-            followed={follower.is_follow}
-            onFollow={onFollow}
-            onUnfollow={onUnfollow}
-            reload={reload}
-          />
+          {meId !== follower.user_id && (
+            <FollowButton
+              targetUserId={follower.user_id}
+              followed={follower.is_follow}
+              onFollow={onFollow}
+              onUnfollow={onUnfollow}
+              reload={reload}
+            />
+          )}
         </Right>
       </ListItem>
     );
