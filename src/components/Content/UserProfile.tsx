@@ -6,7 +6,7 @@ import { Thumbnail, Text } from "native-base";
 // from app
 import { COLOR, IMAGE } from "app/src/constants";
 import { IUserDetail } from "app/src/interfaces/api/User";
-import { ImagePickerButton } from "app/src/components/Button";
+import { ImagePickerButton, FollowButton } from "app/src/components/Button";
 import { appTextStyle } from "app/src/styles";
 
 interface Props {
@@ -14,6 +14,9 @@ interface Props {
   me?: boolean;
   image?: any;
   pickImage?: () => Promise<void>;
+  follow: (id: string) => Promise<boolean>;
+  unfollow: (id: string) => Promise<boolean>;
+  reload: () => Promise<void>;
 }
 
 /**
@@ -22,7 +25,7 @@ interface Props {
  */
 export const UserProfile: React.FC<Props> = (props: Props) => {
   const { navigate } = useNavigation();
-  const { user, me, image, pickImage } = props;
+  const { user, me, image, pickImage, follow, unfollow, reload } = props;
 
   /** フォロー数押下時の処理 */
   const onFollowPress = useCallback(() => {
@@ -69,6 +72,17 @@ export const UserProfile: React.FC<Props> = (props: Props) => {
           </Text>
         </View>
       </View>
+      {!me && (
+        <View style={thisStyle.followContainer}>
+          <FollowButton
+            targetUserId={user.user_id}
+            followed={user.is_follow}
+            onFollow={follow}
+            onUnfollow={unfollow}
+            reload={reload}
+          />
+        </View>
+      )}
     </View>
   );
 };
@@ -91,6 +105,10 @@ const thisStyle = StyleSheet.create({
   countContainer: {
     alignContent: "space-around",
     flexDirection: "row"
+  },
+  followContainer: {
+    marginBottom: 10,
+    marginTop: 10
   },
   countItem: {
     alignItems: "center",
