@@ -15,3 +15,12 @@ export interface IFaq {
 export interface IFaqList {
   question_list: Array<IFaq>;
 }
+
+/**
+ * 質問投稿APIリクエストボディ
+ * @author kotatanaka
+ */
+export interface IPostQuestionBody {
+  user_id: string;
+  question: string;
+}

@@ -14,6 +14,8 @@ export * from "./useGetPlanDetail";
 export * from "./useGetNotificationList";
 /** 運営からのお知らせ一覧取得 */
 export * from "./useGetInformationList";
+/** 質問投稿 */
+export * from "./usePostQuestion";
 /** よくある質問一覧取得 */
 export * from "./useGetFaqList";
 /** コメント一覧取得 */
