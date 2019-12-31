@@ -4,12 +4,6 @@
 
 ## Getting Started
 
-### ソースコードのクローン
-
-```
-$ git clone git@github.com:KotaTanaka/one-date-client.git
-```
-
 ### Node のインストール
 
 ```
@@ -27,6 +21,12 @@ $ npm install -g expo-cli
 $ expo login
 ```
 
+### ソースコードのクローン
+
+```
+$ git clone git@github.com:KotaTanaka/one-date-client.git
+```
+
 ### 必要なライブラリのインストール
 
 ```
@@ -39,7 +39,7 @@ $ npm i
 _※ [one-date-server](https://github.com/KotaTanaka/one-date-server) 環境構築済みの前提_
 
 ```
-$ cd one-date-server
+$ cd {one-date-serverの保存先}
 $ rails s
 ```
 
@@ -47,15 +47,16 @@ $ rails s
 
 _※ iOS シミュレータの場合、この設定変更は不要です。_
 
-- プライベート IP アドレスを取得
+- プライベート IP アドレスを取得する。
 
 ```
+$ cd {one-date-clientの保存先}
 $ npm run ip
 ...
 xxx.xxx.xxx.xxx
 ```
 
-- 上記で取得した IP アドレスを `app.json` 内の `apiEndpoint` のホスト部分に設定
+- 上記で取得した IP アドレスを `app.json` 内の `apiEndpoint` のホスト部分に設定する。
 
 ```
 "extra": {
@@ -67,15 +68,15 @@ xxx.xxx.xxx.xxx
 ### クライアントアプリの起動
 
 ```
-$ cd one-date-client
+$ cd {one-date-clientの保存先}
 $ npm run start
 ```
 
-- **iOS シミュレータ**
+- **iOS シミュレータ**  
   ブラウザコンソール http://localhost:19002 で `Run on iOS simulator` をクリックして起動します。
 
-- **実機（Expo Client）**
-  コンソールに表示される QR コードをスマホで読み取り Expo Client アプリで起動します。
+- **実機（Expo Client）**  
+  コンソールに表示される QR コードをスマホで読み取り Expo Client アプリで起動します。  
   ※ PC とスマホは同一 LAN に繋がっている必要があります。
 
 ## Utilities
