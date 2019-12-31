@@ -6,7 +6,10 @@
     "ios": "expo start --ios",
     "eject": "expo eject",
     "test": "node ./node_modules/jest/bin/jest.js --watchAll",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "ip": "ifconfig en0 | awk '/inet / { print $2 }'",
+    "capture:start": "xcrun simctl io booted recordVideo input.mov",
+    "capture:togif": "ffmpeg -i input.mov -r 10 output.gif"
   },
   "jest": {
     "preset": "jest-expo"
