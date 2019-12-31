@@ -7,7 +7,7 @@ import { useGlobalState } from "app/src/Store";
 import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
 import { UserProfile } from "app/src/components/Content";
 import { SettingFab } from "app/src/components/Button";
-import { useGetUserDetail, useGetPlanList } from "app/src/hooks";
+import { useGetUserDetail, useGetPlanList, useFollowUser } from "app/src/hooks";
 import { appStyle } from "app/src/styles";
 import { PlanCardList } from "app/src/components/List";
 import { LAYOUT } from "app/src/constants";
@@ -24,12 +24,15 @@ const ProfileScreen: React.FC = () => {
   const loginUser = useGlobalState("loginUser");
 
   /** ユーザー詳細取得 */
-  const { isUserLoading, user } = useGetUserDetail(userId, loginUser.id);
+  // prettier-ignore
+  const { isUserLoading, user, getUserDetail } = useGetUserDetail(userId, loginUser.id);
 
   /** デートプラン取得 */
-  const { isPlanListLoading, plans, isRefreshing, onRefresh } = useGetPlanList(
-    userId
-  );
+  // prettier-ignore
+  const { isPlanListLoading, plans, isRefreshing, onRefresh } = useGetPlanList(userId);
+
+  /** フォロー・フォロー解除 */
+  const { follow, unfollow } = useFollowUser(loginUser.id);
 
   // ローディング
   if (isUserLoading || isPlanListLoading) {
@@ -38,7 +41,12 @@ const ProfileScreen: React.FC = () => {
 
   return (
     <View style={appStyle.standardContainer}>
-      <UserProfile user={user} />
+      <UserProfile
+        user={user}
+        follow={follow}
+        unfollow={unfollow}
+        reload={getUserDetail}
+      />
       <ScrollView
         refreshControl={RefreshSpinner(isRefreshing, onRefresh)}
         style={thisStyle.container}
