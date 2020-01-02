@@ -37,7 +37,7 @@
         "appId": "488030672048305"
       },
       "apiEndpoint": "http://localhost:3080",
-      "webEndpoint": "http://localhost:3030"
+      "webEndpoint": "https://one-date-dev.web.app"
     }
   }
 }
