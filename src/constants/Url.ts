@@ -50,7 +50,7 @@ export const API_ENDPOINT = {
  */
 export const WEB_ENDPOINT = {
   // 利用規約
-  TERMS: WEB_HOST + "/webview/terms",
+  TERMS: WEB_HOST + "/terms",
   // プライバシーポリシー
-  PRIVACY_POLICY: WEB_HOST + "/webview/privacy"
+  PRIVACY_POLICY: WEB_HOST + "/privacy"
 };

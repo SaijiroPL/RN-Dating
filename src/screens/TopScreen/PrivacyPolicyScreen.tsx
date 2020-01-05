@@ -8,8 +8,8 @@ import { SimpleWebView } from "app/src/components/Content";
  * プライバシーポリシー画面
  * @author itsukiyamada
  */
-const PrivacypolicyScreen: React.FC = () => {
+const PrivacyPolicyScreen: React.FC = () => {
   return <SimpleWebView uri={WEB_ENDPOINT.PRIVACY_POLICY} />;
 };
 
-export default PrivacypolicyScreen;
+export default PrivacyPolicyScreen;
