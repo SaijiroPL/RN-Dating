@@ -1,11 +1,17 @@
-import React, { useState, useRef } from "react";
-import { StyleSheet } from "react-native";
+import React, {
+  useState,
+  useCallback,
+  useMemo,
+  useEffect,
+  useRef
+} from "react";
+import { StyleSheet, Alert } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import MapView, { Polyline } from "react-native-maps";
+import * as Location from "expo-location";
 
 // from app
-import { COLOR } from "app/src/constants";
-import { ILocation, IHere, IMarker } from "app/src/interfaces/app/Map";
+import { ILocation, IHere, IMarker, ILine } from "app/src/interfaces/app/Map";
 import { MapCircle, MapHere, MapPin } from "app/src/components/MapItem";
 import { CompleteButton } from "app/src/components/Button";
 
@@ -17,36 +23,189 @@ const locationInitialRound = 700;
  */
 const SearchMapScreen: React.FC = () => {
   const { navigate } = useNavigation();
+
   const [location, setLocation] = useState<ILocation>({
     latitude: 35.658606737323325,
     longitude: 139.69814462256613,
     latitudeDelta: 0.038651027332100796,
     longitudeDelta: 0.02757163010454633
   });
-  const [here, setHere] = useState<IHere>({
-    latitude: 0,
-    longitude: 0,
-    timestamp: 0
-  });
   const [accuracy, setAccuracy] = useState<number>(65);
-  const [markers, setMarkers] = useState<Array<IMarker>>([]);
-  const [lines, setLines] = useState<
-    Array<{ latitude: number; longitude: number }>
-  >([]);
-  const [activeLine, setActiveLine] = useState<number>(0);
-  const [distanceMode, setDistanceMode] = useState<boolean>(false);
+  // prettier-ignore
+  const [here, setHere] = useState<IHere>({ latitude: 0, longitude: 0, timestamp: 0 });
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
+  const [keyword, setKeyword] = useState<string>("");
+  const [markers, setMarkers] = useState<Array<IMarker>>([]);
+  // prettier-ignore
+  const [editMarkers, setEditMarker] = useState<IMarker>({ latitude: 0, longitude: 0, radius: 0, color: "", unit: "km" });
+  const [distanceMode, setDistanceMode] = useState<boolean>(false);
+  const [lines, setLines] = useState<Array<ILine>>([]);
+  const [activeLine, setActiveLine] = useState<number>(0);
+  const [pinCount, setPinCount] = useState<number>(0);
 
-  const onCompleteButtonPress = () => {
+  const onCompleteButtonPress = useCallback(() => {
     navigate("flick");
-  };
+  }, []);
 
   const mapRef = useRef(null);
 
-  const delta =
-    location.latitudeDelta > location.longitudeDelta
-      ? location.latitudeDelta
-      : location.longitudeDelta;
+  const onMapPress = useCallback(
+    ({ nativeEvent }) => {
+      const { coordinate = {}, action = null } = nativeEvent;
+
+      if (!action) {
+        const region: ILocation = {
+          latitude: coordinate.latitude,
+          longitude: coordinate.longitude,
+          latitudeDelta: location.latitudeDelta,
+          longitudeDelta: location.longitudeDelta
+        };
+
+        // mapRef.current.animateToRegion(region, 100);
+        setLocation(region);
+      }
+    },
+    [location, setLocation]
+  );
+
+  const onRegionChangeComplete = useCallback(
+    (region: ILocation) => setLocation(region),
+    [setLocation]
+  );
+
+  const onDistancePress = useCallback(() => {
+    if (markers.length >= 2) {
+      setDistanceMode(currentState => !currentState);
+    } else {
+      Alert.alert("距離計測", "ピンが2つ必要です");
+    }
+  }, [markers, setDistanceMode]);
+
+  // prettier-ignore
+  const onAddButtonPress = useCallback((marker?: IMarker | null) => {
+    setDistanceMode(false);
+
+    setEditMarker(
+      marker && marker.key
+        ? marker
+        : {
+            latitude: location.latitude,
+            longitude: location.longitude,
+            // TODO
+            radius: 0,
+            // TODO
+            color: "#000",
+            // TODO
+            unit: "km"
+          }
+    );
+
+    setModalVisible(true);
+  }, [location, setDistanceMode, setModalVisible]);
+
+  const onLocationButtonPress = useCallback(() => {
+    setDistanceMode(false);
+
+    if (!here.latitude || !here.longitude) {
+      Alert.alert("位置情報無効", "位置情報を有効にしてください");
+    } else {
+      // TODO
+    }
+  }, [here, setDistanceMode]);
+
+  // prettier-ignore
+  const onCenterPinCalloutPress = useCallback(() => onAddButtonPress(), [onAddButtonPress]);
+  // prettier-ignore
+  const onMarkerPinCalloutPress = useCallback((marker: IMarker) => onAddButtonPress(marker), [onAddButtonPress]);
+  // prettier-ignore
+  const onSearchFocus = useCallback(() => setDistanceMode(false), [setDistanceMode]);
+
+  const onSearchSubmit = useCallback(() => {
+    if (keyword) {
+      Location.geocodeAsync(keyword).then(r => {
+        if (r.length) {
+          const region: ILocation = {
+            latitude: r[0].latitude,
+            longitude: r[0].longitude,
+            latitudeDelta: location.latitudeDelta,
+            longitudeDelta: location.longitudeDelta
+          };
+
+          setLocation(region);
+
+          // mapRef.current.animateToRegion(region, 1);
+        } else {
+          // TODO if no result
+        }
+      });
+    }
+  }, []);
+
+  const onPinDelete = useCallback(
+    (marker: IMarker) => {
+      // prettier-ignore
+      setMarkers(markers.filter(m => !(m.latitude === marker.latitude && m.longitude === marker.longitude)))
+    },
+    [markers, setMarkers]
+  );
+
+  const onPinCreate = useCallback(
+    (marker: IMarker) => {
+      if (marker.key) {
+        setMarkers(
+          markers.map(m => {
+            // prettier-ignore
+            if (m.latitude === marker.latitude && m.longitude === marker.longitude ) {
+            return {
+              ...m,
+              key: `${marker.longitude + marker.latitude + accuracy + marker.radius}`,
+              radius: marker.radius,
+              color: marker.color
+            };
+          }
+
+            return m;
+          })
+        );
+      } else {
+        setMarkers([
+          ...markers,
+          {
+            ...marker,
+            // prettier-ignore
+            key: `${marker.longitude + marker.latitude + accuracy + marker.radius}`
+          }
+        ]);
+
+        setPinCount(currentState => currentState + 1);
+      }
+    },
+    [markers, setMarkers, setPinCount]
+  );
+
+  const onLinePress = useCallback((i: number = 0) => {
+    setActiveLine(i);
+  }, []);
+
+  useEffect(() => {
+    // TODO
+  }, []);
+
+  useEffect(() => {
+    // TODO
+  }, []);
+
+  useEffect(() => {
+    // TODO
+  }, []);
+
+  const delta = useMemo(
+    () =>
+      location.latitudeDelta > location.longitudeDelta
+        ? location.latitudeDelta
+        : location.longitudeDelta,
+    [location]
+  );
 
   /** マーカー */
   const Markers = markers.map(marker => (
@@ -139,7 +298,7 @@ const SearchMapScreen: React.FC = () => {
         style={thisStyle.map}
         ref={mapRef}
         initialRegion={location}
-        // onPress={onMapPress}
+        onPress={onMapPress}
         // onRegionChangeComplete={onRegionChangeConplete}
       >
         {Line}
@@ -161,12 +320,7 @@ const SearchMapScreen: React.FC = () => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   map: {
-    borderColor: COLOR.inactiveColor,
-    borderRadius: 10,
-    borderWidth: 1,
-    height: 200,
-    marginHorizontal: 10
-    // marginVertical: 5
+    height: "100%"
   }
 });
 

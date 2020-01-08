@@ -31,3 +31,12 @@ export interface IMarker {
   color: string;
   unit: "km" | "m";
 }
+
+/**
+ * 線
+ * @author kotatanaka
+ */
+export interface ILine {
+  latitude: number;
+  longitude: number;
+}
