@@ -4,7 +4,7 @@ import MapView from "react-native-maps";
 
 // from app
 import { COLOR } from "app/src/constants";
-import { ILocation } from "app/src/interfaces/Map";
+import { ILocation } from "app/src/interfaces/app/Map";
 import { ISpot } from "app/src/interfaces/api/Plan";
 
 interface Props {

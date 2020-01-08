@@ -14,7 +14,7 @@ import { AntDesign } from "@expo/vector-icons";
 
 // from app
 import { IMAGE } from "app/src/constants";
-import { ICandidateSpot } from "app/src/interfaces/Spot";
+import { ICandidateSpot } from "app/src/interfaces/app/Spot";
 
 interface Props {
   spots: Array<ICandidateSpot>;
