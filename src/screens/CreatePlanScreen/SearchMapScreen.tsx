@@ -1,12 +1,15 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useRef } from "react";
 import { StyleSheet } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
-import { Container } from "native-base";
-import MapView from "react-native-maps";
+import MapView, { Polyline } from "react-native-maps";
 
 // from app
-import { ILocation } from "app/src/interfaces/app/Map";
-import { CompleteFooterButton } from "app/src/components/Button";
+import { COLOR } from "app/src/constants";
+import { ILocation, IHere, IMarker } from "app/src/interfaces/app/Map";
+import { MapCircle, MapHere, MapPin } from "app/src/components/MapItem";
+import { CompleteButton } from "app/src/components/Button";
+
+const locationInitialRound = 700;
 
 /**
  * マップからスポット範囲指定画面
@@ -20,13 +23,107 @@ const SearchMapScreen: React.FC = () => {
     latitudeDelta: 0.038651027332100796,
     longitudeDelta: 0.02757163010454633
   });
+  const [here, setHere] = useState<IHere>({
+    latitude: 0,
+    longitude: 0,
+    timestamp: 0
+  });
+  const [accuracy, setAccuracy] = useState<number>(65);
+  const [markers, setMarkers] = useState<Array<IMarker>>([]);
+  const [lines, setLines] = useState<
+    Array<{ latitude: number; longitude: number }>
+  >([]);
+  const [activeLine, setActiveLine] = useState<number>(0);
+  const [distanceMode, setDistanceMode] = useState<boolean>(false);
+  const [isModalVisible, setModalVisible] = useState<boolean>(false);
 
-  const onCompleteButtonPress = useCallback(() => {
+  const onCompleteButtonPress = () => {
     navigate("flick");
-  }, []);
+  };
+
+  const mapRef = useRef(null);
+
+  const delta =
+    location.latitudeDelta > location.longitudeDelta
+      ? location.latitudeDelta
+      : location.longitudeDelta;
+
+  /** マーカー */
+  const Markers = markers.map(marker => (
+    <MapPin
+      key={marker.key}
+      location={{
+        latitude: marker.latitude,
+        longitude: marker.longitude,
+        timestamp: 0
+      }}
+      accuracy={accuracy}
+    >
+      MapPin
+    </MapPin>
+  ));
+
+  /** 円 */
+  const Circle =
+    !distanceMode &&
+    markers.map(marker => (
+      <MapCircle
+        key={marker.key}
+        location={marker}
+        color={marker.color}
+        radius={marker.radius}
+      />
+    ));
+
+  /** 現在位置 */
+  const Here = <MapHere location={here} accuracy={accuracy} delta={delta} />;
+
+  /** 中央 */
+  const CenterPin =
+    !distanceMode && !isModalVisible ? (
+      <MapPin
+        center
+        location={{
+          latitude: location.latitude,
+          longitude: location.longitude,
+          timestamp: 0
+        }}
+        accuracy={accuracy}
+      >
+        MapPin
+      </MapPin>
+    ) : null;
+
+  /** ライン */
+  const Line =
+    here.timestamp && !distanceMode && !isModalVisible ? (
+      <Polyline
+        key={(
+          here.longitude +
+          here.latitude +
+          location.longitude +
+          location.latitude +
+          accuracy +
+          here.timestamp +
+          3000 * delta
+        ).toString()}
+        coordinates={[
+          {
+            latitude: here.latitude,
+            longitude: here.longitude
+          },
+          {
+            latitude: location.latitude,
+            longitude: location.longitude
+          }
+        ]}
+        strokeWidth={2}
+        strokeColor="rgba(0,0,0,0.3)"
+      />
+    ) : null;
 
   return (
-    <Container>
+    <>
       <MapView
         testID="mapView"
         showsMyLocationButton={false}
@@ -39,21 +136,37 @@ const SearchMapScreen: React.FC = () => {
         showsIndoorLevelPicker={false}
         toolbarEnabled={false}
         moveOnMarkerPress={false}
-        style={thisStyle.mapView}
+        style={thisStyle.map}
+        ref={mapRef}
         initialRegion={location}
-      />
+        // onPress={onMapPress}
+        // onRegionChangeComplete={onRegionChangeConplete}
+      >
+        {Line}
+        {Here}
+        {Markers}
+        {Circle}
+        {CenterPin}
+        {/* Lines */}
+        {/* Distance */}
+
+        {/* TODO 完了ボタンを右下に配置したい */}
+        <CompleteButton title="決定" onPress={onCompleteButtonPress} />
+      </MapView>
       {/* TODO MapHeader */}
-      <CompleteFooterButton title="次へ" onPress={onCompleteButtonPress} />
-    </Container>
+    </>
   );
 };
 
 /** スタイリング */
 const thisStyle = StyleSheet.create({
-  mapView: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "center"
+  map: {
+    borderColor: COLOR.inactiveColor,
+    borderRadius: 10,
+    borderWidth: 1,
+    height: 200,
+    marginHorizontal: 10
+    // marginVertical: 5
   }
 });
 
