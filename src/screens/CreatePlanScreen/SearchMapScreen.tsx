@@ -5,7 +5,7 @@ import { Container } from "native-base";
 import MapView from "react-native-maps";
 
 // from app
-import { ILocation } from "app/src/interfaces/Map";
+import { ILocation } from "app/src/interfaces/app/Map";
 import { CompleteFooterButton } from "app/src/components/Button";
 
 /**

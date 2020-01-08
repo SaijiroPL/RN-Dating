@@ -3,7 +3,7 @@ import { useNavigation } from "react-navigation-hooks";
 import { Container } from "native-base";
 
 // from app
-import { ICandidateSpot } from "app/src/interfaces/Spot";
+import { ICandidateSpot } from "app/src/interfaces/app/Spot";
 import { SpotSwiper } from "app/src/components/Content";
 import { CompleteFooterButton } from "app/src/components/Button";
 

@@ -5,7 +5,7 @@ import { Thumbnail, Text } from "native-base";
 
 // from app
 import { IMAGE } from "app/src/constants";
-import { IUserInfo } from "app/src/interfaces/User";
+import { IUserInfo } from "app/src/interfaces/app/User";
 import { FollowButton } from "app/src/components/Button";
 
 interface Props {
