@@ -1,5 +1,5 @@
 import React from "react";
-import { WebView } from "react-native";
+import { WebView } from "react-native-webview";
 
 // from app
 import { LoadingSpinner } from "app/src/components/Spinners";
