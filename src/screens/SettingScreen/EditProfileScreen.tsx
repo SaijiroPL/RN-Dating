@@ -1,6 +1,17 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { StyleSheet } from "react-native";
-import { Container, Content, Form, View } from "native-base";
+import {
+  Container,
+  Content,
+  Form,
+  View,
+  ListItem,
+  Left,
+  Right,
+  Switch,
+  Text,
+  Body
+} from "native-base";
 import FlashMessage, { showMessage } from "react-native-flash-message";
 
 // from app
@@ -11,6 +22,7 @@ import { InputLabelForm } from "app/src/components/Form";
 import { InputLabelTextAreaForm } from "app/src/components/Form";
 import { useEditProfile } from "app/src/hooks";
 import { isEmpty } from "app/src/utils";
+import { appTextStyle } from "app/src/styles";
 
 /**
  * プロフィール編集画面
@@ -69,6 +81,12 @@ const EditProfileScreen: React.FC = () => {
     });
   }
 
+  const [privateOn, setPrivateOn] = useState<boolean>(false);
+
+  const handleSwitchPrivateValue = useCallback((value: boolean) => {
+    setPrivateOn(value);
+  }, []);
+
   // ローディング
   if (isLoading) {
     return LoadingSpinner;
@@ -100,7 +118,7 @@ const EditProfileScreen: React.FC = () => {
       <Content>
         <Form>
           <InputLabelForm
-            label="名前"
+            label="ユーザーネーム"
             value={name}
             setValue={setName}
             errors={nameErrors}
@@ -129,6 +147,20 @@ const EditProfileScreen: React.FC = () => {
             errors={addressErrors}
           />
         </Form>
+        <ListItem icon>
+          <Left>
+            <Text style={appTextStyle.standardText}>
+              アカウントを非公開にする
+            </Text>
+          </Left>
+          <Body />
+          <Right>
+            <Switch
+              onValueChange={handleSwitchPrivateValue}
+              value={privateOn}
+            />
+          </Right>
+        </ListItem>
         {UpdateButton}
       </Content>
       {SuccessMessage}
