@@ -58,6 +58,7 @@ const GuidePostScreen: React.FC = () => {
           <Switch onValueChange={handleSwitchPrivateValue} value={privateOn} />
         </Right>
         <CompleteButton title="投稿" onPress={onCompleteButtonPress} />
+        <CompleteButton title="出発" onPress={onCompleteButtonPress} />
       </Content>
     </Container>
   );
