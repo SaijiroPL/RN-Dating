@@ -15,6 +15,7 @@ import { ILocation, IHere, IMarker, ILine } from "app/src/interfaces/app/Map";
 import { MapCircle, MapHere, MapPin } from "app/src/components/MapItem";
 import { CompleteButton } from "app/src/components/Button";
 import { Left, Right } from "native-base";
+import { AddSpotButton } from "app/src/components/Button/AddSpotButton";
 
 const locationInitialRound = 700;
 
@@ -315,9 +316,9 @@ const SearchMapScreen: React.FC = () => {
         <Left>
           {/* TODO ピンポイントで保存したスポットを小さな画像で表示 */}
           　
-          <CompleteButton
+          <AddSpotButton
             title="スポットを保存"
-            onPress={onCompleteButtonPress}
+            onPress={onAddSpotButtonPress}
           />
         </Left>
         <Right>
