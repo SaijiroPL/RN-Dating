@@ -7,6 +7,7 @@ import FollowerScreen from "app/src/screens/UserScreen/FollowerScreen";
 import ProfileScreen from "app/src/screens/UserScreen/ProfileScreen";
 import SettingNavigator from "./SettingNavigator";
 import { appTextStyle } from "app/src/styles";
+import EditPlanScreen from "../screens/ PostScreen/EditPlanScreen";
 
 /**
  * プロフィールタブのナビゲーター
@@ -66,6 +67,14 @@ const MyProfileNavigator = createStackNavigator(
       screen: FollowerScreen,
       navigationOptions: () => ({
         headerTitle: "フォロワー",
+        headerTitleStyle: appTextStyle.defaultText
+      })
+    },
+    // プラン編集画面
+    editplan: {
+      screen: EditPlanScreen,
+      navigationOptions: () => ({
+        headerTitle: "プラン編集",
         headerTitleStyle: appTextStyle.defaultText
       })
     }
