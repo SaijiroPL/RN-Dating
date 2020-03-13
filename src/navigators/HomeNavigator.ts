@@ -10,6 +10,7 @@ import FollowScreen from "app/src/screens/UserScreen/FollowScreen";
 import FollowerScreen from "app/src/screens/UserScreen/FollowerScreen";
 import CreatePlanNavigator from "app/src/navigators/CreatePlanNavigator";
 import { appTextStyle } from "app/src/styles";
+import CreateSpotScreen from "../screens/PlanScreen/CreateSpotScreen";
 
 /**
  * ホームタブのナビゲーター
@@ -79,6 +80,14 @@ const HomeNavigator = createStackNavigator(
       navigationOptions: () => ({
         // headerTransparent: true
         header: null
+      })
+    },
+    // フォロワー一覧画面
+    createspot: {
+      screen: CreateSpotScreen,
+      navigationOptions: () => ({
+        headerTitle: "フォロワー",
+        headerTitleStyle: appTextStyle.defaultText
       })
     }
   },

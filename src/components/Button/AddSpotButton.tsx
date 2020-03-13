@@ -19,15 +19,18 @@ interface Props {
  * @author itsukiyamada
  */
 export const AddSpotButton: React.FC<Props> = (props: Props) => {
+  /**
   const { spot, addspot, onaddspot, reload } = props;
 
   /** スポット追加 */
-  const addspot = useCallback(async (): Promise<void> => {
+  /**
+  const handleaddspot = useCallback(async (): Promise<void> => {
     const result = await onAddspot(spot);
     if (result) {
       reload();
     }
   }, [spot]);
+  */
 
   // スポット追加ボタン
   return (

@@ -15,7 +15,7 @@ export const CreateSpotFab: React.FC = () => {
 
   /** プラン作成トップに遷移 */
   const toCreate = useCallback(() => {
-    navigate("create");
+    navigate("createspot");
   }, []);
 
   return (
@@ -23,10 +23,10 @@ export const CreateSpotFab: React.FC = () => {
       active={true}
       containerStyle={{}}
       style={{ backgroundColor: COLOR.tintColor }}
-      position="bottomRight"
+      position="topRight"
       onPress={toCreate}
     >
-      <MaterialCommunityIcons name="map-marker-plus" />
+      <MaterialCommunityIcons name="flag-plus" />
     </Fab>
   );
 };
