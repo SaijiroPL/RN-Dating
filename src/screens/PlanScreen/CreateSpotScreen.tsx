@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { StyleSheet } from "react-native";
 import {
   Container,
@@ -6,11 +6,10 @@ import {
   Form,
   View,
   DatePicker,
-  ListItem,
-  CheckBox,
   Picker,
   Item,
-  Icon
+  Icon,
+  Text
 } from "native-base";
 import FlashMessage, { showMessage } from "react-native-flash-message";
 
@@ -19,7 +18,6 @@ import { useGlobalState } from "app/src/Store";
 import { LoadingSpinner } from "app/src/components/Spinners";
 import { CompleteButton } from "app/src/components/Button";
 import { InputLabelForm } from "app/src/components/Form";
-import { InputLabelTextAreaForm } from "app/src/components/Form";
 import { useEditProfile } from "app/src/hooks";
 import { isEmpty, getToday } from "app/src/utils";
 import { COLOR } from "app/src/constants";
@@ -36,25 +34,21 @@ const CreateSpotScreen: React.FC = () => {
   const {
     name,
     setName,
-    profile,
-    setProfile,
     age,
-    setAge,
     address,
     setAddress,
     mailAddress,
-    setMailAddress,
     updateProfile,
     isLoading,
-    errors,
-    date,
-    setDate,
-    selected2,
-    onValueChange2
+    errors
   } = useEditProfile(loginUser.id);
 
   /**スポットのカテゴリを追加 */
   const [selected2, onValueChange2] = useState<boolean>(false);
+
+  /**スポットのカテゴリを追加 */
+  const [date, setDate] = useState<boolean>(false);
+  const minDate: Array<string> = [];
 
   /** 更新ボタン押下時の処理 */
   const onCompleteButtonPress = useCallback(async (): Promise<void> => {
@@ -127,14 +121,14 @@ const CreateSpotScreen: React.FC = () => {
         </Form>
         <View>
           <Form>
-            <Itempicker>
+            <Item picker>
               <Picker
                 style={thisStyle.itemTitleText}
                 mode="dropdown"
                 iosIcon={<Icon name="arrow-down" />}
                 placeholder="カテゴリを選択"
-                selectedValue={this.state.selected2}
-                onValueChange={this.onValueChange2.bind(this)}
+                selectedValue={selected2}
+                onValueChange={onValueChange2}
               >
                 <Picker.Item label="映えスポット" value="key0" />
                 <Picker.Item label="宿泊施設" value="key1" />
@@ -153,7 +147,7 @@ const CreateSpotScreen: React.FC = () => {
                 <Picker.Item label="映画館" value="key14" />
                 <Picker.Item label="ナイトクラブ" value="key15" />
               </Picker>
-            </Itempicker>
+            </Item>
           </Form>
         </View>
         /**　マップのスポットを選択できる機能を挿入 */
