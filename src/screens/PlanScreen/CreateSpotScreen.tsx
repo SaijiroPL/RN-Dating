@@ -21,6 +21,7 @@ import { InputLabelForm } from "app/src/components/Form";
 import { useEditProfile } from "app/src/hooks";
 import { isEmpty, getToday } from "app/src/utils";
 import { COLOR } from "app/src/constants";
+import { appStyle } from "app/src/styles";
 
 /**
  * プロフィール編集画面
@@ -47,8 +48,7 @@ const CreateSpotScreen: React.FC = () => {
   const [selected2, onValueChange2] = useState<boolean>(false);
 
   /**スポットのカテゴリを追加 */
-  const [date, setDate] = useState<boolean>(false);
-  const minDate: Array<string> = [];
+  const [date, setDate] = useState<string>("");
 
   /** 更新ボタン押下時の処理 */
   const onCompleteButtonPress = useCallback(async (): Promise<void> => {
@@ -151,11 +151,11 @@ const CreateSpotScreen: React.FC = () => {
           </Form>
         </View>
         /**　マップのスポットを選択できる機能を挿入 */
+        <View style={thisStyle.formGroup}>
+          <Text style={thisStyle.itemTitleText}>スポット営業時間</Text>
+          <DatePicker date={date} setDate={setDate} minDate={getToday()} />
+        </View>
         <Form>
-          <View style={thisStyle.formGroup}>
-            <Text style={thisStyle.itemTitleText}>スポット営業時間</Text>
-            <DatePicker date={date} setDate={setDate} minDate={getToday()} />
-          </View>
           <InputLabelForm
             label="電話番号"
             value={address}

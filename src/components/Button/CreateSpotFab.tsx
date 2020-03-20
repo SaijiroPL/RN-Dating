@@ -26,7 +26,7 @@ export const CreateSpotFab: React.FC = () => {
       position="topRight"
       onPress={toCreate}
     >
-      <MaterialCommunityIcons name="flag-plus" />
+      <MaterialCommunityIcons name="pencil-plus" />
     </Fab>
   );
 };

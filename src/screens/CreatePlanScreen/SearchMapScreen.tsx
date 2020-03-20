@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useRef
 } from "react";
-import { StyleSheet, Alert } from "react-native";
+import { StyleSheet, Alert, Text, ScrollView } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import MapView, { Polyline } from "react-native-maps";
 import * as Location from "expo-location";
@@ -14,8 +14,14 @@ import * as Location from "expo-location";
 import { ILocation, IHere, IMarker, ILine } from "app/src/interfaces/app/Map";
 import { MapCircle, MapHere, MapPin } from "app/src/components/MapItem";
 import { CompleteButton } from "app/src/components/Button";
-import { Left, Right } from "native-base";
+import { Left, Right, Footer, View } from "native-base";
 import { AddSpotButton } from "app/src/components/Button/AddSpotButton";
+import { SearchFormBar } from "app/src/components/Form";
+import { PlanCardList } from "app/src/components/List";
+import { useSearchPlanList } from "app/src/hooks";
+import { appTextStyle } from "app/src/styles";
+import { Indicator } from "app/src/components/Spinners";
+import { COLOR } from "app/src/constants";
 
 const locationInitialRound = 700;
 
@@ -24,6 +30,14 @@ const locationInitialRound = 700;
  * @author kotatanaka
  */
 const SearchMapScreen: React.FC = () => {
+  /** デートスポット検索 */
+  const {
+    isLoading,
+    searchWord,
+    setSearchWord,
+    searchPlanList
+  } = useSearchPlanList();
+
   const { navigate } = useNavigation();
 
   const [location, setLocation] = useState<ILocation>({
@@ -283,8 +297,15 @@ const SearchMapScreen: React.FC = () => {
       />
     ) : null;
 
+  /**　ピンを置いたとこの詳細が表示されるようにしたい */
+
   return (
     <>
+      <SearchFormBar
+        value={searchWord}
+        setValue={setSearchWord}
+        onSearch={searchPlanList}
+      />
       <MapView
         testID="mapView"
         showsMyLocationButton={false}
@@ -310,21 +331,16 @@ const SearchMapScreen: React.FC = () => {
         {CenterPin}
         {/* Lines */}
         {/* Distance */}
-
-        {/* TODO 完了ボタンを右下に配置したい */}
-        {/* スポット追加ボタンを設置済み */}
-        <Left>
-          {/* TODO ピンポイントで保存したスポットを小さな画像で表示 */}
-          　
-          <AddSpotButton
-            title="スポットを保存"
-            onPress={onAddSpotButtonPress}
-          />
-        </Left>
-        <Right>
-          {/* TODO 縮尺ボタンを表示したい */}
-          　<CompleteButton title="決定" onPress={onCompleteButtonPress} />
-        </Right>
+        <Footer>
+          <Left>
+            <Text style={appTextStyle.defaultText}>保存済みスポット</Text>
+            {/* TODO ピンポイントで保存したスポットを小さな画像で表示 */}
+          </Left>
+          <Right>
+            {/* TODO 縮尺ボタンを表示したい */}
+            　<CompleteButton title="決定" onPress={onCompleteButtonPress} />
+          </Right>
+        </Footer>
       </MapView>
       {/* TODO MapHeader */}
     </>
@@ -335,6 +351,16 @@ const SearchMapScreen: React.FC = () => {
 const thisStyle = StyleSheet.create({
   map: {
     height: "100%"
+  },
+  container: {
+    backgroundColor: COLOR.backgroundColor
+  },
+  planCount: {
+    borderBottomColor: "#ccc",
+    borderBottomWidth: 1
+  },
+  spinner: {
+    flex: 1
   }
 });
 
