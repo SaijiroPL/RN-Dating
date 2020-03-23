@@ -33,9 +33,6 @@ import { appTextStyle } from "app/src/styles";
 const ArrangeRouteScreen: React.FC = () => {
   const { navigate } = useNavigation();
 
-  /** デートプラン詳細取得 */
-  const { plan } = useGetPlanDetail(planId, loginUser.id);
-
   const [date, setDate] = useState<string>("");
 
   const onCompleteButtonPress = useCallback(() => {
@@ -59,8 +56,10 @@ const ArrangeRouteScreen: React.FC = () => {
           <Input />
         </Item>
       </Form>
+      {/**
       <ImageCarousel plan={plan} />
       <SimpleMapView spot={plan.spots[0]} />
+       */}
       <ListItem icon>
         <Left>
           <View style={thisStyle.columnTitle}>
