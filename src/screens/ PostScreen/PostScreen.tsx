@@ -8,7 +8,10 @@ import {
   Body,
   Switch,
   Right,
-  Form
+  Form,
+  Label,
+  Item,
+  Input
 } from "native-base";
 
 // from app
@@ -19,6 +22,8 @@ import { SimpleMapView } from "app/src/components/MapItem";
 import { CompleteButton } from "app/src/components/Button";
 import { formatDate } from "app/src/utils";
 import { InputLabelTextAreaForm } from "app/src/components/Form";
+import { appTextStyle } from "app/src/styles";
+import { useCallback } from "react";
 
 /**
  * デートプラン詳細画面
@@ -28,37 +33,46 @@ const PostScreen: React.FC = () => {
   /** ナビゲーター */
   const { navigate } = useNavigation();
 
+  const onCompleteButtonPress = useCallback(() => {
+    navigate("post");
+  }, []);
+
   return (
     <Container>
       <Content>
-        <ImageCarousel plan={plan} />
-        <SimpleMapView spot={plan.spots[0]} />
-        {PlanDescription}
-        <CommentGrid comments={comments.comment_list} />
+        {/**投稿する画像を表示できるようにする */}
+        {/**投稿する場所をマップで表示する */}
         <Form>
-          <InputLabelTextAreaForm
-            label="自己紹介"
-            value={profile}
-            setValue={setProfile}
-            errors={profileErrors}
-          />
+          <Item fixedLabel>
+            {/**ここにスポットの名前が自動で挿入されるようにする */}
+            <Label>スポット名を入力</Label>
+            <Input />
+          </Item>
+          <Item fixedLabel last>
+            <Label>ポイントを書く</Label>
+            <Input />
+          </Item>
         </Form>
         <Left>
-          <Text>スポット滞在時間</Text>
+          <Text style={appTextStyle.defaultText}>スポット滞在時間</Text>
         </Left>
         <Body>
+          {/**　スポット滞在時間を表示、変更もできるようにする
           <Text style={thisStyle.descriptionText}>
             {formatDate(plan.date, "YYYY年MM月DD日TT時MM分")}
           </Text>
+          */}
         </Body>
         <Right>
+          {/**　非公開ボタンを挿入
           <Text>投稿を非公開にする</Text>
           <Switch onValueChange={handleSwitchPrivateValue} value={privateOn} />
           <Text>投稿を非公開にする</Text>
           <Switch onValueChange={handleSwitchPrivateValue} value={privateOn} />
+          */}
         </Right>
-        <CompleteButton title="投稿" onPress={onCompleteButtonPress} />
       </Content>
+      <CompleteButton title="投稿" onPress={onCompleteButtonPress} />
     </Container>
   );
 };
