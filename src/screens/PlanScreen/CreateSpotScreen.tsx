@@ -11,7 +11,7 @@ import {
   Icon,
   Text
 } from "native-base";
-import FlashMessage, { showMessage } from "react-native-flash-message";
+import { useNavigation } from "react-navigation-hooks";
 
 // from app
 import { useGlobalState } from "app/src/Store";
@@ -19,30 +19,14 @@ import { LoadingSpinner } from "app/src/components/Spinners";
 import { CompleteButton } from "app/src/components/Button";
 import { InputLabelForm } from "app/src/components/Form";
 import { useEditProfile } from "app/src/hooks";
-import { isEmpty, getToday } from "app/src/utils";
 import { COLOR } from "app/src/constants";
-import { appStyle } from "app/src/styles";
 
 /**
  * プロフィール編集画面
  * @author itsukiyamada
  */
 const CreateSpotScreen: React.FC = () => {
-  /** ログイン中のユーザー */
-  const loginUser = useGlobalState("loginUser");
-
-  /** ユーザー情報取得とプロフィール更新 */
-  const {
-    name,
-    setName,
-    age,
-    address,
-    setAddress,
-    mailAddress,
-    updateProfile,
-    isLoading,
-    errors
-  } = useEditProfile(loginUser.id);
+  const { navigate } = useNavigation();
 
   /**スポットのカテゴリを追加 */
   const [selected2, onValueChange2] = useState<boolean>(false);
@@ -50,82 +34,25 @@ const CreateSpotScreen: React.FC = () => {
   /**スポットのカテゴリを追加 */
   const [date, setDate] = useState<string>("");
 
-  /** 更新ボタン押下時の処理 */
-  const onCompleteButtonPress = useCallback(async (): Promise<void> => {
-    const result = await updateProfile();
-    if (result) {
-      showMessage({
-        message: "プロフィールを更新しました。",
-        type: "success"
-      });
-    }
-  }, [updateProfile]);
-
-  const nameErrors: Array<string> = [];
-  const profileErrors: Array<string> = [];
-  const emailErrors: Array<string> = [];
-  const addressErrors: Array<string> = [];
-  if (errors && errors.detail_message.length > 0) {
-    errors.detail_message.forEach(item => {
-      if (item.match(/Name/)) {
-        nameErrors.push(item.replace("Nameは", ""));
-      }
-      if (item.match(/Profile/)) {
-        profileErrors.push(item.replace("Profileは", ""));
-      }
-      if (item.match(/Mail address/)) {
-        emailErrors.push(item.replace("Mail addressは", ""));
-      }
-      if (item.match(/Address/)) {
-        addressErrors.push(item.replace("Addressは", ""));
-      }
-    });
-  }
-
-  // ローディング
-  if (isLoading) {
-    return LoadingSpinner;
-  }
-
-  /** 更新ボタンの描画 */
-  const UpdateButton = (
-    <View style={thisStyle.button}>
-      {/* 更新ボタン(必須項目が未入力の場合は非活性) */}
-      {isEmpty(name) || isEmpty(mailAddress) || isEmpty(`${age}`) ? (
-        <CompleteButton title="更新" disabled />
-      ) : (
-        <CompleteButton title="更新" onPress={onCompleteButtonPress} />
-      )}
-    </View>
-  );
-
-  /** 更新成功時メッセージ */
-  const SuccessMessage = (
-    <FlashMessage
-      position="bottom"
-      duration={2500}
-      titleStyle={{ fontFamily: "genju-medium", textAlign: "center" }}
-    />
-  );
+  const onCompleteButtonPress = useCallback(() => {
+    navigate("top");
+  }, []);
 
   return (
     <Container>
       <Content>
         <Form>
-          <InputLabelForm
-            label="名称"
-            value={name}
-            setValue={setName}
-            errors={nameErrors}
-          />
+          <InputLabelForm label="名称" />
         </Form>
         <View>
           <Form>
             <Item picker>
+              <Text>カテゴリを入力できるボタンを挿入</Text>
+              {/**
               <Picker
                 style={thisStyle.itemTitleText}
                 mode="dropdown"
-                iosIcon={<Icon name="arrow-down" />}
+                iosIcon={<Icon name="arrowdown" />}
                 placeholder="カテゴリを選択"
                 selectedValue={selected2}
                 onValueChange={onValueChange2}
@@ -147,25 +74,31 @@ const CreateSpotScreen: React.FC = () => {
                 <Picker.Item label="映画館" value="key14" />
                 <Picker.Item label="ナイトクラブ" value="key15" />
               </Picker>
+              */}
             </Item>
           </Form>
         </View>
-        /**　マップのスポットを選択できる機能を挿入 */
+        <Text>小さなマップを表示しスポットにピンを置けるようにする</Text>
+        {/**　マップのスポットを選択できる機能を挿入 */}
+        <Text>営業日時入力フォームを挿入</Text>
+        {/** スポット営業時間入力フォームを挿入
         <View style={thisStyle.formGroup}>
           <Text style={thisStyle.itemTitleText}>スポット営業時間</Text>
           <DatePicker date={date} setDate={setDate} minDate={getToday()} />
         </View>
+      */}
         <Form>
-          <InputLabelForm
-            label="電話番号"
-            value={address}
-            setValue={setAddress}
-            errors={addressErrors}
-          />
+          <InputLabelForm label="電話番号" />
         </Form>
-        {UpdateButton}
       </Content>
-      {SuccessMessage}
+      <View
+        style={{
+          alignItems: "center",
+          padding: 15
+        }}
+      >
+        <CompleteButton title="追加する" onPress={onCompleteButtonPress} />
+      </View>
     </Container>
   );
 };
@@ -185,7 +118,6 @@ const thisStyle = StyleSheet.create({
   },
   itemTitleText: {
     color: COLOR.textTintColor,
-    fontFamily: "genju-medium",
     marginRight: 10
   },
   category: {

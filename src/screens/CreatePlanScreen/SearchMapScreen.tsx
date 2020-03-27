@@ -329,20 +329,20 @@ const SearchMapScreen: React.FC = () => {
         {Markers}
         {Circle}
         {CenterPin}
-        {/* Lines */}
-        {/* Distance */}
+        {/** Lines */}
+        {/** Distance */}
         <Footer>
           <Left>
             <Text style={appTextStyle.defaultText}>保存済みスポット</Text>
-            {/* TODO ピンポイントで保存したスポットを小さな画像で表示 */}
+            {/** TODO ピンポイントで保存したスポットを小さな画像で表示 */}
           </Left>
           <Right>
-            {/* TODO 縮尺ボタンを表示したい */}
+            {/**　縮尺ボタンを表示したい */}
             　<CompleteButton title="決定" onPress={onCompleteButtonPress} />
           </Right>
         </Footer>
       </MapView>
-      {/* TODO MapHeader */}
+      {/** TODO MapHeader */}
     </>
   );
 };

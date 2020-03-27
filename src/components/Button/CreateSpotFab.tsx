@@ -23,10 +23,10 @@ export const CreateSpotFab: React.FC = () => {
       active={true}
       containerStyle={{}}
       style={{ backgroundColor: COLOR.tintColor }}
-      position="topRight"
+      position="bottomRight"
       onPress={toCreate}
     >
-      <MaterialCommunityIcons name="pencil-plus" />
+      <MaterialCommunityIcons name="plus" />
     </Fab>
   );
 };

@@ -86,7 +86,7 @@ const HomeNavigator = createStackNavigator(
     createspot: {
       screen: CreateSpotScreen,
       navigationOptions: () => ({
-        headerTitle: "フォロワー",
+        headerTitle: "新規スポット追加",
         headerTitleStyle: appTextStyle.defaultText
       })
     }
