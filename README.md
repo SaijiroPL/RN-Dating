@@ -2,11 +2,13 @@
 
 1Date のフロントエンドのリポジトリです。
 
+_バックエンドはこちら [one-date-client](https://github.com/KotaTanaka/one-date-server)_
+
 ## Getting Started
 
 ### Node のインストール
 
-```
+```bash
 $ brew update
 $ brew install node
 ```
@@ -15,42 +17,50 @@ $ brew install node
 
 - [expo.io](https://expo.io) にアカウント登録
 - [Expo Client](https://itunes.apple.com/jp/app/expo-client/id982107779) をスマホにインストール
+- コンソールログイン
 
-```
-$ npm install -g expo-cli
+```bash
+$ npm i -g expo-cli
 $ expo login
 ```
 
 ### ソースコードのクローン
 
-```
+```bash
 $ git clone git@github.com:KotaTanaka/one-date-client.git
+$ cd one-date-client
 ```
 
 ### 必要なライブラリのインストール
 
-```
-$ cd one-date-client
+```bash
 $ npm i
 ```
 
 ### ローカルサーバーの起動
 
-_※ [one-date-server](https://github.com/KotaTanaka/one-date-server) 環境構築済みの前提_
+- [one-date-server](https://github.com/KotaTanaka/one-date-server) 参照
 
+### クライアントアプリの起動
+
+```bash
+$ npm run start
 ```
-$ cd {one-date-serverの保存先}
-$ rails s
-```
 
-### 実機でのローカルサーバー設定方法
+- **iOS シミュレータ**  
+  ブラウザコンソール http://localhost:19002 で `Run on iOS simulator` をクリックして起動します。
 
-_※ iOS シミュレータの場合、この設定変更は不要です。_
+- **実機（Expo Client）** _Utilities「実機でのローカルサーバー接続方法」参照_
+  コンソールに表示される QR コードをスマホで読み取り Expo Client アプリで起動します。  
+  ※ PC とスマホは同一 LAN に繋がっている必要があります。
+
+## Utilities
+
+### 実機でのローカルサーバー接続方法
 
 - プライベート IP アドレスを取得する。
 
-```
-$ cd {one-date-clientの保存先}
+```bash
 $ npm run ip
 ...
 xxx.xxx.xxx.xxx
@@ -58,39 +68,19 @@ xxx.xxx.xxx.xxx
 
 - 上記で取得した IP アドレスを `app.json` 内の `apiEndpoint` のホスト部分に設定する。
 
-```
+```json
 "extra": {
   ...
   "apiEndpoint": "http://xxx.xxx.xxx.xxx:3080"
 }
 ```
 
-### クライアントアプリの起動
-
-```
-$ cd {one-date-clientの保存先}
-$ npm run start
-```
-
-- **iOS シミュレータ**  
-  ブラウザコンソール http://localhost:19002 で `Run on iOS simulator` をクリックして起動します。
-
-- **実機（Expo Client）**  
-  コンソールに表示される QR コードをスマホで読み取り Expo Client アプリで起動します。  
-  ※ PC とスマホは同一 LAN に繋がっている必要があります。
-
-## Utilities
-
 ### iOS シミュレータ GIF キャプチャ
 
-- キャプチャスタート（Command + C で終了）
-
-```
+```bash
+# キャプチャスタート（Command + C で終了）
 $ npm run capture:start
-```
 
-- GIF に変換
-
-```
+# GIF に変換
 $ npm run capture:togif
 ```
