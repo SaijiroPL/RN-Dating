@@ -52,7 +52,7 @@ module.exports = {
   rules: {
     // eslint official
     'newline-before-return': 'error',
-    'no-console': 'warn',
+    'no-console': 'off',
     'require-yield': 'error',
 
     // @typescript-eslint
@@ -62,6 +62,9 @@ module.exports = {
     '@typescript-eslint/indent': 'off',
     '@typescript-eslint/no-unnecessary-type-assertion': 'error',
     '@typescript-eslint/camelcase': 'off',
+    '@typescript-eslint/interface-name-prefix': 'off',
+    '@typescript-eslint/no-use-before-define': 'off',
+    '@typescript-eslint/array-type': 'off',
 
     // prefer-arrow
     'prefer-arrow/prefer-arrow-functions': [
@@ -85,6 +88,7 @@ module.exports = {
     'react/jsx-uses-vars': 'error',
     'react/prop-types': 'off',
     'react/prefer-stateless-function': 'off',
+    'react/no-array-index-key': 'off',
 
     // react hooks
     'react-hooks/rules-of-hooks': 'error',
