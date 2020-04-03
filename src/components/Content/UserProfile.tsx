@@ -1,13 +1,13 @@
-import React, { useCallback } from "react";
-import { StyleSheet, View } from "react-native";
-import { useNavigation } from "react-navigation-hooks";
-import { Thumbnail, Text } from "native-base";
+import React, { useCallback } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { useNavigation } from 'react-navigation-hooks';
+import { Thumbnail, Text } from 'native-base';
 
 // from app
-import { COLOR, IMAGE } from "app/src/constants";
-import { IUserDetail } from "app/src/interfaces/api/User";
-import { ImagePickerButton, FollowButton } from "app/src/components/Button";
-import { appTextStyle } from "app/src/styles";
+import { COLOR, IMAGE } from 'app/src/constants';
+import { IUserDetail } from 'app/src/interfaces/api/User';
+import { ImagePickerButton, FollowButton } from 'app/src/components/Button';
+import { appTextStyle } from 'app/src/styles';
 
 interface Props {
   user: IUserDetail;
@@ -29,17 +29,17 @@ export const UserProfile: React.FC<Props> = (props: Props) => {
 
   /** フォロー数押下時の処理 */
   const onFollowPress = useCallback(() => {
-    navigate(me ? "myFollow" : "follow", { id: user.user_id });
+    navigate(me ? 'myFollow' : 'follow', { id: user.user_id });
   }, [me, user]);
 
   /** フォロワー数押下時の処理 */
   const onFollowerPress = useCallback(() => {
-    navigate(me ? "myFollower" : "follower", { id: user.user_id });
+    navigate(me ? 'myFollower' : 'follower', { id: user.user_id });
   }, [me, user]);
 
   /** プラン数押下時の処理 */
   const onPlanPress = useCallback(() => {
-    navigate("MyPlanTab");
+    navigate('MyPlanTab');
   }, []);
 
   return (
@@ -89,40 +89,40 @@ export const UserProfile: React.FC<Props> = (props: Props) => {
 
 /** デフォルト値 */
 UserProfile.defaultProps = {
-  me: false
+  me: false,
 };
 
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   container: {
-    alignItems: "center",
-    marginTop: 20
+    alignItems: 'center',
+    marginTop: 20,
   },
   userInfoContainer: {
-    alignItems: "center",
-    marginBottom: 10
+    alignItems: 'center',
+    marginBottom: 10,
   },
   countContainer: {
-    alignContent: "space-around",
-    flexDirection: "row"
+    alignContent: 'space-around',
+    flexDirection: 'row',
   },
   followContainer: {
     marginBottom: 10,
-    marginTop: 10
+    marginTop: 10,
   },
   countItem: {
-    alignItems: "center",
-    flexDirection: "column",
-    margin: 10
+    alignItems: 'center',
+    flexDirection: 'column',
+    margin: 10,
   },
   nameText: {
     color: COLOR.textTintColor,
-    fontFamily: "genju-medium",
-    marginTop: 5
+    fontFamily: 'genju-medium',
+    marginTop: 5,
   },
   countTitleText: {
     color: COLOR.textTintColor,
-    fontFamily: "genju-light",
-    fontSize: 15
-  }
+    fontFamily: 'genju-light',
+    fontSize: 15,
+  },
 });

@@ -1,11 +1,11 @@
-import React, { useCallback } from "react";
-import { StyleSheet } from "react-native";
-import { Button, Text, View } from "native-base";
+import React, { useCallback } from 'react';
+import { StyleSheet } from 'react-native';
+import { Button, Text, View } from 'native-base';
 // import { AntDesign } from "@expo/vector-icons";
 
 // from app
-import { COLOR } from "app/src/constants";
-import { appTextStyle } from "app/src/styles";
+import { COLOR } from 'app/src/constants';
+import { appTextStyle } from 'app/src/styles';
 
 interface Props {
   targetUserId: string;
@@ -44,7 +44,7 @@ export const FollowButton: React.FC<Props> = (props: Props) => {
       <Button
         small
         rounded
-        color={"white"}
+        color="white"
         style={thisStyle.unfollowButton}
         onPress={unfollow}
       >
@@ -69,6 +69,6 @@ export const FollowButton: React.FC<Props> = (props: Props) => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   unfollowButton: {
-    backgroundColor: COLOR.tintColor
-  }
+    backgroundColor: COLOR.tintColor,
+  },
 });

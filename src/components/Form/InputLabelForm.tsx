@@ -1,10 +1,10 @@
-import React from "react";
-import { StyleSheet } from "react-native";
-import { Input, Item, Label, Text, View } from "native-base";
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { Input, Item, Label, Text, View } from 'native-base';
 
 // from app
-import { COLOR, LAYOUT } from "app/src/constants";
-import { appTextStyle } from "app/src/styles";
+import { COLOR, LAYOUT } from 'app/src/constants';
+import { appTextStyle } from 'app/src/styles';
 
 interface Props {
   label: string;
@@ -26,7 +26,7 @@ export const InputLabelForm: React.FC<Props> = (props: Props) => {
   const ErrorList =
     errors &&
     errors.length > 0 &&
-    errors.map(item => (
+    errors.map((item) => (
       <View key={item} style={thisStyle.errorTextContainter}>
         <Text style={appTextStyle.errorText}>{item}</Text>
       </View>
@@ -45,7 +45,7 @@ export const InputLabelForm: React.FC<Props> = (props: Props) => {
         <Label style={thisStyle.labelText}>{label}</Label>
         <View style={thisStyle.inputContainer}>
           <Input
-            onChangeText={value => setValue(value)}
+            onChangeText={(value) => setValue(value)}
             value={value}
             style={thisStyle.inputText}
           />
@@ -69,7 +69,7 @@ export const InputLabelForm: React.FC<Props> = (props: Props) => {
         <Label style={thisStyle.labelText}>{label}</Label>
         <View style={thisStyle.inputContainer}>
           <Input
-            onChangeText={numValue => setNumValue(+numValue)}
+            onChangeText={(numValue) => setNumValue(+numValue)}
             value={`${numValue}`}
             style={thisStyle.inputText}
           />
@@ -86,18 +86,18 @@ export const InputLabelForm: React.FC<Props> = (props: Props) => {
 const thisStyle = StyleSheet.create({
   inputContainer: {
     flex: 1,
-    flexDirection: "column"
+    flexDirection: 'column',
   },
   errorTextContainter: {
-    alignItems: "flex-start"
+    alignItems: 'flex-start',
   },
   labelText: {
     color: COLOR.textTintColor,
-    fontFamily: "genju-medium",
+    fontFamily: 'genju-medium',
     fontSize: 14,
-    width: LAYOUT.window.width * 0.25
+    width: LAYOUT.window.width * 0.25,
   },
   inputText: {
-    fontFamily: "genju-light"
-  }
+    fontFamily: 'genju-light',
+  },
 });

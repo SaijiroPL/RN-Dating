@@ -1,9 +1,9 @@
-import React from "react";
-import { ActivityIndicator, RefreshControl } from "react-native";
-import { Spinner } from "native-base";
+import React from 'react';
+import { ActivityIndicator, RefreshControl } from 'react-native';
+import { Spinner } from 'native-base';
 
 // from app
-import { COLOR } from "app/src/constants";
+import { COLOR } from 'app/src/constants';
 
 /** ローディングスピナー(画面中央) */
 export const LoadingSpinner: JSX.Element = (
@@ -18,7 +18,7 @@ export const Indicator: JSX.Element = (
 /** プルリロードスピナー */
 export const RefreshSpinner = (
   isRefreshing: boolean,
-  onRefresh: () => void
+  onRefresh: () => void,
 ): JSX.Element => (
   <RefreshControl
     refreshing={isRefreshing}

@@ -1,13 +1,13 @@
-import React from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import React from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 // from app
-import { useGlobalState } from "app/src/Store";
-import { COLOR } from "app/src/constants";
-import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
-import { PlanCardList } from "app/src/components/List";
-import { useGetLikePlanList } from "app/src/hooks";
-import { appTextStyle } from "app/src/styles";
+import { useGlobalState } from 'app/src/Store';
+import { COLOR } from 'app/src/constants';
+import { LoadingSpinner, RefreshSpinner } from 'app/src/components/Spinners';
+import { PlanCardList } from 'app/src/components/List';
+import { useGetLikePlanList } from 'app/src/hooks';
+import { appTextStyle } from 'app/src/styles';
 
 /**
  * マイプラン画面
@@ -15,7 +15,7 @@ import { appTextStyle } from "app/src/styles";
  */
 const MyPlanScreen: React.FC = () => {
   /** ログイン中のユーザー */
-  const loginUser = useGlobalState("loginUser");
+  const loginUser = useGlobalState('loginUser');
 
   /** 自分のお気に入りデートプラン一覧取得 */
   const {
@@ -23,7 +23,7 @@ const MyPlanScreen: React.FC = () => {
     plans,
     errors,
     isRefreshing,
-    onRefresh
+    onRefresh,
   } = useGetLikePlanList(loginUser.id);
 
   if (isLoading) {
@@ -47,8 +47,8 @@ const thisStyle = StyleSheet.create({
   container: {
     backgroundColor: COLOR.backgroundColor,
     flex: 1,
-    justifyContent: "center"
-  }
+    justifyContent: 'center',
+  },
 });
 
 export default MyPlanScreen;

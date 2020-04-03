@@ -1,8 +1,8 @@
-import React from "react";
-import { WebView } from "react-native-webview";
+import React from 'react';
+import { WebView } from 'react-native-webview';
 
 // from app
-import { LoadingSpinner } from "app/src/components/Spinners";
+import { LoadingSpinner } from 'app/src/components/Spinners';
 
 interface Props {
   uri: string;

@@ -1,20 +1,20 @@
-import { createAppContainer } from "react-navigation";
-import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
+import { createAppContainer } from 'react-navigation';
+import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 
 // from app
-import { COLOR } from "app/src/constants";
-import HomeNavigator from "app/src/navigators/HomeNavigator";
-import SearchNavigator from "app/src/navigators/SearchNavigator";
-import MyPlanNavigator from "app/src/navigators/MyPlanNavigator";
-import NotificationNavigator from "app/src/navigators/NotificationNavigator";
-import MyProfileNavigator from "app/src/navigators/MyProfileNavigator";
+import { COLOR } from 'app/src/constants';
+import HomeNavigator from 'app/src/navigators/HomeNavigator';
+import SearchNavigator from 'app/src/navigators/SearchNavigator';
+import MyPlanNavigator from 'app/src/navigators/MyPlanNavigator';
+import NotificationNavigator from 'app/src/navigators/NotificationNavigator';
+import MyProfileNavigator from 'app/src/navigators/MyProfileNavigator';
 import {
   HomeTabIcon,
   SearchTabIcon,
   MyPlanTabIcon,
   NotificationTabIcon,
-  ProfileTabIcon
-} from "app/src/components/TabIcons";
+  ProfileTabIcon,
+} from 'app/src/components/TabIcons';
 
 /**
  * メイン画面のタブナビゲーター
@@ -26,52 +26,52 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
     SearchTab: {
       screen: SearchNavigator,
       navigationOptions: () => ({
-        title: "検索",
-        tabBarIcon: SearchTabIcon
-      })
+        title: '検索',
+        tabBarIcon: SearchTabIcon,
+      }),
     },
     // マイプランタブの設定
     MyPlanTab: {
       screen: MyPlanNavigator,
       navigationOptions: () => ({
-        title: "マイプラン",
-        tabBarIcon: MyPlanTabIcon
-      })
+        title: 'マイプラン',
+        tabBarIcon: MyPlanTabIcon,
+      }),
     },
     // ホームタブの設定
     HomeTab: {
       screen: HomeNavigator,
       navigationOptions: () => ({
-        title: "ホーム",
-        tabBarIcon: HomeTabIcon
-      })
+        title: 'ホーム',
+        tabBarIcon: HomeTabIcon,
+      }),
     },
     // 通知タブの設定
     NotificationTab: {
       screen: NotificationNavigator,
       navigationOptions: () => ({
-        title: "通知",
-        tabBarIcon: NotificationTabIcon
-      })
+        title: '通知',
+        tabBarIcon: NotificationTabIcon,
+      }),
     },
     // プロフィールタブの設定
     ProfileTab: {
       screen: MyProfileNavigator,
       navigationOptions: () => ({
-        title: "プロフィール",
-        tabBarIcon: ProfileTabIcon
-      })
-    }
+        title: 'プロフィール',
+        tabBarIcon: ProfileTabIcon,
+      }),
+    },
   },
   // タブナビゲーション全体の設定
   {
-    initialRouteName: "HomeTab",
+    initialRouteName: 'HomeTab',
     activeTintColor: COLOR.tintColor,
     inactiveTintColor: COLOR.inactiveColor,
     barStyle: {
-      backgroundColor: COLOR.backgroundColor
-    }
-  }
+      backgroundColor: COLOR.backgroundColor,
+    },
+  },
 );
 
 export default createAppContainer(BottomTabNavigator);

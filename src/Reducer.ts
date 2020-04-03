@@ -25,9 +25,9 @@ export interface State {
 }
 
 export enum ActionType {
-  SET_LOGIN_USER = "SET_LOGIN_USER",
-  SET_REGISTER_USER = "SET_REGISTER_USER",
-  SET_CREATE_PLAN = "SET_CREATE_PLAN"
+  SET_LOGIN_USER = 'SET_LOGIN_USER',
+  SET_REGISTER_USER = 'SET_REGISTER_USER',
+  SET_CREATE_PLAN = 'SET_CREATE_PLAN',
 }
 
 export interface Action {
@@ -43,17 +43,17 @@ const Reducer = (state: State, action: Action) => {
     case ActionType.SET_LOGIN_USER:
       return {
         ...state,
-        loginUser: payload
+        loginUser: payload,
       };
     case ActionType.SET_REGISTER_USER:
       return {
         ...state,
-        registerUser: payload
+        registerUser: payload,
       };
     case ActionType.SET_CREATE_PLAN:
       return {
         ...state,
-        createPlan: payload
+        createPlan: payload,
       };
   }
 };

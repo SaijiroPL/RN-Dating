@@ -1,9 +1,9 @@
-import React from "react";
-import { FlatList } from "react-native";
+import React from 'react';
+import { FlatList } from 'react-native';
 
 // from app
-import { ILikeUser } from "app/src/interfaces/api/Like";
-import { LikeUserElement } from "app/src/components/Element";
+import { ILikeUser } from 'app/src/interfaces/api/Like';
+import { LikeUserElement } from 'app/src/components/Element';
 
 interface Props {
   users: Array<ILikeUser>;
@@ -17,7 +17,7 @@ export const LikeUserList: React.FC<Props> = (props: Props) => {
   const { users } = props;
 
   const renderLikeUserElement = ({
-    item
+    item,
   }: {
     item: ILikeUser;
   }): JSX.Element => {
@@ -28,7 +28,7 @@ export const LikeUserList: React.FC<Props> = (props: Props) => {
     <FlatList
       data={users}
       renderItem={renderLikeUserElement}
-      keyExtractor={item => item.user_id}
+      keyExtractor={(item) => item.user_id}
     />
   );
 };

@@ -3,17 +3,17 @@ import React, {
   useCallback,
   useMemo,
   useEffect,
-  useRef
-} from "react";
-import { StyleSheet, Alert } from "react-native";
-import { useNavigation } from "react-navigation-hooks";
-import MapView, { Polyline } from "react-native-maps";
-import * as Location from "expo-location";
+  useRef,
+} from 'react';
+import { StyleSheet, Alert } from 'react-native';
+import { useNavigation } from 'react-navigation-hooks';
+import MapView, { Polyline } from 'react-native-maps';
+import * as Location from 'expo-location';
 
 // from app
-import { ILocation, IHere, IMarker, ILine } from "app/src/interfaces/app/Map";
-import { MapCircle, MapHere, MapPin } from "app/src/components/MapItem";
-import { CompleteButton } from "app/src/components/Button";
+import { ILocation, IHere, IMarker, ILine } from 'app/src/interfaces/app/Map';
+import { MapCircle, MapHere, MapPin } from 'app/src/components/MapItem';
+import { CompleteButton } from 'app/src/components/Button';
 
 const locationInitialRound = 700;
 
@@ -28,13 +28,13 @@ const SearchMapScreen: React.FC = () => {
     latitude: 35.658606737323325,
     longitude: 139.69814462256613,
     latitudeDelta: 0.038651027332100796,
-    longitudeDelta: 0.02757163010454633
+    longitudeDelta: 0.02757163010454633,
   });
   const [accuracy, setAccuracy] = useState<number>(65);
   // prettier-ignore
   const [here, setHere] = useState<IHere>({ latitude: 0, longitude: 0, timestamp: 0 });
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
-  const [keyword, setKeyword] = useState<string>("");
+  const [keyword, setKeyword] = useState<string>('');
   const [markers, setMarkers] = useState<Array<IMarker>>([]);
   // prettier-ignore
   const [editMarkers, setEditMarker] = useState<IMarker>({ latitude: 0, longitude: 0, radius: 0, color: "", unit: "km" });
@@ -44,7 +44,7 @@ const SearchMapScreen: React.FC = () => {
   const [pinCount, setPinCount] = useState<number>(0);
 
   const onCompleteButtonPress = useCallback(() => {
-    navigate("flick");
+    navigate('flick');
   }, []);
 
   const mapRef = useRef(null);
@@ -58,26 +58,26 @@ const SearchMapScreen: React.FC = () => {
           latitude: coordinate.latitude,
           longitude: coordinate.longitude,
           latitudeDelta: location.latitudeDelta,
-          longitudeDelta: location.longitudeDelta
+          longitudeDelta: location.longitudeDelta,
         };
 
         // mapRef.current.animateToRegion(region, 100);
         setLocation(region);
       }
     },
-    [location, setLocation]
+    [location, setLocation],
   );
 
   const onRegionChangeComplete = useCallback(
     (region: ILocation) => setLocation(region),
-    [setLocation]
+    [setLocation],
   );
 
   const onDistancePress = useCallback(() => {
     if (markers.length >= 2) {
-      setDistanceMode(currentState => !currentState);
+      setDistanceMode((currentState) => !currentState);
     } else {
-      Alert.alert("距離計測", "ピンが2つ必要です");
+      Alert.alert('距離計測', 'ピンが2つ必要です');
     }
   }, [markers, setDistanceMode]);
 
@@ -107,7 +107,7 @@ const SearchMapScreen: React.FC = () => {
     setDistanceMode(false);
 
     if (!here.latitude || !here.longitude) {
-      Alert.alert("位置情報無効", "位置情報を有効にしてください");
+      Alert.alert('位置情報無効', '位置情報を有効にしてください');
     } else {
       // TODO
     }
@@ -122,13 +122,13 @@ const SearchMapScreen: React.FC = () => {
 
   const onSearchSubmit = useCallback(() => {
     if (keyword) {
-      Location.geocodeAsync(keyword).then(r => {
+      Location.geocodeAsync(keyword).then((r) => {
         if (r.length) {
           const region: ILocation = {
             latitude: r[0].latitude,
             longitude: r[0].longitude,
             latitudeDelta: location.latitudeDelta,
-            longitudeDelta: location.longitudeDelta
+            longitudeDelta: location.longitudeDelta,
           };
 
           setLocation(region);
@@ -146,14 +146,14 @@ const SearchMapScreen: React.FC = () => {
       // prettier-ignore
       setMarkers(markers.filter(m => !(m.latitude === marker.latitude && m.longitude === marker.longitude)))
     },
-    [markers, setMarkers]
+    [markers, setMarkers],
   );
 
   const onPinCreate = useCallback(
     (marker: IMarker) => {
       if (marker.key) {
         setMarkers(
-          markers.map(m => {
+          markers.map((m) => {
             // prettier-ignore
             if (m.latitude === marker.latitude && m.longitude === marker.longitude ) {
             return {
@@ -165,7 +165,7 @@ const SearchMapScreen: React.FC = () => {
           }
 
             return m;
-          })
+          }),
         );
       } else {
         setMarkers([
@@ -174,16 +174,16 @@ const SearchMapScreen: React.FC = () => {
             ...marker,
             // prettier-ignore
             key: `${marker.longitude + marker.latitude + accuracy + marker.radius}`
-          }
+          },
         ]);
 
-        setPinCount(currentState => currentState + 1);
+        setPinCount((currentState) => currentState + 1);
       }
     },
-    [markers, setMarkers, setPinCount]
+    [markers, setMarkers, setPinCount],
   );
 
-  const onLinePress = useCallback((i: number = 0) => {
+  const onLinePress = useCallback((i = 0) => {
     setActiveLine(i);
   }, []);
 
@@ -204,17 +204,17 @@ const SearchMapScreen: React.FC = () => {
       location.latitudeDelta > location.longitudeDelta
         ? location.latitudeDelta
         : location.longitudeDelta,
-    [location]
+    [location],
   );
 
   /** マーカー */
-  const Markers = markers.map(marker => (
+  const Markers = markers.map((marker) => (
     <MapPin
       key={marker.key}
       location={{
         latitude: marker.latitude,
         longitude: marker.longitude,
-        timestamp: 0
+        timestamp: 0,
       }}
       accuracy={accuracy}
     >
@@ -225,7 +225,7 @@ const SearchMapScreen: React.FC = () => {
   /** 円 */
   const Circle =
     !distanceMode &&
-    markers.map(marker => (
+    markers.map((marker) => (
       <MapCircle
         key={marker.key}
         location={marker}
@@ -245,7 +245,7 @@ const SearchMapScreen: React.FC = () => {
         location={{
           latitude: location.latitude,
           longitude: location.longitude,
-          timestamp: 0
+          timestamp: 0,
         }}
         accuracy={accuracy}
       >
@@ -269,12 +269,12 @@ const SearchMapScreen: React.FC = () => {
         coordinates={[
           {
             latitude: here.latitude,
-            longitude: here.longitude
+            longitude: here.longitude,
           },
           {
             latitude: location.latitude,
-            longitude: location.longitude
-          }
+            longitude: location.longitude,
+          },
         ]}
         strokeWidth={2}
         strokeColor="rgba(0,0,0,0.3)"
@@ -320,8 +320,8 @@ const SearchMapScreen: React.FC = () => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   map: {
-    height: "100%"
-  }
+    height: '100%',
+  },
 });
 
 export default SearchMapScreen;

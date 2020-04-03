@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { View, StyleSheet } from "react-native";
-import { Form } from "native-base";
-import { useNavigation } from "react-navigation-hooks";
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Form } from 'native-base';
+import { useNavigation } from 'react-navigation-hooks';
 
 // from app
-import { useGlobalState } from "app/src/Store";
-import { InputFormFloating } from "app/src/components/Form";
-import { CompleteButton } from "app/src/components/Button";
-import { useUpdatePassword } from "app/src/hooks";
-import { isEmpty } from "app/src/utils";
-import { appStyle } from "app/src/styles";
+import { useGlobalState } from 'app/src/Store';
+import { InputFormFloating } from 'app/src/components/Form';
+import { CompleteButton } from 'app/src/components/Button';
+import { useUpdatePassword } from 'app/src/hooks';
+import { isEmpty } from 'app/src/utils';
+import { appStyle } from 'app/src/styles';
 
 /**
  * パスワード変更画面
@@ -20,7 +20,7 @@ const ChangePasswordScreen: React.FC = () => {
   const { navigate } = useNavigation();
 
   /** ログイン中のユーザー */
-  const loginUser = useGlobalState("loginUser");
+  const loginUser = useGlobalState('loginUser');
 
   /** パスワード変更 */
   const {
@@ -31,7 +31,7 @@ const ChangePasswordScreen: React.FC = () => {
     confirmNewPassword,
     setConfirmNewPassword,
     updatePassword,
-    errors
+    errors,
   } = useUpdatePassword(loginUser.id);
 
   /** 現在のパスワードのバリデーションエラー */
@@ -52,13 +52,13 @@ const ChangePasswordScreen: React.FC = () => {
 
   // APIバリデーションエラーの分別
   if (errors && errors.detail_message.length > 0) {
-    errors.detail_message.forEach(item => {
+    errors.detail_message.forEach((item) => {
       if (item.match(/Old Password/)) {
         oldPasswordErrors.push(
-          item.replace("Old Passwordが", "現在のパスワードが")
+          item.replace('Old Passwordが', '現在のパスワードが'),
         );
       } else if (item.match(/Password/)) {
-        newPasswordErrors.push(item.replace("Passwordは", ""));
+        newPasswordErrors.push(item.replace('Passwordは', ''));
       }
     });
   }
@@ -66,13 +66,14 @@ const ChangePasswordScreen: React.FC = () => {
   /** 完了ボタン押下時の処理 */
   const onCompleteButtonPress = useCallback(async (): Promise<void> => {
     if (newPassword !== confirmNewPassword) {
-      setConfirmPasswordErrors(["パスワードが間違っています"]);
+      setConfirmPasswordErrors(['パスワードが間違っています']);
+
       return;
     }
 
     const result = await updatePassword();
     if (result) {
-      navigate("top");
+      navigate('top');
     }
   }, [newPassword, confirmNewPassword]);
 
@@ -120,10 +121,10 @@ const ChangePasswordScreen: React.FC = () => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   container: {
-    alignItems: "center",
+    alignItems: 'center',
     flex: 0.7,
-    justifyContent: "center"
-  }
+    justifyContent: 'center',
+  },
 });
 
 export default ChangePasswordScreen;

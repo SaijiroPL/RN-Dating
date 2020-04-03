@@ -1,10 +1,10 @@
-import React, { useCallback } from "react";
-import { Fab } from "native-base";
-import { useNavigation } from "react-navigation-hooks";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import React, { useCallback } from 'react';
+import { Fab } from 'native-base';
+import { useNavigation } from 'react-navigation-hooks';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 // from app
-import { COLOR } from "app/src/constants";
+import { COLOR } from 'app/src/constants';
 
 /**
  * プラン作成フローティングボタン
@@ -15,12 +15,12 @@ export const CreatePlanFab: React.FC = () => {
 
   /** プラン作成トップに遷移 */
   const toCreate = useCallback(() => {
-    navigate("create");
+    navigate('create');
   }, []);
 
   return (
     <Fab
-      active={true}
+      active
       containerStyle={{}}
       style={{ backgroundColor: COLOR.tintColor }}
       position="bottomRight"

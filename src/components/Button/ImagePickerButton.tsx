@@ -1,10 +1,10 @@
-import React from "react";
-import { TouchableOpacity, Text } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import React from 'react';
+import { TouchableOpacity, Text } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 // from app
-import { COLOR } from "app/src/constants";
-import { appTextStyle } from "app/src/styles";
+import { COLOR } from 'app/src/constants';
+import { appTextStyle } from 'app/src/styles';
 
 interface Props {
   pickImage: () => Promise<void>;
@@ -14,11 +14,11 @@ interface Props {
  * 画像選択ボタン
  * @author itsukiyamada, kotatanaka
  */
-export const ImagePickerButton: React.FC<Props> = props => {
+export const ImagePickerButton: React.FC<Props> = (props) => {
   const { pickImage } = props;
 
   return (
-    <TouchableOpacity onPress={pickImage} style={{ flexDirection: "row" }}>
+    <TouchableOpacity onPress={pickImage} style={{ flexDirection: 'row' }}>
       <Text style={appTextStyle.detailLinkText}>プロフィール画像変更</Text>
       <MaterialCommunityIcons
         name="library-plus"

@@ -1,9 +1,9 @@
-import React from "react";
-import { FlatList } from "react-native";
+import React from 'react';
+import { FlatList } from 'react-native';
 
 // from app
-import { IFollow, IFollower } from "app/src/interfaces/api/Follow";
-import { FollowElement } from "app/src/components/Element";
+import { IFollow, IFollower } from 'app/src/interfaces/api/Follow';
+import { FollowElement } from 'app/src/components/Element';
 
 interface Props {
   meId: string;
@@ -53,7 +53,7 @@ export const FollowList: React.FC<Props> = (props: Props) => {
       <FlatList
         data={follows}
         renderItem={renderFollow}
-        keyExtractor={item => item.user_id}
+        keyExtractor={(item) => item.user_id}
       />
     );
   }
@@ -64,7 +64,7 @@ export const FollowList: React.FC<Props> = (props: Props) => {
       <FlatList
         data={followers}
         renderItem={renderFollower}
-        keyExtractor={item => item.user_id}
+        keyExtractor={(item) => item.user_id}
       />
     );
   }

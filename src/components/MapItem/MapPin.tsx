@@ -1,9 +1,9 @@
-import React from "react";
-import { View, Text } from "react-native";
-import { Marker, Callout } from "react-native-maps";
+import React from 'react';
+import { View, Text } from 'react-native';
+import { Marker, Callout } from 'react-native-maps';
 
 // from app
-import { IMAGE } from "app/src/constants";
+import { IMAGE } from 'app/src/constants';
 
 interface Props {
   children: string;
@@ -22,7 +22,7 @@ interface Props {
  * @author kotatanaka
  */
 export const MapPin: React.FC<Props> = (props: Props) => {
-  const pinColor = props.center ? "black" : "red";
+  const pinColor = props.center ? 'black' : 'red';
 
   return (
     <Marker coordinate={props.location} pinColor={pinColor}>
@@ -32,11 +32,11 @@ export const MapPin: React.FC<Props> = (props: Props) => {
             style={{
               padding: 8,
               borderRadius: 4,
-              backgroundColor: "rgba(0,0,0,0.6)",
-              zIndex: 10
+              backgroundColor: 'rgba(0,0,0,0.6)',
+              zIndex: 10,
             }}
           >
-            <Text style={{ color: "white", fontWeight: "bold" }}>
+            <Text style={{ color: 'white', fontWeight: 'bold' }}>
               {props.children}
             </Text>
           </View>

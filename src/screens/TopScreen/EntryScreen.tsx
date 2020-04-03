@@ -1,19 +1,19 @@
-import React, { useCallback } from "react";
-import { StyleSheet, View } from "react-native";
-import { Text } from "native-base";
-import { useNavigation } from "react-navigation-hooks";
+import React, { useCallback } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Text } from 'native-base';
+import { useNavigation } from 'react-navigation-hooks';
 
 // from app
-import { COLOR, LAYOUT } from "app/src/constants";
-import { SelectButton, CompleteButton } from "app/src/components/Button";
+import { COLOR, LAYOUT } from 'app/src/constants';
+import { SelectButton, CompleteButton } from 'app/src/components/Button';
 import {
   DatePicker,
   InputForm,
-  PrefecturePicker
-} from "app/src/components/Form";
-import { useSignin, useSignup } from "app/src/hooks";
-import { getToday } from "app/src/utils";
-import { appStyle } from "app/src/styles";
+  PrefecturePicker,
+} from 'app/src/components/Form';
+import { useSignin, useSignup } from 'app/src/hooks';
+import { getToday } from 'app/src/utils';
+import { appStyle } from 'app/src/styles';
 
 /**
  * ユーザー基本情報入力画面
@@ -36,7 +36,7 @@ const EntryScreen: React.FC = () => {
     prefecture,
     setPrefecture,
     createUser,
-    errors
+    errors,
   } = useSignup();
 
   /** ログイン機能 */
@@ -45,9 +45,9 @@ const EntryScreen: React.FC = () => {
   /** 完了ボタン押下時の処理 */
   const onCompleteButtonPress = useCallback(async (): Promise<void> => {
     const newUserId = await createUser();
-    if (typeof newUserId === "string") {
+    if (typeof newUserId === 'string') {
       setLoginUser(newUserId, name);
-      navigate("main");
+      navigate('main');
     }
   }, [createUser]);
 
@@ -55,9 +55,9 @@ const EntryScreen: React.FC = () => {
   const renderNameForm = (): JSX.Element => {
     const nameErrors: Array<string> = [];
     if (errors && errors.detail_message.length > 0) {
-      errors.detail_message.forEach(item => {
+      errors.detail_message.forEach((item) => {
         if (item.match(/Name/)) {
-          nameErrors.push(item.replace("Nameは", ""));
+          nameErrors.push(item.replace('Nameは', ''));
         }
       });
     }
@@ -89,13 +89,13 @@ const EntryScreen: React.FC = () => {
         value={isMan}
         setValue={setMan}
         setOtherValues={[setWoman]}
-        buttonName={"男性"}
+        buttonName="男性"
       />
       <SelectButton
         value={isWoman}
         setValue={setWoman}
         setOtherValues={[setMan]}
-        buttonName={"女性"}
+        buttonName="女性"
       />
     </View>
   );
@@ -144,15 +144,15 @@ const EntryScreen: React.FC = () => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   formGroup: {
-    alignItems: "center",
+    alignItems: 'center',
     flex: 1,
-    flexDirection: "row"
+    flexDirection: 'row',
   },
   entryText: {
     color: COLOR.textTintColor,
-    fontFamily: "genju-medium",
-    fontSize: 20
-  }
+    fontFamily: 'genju-medium',
+    fontSize: 20,
+  },
 });
 
 export default EntryScreen;

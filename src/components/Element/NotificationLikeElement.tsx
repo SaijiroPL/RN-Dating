@@ -1,11 +1,11 @@
-import React from "react";
-import { StyleSheet } from "react-native";
-import { Body, Left, ListItem, Text, Thumbnail, View } from "native-base";
-import { AntDesign } from "@expo/vector-icons";
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { Body, Left, ListItem, Text, Thumbnail, View } from 'native-base';
+import { AntDesign } from '@expo/vector-icons';
 
 // from app
-import { COLOR, IMAGE, LAYOUT } from "app/src/constants";
-import { INotification } from "app/src/interfaces/api/Notification";
+import { COLOR, IMAGE, LAYOUT } from 'app/src/constants';
+import { INotification } from 'app/src/interfaces/api/Notification';
 
 interface Props {
   notification: INotification;
@@ -28,7 +28,7 @@ export const NotificationLikeElement: React.FC<Props> = (props: Props) => {
           <AntDesign name="hearto" size={20} style={thisStyle.likeIcon} />
           <Text style={thisStyle.titleLinkText}>{notification.user_name}</Text>
           <Text style={thisStyle.titleText}>
-            {" "}
+            {' '}
             さんがお気に入りに登録しました。
           </Text>
         </View>
@@ -46,34 +46,34 @@ export const NotificationLikeElement: React.FC<Props> = (props: Props) => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   container: {
-    justifyContent: "center"
+    justifyContent: 'center',
   },
   bodyContainer: {
-    width: LAYOUT.window.width * 0.6
+    width: LAYOUT.window.width * 0.6,
   },
   titleContainer: {
-    flexDirection: "row"
+    flexDirection: 'row',
   },
   titleText: {
-    fontFamily: "genju-medium",
-    fontSize: 14
+    fontFamily: 'genju-medium',
+    fontSize: 14,
   },
   titleLinkText: {
-    fontFamily: "genju-medium",
+    fontFamily: 'genju-medium',
     fontSize: 14,
     textDecorationColor: COLOR.inactiveColor,
-    textDecorationLine: "underline"
+    textDecorationLine: 'underline',
   },
   planTitleText: {
-    fontFamily: "genju-medium",
-    fontSize: 12
+    fontFamily: 'genju-medium',
+    fontSize: 12,
   },
   dateText: {
-    fontFamily: "genju-light",
-    fontSize: 10
+    fontFamily: 'genju-light',
+    fontSize: 10,
   },
   likeIcon: {
     color: COLOR.tintColor,
-    marginRight: 5
-  }
+    marginRight: 5,
+  },
 });

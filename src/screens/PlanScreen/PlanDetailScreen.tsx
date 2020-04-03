@@ -1,25 +1,25 @@
-import React, { useCallback } from "react";
-import { StyleSheet, View } from "react-native";
-import { useNavigation, useNavigationParam } from "react-navigation-hooks";
-import { Container, Content, Text } from "native-base";
-import axios from "axios";
+import React, { useCallback } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { useNavigation, useNavigationParam } from 'react-navigation-hooks';
+import { Container, Content, Text } from 'native-base';
+import axios from 'axios';
 
 // from app
-import { useGlobalState } from "app/src/Store";
-import { COLOR } from "app/src/constants";
-import { LoadingSpinner } from "app/src/components/Spinners";
-import { ImageCarousel, UserHeader } from "app/src/components/Content";
-import { CommentGrid } from "app/src/components/List";
-import { SimpleMapView } from "app/src/components/MapItem";
-import { LikeButton } from "app/src/components/Button";
+import { useGlobalState } from 'app/src/Store';
+import { COLOR } from 'app/src/constants';
+import { LoadingSpinner } from 'app/src/components/Spinners';
+import { ImageCarousel, UserHeader } from 'app/src/components/Content';
+import { CommentGrid } from 'app/src/components/List';
+import { SimpleMapView } from 'app/src/components/MapItem';
+import { LikeButton } from 'app/src/components/Button';
 import {
   useGetPlanDetail,
   useGetCommentList,
   useLikePlan,
-  useFollowUser
-} from "app/src/hooks";
-import { formatDate } from "app/src/utils";
-import { appStyle, appTextStyle } from "app/src/styles";
+  useFollowUser,
+} from 'app/src/hooks';
+import { formatDate } from 'app/src/utils';
+import { appStyle, appTextStyle } from 'app/src/styles';
 
 /**
  * デートプラン詳細画面
@@ -27,18 +27,18 @@ import { appStyle, appTextStyle } from "app/src/styles";
  */
 const PlanDetailScreen: React.FC = () => {
   /** ログイン中のユーザー */
-  const loginUser = useGlobalState("loginUser");
+  const loginUser = useGlobalState('loginUser');
 
   /** ナビゲーター */
   const { navigate } = useNavigation();
 
   /** デートプランID */
-  const planId = useNavigationParam("id");
+  const planId = useNavigationParam('id');
 
   /** デートプラン詳細取得 */
   const { isPlanLoading, plan, getPlanDetail } = useGetPlanDetail(
     planId,
-    loginUser.id
+    loginUser.id,
   );
 
   /** コメント一覧取得 */
@@ -52,7 +52,7 @@ const PlanDetailScreen: React.FC = () => {
 
   /** コメントもっと見る押下時の処理 */
   const onMoreCommentPress = useCallback(() => {
-    navigate("comment", { id: plan.plan_id });
+    navigate('comment', { id: plan.plan_id });
   }, [plan]);
 
   // ローディング
@@ -68,7 +68,7 @@ const PlanDetailScreen: React.FC = () => {
         userName: plan.user_name,
         userAttr: plan.user_attr,
         userImageUrl: plan.user_image_url,
-        isFollow: plan.is_follow
+        isFollow: plan.is_follow,
       }}
       onFollow={follow}
       onUnfollow={unfollow}
@@ -81,7 +81,7 @@ const PlanDetailScreen: React.FC = () => {
     <View style={thisStyle.planDescriptionContainer}>
       <View style={thisStyle.route}>
         <Text note style={thisStyle.descriptionText}>
-          {plan.spots.map(spot => spot.spot_name).join(" > ")}
+          {plan.spots.map((spot) => spot.spot_name).join(' > ')}
         </Text>
       </View>
       <View style={appStyle.row}>
@@ -121,7 +121,7 @@ const PlanDetailScreen: React.FC = () => {
           </View>
           <View style={thisStyle.description}>
             <Text style={thisStyle.descriptionText}>
-              {formatDate(plan.date, "YYYY年MM月DD日")}
+              {formatDate(plan.date, 'YYYY年MM月DD日')}
             </Text>
           </View>
         </View>
@@ -144,7 +144,7 @@ const PlanDetailScreen: React.FC = () => {
         {PlanDescription}
         <CommentGrid comments={comments.comment_list} />
         {comments.total > 0 && (
-          <View style={{ alignItems: "flex-end", marginRight: 10 }}>
+          <View style={{ alignItems: 'flex-end', marginRight: 10 }}>
             <Text
               onPress={onMoreCommentPress}
               style={appTextStyle.detailLinkText}
@@ -162,50 +162,50 @@ const PlanDetailScreen: React.FC = () => {
 const thisStyle = StyleSheet.create({
   planDescriptionContainer: {
     marginHorizontal: 10,
-    marginVertical: 5
+    marginVertical: 5,
   },
   route: {
-    alignItems: "flex-end",
+    alignItems: 'flex-end',
     backgroundColor: COLOR.baseBackgroundColor,
     flex: 1,
-    justifyContent: "center",
-    paddingHorizontal: 10
+    justifyContent: 'center',
+    paddingHorizontal: 10,
   },
   title: {
-    marginLeft: 10
+    marginLeft: 10,
   },
   detail: {
-    marginLeft: 10
+    marginLeft: 10,
   },
   titleText: {
-    fontFamily: "genju-medium",
+    fontFamily: 'genju-medium',
     textDecorationColor: COLOR.tintColor,
-    textDecorationLine: "underline"
+    textDecorationLine: 'underline',
   },
   columnTitle: {
     backgroundColor: COLOR.tintColor,
     borderRadius: 10,
     marginRight: 5,
     marginTop: 2,
-    paddingHorizontal: 5
+    paddingHorizontal: 5,
   },
   columnTitleText: {
-    color: "white",
-    fontFamily: "genju-medium",
-    fontSize: 10
+    color: 'white',
+    fontFamily: 'genju-medium',
+    fontSize: 10,
   },
   description: {
-    marginTop: 2
+    marginTop: 2,
   },
   descriptionText: {
     color: COLOR.textTintColor,
-    fontFamily: "genju-light",
-    fontSize: 10
+    fontFamily: 'genju-light',
+    fontSize: 10,
   },
   myPlanHeader: {
-    alignItems: "center",
-    backgroundColor: COLOR.baseBackgroundColor
-  }
+    alignItems: 'center',
+    backgroundColor: COLOR.baseBackgroundColor,
+  },
 });
 
 export default PlanDetailScreen;

@@ -1,10 +1,10 @@
-import React from "react";
-import { StyleSheet } from "react-native";
-import { Input, Item, Label, Text, View } from "native-base";
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { Input, Item, Label, Text, View } from 'native-base';
 
 // from app
-import { LAYOUT } from "app/src/constants";
-import { appTextStyle } from "app/src/styles";
+import { LAYOUT } from 'app/src/constants';
+import { appTextStyle } from 'app/src/styles';
 
 interface Props {
   label: string;
@@ -21,18 +21,18 @@ export const InputFormFloating: React.FC<Props> = (props: Props) => {
   const { label, value, setValue, errors } = props;
 
   // 未入力
-  if (value === "") {
+  if (value === '') {
     return (
       <Item floatingLabel style={{ width: LAYOUT.window.width * 0.9 }}>
         <Label>{label}</Label>
-        <Input onChangeText={value => setValue(value)} value={value} />
+        <Input onChangeText={(value) => setValue(value)} value={value} />
       </Item>
     );
   }
 
   // 異常入力
   if (errors && errors.length > 0) {
-    const ErrorList = errors.map(item => (
+    const ErrorList = errors.map((item) => (
       <Text key={item} style={appTextStyle.errorText}>
         {item}
       </Text>
@@ -42,7 +42,7 @@ export const InputFormFloating: React.FC<Props> = (props: Props) => {
       <View>
         <Item floatingLabel error style={{ width: LAYOUT.window.width * 0.9 }}>
           <Label>{label}</Label>
-          <Input onChangeText={value => setValue(value)} value={value} />
+          <Input onChangeText={(value) => setValue(value)} value={value} />
         </Item>
         {ErrorList}
       </View>
@@ -53,7 +53,7 @@ export const InputFormFloating: React.FC<Props> = (props: Props) => {
   return (
     <Item floatingLabel success style={{ width: LAYOUT.window.width * 0.9 }}>
       <Label>{label}</Label>
-      <Input onChangeText={value => setValue(value)} value={value} />
+      <Input onChangeText={(value) => setValue(value)} value={value} />
     </Item>
   );
 };

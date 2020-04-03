@@ -1,16 +1,16 @@
-import React from "react";
-import { View, ScrollView, StyleSheet } from "react-native";
-import { useNavigationParam } from "react-navigation-hooks";
+import React from 'react';
+import { View, ScrollView, StyleSheet } from 'react-native';
+import { useNavigationParam } from 'react-navigation-hooks';
 
 // from app
-import { useGlobalState } from "app/src/Store";
-import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
-import { UserProfile } from "app/src/components/Content";
-import { SettingFab } from "app/src/components/Button";
-import { useGetUserDetail, useGetPlanList, useFollowUser } from "app/src/hooks";
-import { appStyle } from "app/src/styles";
-import { PlanCardList } from "app/src/components/List";
-import { LAYOUT } from "app/src/constants";
+import { useGlobalState } from 'app/src/Store';
+import { LoadingSpinner, RefreshSpinner } from 'app/src/components/Spinners';
+import { UserProfile } from 'app/src/components/Content';
+import { SettingFab } from 'app/src/components/Button';
+import { useGetUserDetail, useGetPlanList, useFollowUser } from 'app/src/hooks';
+import { appStyle } from 'app/src/styles';
+import { PlanCardList } from 'app/src/components/List';
+import { LAYOUT } from 'app/src/constants';
 
 /**
  * プロフィール(ユーザー詳細)画面トップ
@@ -18,10 +18,10 @@ import { LAYOUT } from "app/src/constants";
  */
 const ProfileScreen: React.FC = () => {
   /** 対象のユーザーID */
-  const userId = useNavigationParam("id");
+  const userId = useNavigationParam('id');
 
   /** ログイン中のユーザー */
-  const loginUser = useGlobalState("loginUser");
+  const loginUser = useGlobalState('loginUser');
 
   /** ユーザー詳細取得 */
   // prettier-ignore
@@ -61,8 +61,8 @@ const ProfileScreen: React.FC = () => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   container: {
-    width: LAYOUT.window.width * 0.9
-  }
+    width: LAYOUT.window.width * 0.9,
+  },
 });
 
 export default ProfileScreen;

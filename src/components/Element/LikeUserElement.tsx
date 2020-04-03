@@ -1,11 +1,11 @@
-import React, { useCallback } from "react";
-import { StyleSheet } from "react-native";
-import { ListItem, Thumbnail, Text, Left, Body } from "native-base";
-import { useNavigation } from "react-navigation-hooks";
+import React, { useCallback } from 'react';
+import { StyleSheet } from 'react-native';
+import { ListItem, Thumbnail, Text, Left, Body } from 'native-base';
+import { useNavigation } from 'react-navigation-hooks';
 
 // from app
-import { COLOR, IMAGE } from "app/src/constants";
-import { ILikeUser } from "app/src/interfaces/api/Like";
+import { COLOR, IMAGE } from 'app/src/constants';
+import { ILikeUser } from 'app/src/interfaces/api/Like';
 
 interface Props {
   user: ILikeUser;
@@ -21,7 +21,7 @@ export const LikeUserElement: React.FC<Props> = (props: Props) => {
 
   /** ユーザー押下時の処理 */
   const onPress = useCallback(() => {
-    navigate("profile", { id: user.user_id });
+    navigate('profile', { id: user.user_id });
   }, [user]);
 
   return (
@@ -40,21 +40,21 @@ export const LikeUserElement: React.FC<Props> = (props: Props) => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   container: {
-    justifyContent: "center"
+    justifyContent: 'center',
   },
   nameText: {
-    fontFamily: "genju-medium"
+    fontFamily: 'genju-medium',
   },
   idText: {
-    fontFamily: "genju-light",
+    fontFamily: 'genju-light',
     fontSize: 10,
     textDecorationColor: COLOR.inactiveColor,
-    textDecorationLine: "underline"
+    textDecorationLine: 'underline',
   },
   dateText: {
-    fontFamily: "genju-light",
-    fontSize: 10
-  }
+    fontFamily: 'genju-light',
+    fontSize: 10,
+  },
 });
 
 export default LikeUserElement;

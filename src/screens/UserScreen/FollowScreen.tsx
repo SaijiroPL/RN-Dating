@@ -1,14 +1,14 @@
-import React from "react";
-import { Text } from "react-native";
-import { useNavigationParam } from "react-navigation-hooks";
-import { Container } from "native-base";
+import React from 'react';
+import { Text } from 'react-native';
+import { useNavigationParam } from 'react-navigation-hooks';
+import { Container } from 'native-base';
 
 // from app
-import { useGlobalState } from "app/src/Store";
-import { LoadingSpinner } from "app/src/components/Spinners";
-import { FollowList } from "app/src/components/List";
-import { useGetFollowList, useFollowUser } from "app/src/hooks";
-import { appTextStyle } from "app/src/styles";
+import { useGlobalState } from 'app/src/Store';
+import { LoadingSpinner } from 'app/src/components/Spinners';
+import { FollowList } from 'app/src/components/List';
+import { useGetFollowList, useFollowUser } from 'app/src/hooks';
+import { appTextStyle } from 'app/src/styles';
 
 /**
  * フォローリスト一覧画面
@@ -16,10 +16,10 @@ import { appTextStyle } from "app/src/styles";
  */
 const FollowScreen: React.FC = () => {
   /** 対象のユーザーID */
-  const userId = useNavigationParam("id");
+  const userId = useNavigationParam('id');
 
   /** ログイン中のユーザー */
-  const loginUser = useGlobalState("loginUser");
+  const loginUser = useGlobalState('loginUser');
 
   /** フォローリスト取得 */
   const { isLoading, follows, getFollowList } = useGetFollowList(userId);

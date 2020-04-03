@@ -1,10 +1,10 @@
-import React, { useCallback } from "react";
-import { Fab } from "native-base";
-import { useNavigation } from "react-navigation-hooks";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import React, { useCallback } from 'react';
+import { Fab } from 'native-base';
+import { useNavigation } from 'react-navigation-hooks';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 // from app
-import { COLOR } from "app/src/constants";
+import { COLOR } from 'app/src/constants';
 
 /**
  * 設定フローティングボタン
@@ -15,12 +15,12 @@ export const SettingFab: React.FC = () => {
 
   /** 設定一覧に遷移 */
   const toSetting = useCallback(() => {
-    navigate("setting");
+    navigate('setting');
   }, []);
 
   return (
     <Fab
-      active={true}
+      active
       containerStyle={{}}
       style={{ backgroundColor: COLOR.tintColor }}
       position="bottomRight"

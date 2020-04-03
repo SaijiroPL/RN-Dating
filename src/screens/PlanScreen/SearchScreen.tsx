@@ -1,13 +1,13 @@
-import React from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import React from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 // from app
-import { COLOR } from "app/src/constants";
-import { Indicator, RefreshSpinner } from "app/src/components/Spinners";
-import { SearchFormBar } from "app/src/components/Form";
-import { PlanCardList } from "app/src/components/List";
-import { useSearchPlanList } from "app/src/hooks";
-import { appTextStyle } from "app/src/styles";
+import { COLOR } from 'app/src/constants';
+import { Indicator, RefreshSpinner } from 'app/src/components/Spinners';
+import { SearchFormBar } from 'app/src/components/Form';
+import { PlanCardList } from 'app/src/components/List';
+import { useSearchPlanList } from 'app/src/hooks';
+import { appTextStyle } from 'app/src/styles';
 
 /**
  * デートプラン検索画面
@@ -23,7 +23,7 @@ const SearchScreen: React.FC = () => {
     plans,
     errors,
     isRefreshing,
-    onRefresh
+    onRefresh,
   } = useSearchPlanList();
 
   return (
@@ -40,7 +40,7 @@ const SearchScreen: React.FC = () => {
           <View style={thisStyle.planCount}>
             <Text style={appTextStyle.countText}>
               {plans.total === 0
-                ? "プランが見つかりません。"
+                ? 'プランが見つかりません。'
                 : `検索結果: ${plans.total} 件`}
             </Text>
           </View>
@@ -56,15 +56,15 @@ const SearchScreen: React.FC = () => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   container: {
-    backgroundColor: COLOR.backgroundColor
+    backgroundColor: COLOR.backgroundColor,
   },
   planCount: {
-    borderBottomColor: "#ccc",
-    borderBottomWidth: 1
+    borderBottomColor: '#ccc',
+    borderBottomWidth: 1,
   },
   spinner: {
-    flex: 1
-  }
+    flex: 1,
+  },
 });
 
 export default SearchScreen;

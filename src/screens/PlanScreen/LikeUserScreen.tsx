@@ -1,19 +1,19 @@
-import React from "react";
-import { useNavigationParam } from "react-navigation-hooks";
-import { Container, Text } from "native-base";
+import React from 'react';
+import { useNavigationParam } from 'react-navigation-hooks';
+import { Container, Text } from 'native-base';
 
 // from app
-import { LoadingSpinner } from "app/src/components/Spinners";
-import { LikeUserList } from "app/src/components/List";
-import { useGetLikeUserList } from "app/src/hooks";
-import { appTextStyle } from "app/src/styles";
+import { LoadingSpinner } from 'app/src/components/Spinners';
+import { LikeUserList } from 'app/src/components/List';
+import { useGetLikeUserList } from 'app/src/hooks';
+import { appTextStyle } from 'app/src/styles';
 
 /**
  * デートプランお気に入り登録者一覧画面
  * @author kotatanaka
  */
 const LikeUserScreen: React.FC = () => {
-  const planId = useNavigationParam("id");
+  const planId = useNavigationParam('id');
 
   /** デートプランお気に入り登録者一覧取得 */
   const { isLoading, users } = useGetLikeUserList(planId);

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { Image, StyleSheet } from "react-native";
-import Carousel from "react-native-snap-carousel";
+import React, { useState } from 'react';
+import { Image, StyleSheet } from 'react-native';
+import Carousel from 'react-native-snap-carousel';
 
 // from app
-import { IMAGE, LAYOUT } from "app/src/constants";
-import { IPlan } from "app/src/interfaces/api/Plan";
+import { IMAGE, LAYOUT } from 'app/src/constants';
+import { IPlan } from 'app/src/interfaces/api/Plan';
 
 interface Props {
   plan: IPlan;
@@ -13,14 +13,14 @@ interface Props {
 // 仮データ
 const SAMPLE_DATA = [
   {
-    image: IMAGE.noImage
+    image: IMAGE.noImage,
   },
   {
-    image: IMAGE.noImage
+    image: IMAGE.noImage,
   },
   {
-    image: IMAGE.noImage
-  }
+    image: IMAGE.noImage,
+  },
 ];
 
 /**
@@ -50,21 +50,21 @@ export const ImageCarousel: React.FC<Props> = (props: Props) => {
 const thisStyle = StyleSheet.create({
   container: {
     // flex: 1,
-    marginVertical: 5
+    marginVertical: 5,
   },
   slide: {
     // flex: 1,
     height: LAYOUT.window.height * 0.23,
-    shadowColor: "#ccc",
+    shadowColor: '#ccc',
     shadowOffset: {
       height: 0,
-      width: 0
+      width: 0,
     },
     shadowOpacity: 1,
-    shadowRadius: 2
+    shadowRadius: 2,
   },
   image: {
     flex: 1,
-    width: LAYOUT.window.width * 0.8
-  }
+    width: LAYOUT.window.width * 0.8,
+  },
 });

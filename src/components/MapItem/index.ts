@@ -1,8 +1,8 @@
 /** シンプルなマップ */
-export * from "./SimpleMapView";
+export * from './SimpleMapView';
 /** 範囲円 */
-export * from "./MapCircle";
+export * from './MapCircle';
 /** 現在位置のマーカー */
-export * from "./MapHere";
+export * from './MapHere';
 /** ピン付けマーカー */
-export * from "./MapPin";
+export * from './MapPin';

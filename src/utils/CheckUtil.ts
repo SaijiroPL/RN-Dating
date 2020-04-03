@@ -3,18 +3,15 @@
  * @param value 任意の値
  * @return boolean
  */
-export function isNotNullOrUndefined(value?: any): boolean {
-  return value !== null && value !== undefined;
-}
+export const isNotNullOrUndefined = (value?: any): boolean =>
+  value !== null && value !== undefined;
 
 /**
  * 空文字かどうかをチェックする
  * @param value 任意の文字列
  * @return boolean
  */
-export function isEmpty(value: string): boolean {
-  return value === "";
-}
+export const isEmpty = (value: string): boolean => value === '';
 
 /**
  * メールアドレスかどうかをチェックする
@@ -26,9 +23,9 @@ export function validateEmail(value: string): boolean {
 
   if (value.match(EMAIL_REGEX)) {
     return true;
-  } else {
-    return false;
   }
+
+  return false;
 }
 
 /**
@@ -41,9 +38,9 @@ export function validateAlphaNumericSymbol(value: string): boolean {
 
   if (value.match(ALPHA_NUMERIC_SYMBOL_REGEX)) {
     return true;
-  } else {
-    return false;
   }
+
+  return false;
 }
 
 /**
@@ -56,7 +53,7 @@ export function validateAlphaNumeric(value: string): boolean {
 
   if (value.match(ALPHA_NUMERIC_REGEX)) {
     return true;
-  } else {
-    return false;
   }
+
+  return false;
 }

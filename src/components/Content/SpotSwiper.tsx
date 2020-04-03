@@ -1,5 +1,5 @@
-import React from "react";
-import { Image, StyleSheet } from "react-native";
+import React from 'react';
+import { Image, StyleSheet } from 'react-native';
 import {
   DeckSwiper,
   Card,
@@ -7,14 +7,14 @@ import {
   Content,
   Text,
   Left,
-  Body
-} from "native-base";
-import MapView from "react-native-maps";
-import { AntDesign } from "@expo/vector-icons";
+  Body,
+} from 'native-base';
+import MapView from 'react-native-maps';
+import { AntDesign } from '@expo/vector-icons';
 
 // from app
-import { IMAGE } from "app/src/constants";
-import { ICandidateSpot } from "app/src/interfaces/app/Spot";
+import { IMAGE } from 'app/src/constants';
+import { ICandidateSpot } from 'app/src/interfaces/app/Spot';
 
 interface Props {
   spots: Array<ICandidateSpot>;
@@ -51,13 +51,13 @@ export const SpotSwiper: React.FC<Props> = (props: Props) => {
                   latitude: item.latitude,
                   longitude: item.longitude,
                   latitudeDelta: 0.02,
-                  longitudeDelta: 0.05
+                  longitudeDelta: 0.05,
                 }}
                 style={{ height: 200, flex: 1 }}
               />
             </CardItem>
             <CardItem>
-              <AntDesign name="heart" style={{ color: "red" }} />
+              <AntDesign name="heart" style={{ color: 'red' }} />
               <Text>{item.description}</Text>
             </CardItem>
           </Card>
@@ -70,6 +70,6 @@ export const SpotSwiper: React.FC<Props> = (props: Props) => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   swiper: {
-    marginHorizontal: 10
-  }
+    marginHorizontal: 10,
+  },
 });

@@ -1,11 +1,11 @@
-import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { SwipeListView } from "react-native-swipe-list-view";
+import React from 'react';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { SwipeListView } from 'react-native-swipe-list-view';
 
 // from app
-import { COLOR, LAYOUT } from "app/src/constants";
-import { IHistory } from "app/src/interfaces/api/History";
-import { appTextStyle } from "app/src/styles";
+import { COLOR, LAYOUT } from 'app/src/constants';
+import { IHistory } from 'app/src/interfaces/api/History';
+import { appTextStyle } from 'app/src/styles';
 
 interface Props {
   histories: Array<IHistory>;
@@ -28,7 +28,7 @@ export const HistorySwipeList: React.FC<Props> = (props: Props) => {
   };
 
   const renderDeletableHistoryItem = ({
-    item
+    item,
   }: {
     item: IHistory;
   }): JSX.Element => {
@@ -47,7 +47,7 @@ export const HistorySwipeList: React.FC<Props> = (props: Props) => {
 
   return (
     <SwipeListView
-      keyExtractor={item => `${item.history_id}`}
+      keyExtractor={(item) => `${item.history_id}`}
       data={histories}
       renderItem={renderHistoryItem}
       renderHiddenItem={renderDeletableHistoryItem}
@@ -64,16 +64,16 @@ const thisStyle = StyleSheet.create({
     borderBottomColor: COLOR.inactiveColor,
     borderBottomWidth: 1,
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "flex-end",
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
     paddingRight: 20,
-    paddingVertical: 15
+    paddingVertical: 15,
   },
   word: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderBottomColor: COLOR.inactiveColor,
     borderBottomWidth: 1,
     paddingLeft: 20,
-    paddingVertical: 15
-  }
+    paddingVertical: 15,
+  },
 });

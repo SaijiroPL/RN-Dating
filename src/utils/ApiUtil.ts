@@ -1,7 +1,7 @@
-import { AxiosError } from "axios";
+import { AxiosError } from 'axios';
 
 // from app
-import { IApiError } from "app/src/interfaces/api/Error";
+import { IApiError } from 'app/src/interfaces/api/Error';
 
 /**
  * APIが200以外を返した場合のレスポンスを捌く関数
@@ -17,16 +17,20 @@ export function handleError(error: AxiosError<IApiError>): void | IApiError {
 
   switch (status) {
     case 400:
-      console.log("[400] Bad Request Error: " + data.detail_message);
+      console.log(`[400] Bad Request Error: ${data.detail_message}`);
+
       return data;
     case 404:
-      console.log("[404] URL Not Found.");
+      console.log('[404] URL Not Found.');
+
       return data;
     case 500:
-      console.log("[500] Server Error: " + data.detail_message);
+      console.log(`[500] Server Error: ${data.detail_message}`);
+
       return data;
     default:
-      console.log("API Error: " + error.message);
+      console.log(`API Error: ${error.message}`);
+
       return data;
   }
 }

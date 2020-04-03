@@ -1,10 +1,10 @@
-import React from "react";
-import { StyleSheet } from "react-native";
-import { Button, Footer, Text } from "native-base";
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { Button, Footer, Text } from 'native-base';
 
 // from app
-import { LAYOUT, COLOR } from "app/src/constants";
-import { appTextStyle } from "app/src/styles";
+import { LAYOUT, COLOR } from 'app/src/constants';
+import { appTextStyle } from 'app/src/styles';
 
 interface Props {
   title: string;
@@ -40,21 +40,21 @@ export const CompleteFooterButton: React.FC<Props> = (props: Props) => {
 
 /** デフォルト値 */
 CompleteFooterButton.defaultProps = {
-  disabled: false
+  disabled: false,
 };
 
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   touchable: {
     backgroundColor: COLOR.tintColor,
-    height: LAYOUT.window.height * 0.03
+    height: LAYOUT.window.height * 0.03,
   },
   disTouchable: {
     backgroundColor: COLOR.baseBackgroundColor,
-    height: LAYOUT.window.height * 0.03
+    height: LAYOUT.window.height * 0.03,
   },
   button: {
-    justifyContent: "center",
-    width: LAYOUT.window.width
-  }
+    justifyContent: 'center',
+    width: LAYOUT.window.width,
+  },
 });

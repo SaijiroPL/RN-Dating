@@ -1,9 +1,9 @@
-import React from "react";
-import { Image, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import React from 'react';
+import { Image, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 // from app
-import { IMAGE } from "app/src/constants";
+import { IMAGE } from 'app/src/constants';
 
 interface Props {
   tintColor: string;
@@ -59,10 +59,10 @@ export const ProfileTabIcon = (props: Props) => (
 /** スタイリング */
 const tabStyle = StyleSheet.create({
   icon: {
-    marginBottom: -3
+    marginBottom: -3,
   },
   logo: {
     height: 20,
-    width: 20
-  }
+    width: 20,
+  },
 });
