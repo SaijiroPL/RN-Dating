@@ -9,7 +9,8 @@
     "tsc": "tsc",
     "ip": "ifconfig en0 | awk '/inet / { print $2 }'",
     "capture:start": "xcrun simctl io booted recordVideo input.mov",
-    "capture:togif": "ffmpeg -i input.mov -r 10 output.gif"
+    "capture:togif": "ffmpeg -i input.mov -r 10 output.gif",
+    "lint": "eslint --ext .ts,.tsx --fix ."
   },
   "jest": {
     "preset": "jest-expo"
