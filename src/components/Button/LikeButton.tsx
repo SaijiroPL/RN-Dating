@@ -40,7 +40,7 @@ export const LikeButton: React.FC<Props> = (props: Props) => {
   const handleLike = useCallback(async (): Promise<void> => {
     const result = await onLike(targetPlanId);
     if (result) {
-      reload();
+      await reload();
     }
   }, []);
 
@@ -48,7 +48,7 @@ export const LikeButton: React.FC<Props> = (props: Props) => {
   const handleUnlike = useCallback(async (): Promise<void> => {
     const result = await onUnlike(targetPlanId);
     if (result) {
-      reload();
+      await reload();
     }
   }, []);
 
