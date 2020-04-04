@@ -19,6 +19,7 @@ export const isEmpty = (value: string): boolean => value === '';
  * @return boolean
  */
 export function validateEmail(value: string): boolean {
+  // eslint-disable-next-line no-useless-escape
   const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
   if (value.match(EMAIL_REGEX)) {
