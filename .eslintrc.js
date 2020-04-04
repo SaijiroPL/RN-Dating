@@ -53,6 +53,7 @@ module.exports = {
     // eslint official
     'newline-before-return': 'error',
     'no-console': 'off',
+    'no-shadow': 'off',
     'require-yield': 'error',
 
     // @typescript-eslint
@@ -65,6 +66,9 @@ module.exports = {
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
     '@typescript-eslint/array-type': 'off',
+    '@typescript-eslint/no-var-requires': 'off',
+    // TODO 画像まわりの any を駆逐したらオンにする
+    '@typescript-eslint/no-explicit-any': 'off',
 
     // prefer-arrow
     'prefer-arrow/prefer-arrow-functions': [
