@@ -16,9 +16,11 @@ interface Props {
  * @author kotatanaka
  */
 export const SimpleMapView: React.FC<Props> = (props: Props) => {
+  const { spot } = props;
+
   const region: ILocation = {
-    latitude: props.spot.latitude,
-    longitude: props.spot.longitude,
+    latitude: spot.latitude,
+    longitude: spot.longitude,
     latitudeDelta: 0.02,
     longitudeDelta: 0.05,
   };

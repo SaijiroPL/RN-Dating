@@ -21,7 +21,6 @@ const SearchScreen: React.FC = () => {
     setSearchWord,
     searchPlanList,
     plans,
-    errors,
     isRefreshing,
     onRefresh,
   } = useSearchPlanList();

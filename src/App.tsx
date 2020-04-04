@@ -19,6 +19,8 @@ interface Props {
  * @author kotatanaka
  */
 const App: React.FC<Props> = (props: Props) => {
+  const { skipLoadingScreen } = props;
+
   /** ローディング状態 */
   const [isLoadingComplete, setLoadingComplete] = useState<boolean>(false);
 
@@ -39,7 +41,7 @@ const App: React.FC<Props> = (props: Props) => {
   }, []);
 
   // リソースの読み込みが終わるまでローディング
-  if (!isLoadingComplete && !props.skipLoadingScreen) {
+  if (!isLoadingComplete && !skipLoadingScreen) {
     return (
       <AppLoading
         startAsync={loadResourcesAsync}

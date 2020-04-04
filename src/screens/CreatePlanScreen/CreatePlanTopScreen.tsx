@@ -83,7 +83,7 @@ const CreatePlanTopScreen: React.FC = () => {
       </View>
       {TransportationButtonGroup}
       <View style={appStyle.emptySpace} />
-      {date == '' || (!car && !train && !bus && !walk) ? (
+      {date === '' || (!car && !train && !bus && !walk) ? (
         <CompleteFooterButton title="次へ" disabled />
       ) : (
         <CompleteFooterButton title="次へ" onPress={onCompleteButtonPress} />

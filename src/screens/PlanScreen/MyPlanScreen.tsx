@@ -18,13 +18,9 @@ const MyPlanScreen: React.FC = () => {
   const loginUser = useGlobalState('loginUser');
 
   /** 自分のお気に入りデートプラン一覧取得 */
-  const {
-    isLoading,
-    plans,
-    errors,
-    isRefreshing,
-    onRefresh,
-  } = useGetLikePlanList(loginUser.id);
+  const { isLoading, plans, isRefreshing, onRefresh } = useGetLikePlanList(
+    loginUser.id,
+  );
 
   if (isLoading) {
     return LoadingSpinner;

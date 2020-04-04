@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { Container, Header, Content, Text } from 'native-base';
 import FlashMessage, { showMessage } from 'react-native-flash-message';
 

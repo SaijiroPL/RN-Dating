@@ -13,11 +13,13 @@ interface Props {
  * @author kotatanaka
  */
 export const SimpleWebView: React.FC<Props> = (props: Props) => {
+  const { uri } = props;
+
   const renderLoadingSpinner = (): JSX.Element => LoadingSpinner;
 
   return (
     <WebView
-      source={{ uri: props.uri }}
+      source={{ uri }}
       style={{ marginTop: 20 }}
       renderLoading={renderLoadingSpinner}
       startInLoadingState

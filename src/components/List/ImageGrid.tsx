@@ -5,13 +5,12 @@ import { Col, Row, Grid } from 'react-native-easy-grid';
 // from app
 import { IMAGE, LAYOUT } from 'app/src/constants';
 
-interface Props {}
-
+// interface Props {}
 /**
  * 画像選択グリッド
  * @author kotatanaka
  */
-export const ImageGrid: React.FC<Props> = () => {
+export const ImageGrid: React.FC = () => {
   return (
     <Grid>
       <Col>

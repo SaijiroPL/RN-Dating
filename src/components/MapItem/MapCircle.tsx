@@ -15,7 +15,7 @@ interface Props {
  * @author kotatanaka
  */
 export const MapCircle: React.FC<Props> = (props: Props) => {
-  const { location } = props;
+  const { location, color, radius } = props;
 
   return (
     <Circle
@@ -24,8 +24,8 @@ export const MapCircle: React.FC<Props> = (props: Props) => {
         longitude: location.longitude,
       }}
       strokeColor="transparent"
-      fillColor={props.color}
-      radius={props.radius}
+      fillColor={color}
+      radius={radius}
     />
   );
 };

@@ -3,7 +3,6 @@ import { View } from 'react-native';
 import { Header, Text } from 'native-base';
 
 // from app
-import { LoadingSpinner } from 'app/src/components/Spinners';
 import { HistorySwipeList } from 'app/src/components/List';
 import { appTextStyle } from 'app/src/styles';
 import { useGetHistoryList } from 'app/src/hooks';

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Image, StyleSheet } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 

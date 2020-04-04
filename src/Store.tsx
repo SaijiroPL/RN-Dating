@@ -24,12 +24,14 @@ const DispatchContext = createContext<React.Dispatch<Action>>(() => true);
 
 /** Provider */
 const Provider = (props: any) => {
+  const { children } = props;
+
   const [state, dispatch] = useReducer(Reducer, initialState);
 
   return (
     <StoreContext.Provider value={state}>
       <DispatchContext.Provider value={dispatch}>
-        {props.children}
+        {children}
       </DispatchContext.Provider>
     </StoreContext.Provider>
   );

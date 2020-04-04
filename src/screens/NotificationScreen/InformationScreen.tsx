@@ -18,13 +18,9 @@ const InformationScreen: React.FC = () => {
   const loginUser = useGlobalState('loginUser');
 
   /** 運営からのお知らせ一覧取得 */
-  const {
-    isLoading,
-    isRefreshing,
-    onRefresh,
-    information,
-    errors,
-  } = useGetInformationList(loginUser.id);
+  const { isRefreshing, onRefresh, information } = useGetInformationList(
+    loginUser.id,
+  );
 
   return (
     <ScrollView refreshControl={RefreshSpinner(isRefreshing, onRefresh)}>

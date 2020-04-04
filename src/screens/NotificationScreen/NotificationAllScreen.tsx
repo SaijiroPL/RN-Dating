@@ -18,13 +18,9 @@ const NotificationAllScreen: React.FC = () => {
   const loginUser = useGlobalState('loginUser');
 
   /** 通知一覧取得 */
-  const {
-    isLoading,
-    isRefreshing,
-    onRefresh,
-    notifications,
-    errors,
-  } = useGetNotificationList(loginUser.id);
+  const { isRefreshing, onRefresh, notifications } = useGetNotificationList(
+    loginUser.id,
+  );
 
   return (
     <ScrollView refreshControl={RefreshSpinner(isRefreshing, onRefresh)}>

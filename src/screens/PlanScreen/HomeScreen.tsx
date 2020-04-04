@@ -18,7 +18,6 @@ const HomeScreen: React.FC = () => {
   const {
     isPlanListLoading,
     plans,
-    errors,
     isRefreshing,
     onRefresh,
   } = useGetPlanList();

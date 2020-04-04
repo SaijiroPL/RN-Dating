@@ -36,7 +36,7 @@ export interface Action {
 }
 
 /** Reducer */
-const Reducer = (state: State, action: Action) => {
+const Reducer = (state: State, action: Action): any => {
   const { type, payload } = action;
 
   switch (type) {
@@ -55,6 +55,8 @@ const Reducer = (state: State, action: Action) => {
         ...state,
         createPlan: payload,
       };
+    default:
+      break;
   }
 };
 

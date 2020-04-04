@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { StyleSheet } from 'react-native';
-import { Button, Text, View } from 'native-base';
+import { Button, Text } from 'native-base';
 // import { AntDesign } from "@expo/vector-icons";
 
 // from app

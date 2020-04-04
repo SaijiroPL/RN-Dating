@@ -2,7 +2,6 @@ import React, { useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useNavigation, useNavigationParam } from 'react-navigation-hooks';
 import { Container, Content, Text } from 'native-base';
-import axios from 'axios';
 
 // from app
 import { useGlobalState } from 'app/src/Store';
@@ -149,7 +148,7 @@ const PlanDetailScreen: React.FC = () => {
               onPress={onMoreCommentPress}
               style={appTextStyle.detailLinkText}
             >
-              >> 全{comments.total}件のコメントを見る
+              &gt;&gt; 全{comments.total}件のコメントを見る
             </Text>
           </View>
         )}
