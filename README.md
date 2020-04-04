@@ -34,7 +34,7 @@ $ cd one-date-client
 ### 必要なライブラリのインストール
 
 ```bash
-$ npm i
+$ yarn
 ```
 
 ### ローカルサーバーの起動
@@ -44,7 +44,7 @@ $ npm i
 ### クライアントアプリの起動
 
 ```bash
-$ npm run start
+$ yarn start
 ```
 
 - **iOS シミュレータ**  
@@ -61,7 +61,7 @@ $ npm run start
 - プライベート IP アドレスを取得する。
 
 ```bash
-$ npm run ip
+$ yarn ip
 ...
 xxx.xxx.xxx.xxx
 ```
@@ -79,8 +79,14 @@ xxx.xxx.xxx.xxx
 
 ```bash
 # キャプチャスタート（Command + C で終了）
-$ npm run capture:start
+$ yarn capture:start
 
 # GIF に変換
-$ npm run capture:togif
+$ yarn capture:togif
+```
+
+### Lint エラーチェック・自動整形
+
+```
+$ yarn lint
 ```
