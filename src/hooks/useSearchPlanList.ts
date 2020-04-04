@@ -61,10 +61,6 @@ export const useSearchPlanList = () => {
       setIsLoading(true);
     }
 
-    if (!signal) {
-      signal = axios.CancelToken.source();
-    }
-
     const url = API_ENDPOINT.PLANS_SEARCH;
 
     try {
@@ -73,7 +69,7 @@ export const useSearchPlanList = () => {
           keyword: searchWord,
           user_id: loginUser.id,
         },
-        cancelToken: signal.token,
+        cancelToken: signal?.token || axios.CancelToken.source().token,
       });
       setPlans(Object.assign(data));
     } catch (err) {
