@@ -66,8 +66,8 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
   // タブナビゲーション全体の設定
   {
     initialRouteName: 'HomeTab',
-    activeTintColor: COLOR.tintColor,
-    inactiveTintColor: COLOR.inactiveColor,
+    activeColor: COLOR.tintColor,
+    inactiveColor: COLOR.inactiveColor,
     barStyle: {
       backgroundColor: COLOR.backgroundColor,
     },
