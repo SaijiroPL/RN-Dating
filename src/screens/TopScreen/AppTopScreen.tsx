@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
-import { useNavigation } from 'react-navigation-hooks';
+import { useNavigation } from '@react-navigation/native';
 import { FontAwesome } from '@expo/vector-icons';
 
 // from app

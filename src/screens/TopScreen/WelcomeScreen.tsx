@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { useNavigation } from 'react-navigation-hooks';
+import { useNavigation } from '@react-navigation/native';
 
 // from app
 import { COLOR, IMAGE, LAYOUT } from 'app/src/constants';

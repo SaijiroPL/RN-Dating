@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Content, List, ListItem, Text } from 'native-base';
-import { useNavigation } from 'react-navigation-hooks';
+import { useNavigation } from '@react-navigation/native';
 
 // from app
 import { appTextStyle } from 'app/src/styles';

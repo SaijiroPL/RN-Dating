@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { useNavigation } from 'react-navigation-hooks';
+import { useNavigation } from '@react-navigation/native';
 import { Container } from 'native-base';
 
 // from app

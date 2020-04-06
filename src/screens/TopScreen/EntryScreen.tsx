@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text } from 'native-base';
-import { useNavigation } from 'react-navigation-hooks';
+import { useNavigation } from '@react-navigation/native';
 
 // from app
 import { COLOR, LAYOUT } from 'app/src/constants';

@@ -7,7 +7,7 @@ import React, {
   useRef,
 } from 'react';
 import { StyleSheet, Alert } from 'react-native';
-import { useNavigation } from 'react-navigation-hooks';
+import { useNavigation } from '@react-navigation/native';
 import MapView, { Polyline } from 'react-native-maps';
 import * as Location from 'expo-location';
 

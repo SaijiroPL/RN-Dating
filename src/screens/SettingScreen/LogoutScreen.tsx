@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { View, Text } from 'react-native';
 
-import { useNavigation } from 'react-navigation-hooks';
+import { useNavigation } from '@react-navigation/native';
 import { CompleteButton } from 'app/src/components/Button';
 import { appStyle, appTextStyle } from 'app/src/styles';
 

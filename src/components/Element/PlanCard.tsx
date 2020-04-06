@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation } from 'react-navigation-hooks';
+import { useNavigation } from '@react-navigation/native';
 import {
   Body,
   Card,

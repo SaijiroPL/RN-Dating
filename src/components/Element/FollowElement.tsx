@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { StyleSheet } from 'react-native';
 import { ListItem, Thumbnail, Text, Left, Body, Right } from 'native-base';
-import { useNavigation } from 'react-navigation-hooks';
+import { useNavigation } from '@react-navigation/native';
 
 // from app
 import { COLOR, IMAGE } from 'app/src/constants';

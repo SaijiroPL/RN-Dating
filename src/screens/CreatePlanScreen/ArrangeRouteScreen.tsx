@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { Container, Content } from 'native-base';
-import { useNavigation } from 'react-navigation-hooks';
+import { useNavigation } from '@react-navigation/native';
 
 // from app
 import { CompleteFooterButton } from 'app/src/components/Button';
