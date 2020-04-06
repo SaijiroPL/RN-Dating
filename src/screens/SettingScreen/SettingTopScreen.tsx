@@ -37,17 +37,17 @@ const SettingTopScreen: React.FC = () => {
           <ListItem itemDivider>
             <Text style={appTextStyle.defaultText}>アカウント</Text>
           </ListItem>
-          {renderLink('プロフィール設定', 'profile')}
-          {renderLink('リンク済みアカウント', 'account')}
-          {renderLink('パスワード変更', 'pass')}
-          {renderLink('ログアウト', 'logout')}
+          {renderLink('プロフィール設定', 'Profile')}
+          {renderLink('リンク済みアカウント', 'Account')}
+          {renderLink('パスワード変更', 'Pass')}
+          {renderLink('ログアウト', 'Logout')}
           <ListItem itemDivider>
             <Text style={appTextStyle.defaultText}>その他</Text>
           </ListItem>
-          {renderLink('ヘルプセンター', 'faq')}
-          {renderLink('利用規約', 'terms')}
-          {renderLink('プライバシーポリシー', 'privacy')}
-          {renderLink('検索履歴の削除', 'history')}
+          {renderLink('ヘルプセンター', 'Faq')}
+          {renderLink('利用規約', 'Terms')}
+          {renderLink('プライバシーポリシー', 'Privacy')}
+          {renderLink('検索履歴の削除', 'History')}
         </List>
       </Content>
     </Container>
