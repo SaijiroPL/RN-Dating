@@ -45,6 +45,9 @@ $ yarn
 
 ```bash
 $ yarn start
+
+# キャッシュクリアして起動
+$ yarn start -c
 ```
 
 - **iOS シミュレータ**  
