@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { useNavigation, useNavigationParam } from 'react-navigation-hooks';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { Container, Content, Text } from 'native-base';
 
 // from app
@@ -17,6 +17,7 @@ import {
   useLikePlan,
   useFollowUser,
 } from 'app/src/hooks';
+import { IPlanNavigationParam } from 'app/src/interfaces/app/Navigation';
 import { formatDate } from 'app/src/utils';
 import { appStyle, appTextStyle } from 'app/src/styles';
 
@@ -25,23 +26,25 @@ import { appStyle, appTextStyle } from 'app/src/styles';
  * @author kotatanaka
  */
 const PlanDetailScreen: React.FC = () => {
+  const route = useRoute();
+  const planNavigationParam = route.params as IPlanNavigationParam;
+
   /** ログイン中のユーザー */
   const loginUser = useGlobalState('loginUser');
 
   /** ナビゲーター */
   const { navigate } = useNavigation();
 
-  /** デートプランID */
-  const planId = useNavigationParam('id');
-
   /** デートプラン詳細取得 */
   const { isPlanLoading, plan, getPlanDetail } = useGetPlanDetail(
-    planId,
+    planNavigationParam.planId,
     loginUser.id,
   );
 
   /** コメント一覧取得 */
-  const { isCommentsLoading, comments } = useGetCommentList(planId);
+  const { isCommentsLoading, comments } = useGetCommentList(
+    planNavigationParam.planId,
+  );
 
   /** お気に入り登録・解除 */
   const { likePlan, unlikePlan } = useLikePlan(loginUser.id);
@@ -51,7 +54,7 @@ const PlanDetailScreen: React.FC = () => {
 
   /** コメントもっと見る押下時の処理 */
   const onMoreCommentPress = useCallback(() => {
-    navigate('Comment', { id: plan.plan_id });
+    navigate('Comment', { planId: plan.plan_id });
   }, [plan]);
 
   // ローディング
