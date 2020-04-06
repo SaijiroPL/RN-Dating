@@ -1,5 +1,4 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 // from app
@@ -16,46 +15,44 @@ const HomeStack = createStackNavigator();
 
 /** ホームタブのナビゲーター */
 const HomeNavigator: React.FC = () => (
-  <NavigationContainer>
-    <HomeStack.Navigator>
-      <HomeStack.Screen
-        name="top"
-        component={HomeScreen}
-        options={{ title: 'ホーム' }}
-      />
-      <HomeStack.Screen
-        name="detail"
-        component={PlanDetailScreen}
-        options={{ title: 'プラン詳細' }}
-      />
-      <HomeStack.Screen
-        name="comment"
-        component={CommentScreen}
-        options={{ title: 'コメント' }}
-      />
-      <HomeStack.Screen
-        name="like"
-        component={LikeUserScreen}
-        options={{ title: 'お気に入り' }}
-      />
-      <HomeStack.Screen
-        name="profile"
-        component={ProfileScreen}
-        options={{ title: 'ユーザー詳細' }}
-      />
-      <HomeStack.Screen
-        name="follow"
-        component={FollowScreen}
-        options={{ title: 'フォロー' }}
-      />
-      <HomeStack.Screen
-        name="follower"
-        component={FollowerScreen}
-        options={{ title: 'フォロワー' }}
-      />
-      <HomeStack.Screen name="create" component={CreatePlanNavigator} />
-    </HomeStack.Navigator>
-  </NavigationContainer>
+  <HomeStack.Navigator>
+    <HomeStack.Screen
+      name="top"
+      component={HomeScreen}
+      options={{ title: 'ホーム' }}
+    />
+    <HomeStack.Screen
+      name="detail"
+      component={PlanDetailScreen}
+      options={{ title: 'プラン詳細' }}
+    />
+    <HomeStack.Screen
+      name="comment"
+      component={CommentScreen}
+      options={{ title: 'コメント' }}
+    />
+    <HomeStack.Screen
+      name="like"
+      component={LikeUserScreen}
+      options={{ title: 'お気に入り' }}
+    />
+    <HomeStack.Screen
+      name="profile"
+      component={ProfileScreen}
+      options={{ title: 'ユーザー詳細' }}
+    />
+    <HomeStack.Screen
+      name="follow"
+      component={FollowScreen}
+      options={{ title: 'フォロー' }}
+    />
+    <HomeStack.Screen
+      name="follower"
+      component={FollowerScreen}
+      options={{ title: 'フォロワー' }}
+    />
+    <HomeStack.Screen name="create" component={CreatePlanNavigator} />
+  </HomeStack.Navigator>
 );
 
 export default HomeNavigator;

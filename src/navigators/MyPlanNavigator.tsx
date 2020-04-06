@@ -1,5 +1,4 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 // from app
@@ -15,45 +14,43 @@ const MyPlanStack = createStackNavigator();
 
 /** マイプランタブのナビゲーター */
 const MyPlanNavigator: React.FC = () => (
-  <NavigationContainer>
-    <MyPlanStack.Navigator>
-      <MyPlanStack.Screen
-        name="top"
-        component={MyPlanScreen}
-        options={{ title: 'マイプラン' }}
-      />
-      <MyPlanStack.Screen
-        name="detail"
-        component={PlanDetailScreen}
-        options={{ title: 'プラン詳細' }}
-      />
-      <MyPlanStack.Screen
-        name="comment"
-        component={CommentScreen}
-        options={{ title: 'コメント' }}
-      />
-      <MyPlanStack.Screen
-        name="like"
-        component={LikeUserScreen}
-        options={{ title: 'お気に入り' }}
-      />
-      <MyPlanStack.Screen
-        name="profile"
-        component={ProfileScreen}
-        options={{ title: 'ユーザー詳細' }}
-      />
-      <MyPlanStack.Screen
-        name="follow"
-        component={FollowScreen}
-        options={{ title: 'フォロー' }}
-      />
-      <MyPlanStack.Screen
-        name="follower"
-        component={FollowerScreen}
-        options={{ title: 'フォロワー' }}
-      />
-    </MyPlanStack.Navigator>
-  </NavigationContainer>
+  <MyPlanStack.Navigator>
+    <MyPlanStack.Screen
+      name="top"
+      component={MyPlanScreen}
+      options={{ title: 'マイプラン' }}
+    />
+    <MyPlanStack.Screen
+      name="detail"
+      component={PlanDetailScreen}
+      options={{ title: 'プラン詳細' }}
+    />
+    <MyPlanStack.Screen
+      name="comment"
+      component={CommentScreen}
+      options={{ title: 'コメント' }}
+    />
+    <MyPlanStack.Screen
+      name="like"
+      component={LikeUserScreen}
+      options={{ title: 'お気に入り' }}
+    />
+    <MyPlanStack.Screen
+      name="profile"
+      component={ProfileScreen}
+      options={{ title: 'ユーザー詳細' }}
+    />
+    <MyPlanStack.Screen
+      name="follow"
+      component={FollowScreen}
+      options={{ title: 'フォロー' }}
+    />
+    <MyPlanStack.Screen
+      name="follower"
+      component={FollowerScreen}
+      options={{ title: 'フォロワー' }}
+    />
+  </MyPlanStack.Navigator>
 );
 
 export default MyPlanNavigator;
