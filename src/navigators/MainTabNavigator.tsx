@@ -32,27 +32,42 @@ const MainTabNavigator: React.FC = () => {
       <MainButtomTab.Screen
         name="Search"
         component={SearchNavigator}
-        options={{ title: '検索', tabBarIcon: () => SearchTabIcon }}
+        options={{
+          title: '検索',
+          tabBarIcon: ({ color }) => <SearchTabIcon tintColor={color} />,
+        }}
       />
       <MainButtomTab.Screen
         name="MyPlan"
         component={MyPlanNavigator}
-        options={{ title: 'マイプラン', tabBarIcon: () => MyPlanTabIcon }}
+        options={{
+          title: 'マイプラン',
+          tabBarIcon: ({ color }) => <MyPlanTabIcon tintColor={color} />,
+        }}
       />
       <MainButtomTab.Screen
         name="Home"
         component={HomeNavigator}
-        options={{ title: 'ホーム', tabBarIcon: () => HomeTabIcon }}
+        options={{
+          title: 'ホーム',
+          tabBarIcon: ({ color }) => <HomeTabIcon tintColor={color} />,
+        }}
       />
       <MainButtomTab.Screen
         name="Notification"
         component={NotificationNavigator}
-        options={{ title: '通知', tabBarIcon: () => NotificationTabIcon }}
+        options={{
+          title: '通知',
+          tabBarIcon: ({ color }) => <NotificationTabIcon tintColor={color} />,
+        }}
       />
       <MainButtomTab.Screen
         name="Profile"
         component={MyProfileNavigator}
-        options={{ title: 'プロフィール', tabBarIcon: () => ProfileTabIcon }}
+        options={{
+          title: 'プロフィール',
+          tabBarIcon: ({ color }) => <ProfileTabIcon tintColor={color} />,
+        }}
       />
     </MainButtomTab.Navigator>
   );
