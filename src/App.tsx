@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Platform, StatusBar, View } from 'react-native';
+import { Platform, StatusBar, View, YellowBox } from 'react-native';
 import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
@@ -13,6 +13,12 @@ import { appStyle } from 'app/src/styles';
 interface Props {
   skipLoadingScreen: boolean;
 }
+
+/** 警告を表示しない設定 */
+YellowBox.ignoreWarnings([
+  // TODO スクロールビューのネストを解消したら外す
+  'VirtualizedLists should never be nested',
+]);
 
 /**
  * アプリケーションの初期化
