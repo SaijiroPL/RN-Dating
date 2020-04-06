@@ -14,10 +14,10 @@ const AppStack = createStackNavigator();
 const AppNavigator: React.FC = () => (
   <NavigationContainer>
     <AppStack.Navigator headerMode="none">
-      <AppStack.Screen name="top" component={TopNavigator} />
-      <AppStack.Screen name="welcome" component={WelcomeScreen} />
-      <AppStack.Screen name="entry" component={EntryScreen} />
-      <AppStack.Screen name="main" component={MainTabNavigator} />
+      <AppStack.Screen name="AppTop" component={TopNavigator} />
+      <AppStack.Screen name="Welcome" component={WelcomeScreen} />
+      <AppStack.Screen name="Entry" component={EntryScreen} />
+      <AppStack.Screen name="Main" component={MainTabNavigator} />
     </AppStack.Navigator>
   </NavigationContainer>
 );

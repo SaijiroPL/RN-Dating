@@ -12,17 +12,17 @@ const TopStack = createStackNavigator();
 const TopNavigator: React.FC = () => (
   <TopStack.Navigator>
     <TopStack.Screen
-      name="top"
+      name="Top"
       component={AppTopScreen}
       options={{ headerShown: false }}
     />
     <TopStack.Screen
-      name="terms"
+      name="Terms"
       component={TermsScreen}
       options={{ title: '利用規約' }}
     />
     <TopStack.Screen
-      name="privacy"
+      name="Privacy"
       component={PrivacyPolycyScreen}
       options={{ title: 'プライバシーポリシー' }}
     />

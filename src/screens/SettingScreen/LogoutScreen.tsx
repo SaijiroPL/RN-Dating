@@ -13,7 +13,7 @@ const LogoutScreen: React.FC = () => {
   const { navigate } = useNavigation();
 
   const onCompleteButtonPress = useCallback(() => {
-    navigate('appTop');
+    navigate('AppTop');
   }, []);
 
   return (

@@ -16,37 +16,37 @@ const SearchStack = createStackNavigator();
 const SearchNavigator: React.FC = () => (
   <SearchStack.Navigator>
     <SearchStack.Screen
-      name="top"
+      name="Top"
       component={SearchScreen}
       options={{ title: '検索' }}
     />
     <SearchStack.Screen
-      name="detail"
+      name="Detail"
       component={PlanDetailScreen}
       options={{ title: 'プラン詳細' }}
     />
     <SearchStack.Screen
-      name="comment"
+      name="Comment"
       component={CommentScreen}
       options={{ title: 'コメント' }}
     />
     <SearchStack.Screen
-      name="like"
+      name="Like"
       component={LikeUserScreen}
       options={{ title: 'お気に入り' }}
     />
     <SearchStack.Screen
-      name="profile"
+      name="Profile"
       component={ProfileScreen}
       options={{ title: 'ユーザー詳細' }}
     />
     <SearchStack.Screen
-      name="follow"
+      name="Follow"
       component={FollowScreen}
       options={{ title: 'フォロー' }}
     />
     <SearchStack.Screen
-      name="follower"
+      name="Follower"
       component={FollowerScreen}
       options={{ title: 'フォロワー' }}
     />

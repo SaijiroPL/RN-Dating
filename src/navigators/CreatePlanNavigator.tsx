@@ -17,42 +17,42 @@ const CreatePlanStack = createStackNavigator();
 const CreatePlanNavigator: React.FC = () => (
   <CreatePlanStack.Navigator>
     <CreatePlanStack.Screen
-      name="baseInfo"
+      name="BaseInfo"
       component={CreatePlanTopScreen}
       options={{ title: 'プラン作成' }}
     />
     <CreatePlanStack.Screen
-      name="map"
+      name="Map"
       component={SearchMapScreen}
       options={{ title: '範囲指定' }}
     />
     <CreatePlanStack.Screen
-      name="flick"
+      name="Flick"
       component={SwipeSpotScreen}
       options={{ title: 'スポットスワイプ' }}
     />
     <CreatePlanStack.Screen
-      name="select"
+      name="Select"
       component={SelectSpotScreen}
       options={{ title: '選択と削除' }}
     />
     <CreatePlanStack.Screen
-      name="arrange"
+      name="Arrange"
       component={ArrangeRouteScreen}
       options={{ title: '入れ替え' }}
     />
     <CreatePlanStack.Screen
-      name="complete"
+      name="Complete"
       component={CompletePlanScreen}
       options={{ title: '完成！' }}
     />
     <CreatePlanStack.Screen
-      name="plan"
+      name="Plan"
       component={PlanDetailScreen}
       options={{ title: 'プラン詳細' }}
     />
     <CreatePlanStack.Screen
-      name="home"
+      name="Home"
       component={HomeScreen}
       options={{ title: 'ホーム' }}
     />

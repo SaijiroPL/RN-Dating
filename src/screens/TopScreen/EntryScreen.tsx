@@ -47,7 +47,7 @@ const EntryScreen: React.FC = () => {
     const newUserId = await createUser();
     if (typeof newUserId === 'string') {
       setLoginUser(newUserId, name);
-      navigate('main');
+      navigate('Main');
     }
   }, [createUser]);
 

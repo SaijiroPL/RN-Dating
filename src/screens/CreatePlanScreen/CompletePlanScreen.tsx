@@ -19,9 +19,9 @@ const CompletePlanScreen: React.FC = () => {
         <Text style={appTextStyle.defaultText}>ルートを保存しました。</Text>
       </View>
       <View style={{ marginBottom: 10 }}>
-        <CompleteButton title="今すぐ案内" onPress={() => navigate('plan')} />
+        <CompleteButton title="今すぐ案内" onPress={() => navigate('Plan')} />
       </View>
-      <CompleteButton title="ホームへ" onPress={() => navigate('home')} />
+      <CompleteButton title="ホームへ" onPress={() => navigate('Home')} />
     </View>
   );
 };

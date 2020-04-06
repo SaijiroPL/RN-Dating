@@ -10,7 +10,7 @@ const NotificationStack = createStackNavigator();
 const NotificationNavigator: React.FC = () => (
   <NotificationStack.Navigator>
     <NotificationStack.Screen
-      name="top"
+      name="Top"
       component={NotificationTabNavigator}
       options={{ title: '通知' }}
     />

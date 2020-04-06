@@ -12,7 +12,7 @@ const ArrangeRouteScreen: React.FC = () => {
   const { navigate } = useNavigation();
 
   const onCompleteButtonPress = useCallback(() => {
-    navigate('complete');
+    navigate('Complete');
   }, []);
 
   return (

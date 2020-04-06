@@ -16,37 +16,37 @@ const MyPlanStack = createStackNavigator();
 const MyPlanNavigator: React.FC = () => (
   <MyPlanStack.Navigator>
     <MyPlanStack.Screen
-      name="top"
+      name="Top"
       component={MyPlanScreen}
       options={{ title: 'マイプラン' }}
     />
     <MyPlanStack.Screen
-      name="detail"
+      name="Detail"
       component={PlanDetailScreen}
       options={{ title: 'プラン詳細' }}
     />
     <MyPlanStack.Screen
-      name="comment"
+      name="Comment"
       component={CommentScreen}
       options={{ title: 'コメント' }}
     />
     <MyPlanStack.Screen
-      name="like"
+      name="Like"
       component={LikeUserScreen}
       options={{ title: 'お気に入り' }}
     />
     <MyPlanStack.Screen
-      name="profile"
+      name="Profile"
       component={ProfileScreen}
       options={{ title: 'ユーザー詳細' }}
     />
     <MyPlanStack.Screen
-      name="follow"
+      name="Follow"
       component={FollowScreen}
       options={{ title: 'フォロー' }}
     />
     <MyPlanStack.Screen
-      name="follower"
+      name="Follower"
       component={FollowerScreen}
       options={{ title: 'フォロワー' }}
     />

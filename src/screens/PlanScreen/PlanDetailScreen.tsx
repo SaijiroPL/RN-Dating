@@ -51,7 +51,7 @@ const PlanDetailScreen: React.FC = () => {
 
   /** コメントもっと見る押下時の処理 */
   const onMoreCommentPress = useCallback(() => {
-    navigate('comment', { id: plan.plan_id });
+    navigate('Comment', { id: plan.plan_id });
   }, [plan]);
 
   // ローディング

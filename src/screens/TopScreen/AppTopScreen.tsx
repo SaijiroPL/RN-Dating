@@ -62,12 +62,12 @@ const AppTopScreen: React.FC = () => {
 
   /** 利用規約リンク押下時の処理 */
   const toTerms = useCallback(() => {
-    navigate('terms');
+    navigate('Terms');
   }, []);
 
   /** プライバシーポリシーリンク押下時の処理 */
   const toPrivacy = useCallback(() => {
-    navigate('privacy');
+    navigate('Privacy');
   }, []);
 
   /** メールアドレスでログイン押下時の処理 */
@@ -89,7 +89,7 @@ const AppTopScreen: React.FC = () => {
   const onFacebookButtonPress = useCallback(async (): Promise<void> => {
     const result = await facebookLogin();
     if (result) {
-      navigate('welcome');
+      navigate('Welcome');
     }
   }, []);
 
@@ -97,7 +97,7 @@ const AppTopScreen: React.FC = () => {
   const onSignInButtonPress = useCallback(async (): Promise<void> => {
     const result = await loginByEmail(emailAtSignin, passAtSignin);
     if (result) {
-      navigate('main');
+      navigate('Main');
     }
   }, [emailAtSignin, passAtSignin]);
 
@@ -130,7 +130,7 @@ const AppTopScreen: React.FC = () => {
       confirmPassErrors.length === 0
     ) {
       setRegisterUserParts(emailAtSignup, passAtSignup);
-      navigate('welcome');
+      navigate('Welcome');
     }
   }, [emailAtSignup, passAtSignup, confirmPassAtSignup]);
 

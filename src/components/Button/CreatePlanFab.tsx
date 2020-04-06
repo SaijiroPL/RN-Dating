@@ -15,7 +15,7 @@ export const CreatePlanFab: React.FC = () => {
 
   /** プラン作成トップに遷移 */
   const toCreate = useCallback(() => {
-    navigate('create');
+    navigate('Create');
   }, []);
 
   return (

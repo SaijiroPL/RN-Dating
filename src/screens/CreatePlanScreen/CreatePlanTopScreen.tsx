@@ -45,7 +45,7 @@ const CreatePlanTopScreen: React.FC = () => {
 
   const onCompleteButtonPress = useCallback(() => {
     setCreatePlan();
-    navigate('map');
+    navigate('Map');
   }, [setCreatePlan]);
 
   /** 移動手段選択ボタン */

@@ -25,7 +25,7 @@ export const UserHeader: React.FC<Props> = (props: Props) => {
 
   /** ユーザー押下時の処理 */
   const onPress = useCallback(() => {
-    navigate('profile', { id: user.userId });
+    navigate('Profile', { id: user.userId });
   }, []);
 
   return (

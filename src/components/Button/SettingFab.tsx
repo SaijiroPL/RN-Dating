@@ -15,7 +15,7 @@ export const SettingFab: React.FC = () => {
 
   /** 設定一覧に遷移 */
   const toSetting = useCallback(() => {
-    navigate('setting');
+    navigate('Setting');
   }, []);
 
   return (

@@ -14,37 +14,37 @@ const MyProfileStack = createStackNavigator();
 const MyProfileNavigator: React.FC = () => (
   <MyProfileStack.Navigator>
     <MyProfileStack.Screen
-      name="top"
+      name="Top"
       component={MyProfileScreen}
       options={{ title: 'プロフィール' }}
     />
     <MyProfileStack.Screen
-      name="profile"
+      name="Profile"
       component={ProfileScreen}
       options={{ title: 'ユーザー詳細' }}
     />
     <MyProfileStack.Screen
-      name="myFollow"
+      name="MyFollow"
       component={FollowScreen}
       options={{ title: 'フォロー' }}
     />
     <MyProfileStack.Screen
-      name="myFollower"
+      name="MyFollower"
       component={FollowerScreen}
       options={{ title: 'フォロワー' }}
     />
     <MyProfileStack.Screen
-      name="follow"
+      name="Follow"
       component={FollowScreen}
       options={{ title: 'フォロー' }}
     />
     <MyProfileStack.Screen
-      name="follower"
+      name="Follower"
       component={FollowerScreen}
       options={{ title: 'フォロワー' }}
     />
     <MyProfileStack.Screen
-      name="setting"
+      name="Setting"
       component={SettingNavigator}
       options={{ headerShown: false }}
     />

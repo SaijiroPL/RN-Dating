@@ -18,47 +18,47 @@ const SettingStack = createStackNavigator();
 const SettingNavigator: React.FC = () => (
   <SettingStack.Navigator>
     <SettingStack.Screen
-      name="top"
+      name="Top"
       component={SettingTopScreen}
       options={{ title: '設定' }}
     />
     <SettingStack.Screen
-      name="pass"
+      name="Pass"
       component={ChangePasswordScreen}
       options={{ title: 'パスワード変更' }}
     />
     <SettingStack.Screen
-      name="history"
+      name="History"
       component={DeleteHistoryScreen}
       options={{ title: '検索履歴の削除' }}
     />
     <SettingStack.Screen
-      name="profile"
+      name="Profile"
       component={EditProfileScreen}
       options={{ title: 'プロフィール編集' }}
     />
     <SettingStack.Screen
-      name="faq"
+      name="Faq"
       component={FaqScreen}
       options={{ title: 'ヘルプセンター' }}
     />
     <SettingStack.Screen
-      name="account"
+      name="Account"
       component={LinkedAccountScreen}
       options={{ title: 'リンク済みアカウント' }}
     />
     <SettingStack.Screen
-      name="logout"
+      name="Logout"
       component={LogoutScreen}
       options={{ title: 'ログアウト' }}
     />
     <SettingStack.Screen
-      name="terms"
+      name="Terms"
       component={TermsScreen}
       options={{ title: '利用規約' }}
     />
     <SettingStack.Screen
-      name="privacy"
+      name="Privacy"
       component={PrivacyPolicyScreen}
       options={{ title: 'プライバシーポリシー' }}
     />

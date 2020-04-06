@@ -45,7 +45,7 @@ const SearchMapScreen: React.FC = () => {
   const [pinCount, setPinCount] = useState<number>(0);
 
   const onCompleteButtonPress = useCallback(() => {
-    navigate('flick');
+    navigate('Flick');
   }, []);
 
   const mapRef = useRef(null);

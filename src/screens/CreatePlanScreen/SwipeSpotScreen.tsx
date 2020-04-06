@@ -33,7 +33,7 @@ const SwipeSpotScreen: React.FC = () => {
   const { navigate } = useNavigation();
 
   const onCompleteButtonPress = useCallback(() => {
-    navigate('select');
+    navigate('Select');
   }, []);
 
   return (

@@ -17,42 +17,42 @@ const HomeStack = createStackNavigator();
 const HomeNavigator: React.FC = () => (
   <HomeStack.Navigator>
     <HomeStack.Screen
-      name="top"
+      name="Top"
       component={HomeScreen}
       options={{ title: 'ホーム' }}
     />
     <HomeStack.Screen
-      name="detail"
+      name="Detail"
       component={PlanDetailScreen}
       options={{ title: 'プラン詳細' }}
     />
     <HomeStack.Screen
-      name="comment"
+      name="Comment"
       component={CommentScreen}
       options={{ title: 'コメント' }}
     />
     <HomeStack.Screen
-      name="like"
+      name="Like"
       component={LikeUserScreen}
       options={{ title: 'お気に入り' }}
     />
     <HomeStack.Screen
-      name="profile"
+      name="Profile"
       component={ProfileScreen}
       options={{ title: 'ユーザー詳細' }}
     />
     <HomeStack.Screen
-      name="follow"
+      name="Follow"
       component={FollowScreen}
       options={{ title: 'フォロー' }}
     />
     <HomeStack.Screen
-      name="follower"
+      name="Follower"
       component={FollowerScreen}
       options={{ title: 'フォロワー' }}
     />
     <HomeStack.Screen
-      name="create"
+      name="Create"
       component={CreatePlanNavigator}
       options={{ headerShown: false }}
     />

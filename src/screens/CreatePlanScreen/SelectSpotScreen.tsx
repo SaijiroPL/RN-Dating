@@ -14,7 +14,7 @@ const SelectSpotScreen: React.FC = () => {
   const { navigate } = useNavigation();
 
   const onCompleteButtonPress = useCallback(() => {
-    navigate('arrange');
+    navigate('Arrange');
   }, []);
 
   return (

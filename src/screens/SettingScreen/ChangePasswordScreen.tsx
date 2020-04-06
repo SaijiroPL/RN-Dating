@@ -73,7 +73,7 @@ const ChangePasswordScreen: React.FC = () => {
 
     const result = await updatePassword();
     if (result) {
-      navigate('top');
+      navigate('Top');
     }
   }, [newPassword, confirmNewPassword]);
 

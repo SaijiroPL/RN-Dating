@@ -45,7 +45,7 @@ const WelcomeScreen: React.FC = () => {
 
   /** 完了ボタン押下で基本情報入力画面に遷移する */
   const onStartButtonPress = useCallback(() => {
-    navigate('entry');
+    navigate('Entry');
   }, []);
 
   return (

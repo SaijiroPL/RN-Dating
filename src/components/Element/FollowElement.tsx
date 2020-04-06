@@ -28,14 +28,14 @@ export const FollowElement: React.FC<Props> = (props: Props) => {
   /** フォローユーザー押下時の処理 */
   const onPressFollow = useCallback(() => {
     if (follow) {
-      navigate('profile', { id: follow.user_id });
+      navigate('Profile', { id: follow.user_id });
     }
   }, [follow]);
 
   /** フォロワー押下時の処理 */
   const onPressFollower = useCallback(() => {
     if (follower) {
-      navigate('profile', { id: follower.user_id });
+      navigate('Profile', { id: follower.user_id });
     }
   }, [follower]);
 
