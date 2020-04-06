@@ -1,8 +1,5 @@
-import {
-  createMaterialTopTabNavigator,
-  createStackNavigator,
-  createAppContainer,
-} from 'react-navigation';
+import { createAppContainer } from 'react-navigation';
+import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 
 // from app
 import { COLOR } from 'app/src/constants';
@@ -10,10 +7,7 @@ import NotificationAllScreen from 'app/src/screens/NotificationScreen/Notificati
 import InformationScreen from 'app/src/screens/NotificationScreen/InformationScreen';
 import { appTextStyle } from 'app/src/styles';
 
-/**
- * 通知タブのタブナビゲーター
- * @author kotatanaka
- */
+/** 通知タブのタブナビゲーター */
 const NotificationTabNavigator = createMaterialTopTabNavigator(
   {
     // 通知一覧画面
@@ -33,7 +27,6 @@ const NotificationTabNavigator = createMaterialTopTabNavigator(
       }),
     },
   },
-  // タブナビゲーション全体の設定
   {
     initialRouteName: 'NotificationTab',
     tabBarOptions: {
@@ -43,27 +36,8 @@ const NotificationTabNavigator = createMaterialTopTabNavigator(
         backgroundColor: COLOR.backgroundColor,
       },
     },
-    animationEnabled: false,
+    // animationEnabled: false,
   },
 );
 
-/**
- * 通知タブのタブナビゲーター
- * @author kotatanaka
- */
-const NotificationNavigator = createStackNavigator(
-  {
-    top: {
-      screen: NotificationTabNavigator,
-      navigationOptions: () => ({
-        headerTitle: '通知',
-        headerTitleStyle: appTextStyle.defaultText,
-      }),
-    },
-  },
-  {
-    headerBackTitleVisible: false,
-  },
-);
-
-export default createAppContainer(NotificationNavigator);
+export default createAppContainer(NotificationTabNavigator);

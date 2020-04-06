@@ -16,13 +16,10 @@ import {
   ProfileTabIcon,
 } from 'app/src/components/TabIcons';
 
-/**
- * メイン画面のタブナビゲーター
- * @author kotatanaka
- */
+/** メイン画面のタブナビゲーター */
 const BottomTabNavigator = createMaterialBottomTabNavigator(
   {
-    // 検索タブの設定
+    // 検索
     SearchTab: {
       screen: SearchNavigator,
       navigationOptions: () => ({
@@ -30,7 +27,7 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
         tabBarIcon: SearchTabIcon,
       }),
     },
-    // マイプランタブの設定
+    // マイプラン
     MyPlanTab: {
       screen: MyPlanNavigator,
       navigationOptions: () => ({
@@ -38,7 +35,7 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
         tabBarIcon: MyPlanTabIcon,
       }),
     },
-    // ホームタブの設定
+    // ホーム
     HomeTab: {
       screen: HomeNavigator,
       navigationOptions: () => ({
@@ -46,7 +43,7 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
         tabBarIcon: HomeTabIcon,
       }),
     },
-    // 通知タブの設定
+    // 通知
     NotificationTab: {
       screen: NotificationNavigator,
       navigationOptions: () => ({
@@ -54,7 +51,7 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
         tabBarIcon: NotificationTabIcon,
       }),
     },
-    // プロフィールタブの設定
+    // プロフィール
     ProfileTab: {
       screen: MyProfileNavigator,
       navigationOptions: () => ({
@@ -63,7 +60,6 @@ const BottomTabNavigator = createMaterialBottomTabNavigator(
       }),
     },
   },
-  // タブナビゲーション全体の設定
   {
     initialRouteName: 'HomeTab',
     activeColor: COLOR.tintColor,
