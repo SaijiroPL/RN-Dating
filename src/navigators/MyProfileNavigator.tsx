@@ -18,7 +18,6 @@ const MyProfileNavigator: React.FC = () => (
       component={MyProfileScreen}
       options={{ title: 'プロフィール' }}
     />
-    <MyProfileStack.Screen name="setting" component={SettingNavigator} />
     <MyProfileStack.Screen
       name="profile"
       component={ProfileScreen}
@@ -43,6 +42,11 @@ const MyProfileNavigator: React.FC = () => (
       name="follower"
       component={FollowerScreen}
       options={{ title: 'フォロワー' }}
+    />
+    <MyProfileStack.Screen
+      name="setting"
+      component={SettingNavigator}
+      options={{ headerShown: false }}
     />
   </MyProfileStack.Navigator>
 );

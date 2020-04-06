@@ -51,7 +51,11 @@ const HomeNavigator: React.FC = () => (
       component={FollowerScreen}
       options={{ title: 'フォロワー' }}
     />
-    <HomeStack.Screen name="create" component={CreatePlanNavigator} />
+    <HomeStack.Screen
+      name="create"
+      component={CreatePlanNavigator}
+      options={{ headerShown: false }}
+    />
   </HomeStack.Navigator>
 );
 
