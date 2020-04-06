@@ -29,17 +29,17 @@ export const UserProfile: React.FC<Props> = (props: Props) => {
 
   /** フォロー数押下時の処理 */
   const onFollowPress = useCallback(() => {
-    navigate(me ? 'myFollow' : 'follow', { id: user.user_id });
+    navigate(me ? 'MyFollow' : 'Follow', { id: user.user_id });
   }, [me, user]);
 
   /** フォロワー数押下時の処理 */
   const onFollowerPress = useCallback(() => {
-    navigate(me ? 'myFollower' : 'follower', { id: user.user_id });
+    navigate(me ? 'MyFollower' : 'Follower', { id: user.user_id });
   }, [me, user]);
 
   /** プラン数押下時の処理 */
   const onPlanPress = useCallback(() => {
-    navigate('MyPlanTab');
+    navigate('MyPlan');
   }, []);
 
   return (
