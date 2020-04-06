@@ -32,22 +32,22 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
 
   /** プラン押下時の処理 */
   const onPlanPress = useCallback(() => {
-    navigate('Detail', { id: plan.plan_id });
+    navigate('Detail', { planId: plan.plan_id });
   }, [plan]);
 
   /** コメント数押下時の処理 */
   const onCommentPress = useCallback(() => {
-    navigate('Comment', { id: plan.plan_id });
+    navigate('Comment', { planId: plan.plan_id });
   }, [plan]);
 
   /** お気に入り数押下時の処理 */
   const onLikePress = useCallback(() => {
-    navigate('Like', { id: plan.plan_id });
+    navigate('Like', { planId: plan.plan_id });
   }, [plan]);
 
   /** ユーザー押下時の処理 */
   const onUserPress = useCallback(() => {
-    navigate('Profile', { id: plan.user_id });
+    navigate('Profile', { userId: plan.user_id });
   }, [plan]);
 
   /** プラン作成者ヘッダー */

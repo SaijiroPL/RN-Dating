@@ -21,7 +21,7 @@ export const LikeUserElement: React.FC<Props> = (props: Props) => {
 
   /** ユーザー押下時の処理 */
   const onPress = useCallback(() => {
-    navigate('Profile', { id: user.user_id });
+    navigate('Profile', { userId: user.user_id });
   }, [user]);
 
   return (
