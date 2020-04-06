@@ -1,4 +1,4 @@
-import { Facebook } from 'expo';
+import Facebook from 'expo-facebook';
 import firebase from 'firebase';
 import Constants from 'expo-constants';
 
@@ -13,10 +13,8 @@ export const facebookLogin = async () => {
   const { appId } = Constants.manifest.extra.facebook;
 
   try {
-    const { type, token } = await Facebook.logInWithReadPermissionsAsync(
-      appId,
-      { permissions: ['public_profile'] },
-    );
+    // FIXME Facebook.logInWithReadPermissionsAsyncの実装が変わったみたいなので対応する
+    const { type, token } = await Facebook.logInWithReadPermissionsAsync(appId);
 
     if (type === 'success') {
       const credential = firebase.auth.FacebookAuthProvider.credential(token);
