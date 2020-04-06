@@ -1,5 +1,4 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 // from app
@@ -17,55 +16,53 @@ const SettingStack = createStackNavigator();
 
 /** 設定画面のナビゲーター */
 const SettingNavigator: React.FC = () => (
-  <NavigationContainer>
-    <SettingStack.Navigator>
-      <SettingStack.Screen
-        name="top"
-        component={SettingTopScreen}
-        options={{ title: '設定' }}
-      />
-      <SettingStack.Screen
-        name="pass"
-        component={ChangePasswordScreen}
-        options={{ title: 'パスワード変更' }}
-      />
-      <SettingStack.Screen
-        name="history"
-        component={DeleteHistoryScreen}
-        options={{ title: '検索履歴の削除' }}
-      />
-      <SettingStack.Screen
-        name="profile"
-        component={EditProfileScreen}
-        options={{ title: 'プロフィール編集' }}
-      />
-      <SettingStack.Screen
-        name="faq"
-        component={FaqScreen}
-        options={{ title: 'ヘルプセンター' }}
-      />
-      <SettingStack.Screen
-        name="account"
-        component={LinkedAccountScreen}
-        options={{ title: 'リンク済みアカウント' }}
-      />
-      <SettingStack.Screen
-        name="logout"
-        component={LogoutScreen}
-        options={{ title: 'ログアウト' }}
-      />
-      <SettingStack.Screen
-        name="terms"
-        component={TermsScreen}
-        options={{ title: '利用規約' }}
-      />
-      <SettingStack.Screen
-        name="privacy"
-        component={PrivacyPolicyScreen}
-        options={{ title: 'プライバシーポリシー' }}
-      />
-    </SettingStack.Navigator>
-  </NavigationContainer>
+  <SettingStack.Navigator>
+    <SettingStack.Screen
+      name="top"
+      component={SettingTopScreen}
+      options={{ title: '設定' }}
+    />
+    <SettingStack.Screen
+      name="pass"
+      component={ChangePasswordScreen}
+      options={{ title: 'パスワード変更' }}
+    />
+    <SettingStack.Screen
+      name="history"
+      component={DeleteHistoryScreen}
+      options={{ title: '検索履歴の削除' }}
+    />
+    <SettingStack.Screen
+      name="profile"
+      component={EditProfileScreen}
+      options={{ title: 'プロフィール編集' }}
+    />
+    <SettingStack.Screen
+      name="faq"
+      component={FaqScreen}
+      options={{ title: 'ヘルプセンター' }}
+    />
+    <SettingStack.Screen
+      name="account"
+      component={LinkedAccountScreen}
+      options={{ title: 'リンク済みアカウント' }}
+    />
+    <SettingStack.Screen
+      name="logout"
+      component={LogoutScreen}
+      options={{ title: 'ログアウト' }}
+    />
+    <SettingStack.Screen
+      name="terms"
+      component={TermsScreen}
+      options={{ title: '利用規約' }}
+    />
+    <SettingStack.Screen
+      name="privacy"
+      component={PrivacyPolicyScreen}
+      options={{ title: 'プライバシーポリシー' }}
+    />
+  </SettingStack.Navigator>
 );
 
 export default SettingNavigator;
