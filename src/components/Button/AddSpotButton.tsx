@@ -1,6 +1,5 @@
-import React, { useCallback } from 'react';
-import { StyleSheet } from 'react-native';
-import { Button, Text, View } from 'native-base';
+import React from 'react';
+import { Button, Text } from 'native-base';
 // import { AntDesign } from "@expo/vector-icons";
 
 // from app
@@ -9,8 +8,8 @@ import { appTextStyle } from 'app/src/styles';
 
 interface Props {
   spot: string;
-  addspot: boolean;
-  onaddspot: (id: string) => Promise<boolean>;
+  addSpot: boolean;
+  onAddSpot: (id: string) => Promise<boolean>;
   reload: () => Promise<void>;
 }
 
@@ -19,22 +18,24 @@ interface Props {
  * @author itsukiyamada
  */
 export const AddSpotButton: React.FC<Props> = (props: Props) => {
-  /**
-  const { spot, addspot, onaddspot, reload } = props;
+  // const { spot, addSpot, onAddspot, reload } = props;
 
   /** スポット追加 */
-  /**
-  const handleaddspot = useCallback(async (): Promise<void> => {
-    const result = await onAddspot(spot);
-    if (result) {
-      reload();
-    }
-  }, [spot]);
-  */
+  // const handleAddSpot = useCallback(async (): Promise<void> => {
+  //   const result = await onAddspot(spot);
+  //   if (result) {
+  //     await reload();
+  //   }
+  // }, [spot]);
 
-  // スポット追加ボタン
   return (
-    <Button small rounded light color={COLOR.textTintColor} onPress={addspot}>
+    <Button
+      small
+      rounded
+      light
+      color={COLOR.textTintColor}
+      // onPress={addSpot}
+    >
       {/* <AntDesign
         name="pluscircleo"
         size={15}
@@ -44,10 +45,3 @@ export const AddSpotButton: React.FC<Props> = (props: Props) => {
     </Button>
   );
 };
-
-/** スタイリング */
-const thisStyle = StyleSheet.create({
-  unfollowButton: {
-    backgroundColor: COLOR.tintColor,
-  },
-});
