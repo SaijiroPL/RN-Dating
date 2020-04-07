@@ -14,7 +14,8 @@ import * as Location from 'expo-location';
 // from app
 import { ILocation, IHere, IMarker, ILine } from 'app/src/interfaces/app/Map';
 import { MapCircle, MapHere, MapPin } from 'app/src/components/MapItem';
-import { CompleteButton } from 'app/src/components/Button';
+import { View } from 'native-base';
+import { SmallCompleteButton } from 'app/src/components/Button/SmallCompleteButton';
 
 const locationInitialRound = 700;
 
@@ -309,9 +310,16 @@ const SearchMapScreen: React.FC = () => {
         {CenterPin}
         {/* Lines */}
         {/* Distance */}
-
-        {/* TODO 完了ボタンを右下に配置したい */}
-        <CompleteButton title="決定" onPress={onCompleteButtonPress} />
+        {/* <Text style={appTextStyle.defaultText}>保存済みスポット</Text> */}
+        {/* TODO ピンポイントで保存したスポットを小さな画像で表示 */}
+        {/* 縮尺ボタンを表示したい */}
+        <View style={{ marginLeft: 10 }} />
+        <SmallCompleteButton
+          title="スポットを保存"
+          onPress={onCompleteButtonPress}
+        />
+        <View style={{ width: 20, marginRight: 10 }} />
+        <SmallCompleteButton title="決定" onPress={onCompleteButtonPress} />
       </MapView>
       {/* TODO MapHeader */}
     </>

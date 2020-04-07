@@ -8,6 +8,7 @@ import { SearchFormBar } from 'app/src/components/Form';
 import { PlanCardList } from 'app/src/components/List';
 import { useSearchPlanList } from 'app/src/hooks';
 import { appTextStyle } from 'app/src/styles';
+import { CreateSpotFab } from 'app/src/components/Button/CreateSpotFab';
 
 /**
  * デートプラン検索画面
@@ -48,6 +49,8 @@ const SearchScreen: React.FC = () => {
           </ScrollView>
         </View>
       )}
+      {/* TODO スポット追加画面を左上に配置したい */}
+      <CreateSpotFab />
     </View>
   );
 };
