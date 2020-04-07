@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState } from 'react';
 import {
   Container,
   Content,
@@ -12,40 +12,35 @@ import {
   Body,
   Right,
   ListItem,
-  Switch
-} from "native-base";
-import { useNavigation } from "react-navigation-hooks";
+  // Switch,
+} from 'native-base';
+import { useNavigation } from 'react-navigation-hooks';
 
 // from app
-import { ImageCarousel } from "app/src/components/Content";
-import { SimpleMapView } from "app/src/components/MapItem";
-import { useGetPlanDetail } from "app/src/hooks";
-import { StyleSheet } from "react-native";
-import { COLOR } from "app/src/constants";
-import { DatePicker } from "app/src/components/Form";
-import { getToday } from "app/src/utils";
-import { appTextStyle } from "app/src/styles";
-import { SmallCompleteButton } from "app/src/components/Button/SmallCompleteButton";
+import { StyleSheet } from 'react-native';
+import { COLOR } from 'app/src/constants';
+import { DatePicker } from 'app/src/components/Form';
+import { getToday } from 'app/src/utils';
+import { SmallCompleteButton } from 'app/src/components/Button/SmallCompleteButton';
 
 /**
  * デートスポット順番並べ替え画面
+ * @author kotatanaka, itsukiyamada
  */
 const ArrangeRouteScreen: React.FC = () => {
   const { navigate } = useNavigation();
 
-  const [date, setDate] = useState<string>("");
+  const [date, setDate] = useState<string>('');
 
   const onCompleteButtonPress = useCallback(() => {
-    navigate("complete");
+    navigate('Complete');
   }, []);
 
   return (
     <Container>
       <Content />
-      {/**
-      <ImageCarousel plan={plan} />
-      <SimpleMapView spot={plan.spots[0]} />
-       */}
+      {/* <ImageCarousel plan={plan} />
+      <SimpleMapView spot={plan.spots[0]} /> */}
       <Text style={{ flex: 1 }}>ここに写真とルートを表示</Text>
       <Form>
         <Item inlineLabel>
@@ -77,18 +72,16 @@ const ArrangeRouteScreen: React.FC = () => {
           </Body>
           <Right>
             <Text style={thisStyle.text}>ここに非公開ボタンを表示</Text>
-            {/**
-          <Text style={thisStyle.itemTitleText}>投稿日時を非公開にする</Text>
-          <Switch
-            onValueChange={handleSwitchFacebookValue}
-            value={facebookOn}
-          />
-          <Text style={thisStyle.itemTitleText}>投稿を非公開にする</Text>
-          <Switch
-            onValueChange={handleSwitchFacebookValue}
-            value={facebookOn}
-          />
-        */}
+            {/* <Text style={thisStyle.itemTitleText}>投稿日時を非公開にする</Text>
+            <Switch
+              onValueChange={handleSwitchFacebookValue}
+              value={facebookOn}
+            />
+            <Text style={thisStyle.itemTitleText}>投稿を非公開にする</Text>
+            <Switch
+              onValueChange={handleSwitchFacebookValue}
+              value={facebookOn}
+            /> */}
           </Right>
         </ListItem>
       </View>
@@ -108,46 +101,46 @@ const ArrangeRouteScreen: React.FC = () => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   formGroup: {
-    alignItems: "center",
-    flexDirection: "row"
+    alignItems: 'center',
+    flexDirection: 'row',
   },
   columnTitle: {
     backgroundColor: COLOR.tintColor,
     borderRadius: 10,
     marginRight: 5,
     marginTop: 2,
-    paddingHorizontal: 5
+    paddingHorizontal: 5,
   },
   columnTitleText: {
-    color: "white",
-    fontFamily: "genju-medium",
-    fontSize: 10
+    color: 'white',
+    fontFamily: 'genju-medium',
+    fontSize: 10,
   },
   itemTitleText: {
     color: COLOR.textTintColor,
-    fontFamily: "genju-medium",
+    fontFamily: 'genju-medium',
     fontSize: 10,
-    marginRight: 10
+    marginRight: 10,
   },
   button1: {
-    alignItems: "center",
-    flexDirection: "row",
+    alignItems: 'center',
+    flexDirection: 'row',
     marginBottom: 5,
-    padding: 15
+    padding: 15,
   },
   text: {
     color: COLOR.textTintColor,
     fontSize: 10,
-    padding: 20
+    padding: 20,
   },
   text2: {
     color: COLOR.textTintColor,
-    flexDirection: "row",
-    fontSize: 12
+    flexDirection: 'row',
+    fontSize: 12,
   },
   emptySpace: {
-    marginBottom: 5
-  }
+    marginBottom: 5,
+  },
 });
 
 export default ArrangeRouteScreen;

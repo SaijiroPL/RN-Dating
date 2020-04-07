@@ -1,10 +1,10 @@
-import React from "react";
-import { StyleSheet } from "react-native";
-import { Body, ListItem, Text } from "native-base";
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { Body, ListItem, Text } from 'native-base';
 
 // from app
-import { COLOR } from "app/src/constants";
-import { IInformation } from "app/src/interfaces/api/Notification";
+import { COLOR } from 'app/src/constants';
+import { IInformation } from 'app/src/interfaces/api/Notification';
 
 interface Props {
   notification: IInformation;
@@ -32,15 +32,15 @@ export const InformationElement: React.FC<Props> = (props: Props) => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   container: {
-    justifyContent: "center"
+    justifyContent: 'center',
   },
   titleText: {
-    fontFamily: "genju-medium",
+    fontFamily: 'genju-medium',
     textDecorationColor: COLOR.inactiveColor,
-    textDecorationLine: "underline"
+    textDecorationLine: 'underline',
   },
   dateText: {
-    fontFamily: "genju-light",
-    fontSize: 10
-  }
+    fontFamily: 'genju-light',
+    fontSize: 10,
+  },
 });

@@ -1,11 +1,11 @@
-import { useState, useEffect, useCallback } from "react";
-import axios, { CancelTokenSource } from "axios";
+import { useState, useEffect, useCallback } from 'react';
+import axios, { CancelTokenSource } from 'axios';
 
 // from app
-import { API_ENDPOINT } from "app/src/constants/Url";
-import { IInformationList } from "app/src/interfaces/api/Notification";
-import { IApiError } from "app/src/interfaces/api/Error";
-import { handleError } from "app/src/utils";
+import { API_ENDPOINT } from 'app/src/constants/Url';
+import { IInformationList } from 'app/src/interfaces/api/Notification';
+import { IApiError } from 'app/src/interfaces/api/Error';
+import { handleError } from 'app/src/utils';
 
 /**
  * 運営からのお知らせ一覧取得フック
@@ -16,14 +16,14 @@ export const useGetInformationList = (userId: string) => {
   /** 正常レスポンス */
   const [information, setInformation] = useState<IInformationList>({
     unread_count: 0,
-    information_list: []
+    information_list: [],
   });
 
   /** 異常レスポンス */
   const [errors, setErrors] = useState<IApiError>({
     code: 0,
-    message: "",
-    detail_message: []
+    message: '',
+    detail_message: [],
   });
 
   /** ローディング状態 */
@@ -36,8 +36,9 @@ export const useGetInformationList = (userId: string) => {
   useEffect(() => {
     const signal = axios.CancelToken.source();
     getInformationList(signal);
+
     return () => {
-      signal.cancel("Cancelling in Cleanup.");
+      signal.cancel('Cancelling in Cleanup.');
     };
   }, []);
 
@@ -51,21 +52,21 @@ export const useGetInformationList = (userId: string) => {
    * @param signal CancelTokenSource
    */
   const getInformationList = async (
-    signal: CancelTokenSource
+    signal: CancelTokenSource,
   ): Promise<void> => {
     const url = API_ENDPOINT.INFORMATION;
 
     try {
       const { data } = await axios.get<IInformationList>(url, {
         params: {
-          user_id: userId
+          user_id: userId,
         },
-        cancelToken: signal.token
+        cancelToken: signal.token,
       });
       setInformation(Object.assign(data));
     } catch (err) {
       if (axios.isCancel(err)) {
-        console.log("Request Cancelled: " + err.message);
+        console.log(`Request Cancelled: ${err.message}`);
       } else {
         const apiError = handleError(err);
         if (apiError) {

@@ -1,14 +1,14 @@
-import { useState } from "react";
-import axios from "axios";
+import { useState } from 'react';
+import axios from 'axios';
 
 // from app
-import { useDispatch } from "app/src/Store";
-import { ActionType } from "app/src/Reducer";
-import { API_ENDPOINT } from "app/src/constants";
-import { ILoginUser } from "app/src/interfaces/api/User";
-import { IApiError } from "app/src/interfaces/api/Error";
-import { ILogin } from "app/src/interfaces/api/User";
-import { handleError } from "app/src/utils";
+import { useDispatch } from 'app/src/Store';
+import { ActionType } from 'app/src/Reducer';
+import { API_ENDPOINT } from 'app/src/constants';
+import { ILoginUser, ILogin } from 'app/src/interfaces/api/User';
+import { IApiError } from 'app/src/interfaces/api/Error';
+
+import { handleError } from 'app/src/utils';
 
 /**
  * ログインフック
@@ -21,8 +21,8 @@ export const useSignin = () => {
   /** 異常レスポンス */
   const [errors, setErrors] = useState<IApiError>({
     code: 0,
-    message: "",
-    detail_message: []
+    message: '',
+    detail_message: [],
   });
 
   /**
@@ -32,12 +32,12 @@ export const useSignin = () => {
    */
   const loginByEmail = async (
     mailAddress: string,
-    password: string
+    password: string,
   ): Promise<boolean> => {
     const url = API_ENDPOINT.USERS_LOGIN;
     const body: ILogin = {
       mail_address: mailAddress,
-      password: password
+      password,
     };
 
     try {
@@ -49,10 +49,12 @@ export const useSignin = () => {
       if (apiError) {
         setErrors(apiError);
       }
+
       return false;
     }
 
-    setErrors({ code: 0, message: "", detail_message: [] });
+    setErrors({ code: 0, message: '', detail_message: [] });
+
     return true;
   };
 
@@ -66,10 +68,10 @@ export const useSignin = () => {
     dispatch({
       type: ActionType.SET_LOGIN_USER,
       payload: {
-        id: id,
-        name: name,
-        imageUrl: ""
-      }
+        id,
+        name,
+        imageUrl: '',
+      },
     });
   };
 

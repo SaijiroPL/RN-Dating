@@ -1,9 +1,9 @@
-import React from "react";
-import { Image } from "react-native";
-import { Marker } from "react-native-maps";
+import React from 'react';
+import { Image } from 'react-native';
+import { Marker } from 'react-native-maps';
 
 // from app
-import { IMAGE } from "app/src/constants";
+import { IMAGE } from 'app/src/constants';
 
 interface Props {
   location: {

@@ -1,16 +1,16 @@
-import React, { useState, useCallback } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
-import { useNavigation } from "react-navigation-hooks";
-import { FontAwesome } from "@expo/vector-icons";
+import React, { useState, useCallback } from 'react';
+import { Image, StyleSheet, Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { FontAwesome } from '@expo/vector-icons';
 
 // from app
-import { facebookLogin } from "app/src/Firebase";
-import { COLOR, IMAGE, LAYOUT } from "app/src/constants";
-import { InputForm } from "app/src/components/Form";
-import { CompleteButton } from "app/src/components/Button";
-import { useSignin, useSignup } from "app/src/hooks";
-import { validateEmail, validateAlphaNumeric } from "app/src/utils";
-import { appStyle, appTextStyle } from "app/src/styles";
+import { facebookLogin } from 'app/src/Firebase';
+import { COLOR, IMAGE, LAYOUT } from 'app/src/constants';
+import { InputForm } from 'app/src/components/Form';
+import { CompleteButton } from 'app/src/components/Button';
+import { useSignin, useSignup } from 'app/src/hooks';
+import { validateEmail, validateAlphaNumeric } from 'app/src/utils';
+import { appStyle, appTextStyle } from 'app/src/styles';
 
 /**
  * 初回起動時の画面
@@ -29,19 +29,19 @@ const AppTopScreen: React.FC = () => {
   const [screenPhase, setScreenPhase] = useState<number>(0);
 
   /** メールアドレス(ログイン用) */
-  const [emailAtSignin, setEmailAtSignin] = useState<string>("");
+  const [emailAtSignin, setEmailAtSignin] = useState<string>('');
 
   /** パスワード(ログイン用) */
-  const [passAtSignin, setPassAtSignin] = useState<string>("");
+  const [passAtSignin, setPassAtSignin] = useState<string>('');
 
   /** メールアドレス(新規登録用) */
-  const [emailAtSignup, setEmailAtSignup] = useState<string>("");
+  const [emailAtSignup, setEmailAtSignup] = useState<string>('');
 
   /** パスワード(新規登録用) */
-  const [passAtSignup, setPassAtSignup] = useState<string>("");
+  const [passAtSignup, setPassAtSignup] = useState<string>('');
 
   /** パスワードの確認(新規登録用) */
-  const [confirmPassAtSignup, setConfirmPassAtSignup] = useState<string>("");
+  const [confirmPassAtSignup, setConfirmPassAtSignup] = useState<string>('');
 
   /** メールアドレスバリデーションエラー(新規登録用) */
   const [emailErrAtSignup, setEmailErrAtSignup] = useState<Array<string>>([]);
@@ -62,19 +62,19 @@ const AppTopScreen: React.FC = () => {
 
   /** 利用規約リンク押下時の処理 */
   const toTerms = useCallback(() => {
-    navigate("terms");
+    navigate('Terms');
   }, []);
 
   /** プライバシーポリシーリンク押下時の処理 */
   const toPrivacy = useCallback(() => {
-    navigate("privacy");
+    navigate('Privacy');
   }, []);
 
   /** メールアドレスでログイン押下時の処理 */
   const openMailAddressScreen = useCallback(() => {
     // デートマスターを初期値に設定しておく
-    const masterMailAddress = "master@onedate.com";
-    const masterPassword = "password";
+    const masterMailAddress = 'master@onedate.com';
+    const masterPassword = 'password';
     setEmailAtSignin(masterMailAddress);
     setPassAtSignin(masterPassword);
     setScreenPhase(1);
@@ -89,7 +89,7 @@ const AppTopScreen: React.FC = () => {
   const onFacebookButtonPress = useCallback(async (): Promise<void> => {
     const result = await facebookLogin();
     if (result) {
-      navigate("welcome");
+      navigate('Welcome');
     }
   }, []);
 
@@ -97,7 +97,7 @@ const AppTopScreen: React.FC = () => {
   const onSignInButtonPress = useCallback(async (): Promise<void> => {
     const result = await loginByEmail(emailAtSignin, passAtSignin);
     if (result) {
-      navigate("main");
+      navigate('Main');
     }
   }, [emailAtSignin, passAtSignin]);
 
@@ -108,16 +108,16 @@ const AppTopScreen: React.FC = () => {
     const confirmPassErrors: Array<string> = [];
 
     if (!validateEmail(emailAtSignup)) {
-      emailErrors.push("メールアドレスを入力してください");
+      emailErrors.push('メールアドレスを入力してください');
     }
     if (!validateAlphaNumeric(passAtSignup)) {
-      passErrors.push("半角英数を入力してください");
+      passErrors.push('半角英数を入力してください');
     }
     if (!validateAlphaNumeric(confirmPassAtSignup)) {
-      confirmPassErrors.push("半角英数を入力してください");
+      confirmPassErrors.push('半角英数を入力してください');
     }
     if (passAtSignup !== confirmPassAtSignup) {
-      confirmPassErrors.push("パスワードが一致しません");
+      confirmPassErrors.push('パスワードが一致しません');
     }
 
     setEmailErrAtSignup(emailErrors);
@@ -130,7 +130,7 @@ const AppTopScreen: React.FC = () => {
       confirmPassErrors.length === 0
     ) {
       setRegisterUserParts(emailAtSignup, passAtSignup);
-      navigate("welcome");
+      navigate('Welcome');
     }
   }, [emailAtSignup, passAtSignup, confirmPassAtSignup]);
 
@@ -161,12 +161,12 @@ const AppTopScreen: React.FC = () => {
     const emailErrAtSignin: Array<string> = [];
     const passwordErrAtSignin: Array<string> = [];
     if (errors && errors.detail_message.length > 0) {
-      errors.detail_message.forEach(item => {
-        if (item.match(/Mail Address/) || item === "ユーザーが見つかりません") {
-          emailErrAtSignin.push(item.replace("Mail Addressは", ""));
+      errors.detail_message.forEach((item) => {
+        if (item.match(/Mail Address/) || item === 'ユーザーが見つかりません') {
+          emailErrAtSignin.push(item.replace('Mail Addressは', ''));
         }
         if (item.match(/Password/)) {
-          passwordErrAtSignin.push(item.replace("Passwordは", ""));
+          passwordErrAtSignin.push(item.replace('Passwordは', ''));
         }
       });
     }
@@ -269,36 +269,36 @@ const AppTopScreen: React.FC = () => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   topImage: {
-    alignItems: "center",
+    alignItems: 'center',
     flex: 2,
-    justifyContent: "center"
+    justifyContent: 'center',
   },
   linkOrFormGroup: {
-    alignItems: "center",
+    alignItems: 'center',
     flex: 3,
-    justifyContent: "center"
+    justifyContent: 'center',
   },
   completeButtonContainer: {
-    marginTop: 20
+    marginTop: 20,
   },
   termsLinkContainer: {
-    flexDirection: "row"
+    flexDirection: 'row',
   },
   welcomeText: {
     color: COLOR.textTintColor,
-    fontFamily: "genju-medium",
+    fontFamily: 'genju-medium',
     fontSize: 20,
-    padding: 10
+    padding: 10,
   },
   link: {
     color: COLOR.textTintColor,
-    fontFamily: "genju-medium",
+    fontFamily: 'genju-medium',
     fontSize: 20,
     padding: 10,
-    textAlign: "center",
+    textAlign: 'center',
     textDecorationColor: COLOR.tintColor,
-    textDecorationLine: "underline"
-  }
+    textDecorationLine: 'underline',
+  },
 });
 
 export default AppTopScreen;

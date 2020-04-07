@@ -1,9 +1,9 @@
-import React, { useCallback } from "react";
-import { StyleSheet } from "react-native";
-import { Button, Text } from "native-base";
+import React, { useCallback } from 'react';
+import { StyleSheet } from 'react-native';
+import { Button, Text } from 'native-base';
 
 // from app
-import { COLOR } from "app/src/constants";
+import { COLOR } from 'app/src/constants';
 
 interface Props {
   // 現在のオンオフ状態
@@ -38,7 +38,7 @@ export const SelectButton: React.FC<Props> = (props: Props) => {
       setOtherValues.forEach(
         (setValue: React.Dispatch<React.SetStateAction<boolean>>) => {
           setValue(false);
-        }
+        },
       );
     }
   }, [value]);
@@ -58,7 +58,7 @@ export const SelectButton: React.FC<Props> = (props: Props) => {
       setOtherValues.forEach(
         (setValue: React.Dispatch<React.SetStateAction<boolean>>) => {
           setValue(true);
-        }
+        },
       );
     }
   }, [value]);
@@ -85,24 +85,24 @@ export const SelectButton: React.FC<Props> = (props: Props) => {
 
 /** デフォルト値 */
 SelectButton.defaultProps = {
-  reversible: false
+  reversible: false,
 };
 
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   inactiveButton: {
-    marginHorizontal: 5
+    marginHorizontal: 5,
   },
   activeButton: {
     backgroundColor: COLOR.tintColor,
-    marginHorizontal: 5
+    marginHorizontal: 5,
   },
   inactiveText: {
     color: COLOR.textTintColor,
-    fontFamily: "genju-medium"
+    fontFamily: 'genju-medium',
   },
   activeText: {
-    color: "white",
-    fontFamily: "genju-medium"
-  }
+    color: 'white',
+    fontFamily: 'genju-medium',
+  },
 });

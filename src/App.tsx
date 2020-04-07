@@ -1,35 +1,43 @@
-import React, { useState, useCallback } from "react";
-import { Platform, StatusBar, View } from "react-native";
-import { AppLoading } from "expo";
-import { Asset } from "expo-asset";
-import * as Font from "expo-font";
+import React, { useState, useCallback } from 'react';
+import { Platform, StatusBar, View, YellowBox } from 'react-native';
+import { AppLoading } from 'expo';
+import { Asset } from 'expo-asset';
+import * as Font from 'expo-font';
 
 // from app
-import { Provider } from "app/src/Store";
-import { IMAGE, FONT } from "app/src/constants";
-import AppNavigator from "app/src/navigators/AppNavigator";
-import { appStyle } from "app/src/styles";
+import { Provider } from 'app/src/Store';
+import { IMAGE, FONT } from 'app/src/constants';
+import AppNavigator from 'app/src/navigators/AppNavigator';
+import { appStyle } from 'app/src/styles';
 
 interface Props {
   skipLoadingScreen: boolean;
 }
+
+/** 警告を表示しない設定 */
+YellowBox.ignoreWarnings([
+  // TODO スクロールビューのネストを解消したら外す
+  'VirtualizedLists should never be nested',
+]);
 
 /**
  * アプリケーションの初期化
  * @author kotatanaka
  */
 const App: React.FC<Props> = (props: Props) => {
+  const { skipLoadingScreen } = props;
+
   /** ローディング状態 */
   const [isLoadingComplete, setLoadingComplete] = useState<boolean>(false);
 
   /** ローカルリソースの読み込み */
   const loadResourcesAsync = useCallback(async (): Promise<void> => {
-    await Asset.loadAsync(Object.keys(IMAGE).map(key => IMAGE[key]));
+    await Asset.loadAsync(Object.keys(IMAGE).map((key) => IMAGE[key]));
     await Font.loadAsync(FONT);
   }, []);
 
   /** ローディングエラー時の処理 */
-  const handleLoadingError = useCallback(error => {
+  const handleLoadingError = useCallback((error) => {
     console.warn(error);
   }, []);
 
@@ -39,7 +47,7 @@ const App: React.FC<Props> = (props: Props) => {
   }, []);
 
   // リソースの読み込みが終わるまでローディング
-  if (!isLoadingComplete && !props.skipLoadingScreen) {
+  if (!isLoadingComplete && !skipLoadingScreen) {
     return (
       <AppLoading
         startAsync={loadResourcesAsync}
@@ -52,7 +60,7 @@ const App: React.FC<Props> = (props: Props) => {
   return (
     <Provider>
       <View style={appStyle.appContainer}>
-        {Platform.OS === "ios" && <StatusBar barStyle="default" />}
+        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
         <AppNavigator />
       </View>
     </Provider>
@@ -60,7 +68,7 @@ const App: React.FC<Props> = (props: Props) => {
 };
 
 App.defaultProps = {
-  skipLoadingScreen: false
+  skipLoadingScreen: false,
 };
 
 export default App;

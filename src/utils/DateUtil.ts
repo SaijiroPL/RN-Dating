@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from 'moment';
 
 /**
  * 日付を任意の形式に変換する
@@ -7,11 +7,12 @@ import moment from "moment";
  * @return 変換後の日付文字列
  */
 export function formatDate(value: string | number, format: string): string {
-  var datetime = moment(value);
+  const datetime = moment(value);
 
   if (!datetime.isValid) {
-    console.warn("Cannot convert by Moment");
-    return "";
+    console.warn('Cannot convert by Moment');
+
+    return '';
   }
 
   return datetime.format(format);
@@ -21,9 +22,7 @@ export function formatDate(value: string | number, format: string): string {
  * 今日の日付を「yyyy-MM-dd」形式で取得する
  * @return yyyy-MM-dd
  */
-export function getToday(): string {
-  return moment().format("YYYY-MM-DD");
-}
+export const getToday = (): string => moment().format('YYYY-MM-DD');
 
 /**
  * 日付をDateオブジェクトに変換する
@@ -31,10 +30,11 @@ export function getToday(): string {
  * @return Dateオブジェクト(変換できなければnull)
  */
 export function toDate(value: string | number): Date | null {
-  var datetime = moment(value);
+  const datetime = moment(value);
 
   if (!datetime.isValid) {
-    console.warn("Cannot convert by Moment");
+    console.warn('Cannot convert by Moment');
+
     return null;
   }
 
@@ -47,18 +47,19 @@ export function toDate(value: string | number): Date | null {
  * @return 年齢
  */
 export function getAge(value: string | number): number {
-  var d = moment(value);
+  const d = moment(value);
 
   if (!d.isValid) {
-    console.warn("Cannot convert by Moment");
+    console.warn('Cannot convert by Moment');
+
     return 0;
   }
 
-  var dObj = d.toObject();
-  var birthDate = moment()
+  const dObj = d.toObject();
+  const birthDate = moment()
     .year(dObj.years)
     .month(dObj.months - 1)
     .date(dObj.date);
 
-  return moment().diff(birthDate, "years");
+  return moment().diff(birthDate, 'years');
 }

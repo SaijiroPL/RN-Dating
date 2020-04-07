@@ -1,4 +1,4 @@
 /** 汎用スタイル */
-export * from "./GeneralStyle";
+export * from './GeneralStyle';
 /** 汎用テキストスタイル */
-export * from "./GeneralTextStyle";
+export * from './GeneralTextStyle';

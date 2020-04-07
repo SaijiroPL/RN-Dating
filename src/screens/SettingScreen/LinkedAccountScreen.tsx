@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback } from 'react';
 import {
   Container,
   Content,
@@ -7,13 +7,13 @@ import {
   Text,
   Left,
   Body,
-  Right
-} from "native-base";
-import { Ionicons } from "@expo/vector-icons";
+  Right,
+} from 'native-base';
+import { Ionicons } from '@expo/vector-icons';
 
 // from app
-import { COLOR } from "app/src/constants";
-import { appTextStyle } from "app/src/styles";
+import { COLOR } from 'app/src/constants';
+import { appTextStyle } from 'app/src/styles';
 
 /**
  * リンク済みアカウント画面
