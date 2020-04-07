@@ -1,9 +1,9 @@
-import React from "react";
-import { StyleSheet } from "react-native";
-import { Button } from "react-native-elements";
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { Button } from 'react-native-elements';
 
 // from app
-import { LAYOUT, COLOR } from "app/src/constants";
+import { LAYOUT, COLOR } from 'app/src/constants';
 
 interface Props {
   title: string;
@@ -12,8 +12,8 @@ interface Props {
 }
 
 /**
- * 完了ボタン
- * @author kotatanaka
+ * 完了ボタン(ミニ)
+ * @author itsukiyamada
  */
 export const SmallCompleteButton: React.FC<Props> = (props: Props) => {
   const { disabled, title, onPress } = props;
@@ -29,13 +29,13 @@ export const SmallCompleteButton: React.FC<Props> = (props: Props) => {
 
 /** デフォルト値 */
 SmallCompleteButton.defaultProps = {
-  disabled: false
+  disabled: false,
 };
 
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   button: {
     backgroundColor: COLOR.tintColor,
-    width: LAYOUT.window.width * 0.4
-  }
+    width: LAYOUT.window.width * 0.4,
+  },
 });
