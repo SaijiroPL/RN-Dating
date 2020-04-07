@@ -14,7 +14,7 @@ import {
   ListItem,
   // Switch,
 } from 'native-base';
-import { useNavigation } from 'react-navigation-hooks';
+import { useNavigation } from '@react-navigation/native';
 
 // from app
 import { StyleSheet } from 'react-native';

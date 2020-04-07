@@ -312,7 +312,7 @@ const SearchMapScreen: React.FC = () => {
         {/* Distance */}
         {/* <Text style={appTextStyle.defaultText}>保存済みスポット</Text> */}
         {/* TODO ピンポイントで保存したスポットを小さな画像で表示 */}
-        {/* 縮尺ボタンを表示したい */}
+        {/* TODO 縮尺ボタンを表示したい */}
         <View style={{ marginLeft: 10 }} />
         <SmallCompleteButton
           title="スポットを保存"

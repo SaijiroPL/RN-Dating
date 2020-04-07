@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 // import { StyleSheet } from 'react-native';
-import { useNavigation } from 'react-navigation-hooks';
+import { useNavigation } from '@react-navigation/native';
 import {
   Container,
   Content,
@@ -29,7 +29,7 @@ const GuidePostScreen: React.FC = () => {
   const { navigate } = useNavigation();
 
   const onCompleteButtonPress = useCallback(() => {
-    navigate('post');
+    navigate('Post');
   }, []);
 
   return (

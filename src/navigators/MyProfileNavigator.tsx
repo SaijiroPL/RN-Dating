@@ -47,7 +47,7 @@ const MyProfileNavigator: React.FC = () => (
     <MyProfileStack.Screen
       name="EditPost"
       component={EditPostScreen}
-      options={{ title: 'プラン編集' }}
+      options={{ title: '投稿編集' }}
     />
     <MyProfileStack.Screen
       name="Setting"

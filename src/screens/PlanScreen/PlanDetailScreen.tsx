@@ -36,7 +36,7 @@ const PlanDetailScreen: React.FC = () => {
   const { navigate } = useNavigation();
 
   const onCompleteButtonPress = useCallback(() => {
-    navigate('editplan');
+    navigate('EditPlan');
   }, []);
 
   /** デートプラン詳細取得 */
