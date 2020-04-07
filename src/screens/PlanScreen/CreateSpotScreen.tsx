@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from "react";
-import { StyleSheet } from "react-native";
+import React, { useCallback, useState } from 'react';
+import { StyleSheet } from 'react-native';
 import {
   Container,
   Content,
@@ -9,17 +9,17 @@ import {
   Picker,
   Item,
   Icon,
-  Text
-} from "native-base";
-import { useNavigation } from "react-navigation-hooks";
+  Text,
+} from 'native-base';
+import { useNavigation } from 'react-navigation-hooks';
 
 // from app
-import { useGlobalState } from "app/src/Store";
-import { LoadingSpinner } from "app/src/components/Spinners";
-import { CompleteButton } from "app/src/components/Button";
-import { InputLabelForm } from "app/src/components/Form";
-import { useEditProfile } from "app/src/hooks";
-import { COLOR } from "app/src/constants";
+import { useGlobalState } from 'app/src/Store';
+import { LoadingSpinner } from 'app/src/components/Spinners';
+import { CompleteButton } from 'app/src/components/Button';
+import { InputLabelForm } from 'app/src/components/Form';
+import { useEditProfile } from 'app/src/hooks';
+import { COLOR } from 'app/src/constants';
 
 /**
  * プロフィール編集画面
@@ -28,14 +28,14 @@ import { COLOR } from "app/src/constants";
 const CreateSpotScreen: React.FC = () => {
   const { navigate } = useNavigation();
 
-  /**スポットのカテゴリを追加 */
+  /** スポットのカテゴリを追加 */
   const [selected2, onValueChange2] = useState<boolean>(false);
 
-  /**スポットのカテゴリを追加 */
-  const [date, setDate] = useState<string>("");
+  /** スポットのカテゴリを追加 */
+  const [date, setDate] = useState<string>('');
 
   const onCompleteButtonPress = useCallback(() => {
-    navigate("top");
+    navigate('top');
   }, []);
 
   return (
@@ -93,8 +93,8 @@ const CreateSpotScreen: React.FC = () => {
       </Content>
       <View
         style={{
-          alignItems: "center",
-          padding: 15
+          alignItems: 'center',
+          padding: 15,
         }}
       >
         <CompleteButton title="追加する" onPress={onCompleteButtonPress} />
@@ -108,20 +108,20 @@ export default CreateSpotScreen;
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   formGroup: {
-    alignItems: "center",
+    alignItems: 'center',
     flex: 1,
-    flexDirection: "row"
+    flexDirection: 'row',
   },
   button: {
-    alignItems: "center",
-    marginTop: 50
+    alignItems: 'center',
+    marginTop: 50,
   },
   itemTitleText: {
     color: COLOR.textTintColor,
-    marginRight: 10
+    marginRight: 10,
   },
   category: {
-    color: "#bfc6ea",
-    width: "undefined"
-  }
+    color: '#bfc6ea',
+    width: 'undefined',
+  },
 });
