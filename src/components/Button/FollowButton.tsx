@@ -26,7 +26,7 @@ export const FollowButton: React.FC<Props> = (props: Props) => {
   const follow = useCallback(async (): Promise<void> => {
     const result = await onFollow(targetUserId);
     if (result) {
-      reload();
+      await reload();
     }
   }, [targetUserId]);
 
@@ -34,7 +34,7 @@ export const FollowButton: React.FC<Props> = (props: Props) => {
   const unfollow = useCallback(async (): Promise<void> => {
     const result = await onUnfollow(targetUserId);
     if (result) {
-      reload();
+      await reload();
     }
   }, [targetUserId]);
 
