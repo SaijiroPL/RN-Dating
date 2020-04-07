@@ -1,13 +1,13 @@
-import React from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import React from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 // from app
-import { useGlobalState } from "app/src/Store";
-import { COLOR } from "app/src/constants";
-import { RefreshSpinner } from "app/src/components/Spinners";
-import { InformationList } from "app/src/components/List";
-import { useGetInformationList } from "app/src/hooks";
-import { appTextStyle } from "app/src/styles";
+import { useGlobalState } from 'app/src/Store';
+import { COLOR } from 'app/src/constants';
+import { RefreshSpinner } from 'app/src/components/Spinners';
+import { InformationList } from 'app/src/components/List';
+import { useGetInformationList } from 'app/src/hooks';
+import { appTextStyle } from 'app/src/styles';
 
 /**
  * 運営からのお知らせ一覧画面
@@ -15,16 +15,12 @@ import { appTextStyle } from "app/src/styles";
  */
 const InformationScreen: React.FC = () => {
   /** ログイン中のユーザー */
-  const loginUser = useGlobalState("loginUser");
+  const loginUser = useGlobalState('loginUser');
 
   /** 運営からのお知らせ一覧取得 */
-  const {
-    isLoading,
-    isRefreshing,
-    onRefresh,
-    information,
-    errors
-  } = useGetInformationList(loginUser.id);
+  const { isRefreshing, onRefresh, information } = useGetInformationList(
+    loginUser.id,
+  );
 
   return (
     <ScrollView refreshControl={RefreshSpinner(isRefreshing, onRefresh)}>
@@ -44,8 +40,8 @@ const InformationScreen: React.FC = () => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   container: {
-    backgroundColor: COLOR.backgroundColor
-  }
+    backgroundColor: COLOR.backgroundColor,
+  },
 });
 
 export default InformationScreen;

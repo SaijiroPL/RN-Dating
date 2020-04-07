@@ -38,7 +38,7 @@ export interface ICreateUserBody {
  */
 export interface ILogin {
   mail_address?: string;
-  "1did"?: string;
+  '1did'?: string;
   password: string;
 }
 

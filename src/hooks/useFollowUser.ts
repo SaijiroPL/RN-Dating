@@ -1,12 +1,12 @@
-import { useState } from "react";
-import axios from "axios";
+import { useState } from 'react';
+import axios from 'axios';
 
 // from app
-import { API_ENDPOINT } from "app/src/constants/Url";
-import { IFollowBody } from "app/src/interfaces/api/Follow";
-import { IOK } from "app/src/interfaces/api/Success";
-import { IApiError } from "app/src/interfaces/api/Error";
-import { handleError } from "app/src/utils";
+import { API_ENDPOINT } from 'app/src/constants/Url';
+import { IFollowBody } from 'app/src/interfaces/api/Follow';
+import { IOK } from 'app/src/interfaces/api/Success';
+import { IApiError } from 'app/src/interfaces/api/Error';
+import { handleError } from 'app/src/utils';
 
 /**
  * アカウントフォロー・フォロー解除フック
@@ -17,8 +17,8 @@ export const useFollowUser = (userId: string) => {
   /** 異常レスポンス */
   const [errors, setErrors] = useState<IApiError>({
     code: 0,
-    message: "",
-    detail_message: []
+    message: '',
+    detail_message: [],
   });
 
   /**
@@ -26,10 +26,10 @@ export const useFollowUser = (userId: string) => {
    * @param targetUserId フォロー対象のユーザーID
    */
   const follow = async (targetUserId: string): Promise<boolean> => {
-    const url = API_ENDPOINT.USER_FOLLOWERS.replace("$1", targetUserId);
+    const url = API_ENDPOINT.USER_FOLLOWERS.replace('$1', targetUserId);
 
     const body: IFollowBody = {
-      user_id: userId
+      user_id: userId,
     };
 
     try {
@@ -39,10 +39,12 @@ export const useFollowUser = (userId: string) => {
       if (apiError) {
         setErrors(apiError);
       }
+
       return false;
     }
 
-    setErrors({ code: 0, message: "", detail_message: [] });
+    setErrors({ code: 0, message: '', detail_message: [] });
+
     return true;
   };
 
@@ -51,23 +53,25 @@ export const useFollowUser = (userId: string) => {
    * @param targetUserId フォロー解除対象のユーザーID
    */
   const unfollow = async (targetUserId: string): Promise<boolean> => {
-    const url = API_ENDPOINT.USER_FOLLOWERS.replace("$1", targetUserId);
+    const url = API_ENDPOINT.USER_FOLLOWERS.replace('$1', targetUserId);
 
     try {
       await axios.delete<IOK>(url, {
         params: {
-          user_id: userId
-        }
+          user_id: userId,
+        },
       });
     } catch (err) {
       const apiError = handleError(err);
       if (apiError) {
         setErrors(apiError);
       }
+
       return false;
     }
 
-    setErrors({ code: 0, message: "", detail_message: [] });
+    setErrors({ code: 0, message: '', detail_message: [] });
+
     return true;
   };
 

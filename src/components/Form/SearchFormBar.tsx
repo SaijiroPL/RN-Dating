@@ -1,10 +1,10 @@
-import React, { useCallback } from "react";
-import { StyleSheet } from "react-native";
-import { SearchBar } from "react-native-elements";
-import { Ionicons } from "@expo/vector-icons";
+import React, { useCallback } from 'react';
+import { StyleSheet } from 'react-native';
+import { SearchBar } from 'react-native-elements';
+import { Ionicons } from '@expo/vector-icons';
 
 // from app
-import { COLOR } from "app/src/constants";
+import { COLOR } from 'app/src/constants';
 
 interface Props {
   value: string;
@@ -20,11 +20,11 @@ export const SearchFormBar: React.FC<Props> = (props: Props) => {
   const { value, setValue, onSearch } = props;
 
   /** テキスト変更 */
-  const handleChangeValue = useCallback(value => setValue(value), [value]);
+  const handleChangeValue = useCallback((value) => setValue(value), [value]);
 
   /** テキストクリア */
   const handleClear = useCallback(() => {
-    setValue("");
+    setValue('');
   }, []);
 
   return (
@@ -51,16 +51,16 @@ export const SearchFormBar: React.FC<Props> = (props: Props) => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   searchBar: {
-    backgroundColor: "white",
-    shadowColor: "#ccc",
+    backgroundColor: 'white',
+    shadowColor: '#ccc',
     shadowOffset: {
       height: 1,
-      width: 1
+      width: 1,
     },
     shadowOpacity: 1,
-    shadowRadius: 2
+    shadowRadius: 2,
   },
   searchInput: {
-    backgroundColor: "#eee"
-  }
+    backgroundColor: '#eee',
+  },
 });

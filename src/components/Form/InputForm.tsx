@@ -1,10 +1,10 @@
-import React from "react";
-import { Input, Item, Text, View } from "native-base";
-import { AntDesign } from "@expo/vector-icons";
+import React from 'react';
+import { Input, Item, Text, View } from 'native-base';
+import { AntDesign } from '@expo/vector-icons';
 
 // from app
-import { LAYOUT } from "app/src/constants";
-import { appTextStyle } from "app/src/styles";
+import { LAYOUT } from 'app/src/constants';
+import { appTextStyle } from 'app/src/styles';
 
 interface Props {
   placeholder: string;
@@ -25,12 +25,12 @@ export const InputForm: React.FC<Props> = (props: Props) => {
   const ErrorMark = <AntDesign name="closecircle" color="red" />;
 
   // 未入力
-  if (value === "") {
+  if (value === '') {
     return (
       <Item>
         <Input
           placeholder={placeholder}
-          onChangeText={value => setValue(value)}
+          onChangeText={(value) => setValue(value)}
           value={value}
           style={{ width: LAYOUT.window.width * 0.75 }}
         />
@@ -41,7 +41,7 @@ export const InputForm: React.FC<Props> = (props: Props) => {
 
   // 異常入力
   if (errors && errors.length > 0) {
-    const ErrorList = errors.map(item => (
+    const ErrorList = errors.map((item) => (
       <Text key={item} style={appTextStyle.errorText}>
         {item}
       </Text>
@@ -52,7 +52,7 @@ export const InputForm: React.FC<Props> = (props: Props) => {
         <Item error>
           <Input
             placeholder={placeholder}
-            onChangeText={value => setValue(value)}
+            onChangeText={(value) => setValue(value)}
             value={value}
             style={{ width: LAYOUT.window.width * 0.75 }}
           />
@@ -68,7 +68,7 @@ export const InputForm: React.FC<Props> = (props: Props) => {
     <Item success>
       <Input
         placeholder={placeholder}
-        onChangeText={value => setValue(value)}
+        onChangeText={(value) => setValue(value)}
         value={value}
         style={{ width: LAYOUT.window.width * 0.75 }}
       />

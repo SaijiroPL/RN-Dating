@@ -1,25 +1,13 @@
 {
   "css.validate": true,
   "editor.formatOnSave": true,
-  "eslint.autoFixOnSave": true,
+  "source.fixAll.eslint": true,
   "eslint.enable": true,
   "eslint.validate": [
-    {
-      "language": "javascript",
-      "autoFix": true
-    },
-    {
-      "language": "javascriptreact",
-      "autoFix": true
-    },
-    {
-      "language": "typescript",
-      "autoFix": true
-    },
-    {
-      "language": "typescriptreact",
-      "autoFix": true
-    }
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
   ],
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
@@ -33,5 +21,8 @@
   },
   "[typescript]": {
     "editor.tabSize": 2
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
   }
 }

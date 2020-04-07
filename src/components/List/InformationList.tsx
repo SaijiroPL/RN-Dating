@@ -1,9 +1,9 @@
-import React from "react";
-import { FlatList } from "react-native";
+import React from 'react';
+import { FlatList } from 'react-native';
 
 // from app
-import { IInformation } from "app/src/interfaces/api/Notification";
-import { InformationElement } from "app/src/components/Element";
+import { IInformation } from 'app/src/interfaces/api/Notification';
+import { InformationElement } from 'app/src/components/Element';
 
 interface Props {
   informationList: Array<IInformation>;
@@ -18,7 +18,7 @@ export const InformationList: React.FC<Props> = (props: Props) => {
 
   /** 運営からのお知らせリスト要素の描画 */
   const renderNotificationElement = ({
-    item
+    item,
   }: {
     item: IInformation;
   }): JSX.Element => {
@@ -29,7 +29,7 @@ export const InformationList: React.FC<Props> = (props: Props) => {
     <FlatList
       data={informationList}
       renderItem={renderNotificationElement}
-      keyExtractor={item => `${item.notification_id}`}
+      keyExtractor={(item) => `${item.notification_id}`}
     />
   );
 };

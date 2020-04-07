@@ -1,17 +1,16 @@
-import React from "react";
-import { Image, StyleSheet } from "react-native";
-import { Col, Row, Grid } from "react-native-easy-grid";
+import React from 'react';
+import { Image, StyleSheet } from 'react-native';
+import { Col, Row, Grid } from 'react-native-easy-grid';
 
 // from app
-import { IMAGE, LAYOUT } from "app/src/constants";
+import { IMAGE, LAYOUT } from 'app/src/constants';
 
-interface Props {}
-
+// interface Props {}
 /**
  * 画像選択グリッド
  * @author kotatanaka
  */
-export const ImageGrid: React.FC<Props> = () => {
+export const ImageGrid: React.FC = () => {
   return (
     <Grid>
       <Col>
@@ -44,17 +43,17 @@ export const ImageGrid: React.FC<Props> = () => {
 const thisStyle = StyleSheet.create({
   box: {
     height: LAYOUT.window.width / 2,
-    justifyContent: "center",
-    shadowColor: "#ccc",
+    justifyContent: 'center',
+    shadowColor: '#ccc',
     shadowOffset: {
       height: 0,
-      width: 0
+      width: 0,
     },
     shadowOpacity: 1,
-    shadowRadius: 1
+    shadowRadius: 1,
   },
   image: {
     height: (LAYOUT.window.width * 0.95) / 2,
-    width: (LAYOUT.window.width * 0.95) / 2
-  }
+    width: (LAYOUT.window.width * 0.95) / 2,
+  },
 });

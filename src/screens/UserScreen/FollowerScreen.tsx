@@ -1,28 +1,31 @@
-import React from "react";
-import { Text } from "react-native";
-import { useNavigationParam } from "react-navigation-hooks";
-import { Container } from "native-base";
+import React from 'react';
+import { Text } from 'react-native';
+import { useRoute } from '@react-navigation/native';
+import { Container } from 'native-base';
 
 // from app
-import { useGlobalState } from "app/src/Store";
-import { LoadingSpinner } from "app/src/components/Spinners";
-import { FollowList } from "app/src/components/List";
-import { useGetFollowerList, useFollowUser } from "app/src/hooks";
-import { appTextStyle } from "app/src/styles";
+import { useGlobalState } from 'app/src/Store';
+import { LoadingSpinner } from 'app/src/components/Spinners';
+import { FollowList } from 'app/src/components/List';
+import { useGetFollowerList, useFollowUser } from 'app/src/hooks';
+import { IUserNavigationParam } from 'app/src/interfaces/app/Navigation';
+import { appTextStyle } from 'app/src/styles';
 
 /**
  * フォロワーリスト一覧画面
  * @author kotatanaka
  */
 const FollowScreen: React.FC = () => {
-  /** 対象のユーザーID */
-  const userId = useNavigationParam("id");
+  const route = useRoute();
+  const planNavigationParam = route.params as IUserNavigationParam;
 
   /** ログイン中のユーザー */
-  const loginUser = useGlobalState("loginUser");
+  const loginUser = useGlobalState('loginUser');
 
   /** フォロワーリスト取得 */
-  const { isLoading, followers, getFollowerList } = useGetFollowerList(userId);
+  const { isLoading, followers, getFollowerList } = useGetFollowerList(
+    planNavigationParam.userId,
+  );
 
   /** フォロー・フォロー解除 */
   const { follow, unfollow } = useFollowUser(loginUser.id);

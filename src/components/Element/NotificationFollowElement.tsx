@@ -1,11 +1,11 @@
-import React from "react";
-import { StyleSheet } from "react-native";
-import { Body, Left, ListItem, Text, Thumbnail, View } from "native-base";
-import { SimpleLineIcons } from "@expo/vector-icons";
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { Body, Left, ListItem, Text, Thumbnail, View } from 'native-base';
+import { SimpleLineIcons } from '@expo/vector-icons';
 
 // from app
-import { COLOR, IMAGE } from "app/src/constants";
-import { INotification } from "app/src/interfaces/api/Notification";
+import { COLOR, IMAGE } from 'app/src/constants';
+import { INotification } from 'app/src/interfaces/api/Notification';
 
 interface Props {
   notification: INotification;
@@ -46,27 +46,27 @@ export const NotificationFollowElement: React.FC<Props> = (props: Props) => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   container: {
-    justifyContent: "center"
+    justifyContent: 'center',
   },
   titleContainer: {
-    flexDirection: "row"
+    flexDirection: 'row',
   },
   titleText: {
-    fontFamily: "genju-medium",
-    fontSize: 14
+    fontFamily: 'genju-medium',
+    fontSize: 14,
   },
   titleLinkText: {
-    fontFamily: "genju-medium",
+    fontFamily: 'genju-medium',
     fontSize: 14,
     textDecorationColor: COLOR.inactiveColor,
-    textDecorationLine: "underline"
+    textDecorationLine: 'underline',
   },
   dateText: {
-    fontFamily: "genju-light",
-    fontSize: 10
+    fontFamily: 'genju-light',
+    fontSize: 10,
   },
   followIcon: {
     color: COLOR.tintColor,
-    marginRight: 5
-  }
+    marginRight: 5,
+  },
 });

@@ -29,7 +29,7 @@ export interface IMarker {
   longitude: number;
   radius: number;
   color: string;
-  unit: "km" | "m";
+  unit: 'km' | 'm';
 }
 
 /**

@@ -1,9 +1,9 @@
-import React from "react";
-import { Picker } from "native-base";
+import React from 'react';
+import { Picker } from 'native-base';
 
 // from app
-import { COLOR } from "app/src/constants";
-import { appTextStyle } from "app/src/styles";
+import { COLOR } from 'app/src/constants';
+import { appTextStyle } from 'app/src/styles';
 
 interface Props {
   prefecture: string;
@@ -26,7 +26,7 @@ export const PrefecturePicker: React.FC<Props> = (props: Props) => {
       textStyle={appTextStyle.defaultText}
       note={false}
       selectedValue={prefecture}
-      onValueChange={itemValue => setPrefecture(itemValue)}
+      onValueChange={(itemValue) => setPrefecture(itemValue)}
     >
       <Picker.Item label="北海道" value="hokkaido" />
       <Picker.Item label="青森" value="aomori" />
