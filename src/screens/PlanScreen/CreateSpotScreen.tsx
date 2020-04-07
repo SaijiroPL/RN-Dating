@@ -1,41 +1,41 @@
-import React, { useCallback, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import React, {
+  useCallback,
+  // useState
+} from 'react';
+// import { StyleSheet } from 'react-native';
 import {
   Container,
   Content,
   Form,
   View,
-  DatePicker,
-  Picker,
+  // DatePicker,
+  // Picker,
   Item,
-  Icon,
+  // Icon,
   Text,
 } from 'native-base';
-import { useNavigation } from 'react-navigation-hooks';
+import { useNavigation } from '@react-navigation/native';
 
 // from app
-import { useGlobalState } from 'app/src/Store';
-import { LoadingSpinner } from 'app/src/components/Spinners';
 import { CompleteButton } from 'app/src/components/Button';
 import { InputLabelForm } from 'app/src/components/Form';
-import { useEditProfile } from 'app/src/hooks';
-import { COLOR } from 'app/src/constants';
+// import { COLOR } from 'app/src/constants';
 
 /**
- * プロフィール編集画面
+ * スポット作成画面
  * @author itsukiyamada
  */
 const CreateSpotScreen: React.FC = () => {
   const { navigate } = useNavigation();
 
   /** スポットのカテゴリを追加 */
-  const [selected2, onValueChange2] = useState<boolean>(false);
+  // const [selected2, onValueChange2] = useState<boolean>(false);
 
   /** スポットのカテゴリを追加 */
-  const [date, setDate] = useState<string>('');
+  // const [date, setDate] = useState<string>('');
 
   const onCompleteButtonPress = useCallback(() => {
-    navigate('top');
+    navigate('Top');
   }, []);
 
   return (
@@ -48,8 +48,7 @@ const CreateSpotScreen: React.FC = () => {
           <Form>
             <Item picker>
               <Text>カテゴリを入力できるボタンを挿入</Text>
-              {/**
-              <Picker
+              {/* <Picker
                 style={thisStyle.itemTitleText}
                 mode="dropdown"
                 iosIcon={<Icon name="arrowdown" />}
@@ -73,20 +72,18 @@ const CreateSpotScreen: React.FC = () => {
                 <Picker.Item label="博物館/美術館" value="key13" />
                 <Picker.Item label="映画館" value="key14" />
                 <Picker.Item label="ナイトクラブ" value="key15" />
-              </Picker>
-              */}
+              </Picker> */}
             </Item>
           </Form>
         </View>
         <Text>小さなマップを表示しスポットにピンを置けるようにする</Text>
-        {/**　マップのスポットを選択できる機能を挿入 */}
+        {/* TODO マップのスポットを選択できる機能を挿入 */}
         <Text>営業日時入力フォームを挿入</Text>
-        {/** スポット営業時間入力フォームを挿入
-        <View style={thisStyle.formGroup}>
+        {/* TODO スポット営業時間入力フォームを挿入 */}
+        {/* <View style={thisStyle.formGroup}>
           <Text style={thisStyle.itemTitleText}>スポット営業時間</Text>
           <DatePicker date={date} setDate={setDate} minDate={getToday()} />
-        </View>
-      */}
+        </View> */}
         <Form>
           <InputLabelForm label="電話番号" />
         </Form>
@@ -106,22 +103,14 @@ const CreateSpotScreen: React.FC = () => {
 export default CreateSpotScreen;
 
 /** スタイリング */
-const thisStyle = StyleSheet.create({
-  formGroup: {
-    alignItems: 'center',
-    flex: 1,
-    flexDirection: 'row',
-  },
-  button: {
-    alignItems: 'center',
-    marginTop: 50,
-  },
-  itemTitleText: {
-    color: COLOR.textTintColor,
-    marginRight: 10,
-  },
-  category: {
-    color: '#bfc6ea',
-    width: 'undefined',
-  },
-});
+// const thisStyle = StyleSheet.create({
+//   formGroup: {
+//     alignItems: 'center',
+//     flex: 1,
+//     flexDirection: 'row',
+//   },
+//   itemTitleText: {
+//     color: COLOR.textTintColor,
+//     marginRight: 10,
+//   },
+// });
