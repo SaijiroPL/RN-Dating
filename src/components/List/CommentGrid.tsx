@@ -1,12 +1,12 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
-import { Thumbnail, Text } from "native-base";
-import { Col, Row, Grid } from "react-native-easy-grid";
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Thumbnail, Text } from 'native-base';
+import { Col, Row, Grid } from 'react-native-easy-grid';
 
 // from app
-import { IMAGE } from "app/src/constants";
-import { IComment } from "app/src/interfaces/api/Comment";
-import { isNotNullOrUndefined } from "app/src/utils";
+import { IMAGE } from 'app/src/constants';
+import { IComment } from 'app/src/interfaces/api/Comment';
+import { isNotNullOrUndefined } from 'app/src/utils';
 
 interface Props {
   comments: Array<IComment>;
@@ -44,12 +44,12 @@ export const CommentGrid: React.FC<Props> = (props: Props) => {
   return (
     <Grid style={thisStyle.container}>
       <Col>
-        {renderComment(comments[0] as IComment)}
-        {renderComment(comments[2] as IComment)}
+        {renderComment(comments[0])}
+        {renderComment(comments[2])}
       </Col>
       <Col>
-        {renderComment(comments[1] as IComment)}
-        {renderComment(comments[3] as IComment)}
+        {renderComment(comments[1])}
+        {renderComment(comments[3])}
       </Col>
     </Grid>
   );
@@ -58,32 +58,32 @@ export const CommentGrid: React.FC<Props> = (props: Props) => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   container: {
-    margin: 5
+    margin: 5,
   },
   item: {
     // borderBottomWidth: 1,
-    borderColor: "#eee",
+    borderColor: '#eee',
     borderTopWidth: 1,
-    flexDirection: "row",
-    margin: 5
+    flexDirection: 'row',
+    margin: 5,
   },
   thumbnail: {
-    padding: 5
+    padding: 5,
   },
   comment: {
-    padding: 5
+    padding: 5,
   },
   nameText: {
-    fontFamily: "genju-light",
+    fontFamily: 'genju-light',
     fontSize: 8,
-    textDecorationLine: "underline"
+    textDecorationLine: 'underline',
   },
   commentText: {
-    fontFamily: "genju-light",
-    fontSize: 8
+    fontFamily: 'genju-light',
+    fontSize: 8,
   },
   dateText: {
-    fontFamily: "genju-light",
-    fontSize: 8
-  }
+    fontFamily: 'genju-light',
+    fontSize: 8,
+  },
 });

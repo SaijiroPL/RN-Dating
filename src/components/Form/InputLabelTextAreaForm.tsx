@@ -1,8 +1,8 @@
-import React from "react";
-import { Content, Form, Textarea, View, Item, Label, Text } from "native-base";
-import { StyleSheet } from "react-native";
-import { COLOR, LAYOUT } from "app/src/constants";
-import { appTextStyle } from "app/src/styles";
+import React from 'react';
+import { Content, Form, Textarea, View, Item, Label, Text } from 'native-base';
+import { StyleSheet } from 'react-native';
+import { COLOR, LAYOUT } from 'app/src/constants';
+import { appTextStyle } from 'app/src/styles';
 
 interface Props {
   label: string;
@@ -22,7 +22,7 @@ export const InputLabelTextAreaForm: React.FC<Props> = (props: Props) => {
   const ErrorList =
     errors &&
     errors.length > 0 &&
-    errors.map(item => (
+    errors.map((item) => (
       <View key={item} style={thisStyle.errorTextContainter}>
         <Text style={appTextStyle.errorText}>{item}</Text>
       </View>
@@ -39,7 +39,7 @@ export const InputLabelTextAreaForm: React.FC<Props> = (props: Props) => {
             bordered
             underline
             placeholder="自己紹介"
-            onChangeText={value => setValue(value)}
+            onChangeText={(value) => setValue(value)}
             value={value}
           />
           {ErrorList}
@@ -52,12 +52,12 @@ export const InputLabelTextAreaForm: React.FC<Props> = (props: Props) => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   errorTextContainter: {
-    alignItems: "flex-start"
+    alignItems: 'flex-start',
   },
   labelText: {
     color: COLOR.textTintColor,
-    fontFamily: "genju-medium",
+    fontFamily: 'genju-medium',
     fontSize: 14,
-    width: LAYOUT.window.width * 0.25
-  }
+    width: LAYOUT.window.width * 0.25,
+  },
 });

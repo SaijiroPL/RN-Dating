@@ -1,10 +1,10 @@
-import React, { useCallback } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
+import React, { useCallback } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
 
 // from app
-import { COLOR } from "app/src/constants";
-import { appTextStyle } from "app/src/styles";
+import { COLOR } from 'app/src/constants';
+import { appTextStyle } from 'app/src/styles';
 
 interface Props {
   targetPlanId: string;
@@ -40,7 +40,7 @@ export const LikeButton: React.FC<Props> = (props: Props) => {
   const handleLike = useCallback(async (): Promise<void> => {
     const result = await onLike(targetPlanId);
     if (result) {
-      reload();
+      await reload();
     }
   }, []);
 
@@ -48,7 +48,7 @@ export const LikeButton: React.FC<Props> = (props: Props) => {
   const handleUnlike = useCallback(async (): Promise<void> => {
     const result = await onUnlike(targetPlanId);
     if (result) {
-      reload();
+      await reload();
     }
   }, []);
 
@@ -77,15 +77,15 @@ export const LikeButton: React.FC<Props> = (props: Props) => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   container: {
-    alignItems: "center",
+    alignItems: 'center',
     flex: 1,
-    flexDirection: "row",
+    flexDirection: 'row',
     height: 30,
-    justifyContent: "flex-end",
-    marginRight: 10
+    justifyContent: 'flex-end',
+    marginRight: 10,
   },
   button: {
     color: COLOR.tintColor,
-    marginRight: 5
-  }
+    marginRight: 5,
+  },
 });

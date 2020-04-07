@@ -1,10 +1,10 @@
-import React, { useMemo } from "react";
-import { Content, Form, Text, Textarea, View } from "native-base";
-import { StyleSheet } from "react-native";
+import React, { useMemo } from 'react';
+import { Content, Form, Text, Textarea, View } from 'native-base';
+import { StyleSheet } from 'react-native';
 
 // from app
-import { CompleteButton } from "app/src/components/Button";
-import { appTextStyle } from "app/src/styles";
+import { CompleteButton } from 'app/src/components/Button';
+import { appTextStyle } from 'app/src/styles';
 
 interface Props {
   question: string;
@@ -24,13 +24,13 @@ export const QuestionForm: React.FC<Props> = (props: Props) => {
   const ErrorList = useMemo(
     () =>
       errors && errors.length > 0
-        ? errors.map(item => (
+        ? errors.map((item) => (
             <Text key={item} style={appTextStyle.errorText}>
               {item}
             </Text>
           ))
         : [],
-    [errors]
+    [errors],
   );
 
   // 正常入力
@@ -42,7 +42,7 @@ export const QuestionForm: React.FC<Props> = (props: Props) => {
           bordered
           underline
           placeholder="質問を入力してください。"
-          onChangeText={value => setQuestion(value)}
+          onChangeText={(value) => setQuestion(value)}
           value={question}
         />
       </Form>
@@ -57,7 +57,7 @@ export const QuestionForm: React.FC<Props> = (props: Props) => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   item: {
-    alignItems: "center",
-    marginTop: 20
-  }
+    alignItems: 'center',
+    marginTop: 20,
+  },
 });

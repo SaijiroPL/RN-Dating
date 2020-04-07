@@ -1,9 +1,9 @@
-import React from "react";
-import { FlatList } from "react-native";
+import React from 'react';
+import { FlatList } from 'react-native';
 
 // from app
-import { IComment } from "app/src/interfaces/api/Comment";
-import { CommentElement } from "app/src/components/Element";
+import { IComment } from 'app/src/interfaces/api/Comment';
+import { CommentElement } from 'app/src/components/Element';
 
 interface Props {
   commentList: Array<IComment>;
@@ -24,7 +24,7 @@ export const CommentList: React.FC<Props> = (props: Props) => {
     <FlatList
       data={commentList}
       renderItem={renderCommentElement}
-      keyExtractor={item => item.comment_id}
+      keyExtractor={(item) => item.comment_id}
     />
   );
 };

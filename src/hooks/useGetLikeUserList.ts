@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
-import axios, { CancelTokenSource } from "axios";
+import { useState, useEffect } from 'react';
+import axios, { CancelTokenSource } from 'axios';
 
 // from app
-import { API_ENDPOINT } from "app/src/constants/Url";
-import { ILikeUserList } from "app/src/interfaces/api/Like";
-import { IApiError } from "app/src/interfaces/api/Error";
-import { handleError } from "app/src/utils";
+import { API_ENDPOINT } from 'app/src/constants/Url';
+import { ILikeUserList } from 'app/src/interfaces/api/Like';
+import { IApiError } from 'app/src/interfaces/api/Error';
+import { handleError } from 'app/src/utils';
 
 /**
  * デートプランお気に入り登録者一覧取得フック
@@ -16,14 +16,14 @@ export const useGetLikeUserList = (planId: string) => {
   /** 正常レスポンス */
   const [users, setUsers] = useState<ILikeUserList>({
     total: 0,
-    liked_user_list: []
+    liked_user_list: [],
   });
 
   /** 異常レスポンス */
   const [errors, setErrors] = useState<IApiError>({
     code: 0,
-    message: "",
-    detail_message: []
+    message: '',
+    detail_message: [],
   });
 
   /** ローディング状態 */
@@ -33,8 +33,9 @@ export const useGetLikeUserList = (planId: string) => {
   useEffect(() => {
     const signal = axios.CancelToken.source();
     getLikeUserList(signal);
+
     return () => {
-      signal.cancel("Cancelling in Cleanup.");
+      signal.cancel('Cancelling in Cleanup.');
     };
   }, []);
 
@@ -43,16 +44,16 @@ export const useGetLikeUserList = (planId: string) => {
    * @param signal CancelTokenSource
    */
   const getLikeUserList = async (signal: CancelTokenSource): Promise<void> => {
-    const url = API_ENDPOINT.PLAN_LIKES.replace("$1", planId);
+    const url = API_ENDPOINT.PLAN_LIKES.replace('$1', planId);
 
     try {
       const { data } = await axios.get<ILikeUserList>(url, {
-        cancelToken: signal.token
+        cancelToken: signal.token,
       });
       setUsers(Object.assign(data));
     } catch (err) {
       if (axios.isCancel(err)) {
-        console.log("Request Cancelled: " + err.message);
+        console.log(`Request Cancelled: ${err.message}`);
       } else {
         const apiError = handleError(err);
         if (apiError) {

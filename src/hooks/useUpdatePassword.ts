@@ -1,12 +1,12 @@
-import { useState } from "react";
-import axios from "axios";
+import { useState } from 'react';
+import axios from 'axios';
 
 // from app
-import { API_ENDPOINT } from "app/src/constants/Url";
-import { IUpdatePasswordBody } from "app/src/interfaces/api/User";
-import { IOK } from "app/src/interfaces/api/Success";
-import { IApiError } from "app/src/interfaces/api/Error";
-import { handleError } from "app/src/utils";
+import { API_ENDPOINT } from 'app/src/constants/Url';
+import { IUpdatePasswordBody } from 'app/src/interfaces/api/User';
+import { IOK } from 'app/src/interfaces/api/Success';
+import { IApiError } from 'app/src/interfaces/api/Error';
+import { handleError } from 'app/src/utils';
 
 /**
  * パスワード変更フック
@@ -15,25 +15,25 @@ import { handleError } from "app/src/utils";
  */
 export const useUpdatePassword = (userId: string) => {
   /** 現在のパスワード */
-  const [oldPassword, setOldPassword] = useState<string>("");
+  const [oldPassword, setOldPassword] = useState<string>('');
   /** 新しいパスワード */
-  const [newPassword, setNewPassword] = useState<string>("");
+  const [newPassword, setNewPassword] = useState<string>('');
   /** 新しいパスワードの確認 */
-  const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState<string>('');
   /** 異常レスポンス */
   const [errors, setErrors] = useState<IApiError>({
     code: 0,
-    message: "",
-    detail_message: []
+    message: '',
+    detail_message: [],
   });
 
   /** パスワード変更API */
   const updatePassword = async (): Promise<boolean> => {
-    const url = API_ENDPOINT.USER_PASSWORD.replace("$1", userId);
+    const url = API_ENDPOINT.USER_PASSWORD.replace('$1', userId);
 
     const body: IUpdatePasswordBody = {
       old_password: oldPassword,
-      new_password: newPassword
+      new_password: newPassword,
     };
 
     try {
@@ -43,10 +43,12 @@ export const useUpdatePassword = (userId: string) => {
       if (apiError) {
         setErrors(apiError);
       }
+
       return false;
     }
 
-    setErrors({ code: 0, message: "", detail_message: [] });
+    setErrors({ code: 0, message: '', detail_message: [] });
+
     return true;
   };
 
@@ -58,6 +60,6 @@ export const useUpdatePassword = (userId: string) => {
     confirmNewPassword,
     setConfirmNewPassword,
     updatePassword,
-    errors
+    errors,
   };
 };

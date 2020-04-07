@@ -1,10 +1,10 @@
 /** カラー定数 */
-export * from "./Color";
+export * from './Color';
 /** フォント */
-export * from "./Font";
+export * from './Font';
 /** 画像 */
-export * from "./Image";
+export * from './Image';
 /** レイアウト定数 */
-export * from "./Layout";
+export * from './Layout';
 /** 各種URL */
-export * from "./Url";
+export * from './Url';

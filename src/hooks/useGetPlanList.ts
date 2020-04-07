@@ -1,11 +1,11 @@
-import { useState, useEffect, useCallback } from "react";
-import axios, { CancelTokenSource } from "axios";
+import { useState, useEffect, useCallback } from 'react';
+import axios, { CancelTokenSource } from 'axios';
 
 // from app
-import { API_ENDPOINT } from "app/src/constants";
-import { IPlanList } from "app/src/interfaces/api/Plan";
-import { IApiError } from "app/src/interfaces/api/Error";
-import { handleError } from "app/src/utils";
+import { API_ENDPOINT } from 'app/src/constants';
+import { IPlanList } from 'app/src/interfaces/api/Plan';
+import { IApiError } from 'app/src/interfaces/api/Error';
+import { handleError } from 'app/src/utils';
 
 /**
  * デートプラン一覧取得フック
@@ -16,14 +16,14 @@ export const useGetPlanList = (userId?: string) => {
   /** 正常レスポンス */
   const [plans, setPlans] = useState<IPlanList>({
     total: 0,
-    plan_list: []
+    plan_list: [],
   });
 
   /** 異常レスポンス */
   const [errors, setErrors] = useState<IApiError>({
     code: 0,
-    message: "",
-    detail_message: []
+    message: '',
+    detail_message: [],
   });
 
   /** ローディング状態 */
@@ -36,8 +36,9 @@ export const useGetPlanList = (userId?: string) => {
   useEffect(() => {
     const signal = axios.CancelToken.source();
     getPlanList(signal);
+
     return () => {
-      signal.cancel("Cancelling in Cleanup.");
+      signal.cancel('Cancelling in Cleanup.');
     };
   }, []);
 
@@ -53,19 +54,19 @@ export const useGetPlanList = (userId?: string) => {
       ? // マイプラン一覧取得
         {
           params: {
-            user_id: userId
+            user_id: userId,
           },
-          cancelToken: cancelToken
+          cancelToken,
         }
       : // 通常のプラン一覧取得 TODO 自分のエリアで人気のデートプランを取得する
-        { cancelToken: cancelToken };
+        { cancelToken };
 
     try {
       const { data } = await axios.get<IPlanList>(url, config);
       setPlans(Object.assign(data));
     } catch (err) {
       if (axios.isCancel(err)) {
-        console.log("Request Cancelled: " + err.message);
+        console.log(`Request Cancelled: ${err.message}`);
       } else {
         const apiError = handleError(err);
         if (apiError) {

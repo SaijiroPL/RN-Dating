@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
-import axios, { CancelTokenSource } from "axios";
+import { useState, useEffect } from 'react';
+import axios, { CancelTokenSource } from 'axios';
 
 // from app
-import { API_ENDPOINT } from "app/src/constants/Url";
-import { IFollowList } from "app/src/interfaces/api/Follow";
-import { IApiError } from "app/src/interfaces/api/Error";
-import { handleError } from "app/src/utils";
+import { API_ENDPOINT } from 'app/src/constants/Url';
+import { IFollowList } from 'app/src/interfaces/api/Follow';
+import { IApiError } from 'app/src/interfaces/api/Error';
+import { handleError } from 'app/src/utils';
 
 /**
  * フォローリスト取得フック
@@ -16,14 +16,14 @@ export const useGetFollowList = (userId: string) => {
   /** 正常レスポンス */
   const [follows, setFollows] = useState<IFollowList>({
     total: 0,
-    follow_list: []
+    follow_list: [],
   });
 
   /** 異常レスポンス */
   const [errors, setErrors] = useState<IApiError>({
     code: 0,
-    message: "",
-    detail_message: []
+    message: '',
+    detail_message: [],
   });
 
   /** ローディング状態 */
@@ -33,8 +33,9 @@ export const useGetFollowList = (userId: string) => {
   useEffect(() => {
     const signal = axios.CancelToken.source();
     getFollowList(signal);
+
     return () => {
-      signal.cancel("Cancelling in Cleanup.");
+      signal.cancel('Cancelling in Cleanup.');
     };
   }, []);
 
@@ -43,19 +44,19 @@ export const useGetFollowList = (userId: string) => {
    * @param signal CancelTokenSource
    */
   const getFollowList = async (signal?: CancelTokenSource): Promise<void> => {
-    const url = API_ENDPOINT.USER_FOLLOWS.replace("$1", userId);
+    const url = API_ENDPOINT.USER_FOLLOWS.replace('$1', userId);
     const cancelToken = signal
       ? signal.token
       : axios.CancelToken.source().token;
 
     try {
       const { data } = await axios.get<IFollowList>(url, {
-        cancelToken: cancelToken
+        cancelToken,
       });
       setFollows(Object.assign(data));
     } catch (err) {
       if (axios.isCancel(err)) {
-        console.log("Request Cancelled: " + err.message);
+        console.log(`Request Cancelled: ${err.message}`);
       } else {
         const apiError = handleError(err);
         if (apiError) {
