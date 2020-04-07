@@ -1,12 +1,12 @@
-import React, { useCallback } from "react";
-import { StyleSheet, View } from "react-native";
-import { useNavigation } from "react-navigation-hooks";
-import { Thumbnail, Text } from "native-base";
+import React, { useCallback } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { Thumbnail, Text } from 'native-base';
 
 // from app
-import { IMAGE } from "app/src/constants";
-import { IUserInfo } from "app/src/interfaces/app/User";
-import { FollowButton } from "app/src/components/Button";
+import { IMAGE } from 'app/src/constants';
+import { IUserInfo } from 'app/src/interfaces/app/User';
+import { FollowButton } from 'app/src/components/Button';
 
 interface Props {
   user: IUserInfo;
@@ -25,7 +25,7 @@ export const UserHeader: React.FC<Props> = (props: Props) => {
 
   /** ユーザー押下時の処理 */
   const onPress = useCallback(() => {
-    navigate("profile", { id: user.userId });
+    navigate('Profile', { userId: user.userId });
   }, []);
 
   return (
@@ -59,28 +59,28 @@ export const UserHeader: React.FC<Props> = (props: Props) => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   container: {
-    alignItems: "center",
-    flexDirection: "row",
-    margin: 5
+    alignItems: 'center',
+    flexDirection: 'row',
+    margin: 5,
   },
   thumbnailContainer: {
-    padding: 5
+    padding: 5,
   },
   userContainer: {
-    padding: 5
+    padding: 5,
   },
   followContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     flex: 1,
-    flexDirection: "row",
+    flexDirection: 'row',
     height: 30,
-    justifyContent: "flex-end",
-    marginRight: 10
+    justifyContent: 'flex-end',
+    marginRight: 10,
   },
   nameText: {
-    fontFamily: "genju-medium"
+    fontFamily: 'genju-medium',
   },
   attrText: {
-    fontFamily: "genju-light"
-  }
+    fontFamily: 'genju-light',
+  },
 });

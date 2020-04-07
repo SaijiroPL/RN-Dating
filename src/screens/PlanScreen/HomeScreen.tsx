@@ -1,13 +1,13 @@
-import React from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import React from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 // from app
-import { COLOR } from "app/src/constants";
-import { LoadingSpinner, RefreshSpinner } from "app/src/components/Spinners";
-import { PlanCardList } from "app/src/components/List";
-import { CreatePlanFab } from "app/src/components/Button";
-import { useGetPlanList } from "app/src/hooks";
-import { appTextStyle } from "app/src/styles";
+import { COLOR } from 'app/src/constants';
+import { LoadingSpinner, RefreshSpinner } from 'app/src/components/Spinners';
+import { PlanCardList } from 'app/src/components/List';
+import { CreatePlanFab } from 'app/src/components/Button';
+import { useGetPlanList } from 'app/src/hooks';
+import { appTextStyle } from 'app/src/styles';
 
 /**
  * ホーム画面トップ
@@ -18,9 +18,8 @@ const HomeScreen: React.FC = () => {
   const {
     isPlanListLoading,
     plans,
-    errors,
     isRefreshing,
-    onRefresh
+    onRefresh,
   } = useGetPlanList();
 
   /** ローディング */
@@ -46,8 +45,8 @@ const thisStyle = StyleSheet.create({
   container: {
     backgroundColor: COLOR.backgroundColor,
     flex: 1,
-    justifyContent: "center"
-  }
+    justifyContent: 'center',
+  },
 });
 
 export default HomeScreen;

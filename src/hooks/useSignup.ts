@@ -1,14 +1,14 @@
-import { useState, useCallback } from "react";
-import axios from "axios";
+import { useState, useCallback } from 'react';
+import axios from 'axios';
 
 // from app
-import { useDispatch, useGlobalState } from "app/src/Store";
-import { ActionType } from "app/src/Reducer";
-import { API_ENDPOINT } from "app/src/constants";
-import { IOK } from "app/src/interfaces/api/Success";
-import { IApiError } from "app/src/interfaces/api/Error";
-import { ICreateUserBody } from "app/src/interfaces/api/User";
-import { getAge, handleError } from "app/src/utils";
+import { useDispatch, useGlobalState } from 'app/src/Store';
+import { ActionType } from 'app/src/Reducer';
+import { API_ENDPOINT } from 'app/src/constants';
+import { IOK } from 'app/src/interfaces/api/Success';
+import { IApiError } from 'app/src/interfaces/api/Error';
+import { ICreateUserBody } from 'app/src/interfaces/api/User';
+import { getAge, handleError } from 'app/src/utils';
 
 /**
  * ユーザー登録フック
@@ -16,13 +16,13 @@ import { getAge, handleError } from "app/src/utils";
  */
 export const useSignup = () => {
   /** ユーザー登録に必要な情報 */
-  const registerUser = useGlobalState("registerUser");
+  const registerUser = useGlobalState('registerUser');
 
   /** グローバルステート更新関数 */
   const dispatch = useDispatch();
 
   /** ユーザー名 */
-  const [name, setName] = useState<string>("");
+  const [name, setName] = useState<string>('');
 
   /** 男性かどうか */
   const [isMan, setMan] = useState<boolean>(false);
@@ -31,10 +31,10 @@ export const useSignup = () => {
   const [isWoman, setWoman] = useState<boolean>(false);
 
   /** 生年月日 */
-  const [birthday, setBirthday] = useState<string>("1995-01-01");
+  const [birthday, setBirthday] = useState<string>('1995-01-01');
 
   /** 都道府県 */
-  const [prefecture, setPrefecture] = useState<string>("");
+  const [prefecture, setPrefecture] = useState<string>('');
 
   /** 異常レスポンス */
   const [errors, setErrors] = useState<IApiError>();
@@ -44,17 +44,18 @@ export const useSignup = () => {
     const url = API_ENDPOINT.USERS;
 
     const body: ICreateUserBody = {
-      name: name,
-      sex: isMan ? "man" : "woman",
+      name,
+      sex: isMan ? 'man' : 'woman',
       age: getAge(birthday),
       area: prefecture,
       mail_address: registerUser.mailAddress,
-      password: registerUser.password
+      password: registerUser.password,
     };
 
     try {
       const { data } = await axios.post<IOK>(url, body);
-      setErrors({ code: 0, message: "", detail_message: [] });
+      setErrors({ code: 0, message: '', detail_message: [] });
+
       return data.id;
     } catch (err) {
       const apiError = handleError(err);
@@ -74,12 +75,12 @@ export const useSignup = () => {
       dispatch({
         type: ActionType.SET_REGISTER_USER,
         payload: {
-          mailAddress: mailAddress,
-          password: password
-        }
+          mailAddress,
+          password,
+        },
       });
     },
-    []
+    [],
   );
 
   return {
@@ -95,6 +96,6 @@ export const useSignup = () => {
     prefecture,
     setPrefecture,
     createUser,
-    errors
+    errors,
   };
 };

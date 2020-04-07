@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
 // from app
-import { WEB_ENDPOINT } from "app/src/constants/Url";
-import { SimpleWebView } from "app/src/components/Content";
+import { WEB_ENDPOINT } from 'app/src/constants/Url';
+import { SimpleWebView } from 'app/src/components/Content';
 
 /**
  * プライバシーポリシー画面

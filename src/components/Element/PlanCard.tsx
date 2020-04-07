@@ -1,6 +1,6 @@
-import React, { useCallback } from "react";
-import { Image, StyleSheet, TouchableOpacity } from "react-native";
-import { useNavigation } from "react-navigation-hooks";
+import React, { useCallback } from 'react';
+import { Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import {
   Body,
   Card,
@@ -8,14 +8,14 @@ import {
   Text,
   Button,
   Left,
-  Thumbnail
-} from "native-base";
-import MapView from "react-native-maps";
-import { FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
+  Thumbnail,
+} from 'native-base';
+import MapView from 'react-native-maps';
+import { FontAwesome, SimpleLineIcons } from '@expo/vector-icons';
 
 // from app
-import { COLOR, IMAGE } from "app/src/constants";
-import { IPlan } from "app/src/interfaces/api/Plan";
+import { COLOR, IMAGE } from 'app/src/constants';
+import { IPlan } from 'app/src/interfaces/api/Plan';
 
 interface Props {
   plan: IPlan;
@@ -32,22 +32,22 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
 
   /** プラン押下時の処理 */
   const onPlanPress = useCallback(() => {
-    navigate("detail", { id: plan.plan_id });
+    navigate('Detail', { planId: plan.plan_id });
   }, [plan]);
 
   /** コメント数押下時の処理 */
   const onCommentPress = useCallback(() => {
-    navigate("comment", { id: plan.plan_id });
+    navigate('Comment', { planId: plan.plan_id });
   }, [plan]);
 
   /** お気に入り数押下時の処理 */
   const onLikePress = useCallback(() => {
-    navigate("like", { id: plan.plan_id });
+    navigate('Like', { planId: plan.plan_id });
   }, [plan]);
 
   /** ユーザー押下時の処理 */
   const onUserPress = useCallback(() => {
-    navigate("profile", { id: plan.user_id });
+    navigate('Profile', { userId: plan.user_id });
   }, [plan]);
 
   /** プラン作成者ヘッダー */
@@ -80,7 +80,7 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
               latitude: plan.spots[0].latitude,
               longitude: plan.spots[0].longitude,
               latitudeDelta: 0.02,
-              longitudeDelta: 0.05
+              longitudeDelta: 0.05,
             }}
             style={thisStyle.map}
           />
@@ -88,7 +88,7 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
         <CardItem style={thisStyle.description}>
           <Text style={thisStyle.mainText}>{plan.title}</Text>
           <Text note style={thisStyle.descriptionText}>
-            {plan.spots.map(spot => spot.spot_name).join(" > ")}
+            {plan.spots.map((spot) => spot.spot_name).join(' > ')}
           </Text>
         </CardItem>
         <CardItem style={thisStyle.linkButtonGroup}>
@@ -120,52 +120,52 @@ const thisStyle = StyleSheet.create({
     borderRadius: 10,
     marginLeft: 10,
     marginRight: 10,
-    shadowColor: "#ccc",
+    shadowColor: '#ccc',
     shadowOffset: {
       height: 0,
-      width: 0
+      width: 0,
     },
     shadowOpacity: 1,
-    shadowRadius: 2
+    shadowRadius: 2,
   },
   planner: {
-    justifyContent: "center"
+    justifyContent: 'center',
   },
   image: {
     flex: 1,
-    height: 150
+    height: 150,
   },
   map: {
     flex: 1,
-    height: 150
+    height: 150,
   },
   description: {
-    alignItems: "flex-start",
-    flexDirection: "column"
+    alignItems: 'flex-start',
+    flexDirection: 'column',
   },
   linkButtonGroup: {
     // backgroundColor: COLOR.baseBackgroundColor,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
     height: 0,
-    marginBottom: 10
+    marginBottom: 10,
   },
   linkButton: {
     flex: 1,
-    justifyContent: "center"
+    justifyContent: 'center',
   },
   mainText: {
-    fontFamily: "genju-medium",
-    fontSize: 14
+    fontFamily: 'genju-medium',
+    fontSize: 14,
   },
   descriptionText: {
-    fontFamily: "genju-light",
-    fontSize: 12
+    fontFamily: 'genju-light',
+    fontSize: 12,
   },
   linkButtonText: {
     color: COLOR.tintColor,
-    fontSize: 15
-  }
+    fontSize: 15,
+  },
 });
 
 export default PlanCard;

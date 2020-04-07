@@ -11,7 +11,7 @@
     // Indent-Rainbow
     "oderwat.indent-rainbow",
     // stylelint
-    "shinnn.stylelint",
+    "stylelint.vscode-stylelint",
     // Visual Studio IntelliCode
     "VisualStudioExptTeam.vscodeintellicode",
     // vscode-icons

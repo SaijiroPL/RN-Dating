@@ -1,14 +1,14 @@
-import React from "react";
-import { FlatList, View } from "react-native";
+import React from 'react';
+import { FlatList, View } from 'react-native';
 
 // from app
-import { NOTIFICATION_CATEGORY } from "app/src/constants/Enum";
-import { INotification } from "app/src/interfaces/api/Notification";
+import { NOTIFICATION_CATEGORY } from 'app/src/constants/Enum';
+import { INotification } from 'app/src/interfaces/api/Notification';
 import {
   NotificationFollowElement,
   NotificationLikeElement,
-  NotificationCommentElement
-} from "app/src/components/Element";
+  NotificationCommentElement,
+} from 'app/src/components/Element';
 
 interface Props {
   notificationList: Array<INotification>;
@@ -23,7 +23,7 @@ export const NotificationList: React.FC<Props> = (props: Props) => {
 
   /** 通知リスト要素の描画 */
   const renderNotificationElement = ({
-    item
+    item,
   }: {
     item: INotification;
   }): JSX.Element => {
@@ -43,7 +43,7 @@ export const NotificationList: React.FC<Props> = (props: Props) => {
     <FlatList
       data={notificationList}
       renderItem={renderNotificationElement}
-      keyExtractor={item => `${item.notification_id}`}
+      keyExtractor={(item) => `${item.notification_id}`}
     />
   );
 };

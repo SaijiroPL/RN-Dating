@@ -1,10 +1,10 @@
-import React from "react";
-import { StyleSheet } from "react-native";
-import { Body, Left, ListItem, Text, Thumbnail } from "native-base";
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { Body, Left, ListItem, Text, Thumbnail } from 'native-base';
 
 // from app
-import { COLOR, IMAGE } from "app/src/constants";
-import { IComment } from "app/src/interfaces/api/Comment";
+import { COLOR, IMAGE } from 'app/src/constants';
+import { IComment } from 'app/src/interfaces/api/Comment';
 
 interface Props {
   comment: IComment;
@@ -38,19 +38,19 @@ export const CommentElement: React.FC<Props> = (props: Props) => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   container: {
-    justifyContent: "center"
+    justifyContent: 'center',
   },
   nameText: {
-    fontFamily: "genju-medium",
+    fontFamily: 'genju-medium',
     textDecorationColor: COLOR.inactiveColor,
-    textDecorationLine: "underline"
+    textDecorationLine: 'underline',
   },
   commentText: {
-    fontFamily: "genju-light",
-    fontSize: 12
+    fontFamily: 'genju-light',
+    fontSize: 12,
   },
   dateText: {
-    fontFamily: "genju-light",
-    fontSize: 10
-  }
+    fontFamily: 'genju-light',
+    fontSize: 10,
+  },
 });

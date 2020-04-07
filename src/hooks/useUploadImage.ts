@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { Platform } from "react-native";
-import * as Permissions from "expo-permissions";
-import * as ImagePicker from "expo-image-picker";
+import { useEffect, useState } from 'react';
+import { Platform } from 'react-native';
+import * as Permissions from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker';
 
 /**
  * 画像アップロードフック
@@ -12,7 +12,7 @@ export const useUploadImage = () => {
   const [hasPermission, setHasPermission] = useState<boolean>(false);
 
   /** 選択画像 */
-  const [image, setImage] = useState<string>("");
+  const [image, setImage] = useState<string>('');
 
   useEffect(() => {
     getPermissionAsync();
@@ -20,10 +20,10 @@ export const useUploadImage = () => {
 
   /** パーミッションの許可 */
   const getPermissionAsync = async (): Promise<void> => {
-    if (Platform.OS === "ios") {
+    if (Platform.OS === 'ios') {
       try {
         const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-        setHasPermission(status === "granted");
+        setHasPermission(status === 'granted');
       } catch (err) {
         console.log(err);
       }
@@ -37,7 +37,7 @@ export const useUploadImage = () => {
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
         aspect: [4, 3],
-        quality: 1
+        quality: 1,
       });
 
       if (!result.cancelled) {

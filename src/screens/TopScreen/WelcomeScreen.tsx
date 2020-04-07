@@ -1,39 +1,39 @@
-import React, { useCallback } from "react";
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
-import { useNavigation } from "react-navigation-hooks";
+import React, { useCallback } from 'react';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 // from app
-import { COLOR, IMAGE, LAYOUT } from "app/src/constants";
-import { CompleteButton } from "app/src/components/Button";
-import { appStyle } from "app/src/styles";
+import { COLOR, IMAGE, LAYOUT } from 'app/src/constants';
+import { CompleteButton } from 'app/src/components/Button';
+import { appStyle } from 'app/src/styles';
 
 // Constants
 const SLIDE_DATA = [
   {
-    title: "日時の入力",
-    description: "デート当日の日付と時間、移動手段を入力します。",
-    uri: IMAGE.welcome01
+    title: '日時の入力',
+    description: 'デート当日の日付と時間、移動手段を入力します。',
+    uri: IMAGE.welcome01,
   },
   {
-    title: "場所とピン付け",
-    description: "マップで大まかな行動範囲を設定します。",
-    uri: IMAGE.welcome02
+    title: '場所とピン付け',
+    description: 'マップで大まかな行動範囲を設定します。',
+    uri: IMAGE.welcome02,
   },
   {
-    title: "フリックでリストアップ",
-    description: "デートスポット候補をフリックで選択します。",
-    uri: IMAGE.welcome03
+    title: 'フリックでリストアップ',
+    description: 'デートスポット候補をフリックで選択します。',
+    uri: IMAGE.welcome03,
   },
   {
-    title: "スポット厳選",
-    description: "リストアップした候補を厳選します。",
-    uri: IMAGE.welcome04
+    title: 'スポット厳選',
+    description: 'リストアップした候補を厳選します。',
+    uri: IMAGE.welcome04,
   },
   {
-    title: "順番とプラン名",
-    description: "訪れる順番とデートプラン名を決定します。",
-    uri: IMAGE.welcome05
-  }
+    title: '順番とプラン名',
+    description: '訪れる順番とデートプラン名を決定します。',
+    uri: IMAGE.welcome05,
+  },
 ];
 
 /**
@@ -45,7 +45,7 @@ const WelcomeScreen: React.FC = () => {
 
   /** 完了ボタン押下で基本情報入力画面に遷移する */
   const onStartButtonPress = useCallback(() => {
-    navigate("entry");
+    navigate('Entry');
   }, []);
 
   return (
@@ -79,27 +79,27 @@ const WelcomeScreen: React.FC = () => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   slide: {
-    alignItems: "center",
+    alignItems: 'center',
     flex: 1,
-    width: LAYOUT.window.width
+    width: LAYOUT.window.width,
   },
   footer: {
-    alignItems: "center",
+    alignItems: 'center',
     flex: 1,
-    justifyContent: "center"
+    justifyContent: 'center',
   },
   title: {
     color: COLOR.textTintColor,
-    fontFamily: "genju-medium",
+    fontFamily: 'genju-medium',
     fontSize: 20,
-    padding: 10
+    padding: 10,
   },
   description: {
     color: COLOR.textTintColor,
-    fontFamily: "genju-medium",
+    fontFamily: 'genju-medium',
     fontSize: 15,
-    padding: 10
-  }
+    padding: 10,
+  },
 });
 
 export default WelcomeScreen;

@@ -1,9 +1,9 @@
-import React from "react";
-import { FlatList } from "react-native";
+import React from 'react';
+import { FlatList } from 'react-native';
 
 // from app
-import { IPlan } from "app/src/interfaces/api/Plan";
-import { PlanCard } from "app/src/components/Element";
+import { IPlan } from 'app/src/interfaces/api/Plan';
+import { PlanCard } from 'app/src/components/Element';
 
 interface Props {
   planList: Array<IPlan>;
@@ -21,6 +21,7 @@ export const PlanCardList: React.FC<Props> = (props: Props) => {
     if (myPlan) {
       return <PlanCard plan={item} myPlan />;
     }
+
     return <PlanCard plan={item} />;
   };
 
@@ -28,7 +29,7 @@ export const PlanCardList: React.FC<Props> = (props: Props) => {
     <FlatList
       data={planList}
       renderItem={renderPlanCard}
-      keyExtractor={item => item.plan_id}
+      keyExtractor={(item) => item.plan_id}
     />
   );
 };

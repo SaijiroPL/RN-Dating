@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { Body, List, ListItem, Text, Left, Right, View } from "native-base";
-import { Ionicons } from "@expo/vector-icons";
+import React, { useState } from 'react';
+import { Body, List, ListItem, Text, Left, Right, View } from 'native-base';
+import { Ionicons } from '@expo/vector-icons';
 
 // from app
-import { COLOR } from "app/src/constants";
-import { IFaq } from "app/src/interfaces/api/Question";
-import { appTextStyle } from "app/src/styles";
+import { COLOR } from 'app/src/constants';
+import { IFaq } from 'app/src/interfaces/api/Question';
+import { appTextStyle } from 'app/src/styles';
 
 interface Props {
   faqList: Array<IFaq>;
@@ -70,5 +70,5 @@ export const FaqList: React.FC<Props> = (props: Props) => {
     );
   };
 
-  return <List>{faqList.map(faq => renderQuestion(faq))}</List>;
+  return <List>{faqList.map((faq) => renderQuestion(faq))}</List>;
 };

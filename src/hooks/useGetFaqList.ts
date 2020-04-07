@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
-import axios, { CancelTokenSource } from "axios";
+import { useState, useEffect } from 'react';
+import axios, { CancelTokenSource } from 'axios';
 
 // from app
-import { API_ENDPOINT } from "app/src/constants";
-import { IFaqList } from "app/src/interfaces/api/Question";
-import { IApiError } from "app/src/interfaces/api/Error";
-import { handleError } from "app/src/utils";
+import { API_ENDPOINT } from 'app/src/constants';
+import { IFaqList } from 'app/src/interfaces/api/Question';
+import { IApiError } from 'app/src/interfaces/api/Error';
+import { handleError } from 'app/src/utils';
 
 /**
  * よくある質問一覧取得フック
@@ -14,14 +14,14 @@ import { handleError } from "app/src/utils";
 export const useGetFaqList = () => {
   /** 正常レスポンス */
   const [questions, setQuestions] = useState<IFaqList>({
-    question_list: []
+    question_list: [],
   });
 
   /** 異常レスポンス */
   const [errors, setErrors] = useState<IApiError>({
     code: 0,
-    message: "",
-    detail_message: []
+    message: '',
+    detail_message: [],
   });
 
   /** ローディング状態 */
@@ -31,8 +31,9 @@ export const useGetFaqList = () => {
   useEffect(() => {
     const signal = axios.CancelToken.source();
     getFaqList(signal);
+
     return () => {
-      signal.cancel("Cancelling in Cleanup.");
+      signal.cancel('Cancelling in Cleanup.');
     };
   }, []);
 
@@ -45,12 +46,12 @@ export const useGetFaqList = () => {
 
     try {
       const { data } = await axios.get<IFaqList>(url, {
-        cancelToken: signal.token
+        cancelToken: signal.token,
       });
       setQuestions(Object.assign(data));
     } catch (err) {
       if (axios.isCancel(err)) {
-        console.log("Request Cancelled: " + err.message);
+        console.log(`Request Cancelled: ${err.message}`);
       } else {
         const apiError = handleError(err);
         if (apiError) {

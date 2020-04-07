@@ -1,5 +1,5 @@
-import { StyleSheet, View } from "react-native";
-import { useNavigation } from "react-navigation-hooks";
+import { StyleSheet, View } from 'react-native';
+import { useNavigation } from 'react-navigation-hooks';
 import {
   Container,
   Content,
@@ -11,40 +11,40 @@ import {
   Form,
   Label,
   Item,
-  Input
-} from "native-base";
+  Input,
+} from 'native-base';
 
 // from app
-import { COLOR } from "app/src/constants";
-import { ImageCarousel, UserHeader } from "app/src/components/Content";
-import { CommentGrid } from "app/src/components/List";
-import { SimpleMapView } from "app/src/components/MapItem";
-import { CompleteButton } from "app/src/components/Button";
-import { formatDate } from "app/src/utils";
-import { InputLabelTextAreaForm } from "app/src/components/Form";
-import { appTextStyle } from "app/src/styles";
-import { useCallback } from "react";
+import { COLOR } from 'app/src/constants';
+import { ImageCarousel, UserHeader } from 'app/src/components/Content';
+import { CommentGrid } from 'app/src/components/List';
+import { SimpleMapView } from 'app/src/components/MapItem';
+import { CompleteButton } from 'app/src/components/Button';
+import { formatDate } from 'app/src/utils';
+import { InputLabelTextAreaForm } from 'app/src/components/Form';
+import { appTextStyle } from 'app/src/styles';
+import { useCallback } from 'react';
 
 /**
  * デートプラン詳細画面
  * @author kotatanaka
  */
-const EditPostScreen: React.FC = () => {
+const GuidePostScreen: React.FC = () => {
   /** ナビゲーター */
   const { navigate } = useNavigation();
 
   const onCompleteButtonPress = useCallback(() => {
-    navigate("post");
+    navigate('post');
   }, []);
 
   return (
     <Container>
       <Content>
-        {/**投稿する画像を表示できるようにする */}
-        {/**投稿する場所をマップで表示する */}
+        {/** 投稿する画像を表示できるようにする */}
+        {/** 投稿する場所をマップで表示する */}
         <Form>
           <Item fixedLabel>
-            {/**ここにスポットの名前が自動で挿入されるようにする */}
+            {/** ここにスポットの名前が自動で挿入されるようにする */}
             <Label>スポット名を入力</Label>
             <Input />
           </Item>
@@ -73,6 +73,7 @@ const EditPostScreen: React.FC = () => {
         </Right>
       </Content>
       <CompleteButton title="投稿" onPress={onCompleteButtonPress} />
+      <CompleteButton title="出発" onPress={onCompleteButtonPress} />
     </Container>
   );
 };
@@ -81,9 +82,9 @@ const EditPostScreen: React.FC = () => {
 const thisStyle = StyleSheet.create({
   descriptionText: {
     color: COLOR.textTintColor,
-    fontFamily: "genju-light",
-    fontSize: 10
-  }
+    fontFamily: 'genju-light',
+    fontSize: 10,
+  },
 });
 
-export default EditPostScreen;
+export default GuidePostScreen;

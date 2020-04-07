@@ -1,12 +1,12 @@
-import { useState, useCallback } from "react";
-import axios from "axios";
+import { useState, useCallback } from 'react';
+import axios from 'axios';
 
 // from app
-import { API_ENDPOINT } from "app/src/constants/Url";
-import { IPostQuestionBody } from "app/src/interfaces/api/Question";
-import { IOK } from "app/src/interfaces/api/Success";
-import { IApiError } from "app/src/interfaces/api/Error";
-import { handleError } from "app/src/utils";
+import { API_ENDPOINT } from 'app/src/constants/Url';
+import { IPostQuestionBody } from 'app/src/interfaces/api/Question';
+import { IOK } from 'app/src/interfaces/api/Success';
+import { IApiError } from 'app/src/interfaces/api/Error';
+import { handleError } from 'app/src/utils';
 
 /**
  * 質問投稿フック
@@ -15,13 +15,13 @@ import { handleError } from "app/src/utils";
  */
 export const usePostQuestion = (userId: string) => {
   /** 質問投稿内容 */
-  const [question, setQuestion] = useState<string>("");
+  const [question, setQuestion] = useState<string>('');
 
   /** 異常レスポンス */
   const [errors, setErrors] = useState<IApiError>({
     code: 0,
-    message: "",
-    detail_message: []
+    message: '',
+    detail_message: [],
   });
 
   /**
@@ -33,7 +33,7 @@ export const usePostQuestion = (userId: string) => {
 
     const body: IPostQuestionBody = {
       user_id: userId,
-      question: question
+      question,
     };
 
     try {
@@ -43,11 +43,13 @@ export const usePostQuestion = (userId: string) => {
       if (apiError) {
         setErrors(apiError);
       }
+
       return false;
     }
 
-    setErrors({ code: 0, message: "", detail_message: [] });
-    setQuestion("");
+    setErrors({ code: 0, message: '', detail_message: [] });
+    setQuestion('');
+
     return true;
   }, [userId, question]);
 
@@ -55,6 +57,6 @@ export const usePostQuestion = (userId: string) => {
     question,
     setQuestion,
     postQuestion,
-    errors
+    errors,
   };
 };

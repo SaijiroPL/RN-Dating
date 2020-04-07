@@ -1,12 +1,12 @@
-import React, { useCallback } from "react";
-import { StyleSheet } from "react-native";
-import { ListItem, Thumbnail, Text, Left, Body, Right } from "native-base";
-import { useNavigation } from "react-navigation-hooks";
+import React, { useCallback } from 'react';
+import { StyleSheet } from 'react-native';
+import { ListItem, Thumbnail, Text, Left, Body, Right } from 'native-base';
+import { useNavigation } from '@react-navigation/native';
 
 // from app
-import { COLOR, IMAGE } from "app/src/constants";
-import { IFollow, IFollower } from "app/src/interfaces/api/Follow";
-import { FollowButton } from "app/src/components/Button";
+import { COLOR, IMAGE } from 'app/src/constants';
+import { IFollow, IFollower } from 'app/src/interfaces/api/Follow';
+import { FollowButton } from 'app/src/components/Button';
 
 interface Props {
   meId: string;
@@ -28,14 +28,14 @@ export const FollowElement: React.FC<Props> = (props: Props) => {
   /** フォローユーザー押下時の処理 */
   const onPressFollow = useCallback(() => {
     if (follow) {
-      navigate("profile", { id: follow.user_id });
+      navigate('Profile', { userId: follow.user_id });
     }
   }, [follow]);
 
   /** フォロワー押下時の処理 */
   const onPressFollower = useCallback(() => {
     if (follower) {
-      navigate("profile", { id: follower.user_id });
+      navigate('Profile', { userId: follower.user_id });
     }
   }, [follower]);
 
@@ -103,22 +103,22 @@ export const FollowElement: React.FC<Props> = (props: Props) => {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   container: {
-    alignContent: "space-around",
-    justifyContent: "center"
+    alignContent: 'space-around',
+    justifyContent: 'center',
   },
   nameText: {
-    fontFamily: "genju-medium"
+    fontFamily: 'genju-medium',
   },
   idText: {
-    fontFamily: "genju-light",
+    fontFamily: 'genju-light',
     fontSize: 10,
     textDecorationColor: COLOR.inactiveColor,
-    textDecorationLine: "underline"
+    textDecorationLine: 'underline',
   },
   dateText: {
-    fontFamily: "genju-light",
-    fontSize: 10
-  }
+    fontFamily: 'genju-light',
+    fontSize: 10,
+  },
 });
 
 export default FollowElement;

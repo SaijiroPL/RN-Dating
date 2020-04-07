@@ -1,16 +1,31 @@
-import React, { useCallback } from "react";
-import { StyleSheet } from "react-native";
-import { Container, Content, Form, View } from "native-base";
-import FlashMessage, { showMessage } from "react-native-flash-message";
+import React, { useCallback, useState } from 'react';
+import { StyleSheet } from 'react-native';
+import {
+  Container,
+  Content,
+  Form,
+  View,
+  ListItem,
+  Left,
+  Right,
+  Switch,
+  Text,
+  Body,
+} from 'native-base';
+import FlashMessage, { showMessage } from 'react-native-flash-message';
 
 // from app
-import { useGlobalState } from "app/src/Store";
-import { LoadingSpinner } from "app/src/components/Spinners";
-import { CompleteButton } from "app/src/components/Button";
-import { InputLabelForm } from "app/src/components/Form";
-import { InputLabelTextAreaForm } from "app/src/components/Form";
-import { useEditProfile } from "app/src/hooks";
-import { isEmpty } from "app/src/utils";
+import { useGlobalState } from 'app/src/Store';
+import { LoadingSpinner } from 'app/src/components/Spinners';
+import { CompleteButton } from 'app/src/components/Button';
+import {
+  InputLabelForm,
+  InputLabelTextAreaForm,
+} from 'app/src/components/Form';
+
+import { useEditProfile } from 'app/src/hooks';
+import { isEmpty } from 'app/src/utils';
+import { appTextStyle } from 'app/src/styles';
 
 /**
  * プロフィール編集画面
@@ -18,7 +33,7 @@ import { isEmpty } from "app/src/utils";
  */
 const EditProfileScreen: React.FC = () => {
   /** ログイン中のユーザー */
-  const loginUser = useGlobalState("loginUser");
+  const loginUser = useGlobalState('loginUser');
 
   /** ユーザー情報取得とプロフィール更新 */
   const {
@@ -34,7 +49,7 @@ const EditProfileScreen: React.FC = () => {
     setMailAddress,
     updateProfile,
     isLoading,
-    errors
+    errors,
   } = useEditProfile(loginUser.id);
 
   /** 更新ボタン押下時の処理 */
@@ -42,8 +57,8 @@ const EditProfileScreen: React.FC = () => {
     const result = await updateProfile();
     if (result) {
       showMessage({
-        message: "プロフィールを更新しました。",
-        type: "success"
+        message: 'プロフィールを更新しました。',
+        type: 'success',
       });
     }
   }, [updateProfile]);
@@ -53,21 +68,27 @@ const EditProfileScreen: React.FC = () => {
   const emailErrors: Array<string> = [];
   const addressErrors: Array<string> = [];
   if (errors && errors.detail_message.length > 0) {
-    errors.detail_message.forEach(item => {
+    errors.detail_message.forEach((item) => {
       if (item.match(/Name/)) {
-        nameErrors.push(item.replace("Nameは", ""));
+        nameErrors.push(item.replace('Nameは', ''));
       }
       if (item.match(/Profile/)) {
-        profileErrors.push(item.replace("Profileは", ""));
+        profileErrors.push(item.replace('Profileは', ''));
       }
       if (item.match(/Mail address/)) {
-        emailErrors.push(item.replace("Mail addressは", ""));
+        emailErrors.push(item.replace('Mail addressは', ''));
       }
       if (item.match(/Address/)) {
-        addressErrors.push(item.replace("Addressは", ""));
+        addressErrors.push(item.replace('Addressは', ''));
       }
     });
   }
+
+  const [privateOn, setPrivateOn] = useState<boolean>(false);
+
+  const handleSwitchPrivateValue = useCallback((value: boolean) => {
+    setPrivateOn(value);
+  }, []);
 
   // ローディング
   if (isLoading) {
@@ -91,7 +112,7 @@ const EditProfileScreen: React.FC = () => {
     <FlashMessage
       position="bottom"
       duration={2500}
-      titleStyle={{ fontFamily: "genju-medium", textAlign: "center" }}
+      titleStyle={{ fontFamily: 'genju-medium', textAlign: 'center' }}
     />
   );
 
@@ -100,7 +121,7 @@ const EditProfileScreen: React.FC = () => {
       <Content>
         <Form>
           <InputLabelForm
-            label="名前"
+            label="ユーザーネーム"
             value={name}
             setValue={setName}
             errors={nameErrors}
@@ -129,6 +150,20 @@ const EditProfileScreen: React.FC = () => {
             errors={addressErrors}
           />
         </Form>
+        <ListItem icon>
+          <Left>
+            <Text style={appTextStyle.standardText}>
+              アカウントを非公開にする
+            </Text>
+          </Left>
+          <Body />
+          <Right>
+            <Switch
+              onValueChange={handleSwitchPrivateValue}
+              value={privateOn}
+            />
+          </Right>
+        </ListItem>
         {UpdateButton}
       </Content>
       {SuccessMessage}
@@ -141,7 +176,7 @@ export default EditProfileScreen;
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   button: {
-    alignItems: "center",
-    marginTop: 50
-  }
+    alignItems: 'center',
+    marginTop: 50,
+  },
 });
