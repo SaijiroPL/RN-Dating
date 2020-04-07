@@ -12,8 +12,8 @@ interface Props {
 }
 
 /**
- * 完了ボタン
- * @author kotatanaka
+ * 完了ボタン(ミニ)
+ * @author itsukiyamada
  */
 export const SmallCompleteButton: React.FC<Props> = (props: Props) => {
   const { disabled, title, onPress } = props;
