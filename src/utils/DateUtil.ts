@@ -6,7 +6,10 @@ import moment from 'moment';
  * @param format 変換する形式
  * @return 変換後の日付文字列
  */
-export function formatDate(value: string | number, format: string): string {
+export function formatDate(
+  value: string | number | Date,
+  format: string,
+): string {
   const datetime = moment(value);
 
   if (!datetime.isValid) {
