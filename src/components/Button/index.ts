@@ -10,6 +10,8 @@ export * from './CompleteFooterButton';
 export * from './SelectButton';
 /** プラン作成ボタン */
 export * from './CreatePlanFab';
+/** プラン編集ボタン */
+export * from './EditPlanFab';
 /** 設定ボタン */
 export * from './SettingFab';
 /** 画像選択ボタン */
