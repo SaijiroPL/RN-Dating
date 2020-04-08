@@ -3,6 +3,7 @@ import { FlatList, View } from 'react-native';
 
 // from app
 import { NOTIFICATION_CATEGORY } from 'app/src/constants/Enum';
+import { RefreshSpinner } from 'app/src/components/Spinners';
 import { INotification } from 'app/src/interfaces/api/Notification';
 import {
   NotificationFollowElement,
@@ -12,6 +13,8 @@ import {
 
 interface Props {
   notificationList: Array<INotification>;
+  isRefreshing: boolean;
+  onRefresh: () => Promise<void>;
 }
 
 /**
@@ -19,7 +22,7 @@ interface Props {
  * @author kotatanaka
  */
 export const NotificationList: React.FC<Props> = (props: Props) => {
-  const { notificationList } = props;
+  const { notificationList, isRefreshing, onRefresh } = props;
 
   /** 通知リスト要素の描画 */
   const renderNotificationElement = ({
@@ -43,6 +46,7 @@ export const NotificationList: React.FC<Props> = (props: Props) => {
     <FlatList
       data={notificationList}
       renderItem={renderNotificationElement}
+      refreshControl={RefreshSpinner(isRefreshing, onRefresh)}
       keyExtractor={(item) => `${item.notification_id}`}
     />
   );

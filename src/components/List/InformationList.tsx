@@ -3,10 +3,13 @@ import { FlatList } from 'react-native';
 
 // from app
 import { IInformation } from 'app/src/interfaces/api/Notification';
+import { RefreshSpinner } from 'app/src/components/Spinners';
 import { InformationElement } from 'app/src/components/Element';
 
 interface Props {
   informationList: Array<IInformation>;
+  isRefreshing: boolean;
+  onRefresh: () => Promise<void>;
 }
 
 /**
@@ -14,7 +17,7 @@ interface Props {
  * @author kotatanaka
  */
 export const InformationList: React.FC<Props> = (props: Props) => {
-  const { informationList } = props;
+  const { informationList, isRefreshing, onRefresh } = props;
 
   /** 運営からのお知らせリスト要素の描画 */
   const renderNotificationElement = ({
@@ -29,6 +32,7 @@ export const InformationList: React.FC<Props> = (props: Props) => {
     <FlatList
       data={informationList}
       renderItem={renderNotificationElement}
+      refreshControl={RefreshSpinner(isRefreshing, onRefresh)}
       keyExtractor={(item) => `${item.notification_id}`}
     />
   );
