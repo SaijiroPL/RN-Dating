@@ -1,10 +1,9 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 
 // from app
 import { useGlobalState } from 'app/src/Store';
-import { LAYOUT } from 'app/src/constants';
 import { LoadingSpinner } from 'app/src/components/Spinners';
 import { UserProfile } from 'app/src/components/Content';
 import { SettingFab } from 'app/src/components/Button';
@@ -51,23 +50,14 @@ const ProfileScreen: React.FC = () => {
         unfollow={unfollow}
         reload={getUserDetail}
       />
-      <View style={thisStyle.planList}>
-        <PlanCardList
-          planList={plans.plan_list}
-          isRefreshing={isRefreshing}
-          onRefresh={onRefresh}
-        />
-      </View>
+      <PlanCardList
+        planList={plans.plan_list}
+        isRefreshing={isRefreshing}
+        onRefresh={onRefresh}
+      />
       <SettingFab />
     </View>
   );
 };
-
-/** スタイリング */
-const thisStyle = StyleSheet.create({
-  planList: {
-    width: LAYOUT.window.width * 0.95,
-  },
-});
 
 export default ProfileScreen;

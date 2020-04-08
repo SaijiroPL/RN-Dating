@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 // from app
 import { useGlobalState } from 'app/src/Store';
@@ -12,7 +12,7 @@ import {
   useUploadImage,
 } from 'app/src/hooks';
 import { PlanCardList } from 'app/src/components/List';
-import { LAYOUT } from 'app/src/constants';
+import { appStyle } from 'app/src/styles';
 
 /**
  * マイプロフィール画面
@@ -42,7 +42,7 @@ const MyProfileScreen: React.FC = () => {
   }
 
   return (
-    <View style={thisStyle.container}>
+    <View style={appStyle.standardContainer}>
       <UserProfile
         user={user}
         me
@@ -50,28 +50,14 @@ const MyProfileScreen: React.FC = () => {
         pickImage={pickImage}
         reload={getUserDetail}
       />
-      <View style={thisStyle.planList}>
-        <PlanCardList
-          planList={plans.plan_list}
-          isRefreshing={isRefreshing}
-          onRefresh={onRefresh}
-        />
-      </View>
+      <PlanCardList
+        planList={plans.plan_list}
+        isRefreshing={isRefreshing}
+        onRefresh={onRefresh}
+      />
       <SettingFab />
     </View>
   );
 };
-
-/** スタイリング */
-const thisStyle = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    flex: 1,
-    justifyContent: 'center',
-  },
-  planList: {
-    width: LAYOUT.window.width * 0.95,
-  },
-});
 
 export default MyProfileScreen;
