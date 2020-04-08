@@ -4,6 +4,12 @@
 
 _バックエンドはこちら [one-date-client](https://github.com/KotaTanaka/one-date-server)_
 
+## Technology
+
+- React `16.9.x`
+- React Native `Expo SDK 37.0.0`
+- TypeScript `3.8.x`
+
 ## Getting Started
 
 ### Node のインストール
