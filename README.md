@@ -53,7 +53,7 @@ $ yarn start -c
 - **iOS シミュレータ**  
   ブラウザコンソール http://localhost:19002 で `Run on iOS simulator` をクリックして起動します。
 
-- **実機（Expo Client）** _Utilities「実機でのローカルサーバー接続方法」参照_
+- **実機（Expo Client）** _Utilities「実機でのローカルサーバー接続方法」参照_  
   コンソールに表示される QR コードをスマホで読み取り Expo Client アプリで起動します。  
   ※ PC とスマホは同一 LAN に繋がっている必要があります。
 
@@ -69,13 +69,10 @@ $ yarn ip
 xxx.xxx.xxx.xxx
 ```
 
-- 上記で取得した IP アドレスを `app.json` 内の `apiEndpoint` のホスト部分に設定する。
+- 上記で取得した IP アドレスを `app.json` の `expo.extra.apiEndpoint` のホスト部分に設定する。
 
 ```json
-"extra": {
-  ...
-  "apiEndpoint": "http://xxx.xxx.xxx.xxx:3080"
-}
+"apiEndpoint": "http://xxx.xxx.xxx.xxx:3080"
 ```
 
 ### iOS シミュレータ GIF キャプチャ
