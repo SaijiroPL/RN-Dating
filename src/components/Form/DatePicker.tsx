@@ -1,4 +1,5 @@
 import React from 'react';
+// FIXME @react-native-community/datetimepicker を使う
 import ReactNativeDatePicker from 'react-native-datepicker';
 
 interface Props {
