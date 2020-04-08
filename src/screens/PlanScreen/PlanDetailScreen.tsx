@@ -10,7 +10,7 @@ import { LoadingSpinner } from 'app/src/components/Spinners';
 import { ImageCarousel, UserHeader } from 'app/src/components/Content';
 import { CommentGrid } from 'app/src/components/List';
 import { SimpleMapView } from 'app/src/components/MapItem';
-import { LikeButton, CompleteButton } from 'app/src/components/Button';
+import { LikeButton, EditPlanFab } from 'app/src/components/Button';
 import {
   useGetPlanDetail,
   useGetCommentList,
@@ -34,10 +34,6 @@ const PlanDetailScreen: React.FC = () => {
 
   /** ナビゲーター */
   const { navigate } = useNavigation();
-
-  const onCompleteButtonPress = useCallback(() => {
-    navigate('EditPlan');
-  }, []);
 
   /** デートプラン詳細取得 */
   const { isPlanLoading, plan, getPlanDetail } = useGetPlanDetail(
@@ -138,7 +134,6 @@ const PlanDetailScreen: React.FC = () => {
   return (
     <Container>
       <Content>
-        <CompleteButton title="…" onPress={onCompleteButtonPress} />
         {loginUser.id !== plan.user_id ? (
           PlannerHeader
         ) : (
@@ -161,6 +156,7 @@ const PlanDetailScreen: React.FC = () => {
           </View>
         )}
       </Content>
+      <EditPlanFab />
     </Container>
   );
 };
