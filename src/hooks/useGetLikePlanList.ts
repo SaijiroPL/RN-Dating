@@ -72,9 +72,9 @@ export const useGetLikePlanList = (userId: string) => {
   };
 
   /** プルリロード */
-  const onRefresh = useCallback(() => {
+  const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    getLikePlanList(axios.CancelToken.source());
+    await getLikePlanList(axios.CancelToken.source());
     setRefreshing(false);
   }, []);
 
