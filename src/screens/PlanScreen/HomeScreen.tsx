@@ -1,9 +1,9 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 // from app
 import { COLOR } from 'app/src/constants';
-import { LoadingSpinner, RefreshSpinner } from 'app/src/components/Spinners';
+import { LoadingSpinner } from 'app/src/components/Spinners';
 import { PlanCardList } from 'app/src/components/List';
 import { CreatePlanFab } from 'app/src/components/Button';
 import { useGetPlanList } from 'app/src/hooks';
@@ -32,9 +32,11 @@ const HomeScreen: React.FC = () => {
       <Text style={appTextStyle.countText}>
         デートプランの数: {plans.total}
       </Text>
-      <ScrollView refreshControl={RefreshSpinner(isRefreshing, onRefresh)}>
-        <PlanCardList planList={plans.plan_list} />
-      </ScrollView>
+      <PlanCardList
+        planList={plans.plan_list}
+        isRefreshing={isRefreshing}
+        onRefresh={onRefresh}
+      />
       <CreatePlanFab />
     </View>
   );

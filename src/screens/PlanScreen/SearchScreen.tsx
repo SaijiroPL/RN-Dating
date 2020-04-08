@@ -1,9 +1,9 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 // from app
 import { COLOR } from 'app/src/constants';
-import { Indicator, RefreshSpinner } from 'app/src/components/Spinners';
+import { Indicator } from 'app/src/components/Spinners';
 import { SearchFormBar } from 'app/src/components/Form';
 import { PlanCardList } from 'app/src/components/List';
 import { useSearchPlanList } from 'app/src/hooks';
@@ -44,9 +44,11 @@ const SearchScreen: React.FC = () => {
                 : `検索結果: ${plans.total} 件`}
             </Text>
           </View>
-          <ScrollView refreshControl={RefreshSpinner(isRefreshing, onRefresh)}>
-            <PlanCardList planList={plans.plan_list} />
-          </ScrollView>
+          <PlanCardList
+            planList={plans.plan_list}
+            isRefreshing={isRefreshing}
+            onRefresh={onRefresh}
+          />
         </View>
       )}
       {/* TODO スポット追加画面を左上に配置したい */}

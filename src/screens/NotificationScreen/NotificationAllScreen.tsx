@@ -1,10 +1,9 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 // from app
 import { useGlobalState } from 'app/src/Store';
 import { COLOR } from 'app/src/constants';
-import { RefreshSpinner } from 'app/src/components/Spinners';
 import { NotificationList } from 'app/src/components/List';
 import { useGetNotificationList } from 'app/src/hooks';
 import { appTextStyle } from 'app/src/styles';
@@ -23,17 +22,17 @@ const NotificationAllScreen: React.FC = () => {
   );
 
   return (
-    <ScrollView refreshControl={RefreshSpinner(isRefreshing, onRefresh)}>
-      <View style={thisStyle.container}>
-        {notifications.notification_list.length ? (
-          <NotificationList
-            notificationList={notifications.notification_list}
-          />
-        ) : (
-          <Text style={appTextStyle.defaultText}>通知はありません。</Text>
-        )}
-      </View>
-    </ScrollView>
+    <View style={thisStyle.container}>
+      {notifications.notification_list.length ? (
+        <NotificationList
+          notificationList={notifications.notification_list}
+          isRefreshing={isRefreshing}
+          onRefresh={onRefresh}
+        />
+      ) : (
+        <Text style={appTextStyle.defaultText}>通知はありません。</Text>
+      )}
+    </View>
   );
 };
 
