@@ -1601,14 +1601,14 @@
     wcwidth "^1.0.1"
     ws "^1.1.0"
 
-"@react-native-community/datetimepicker@^2.3.1":
+"@react-native-community/datetimepicker@^2.2.2":
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/@react-native-community/datetimepicker/-/datetimepicker-2.3.1.tgz#375a9aaac19303424e30330f9f20e4b08d2ec086"
   integrity sha512-Vz5ogawyP7uVPsYjlqXR8rn66cFX8FbvRVCLbwPm1s8x4VSOSEZCqasm1nwX4ULLA+UMCI0tYa5efRd6lDrZ2g==
   dependencies:
     invariant "^2.2.4"
 
-"@react-native-community/masked-view@^0.1.7":
+"@react-native-community/masked-view@^0.1.6":
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/@react-native-community/masked-view/-/masked-view-0.1.7.tgz#a65ce0702f55cb67fd777995de6fc7b3e5781903"
   integrity sha512-9KbP7LTLFz9dx1heURJbO6nuVMdSjDez8znlrUzaB1nUwKVsTTwlKRuHxGUYIIkReLWrJQeCv9tidy+84z2eCw==
@@ -4696,7 +4696,7 @@ find-yarn-workspace-root@^1.2.1:
     fs-extra "^4.0.3"
     micromatch "^3.1.4"
 
-firebase@^7.13.2:
+firebase@^7.9.0:
   version "7.13.2"
   resolved "https://registry.yarnpkg.com/firebase/-/firebase-7.13.2.tgz#4a4af2b76514aecb2c4f7fb312fff7b828ab52bc"
   integrity sha512-23auhESlkyW0q59BB1e9dVuK/eITLsQvzz2J4ImVDfHDIF4JnjNpVnoKgBsj1oOYtSnRE5QppJ8kZR3q9rIPaQ==
@@ -8879,7 +8879,7 @@ react-native-safe-area-view@^0.14.6:
   dependencies:
     hoist-non-react-statics "^2.3.1"
 
-react-native-screens@^2.4.0:
+react-native-screens@^2.2.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.4.0.tgz#7706f24d942dee387626014ee4d96094a3d1b9ce"
   integrity sha512-7GcXlaj7IIrM4l5Ub7BPTkNQJ2slHGt2bhmfWmW73NTXEv+7pjHlp+JpQO32Yn+O8UQGPFf0rsesfYUdER7ppQ==
