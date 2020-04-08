@@ -15,10 +15,7 @@ interface Props {
 }
 
 /** 警告を表示しない設定 */
-YellowBox.ignoreWarnings([
-  // TODO スクロールビューのネストを解消したら外す
-  'VirtualizedLists should never be nested',
-]);
+YellowBox.ignoreWarnings([]);
 
 /**
  * アプリケーションの初期化
