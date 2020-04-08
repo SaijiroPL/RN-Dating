@@ -14,8 +14,8 @@ interface Props {
   me?: boolean;
   image?: any;
   pickImage?: () => Promise<void>;
-  follow: (id: string) => Promise<boolean>;
-  unfollow: (id: string) => Promise<boolean>;
+  follow?: (id: string) => Promise<boolean>;
+  unfollow?: (id: string) => Promise<boolean>;
   reload: () => Promise<void>;
 }
 
@@ -72,7 +72,7 @@ export const UserProfile: React.FC<Props> = (props: Props) => {
           </Text>
         </View>
       </View>
-      {!me && (
+      {!me && follow && unfollow && (
         <View style={thisStyle.followContainer}>
           <FollowButton
             targetUserId={user.user_id}

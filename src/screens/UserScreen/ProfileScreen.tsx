@@ -1,11 +1,10 @@
 import React from 'react';
-import { View, ScrollView, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 
 // from app
 import { useGlobalState } from 'app/src/Store';
-import { LAYOUT } from 'app/src/constants';
-import { LoadingSpinner, RefreshSpinner } from 'app/src/components/Spinners';
+import { LoadingSpinner } from 'app/src/components/Spinners';
 import { UserProfile } from 'app/src/components/Content';
 import { SettingFab } from 'app/src/components/Button';
 import { PlanCardList } from 'app/src/components/List';
@@ -51,22 +50,14 @@ const ProfileScreen: React.FC = () => {
         unfollow={unfollow}
         reload={getUserDetail}
       />
-      <ScrollView
-        refreshControl={RefreshSpinner(isRefreshing, onRefresh)}
-        style={thisStyle.container}
-      >
-        <PlanCardList planList={plans.plan_list} />
-      </ScrollView>
+      <PlanCardList
+        planList={plans.plan_list}
+        isRefreshing={isRefreshing}
+        onRefresh={onRefresh}
+      />
       <SettingFab />
     </View>
   );
 };
-
-/** スタイリング */
-const thisStyle = StyleSheet.create({
-  container: {
-    width: LAYOUT.window.width * 0.9,
-  },
-});
 
 export default ProfileScreen;

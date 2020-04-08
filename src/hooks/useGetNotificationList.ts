@@ -43,8 +43,9 @@ export const useGetNotificationList = (userId: string) => {
   }, []);
 
   /** プルリロード */
-  const onRefresh = useCallback(() => {
+  const onRefresh = useCallback(async () => {
     setRefreshing(true);
+    await getNotificationList(axios.CancelToken.source());
     setRefreshing(false);
   }, []);
 

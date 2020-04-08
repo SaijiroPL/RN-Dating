@@ -1,5 +1,8 @@
-import React from 'react';
-import ReactNativeDatePicker from 'react-native-datepicker';
+import React, { useMemo } from 'react';
+import DateTimePicker from '@react-native-community/datetimepicker';
+
+// from app
+import { formatDate, toDate } from 'app/src/utils/DateUtil';
 
 interface Props {
   date: string;
@@ -15,18 +18,33 @@ interface Props {
 export const DatePicker: React.FC<Props> = (props: Props) => {
   const { date, setDate, minDate, maxDate } = props;
 
+  const datetime = useMemo(() => {
+    if (!date) return new Date();
+
+    return toDate(date) || new Date();
+  }, [date]);
+
+  const minDatetime = useMemo(() => {
+    if (!minDate) return undefined;
+
+    return toDate(minDate) || undefined;
+  }, [minDate]);
+
+  const maxDatetime = useMemo(() => {
+    if (!maxDate) return undefined;
+
+    return toDate(maxDate) || undefined;
+  }, [maxDate]);
+
+  // TODO スタイリング
   return (
-    <ReactNativeDatePicker
+    <DateTimePicker
       style={{ width: 200 }}
-      date={date}
+      value={datetime}
       mode="date"
-      format="YYYY-MM-DD"
-      minDate={minDate}
-      maxDate={maxDate}
-      confirmBtnText="決定"
-      cancelBtnText="キャンセル"
-      customStyles={{ dateInput: { marginLeft: 20 } }}
-      onDateChange={(date) => setDate(date)}
+      minimumDate={minDatetime}
+      maximumDate={maxDatetime}
+      onChange={(_, date) => date && setDate(formatDate(date, 'YYYY-MM-DD'))}
     />
   );
 };

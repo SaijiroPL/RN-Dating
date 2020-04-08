@@ -42,8 +42,10 @@ export const useGetInformationList = (userId: string) => {
     };
   }, []);
 
-  const onRefresh = useCallback(() => {
+  /** プルリロード */
+  const onRefresh = useCallback(async () => {
     setRefreshing(true);
+    await getInformationList(axios.CancelToken.source());
     setRefreshing(false);
   }, []);
 

@@ -79,9 +79,9 @@ export const useGetPlanList = (userId?: string) => {
   };
 
   /** プルリロード */
-  const onRefresh = useCallback(() => {
+  const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    getPlanList(axios.CancelToken.source());
+    await getPlanList(axios.CancelToken.source());
     setRefreshing(false);
   }, []);
 

@@ -1,10 +1,10 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 // from app
 import { useGlobalState } from 'app/src/Store';
 import { COLOR } from 'app/src/constants';
-import { LoadingSpinner, RefreshSpinner } from 'app/src/components/Spinners';
+import { LoadingSpinner } from 'app/src/components/Spinners';
 import { PlanCardList } from 'app/src/components/List';
 import { useGetLikePlanList } from 'app/src/hooks';
 import { appTextStyle } from 'app/src/styles';
@@ -31,9 +31,11 @@ const MyPlanScreen: React.FC = () => {
       <Text style={appTextStyle.countText}>
         お気に入りプラン数: {plans.total}
       </Text>
-      <ScrollView refreshControl={RefreshSpinner(isRefreshing, onRefresh)}>
-        <PlanCardList planList={plans.plan_list} />
-      </ScrollView>
+      <PlanCardList
+        planList={plans.plan_list}
+        isRefreshing={isRefreshing}
+        onRefresh={onRefresh}
+      />
     </View>
   );
 };
