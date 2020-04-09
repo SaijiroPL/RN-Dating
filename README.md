@@ -2,7 +2,7 @@
 
 1Date のフロントエンドのリポジトリです。
 
-_バックエンドはこちら [one-date-client](https://github.com/KotaTanaka/one-date-server)_
+_バックエンドはこちら [one-date-server](https://github.com/KotaTanaka/one-date-server)_
 
 ## Technology
 
@@ -75,7 +75,7 @@ $ yarn ip
 xxx.xxx.xxx.xxx
 ```
 
-- 上記で取得した IP アドレスを `app.json` の `expo.extra.apiEndpoint` のホスト部分に設定する。
+- 上記で取得した IP アドレスを `app.json` の `expo.extra.apiEndpoint` のホスト部分に設定する（変更後要再起動）
 
 ```json
 "apiEndpoint": "http://xxx.xxx.xxx.xxx:3080"
