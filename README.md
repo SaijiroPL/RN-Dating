@@ -93,6 +93,6 @@ $ yarn capture:togif
 
 ### Lint エラーチェック・自動整形
 
-```
+```bash
 $ yarn lint
 ```
