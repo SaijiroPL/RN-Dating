@@ -7,7 +7,6 @@ import MyProfileScreen from 'app/src/screens/UserScreen/MyProfileScreen';
 import FollowScreen from 'app/src/screens/UserScreen/FollowScreen';
 import FollowerScreen from 'app/src/screens/UserScreen/FollowerScreen';
 import ProfileScreen from 'app/src/screens/UserScreen/ProfileScreen';
-import EditPostScreen from 'app/src/screens/PostScreen/EditPostScreen';
 
 const MyProfileStack = createStackNavigator();
 
@@ -43,11 +42,6 @@ const MyProfileNavigator: React.FC = () => (
       name="Follower"
       component={FollowerScreen}
       options={{ title: 'フォロワー' }}
-    />
-    <MyProfileStack.Screen
-      name="EditPost"
-      component={EditPostScreen}
-      options={{ title: '投稿編集' }}
     />
     <MyProfileStack.Screen
       name="Setting"
