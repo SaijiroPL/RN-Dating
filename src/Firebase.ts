@@ -13,11 +13,12 @@ export const facebookLogin = async () => {
   const { appId } = Constants.manifest.extra.facebook;
 
   try {
-    // FIXME Facebook.logInWithReadPermissionsAsyncの実装が変わったみたいなので対応する
-    const { type, token } = await Facebook.logInWithReadPermissionsAsync(appId);
+    // prettier-ignore
+    const facebookLoginResult = await Facebook.logInWithReadPermissionsAsync(appId);
 
-    if (type === 'success') {
-      const credential = firebase.auth.FacebookAuthProvider.credential(token);
+    if (facebookLoginResult.type === 'success') {
+      // prettier-ignore
+      const credential = firebase.auth.FacebookAuthProvider.credential(facebookLoginResult.token);
 
       return firebase
         .auth()

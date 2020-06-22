@@ -78,7 +78,7 @@ export const SelectButton: React.FC<Props> = (props: Props) => {
 
   return (
     <Button small style={thisStyle.activeButton} onPress={handleChangeFalse}>
-      <Text style={thisStyle.inactiveButton}>{buttonName}</Text>
+      <Text style={thisStyle.activeText}>{buttonName}</Text>
     </Button>
   );
 };
@@ -91,6 +91,7 @@ SelectButton.defaultProps = {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   inactiveButton: {
+    backgroundColor: '#ddd',
     marginHorizontal: 5,
   },
   activeButton: {
@@ -98,10 +99,12 @@ const thisStyle = StyleSheet.create({
     marginHorizontal: 5,
   },
   inactiveText: {
+    backgroundColor: '#ddd',
     color: COLOR.textTintColor,
     fontFamily: 'genju-medium',
   },
   activeText: {
+    backgroundColor: COLOR.tintColor,
     color: 'white',
     fontFamily: 'genju-medium',
   },

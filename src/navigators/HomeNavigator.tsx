@@ -9,7 +9,7 @@ import LikeUserScreen from 'app/src/screens/PlanScreen/LikeUserScreen';
 import ProfileScreen from 'app/src/screens/UserScreen/ProfileScreen';
 import FollowScreen from 'app/src/screens/UserScreen/FollowScreen';
 import FollowerScreen from 'app/src/screens/UserScreen/FollowerScreen';
-import CreateSpotScreen from 'app/src/screens/PlanScreen/CreateSpotScreen';
+import CreateSpotScreen from 'app/src/screens/PostScreen/CreateSpotScreen__PENDING';
 import CreatePlanNavigator from 'app/src/navigators/CreatePlanNavigator';
 
 const HomeStack = createStackNavigator();

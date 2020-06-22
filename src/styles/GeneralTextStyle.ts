@@ -38,6 +38,12 @@ export const appTextStyle = StyleSheet.create({
     fontFamily: 'genju-medium',
   },
 
+  /** オレンジ細文字 */
+  tintColorLightText: {
+    color: COLOR.tintColor,
+    fontFamily: 'genju-medium',
+  },
+
   /** バリデーションエラー文字 */
   errorText: {
     color: 'red',
