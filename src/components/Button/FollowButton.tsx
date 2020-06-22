@@ -55,19 +55,26 @@ export const FollowButton: React.FC<Props> = (props: Props) => {
 
   // フォローボタン(未フォロー状態)
   return (
-    <Button small rounded light color={COLOR.textTintColor} onPress={follow}>
-      {/* <AntDesign
-        name="pluscircleo"
-        size={15}
-        style={{ color: COLOR.tintColor, marginLeft: 15 }}
-      /> */}
-      <Text style={appTextStyle.standardLightText}>＋ フォロー</Text>
+    <Button
+      small
+      rounded
+      light
+      color={COLOR.textTintColor}
+      style={thisStyle.followButton}
+      onPress={follow}
+    >
+      <Text style={appTextStyle.tintColorLightText}>＋ フォロー</Text>
     </Button>
   );
 };
 
 /** スタイリング */
 const thisStyle = StyleSheet.create({
+  followButton: {
+    backgroundColor: 'white',
+    borderColor: COLOR.tintColor,
+    borderWidth: 1,
+  },
   unfollowButton: {
     backgroundColor: COLOR.tintColor,
   },
