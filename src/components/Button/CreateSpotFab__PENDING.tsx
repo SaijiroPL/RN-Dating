@@ -13,7 +13,7 @@ import { COLOR } from 'app/src/constants';
 export const CreateSpotFab: React.FC = () => {
   const { navigate } = useNavigation();
 
-  /** プラン作成トップに遷移 */
+  /** スポット作成トップに遷移 */
   const toCreate = useCallback(() => {
     navigate('CreateSpot');
   }, []);
