@@ -2,7 +2,7 @@
 
 1Date のフロントエンドのリポジトリです。
 
-_バックエンドはこちら [one-date-server](https://github.com/KotaTanaka/one-date-server)_
+_バックエンドはこちら [one-date-server](https://github.com/1date-inc/one-date-server)_
 
 ## Technology
 
@@ -14,19 +14,18 @@ _バックエンドはこちら [one-date-server](https://github.com/KotaTanaka/
 
 ### Node のインストール
 
-```bash
-$ brew update
-$ brew install node
-```
+* Homebrew / nodebrew を用いて Node.js をインストールしてください（v12系推奨）
 
 ### Expo の準備
 
 - [expo.io](https://expo.io) にアカウント登録
 - [Expo Client](https://itunes.apple.com/jp/app/expo-client/id982107779) をスマホにインストール
-- コンソールログイン
 
 ```bash
+# Expo CLIのインストール
 $ npm i -g expo-cli
+
+# コンソールログイン
 $ expo login
 ```
 
@@ -45,7 +44,7 @@ $ yarn
 
 ### ローカルサーバーの起動
 
-- [one-date-server](https://github.com/KotaTanaka/one-date-server) 参照
+- [one-date-server](https://github.com/1date-inc/one-date-server) 参照
 
 ### クライアントアプリの起動
 
