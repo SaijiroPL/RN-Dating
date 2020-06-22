@@ -32,7 +32,7 @@ $ expo login
 ### ソースコードのクローン
 
 ```bash
-$ git clone git@github.com:KotaTanaka/one-date-client.git
+$ git clone git@github.com:1date-inc/one-date-client.git
 $ cd one-date-client
 ```
 
