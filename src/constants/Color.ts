@@ -1,7 +1,4 @@
-/**
- * カラー定数
- * @author tanakakota
- */
+/** カラー定数 */
 export const COLOR = {
   tintColor: 'orange',
   textTintColor: '#666',

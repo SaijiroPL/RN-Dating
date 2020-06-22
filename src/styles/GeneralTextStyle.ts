@@ -3,9 +3,7 @@ import { StyleSheet } from 'react-native';
 // from app
 import { COLOR } from 'app/src/constants';
 
-/**
- * 汎用テキストスタイリング
- */
+/** 汎用テキストスタイリング */
 export const appTextStyle = StyleSheet.create({
   /** 通常文字 */
   defaultText: {

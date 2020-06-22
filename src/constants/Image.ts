@@ -7,10 +7,7 @@ const welcome03 = require('app/assets/images/welcome/welcome03-min.png');
 const welcome04 = require('app/assets/images/welcome/welcome04-min.png');
 const welcome05 = require('app/assets/images/welcome/welcome05-min.png');
 
-/**
- * 画像定数
- * @author tanakakota
- */
+/** 画像 */
 export const IMAGE: any = {
   logo,
   noImage,

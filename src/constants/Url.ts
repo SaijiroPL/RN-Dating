@@ -3,9 +3,7 @@ import Constants from 'expo-constants';
 const API_HOST = Constants.manifest.extra.apiEndpoint;
 const WEB_HOST = Constants.manifest.extra.webEndpoint;
 
-/**
- * APIエンドポイント
- */
+/** APIエンドポイント */
 export const API_ENDPOINT = {
   // ユーザー登録
   USERS: `${API_HOST}/users`,
@@ -45,9 +43,7 @@ export const API_ENDPOINT = {
   PLAN_LIKES: `${API_HOST}/plans/$1/likes`,
 };
 
-/**
- * WebViewエンドポイント
- */
+/** WebViewエンドポイント */
 export const WEB_ENDPOINT = {
   // 利用規約
   TERMS: `${WEB_HOST}/terms`,

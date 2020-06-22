@@ -1,8 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-/**
- * 汎用ビュースタイリング
- */
+/** 汎用ビュースタイリング */
 export const appStyle = StyleSheet.create({
   /** 無スクロールビューのコンテナ */
   appContainer: {
