@@ -37,6 +37,6 @@ const thisStyle = StyleSheet.create({
   button: {
     backgroundColor: COLOR.tintColor,
     width: LAYOUT.window.width * 0.4,
-    marginBottom: 20
+    marginBottom: 20,
   },
 });
