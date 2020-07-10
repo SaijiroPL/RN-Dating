@@ -10,6 +10,7 @@ export * from './QuestionForm';
 export * from './SearchFormBar';
 /** 日付選択フォーム(ピッカー) */
 export * from './DatePicker';
+export * from './DateTimePickerLabel';
 /** 都道府県選択フォーム(ピッカー) */
 export * from './PrefecturePicker';
 /** 自己紹介編集フォーム */

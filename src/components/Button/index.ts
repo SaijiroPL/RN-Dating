@@ -16,3 +16,5 @@ export * from './EditPlanFab';
 export * from './SettingFab';
 /** 画像選択ボタン */
 export * from './ImagePickerButton';
+
+export * from './SmallCompleteButton';
