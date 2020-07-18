@@ -14,7 +14,7 @@ _バックエンドはこちら [one-date-server](https://github.com/1date-inc/o
 
 ### Node のインストール
 
-* Homebrew / nodebrew を用いて Node.js をインストールしてください（v12系推奨）
+- Homebrew / nodebrew を用いて Node.js をインストールしてください（v12 系推奨）
 
 ### Expo の準備
 
@@ -45,6 +45,12 @@ $ yarn
 ### ローカルサーバーの起動
 
 - [one-date-server](https://github.com/1date-inc/one-date-server) 参照
+- ローカルサーバーに繋ぎたい場合に必要な手順です（デフォルトでは検証環境に接続しているのでこの手順はスキップできます）
+- `expo.extra.apiEndpoint` のホスト部分を変更する
+
+```json
+"apiEndpoint": "http://localhost:3080"
+```
 
 ### クライアントアプリの起動
 
