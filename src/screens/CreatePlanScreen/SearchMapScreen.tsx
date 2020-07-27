@@ -304,6 +304,7 @@ const SearchMapScreen: React.FC = () => {
           color="#FFA50040"
         />
         {places?.map((place) => renderMarker(place))}
+        {spots.map((place) => renderMarker(place))}
       </MapView>
       <View
         style={{
