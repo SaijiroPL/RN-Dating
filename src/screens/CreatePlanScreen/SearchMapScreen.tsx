@@ -146,17 +146,15 @@ const SearchMapScreen: React.FC = () => {
   const getPhotoUrl = (place: IPlace) =>
     place.photos && place.photos.length > 0
       ? getPlacePhoto(place.photos[0].photo_reference)
-      : '';
+      : 'https://via.placeholder.com/120x90?text=No+Image';
 
   // add Spot to recommend list
   function onAddSpot(place: IPlace) {
     if (spots.indexOf(place) < 0) {
       setSpots((prev) => [...prev, place]);
-      setPlaces((prev) => {
-        const array = prev.slice(prev.indexOf(place));
-
-        return array;
-      });
+      setPlaces((prev) =>
+        prev.filter((item) => item.place_id !== place.place_id),
+      );
     }
   }
 
@@ -231,14 +229,14 @@ const SearchMapScreen: React.FC = () => {
     />
   );
 
-  const renderMarker = (place: IPlace) => (
+  const renderMarker = (place: IPlace, color: string) => (
     <Marker
       description={place.name}
       coordinate={{
         latitude: place.geometry.location.lat,
         longitude: place.geometry.location.lng,
       }}
-      pinColor="orange"
+      pinColor={color}
       key={place.id}
       onSelect={() => onSpotPress(place)}
     >
@@ -263,9 +261,7 @@ const SearchMapScreen: React.FC = () => {
             </Text>
             <View style={{ marginLeft: 10 }}>
               <Text>営業時間</Text>
-              <Text style={{ width: 100 }}>
-                {openHours[place.place_id] ? openHours[place.place_id] : ''}
-              </Text>
+              <Text style={{ width: 100 }}>{currentOpHour}</Text>
               <CalloutSubview
                 onPress={() => onAddSpot(place)}
                 style={[thisStyle.calloutButton]}
@@ -303,8 +299,8 @@ const SearchMapScreen: React.FC = () => {
           radius={radius * 100}
           color="#FFA50040"
         />
-        {places?.map((place) => renderMarker(place))}
-        {spots.map((place) => renderMarker(place))}
+        {places?.map((place) => renderMarker(place, 'orange'))}
+        {spots.map((place) => renderMarker(place, 'green'))}
       </MapView>
       <View
         style={{
