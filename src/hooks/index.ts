@@ -40,3 +40,5 @@ export * from './useEditProfile';
 export * from './useGetHistoryList';
 /** 画像選択アップロード */
 export * from './useUploadImage';
+
+export * from './googlePlace';

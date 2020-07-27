@@ -8,3 +8,5 @@ export * from './Image';
 export * from './Layout';
 /** 各種URL */
 export * from './Url';
+
+export * from './SpotType';
