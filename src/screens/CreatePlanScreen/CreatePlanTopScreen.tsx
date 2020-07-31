@@ -7,8 +7,8 @@ import { Text } from 'native-base';
 import { useDispatch } from 'app/src/Store';
 import { ActionType } from 'app/src/Reducer';
 import { COLOR } from 'app/src/constants';
-import { SelectButton, CompleteFooterButton } from 'app/src/components/Button';
-import { DatePicker } from 'app/src/components/Form';
+import { SelectButton, SmallCompleteButton } from 'app/src/components/Button';
+import { DateTimePickerLabel } from 'app/src/components/Form';
 import { getToday } from 'app/src/utils';
 import { appStyle } from 'app/src/styles';
 
@@ -20,7 +20,8 @@ const CreatePlanTopScreen: React.FC = () => {
   const { navigate } = useNavigation();
   const dispatch = useDispatch();
 
-  const [date, setDate] = useState<string>('');
+  const [fromDate, updateFrom] = useState<string>('');
+  const [toDate, updateTo] = useState<string>('');
   const [car, setCar] = useState<boolean>(false);
   const [train, setTrain] = useState<boolean>(false);
   const [bus, setBus] = useState<boolean>(false);
@@ -37,11 +38,11 @@ const CreatePlanTopScreen: React.FC = () => {
     dispatch({
       type: ActionType.SET_CREATE_PLAN,
       payload: {
-        date,
+        fromDate,
         trasportations: transportationList,
       },
     });
-  }, [car, train, bus, walk, date]);
+  }, [car, train, bus, walk, fromDate]);
 
   const onCompleteButtonPress = useCallback(() => {
     setCreatePlan();
@@ -77,17 +78,33 @@ const CreatePlanTopScreen: React.FC = () => {
   return (
     <View style={appStyle.standardContainer}>
       <View style={appStyle.emptySpace} />
-      <View style={thisStyle.formGroup}>
-        <Text style={thisStyle.itemTitleText}>デート予定日</Text>
-        <DatePicker date={date} setDate={setDate} minDate={getToday()} />
+      <View style={thisStyle.dateGroup}>
+        <View style={thisStyle.dateView}>
+          <Text style={thisStyle.itemTitleText}>開始予定時間日時</Text>
+          <DateTimePickerLabel
+            date={fromDate}
+            setDate={updateFrom}
+            minDate={getToday()}
+          />
+        </View>
+        <Text style={thisStyle.dateView}>→</Text>
+        <View style={thisStyle.dateView}>
+          <Text style={thisStyle.itemTitleText}>終了予定時間日時</Text>
+          <DateTimePickerLabel
+            date={toDate}
+            setDate={updateTo}
+            minDate={getToday()}
+          />
+        </View>
       </View>
       {TransportationButtonGroup}
       <View style={appStyle.emptySpace} />
-      {date === '' || (!car && !train && !bus && !walk) ? (
-        <CompleteFooterButton title="次へ" disabled />
+      {fromDate === '' || (!car && !train && !bus && !walk) ? (
+        <SmallCompleteButton title="決定" disabled />
       ) : (
-        <CompleteFooterButton title="次へ" onPress={onCompleteButtonPress} />
+        <SmallCompleteButton title="決定" onPress={onCompleteButtonPress} />
       )}
+      <View style={{ marginBottom: 10 }} />
     </View>
   );
 };
@@ -99,9 +116,22 @@ const thisStyle = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
   },
+  dateGroup: {
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'row',
+    borderBottomColor: COLOR.textTintColor,
+    borderBottomWidth: 2,
+  },
+  dateView: {
+    alignItems: 'center',
+    marginLeft: 20,
+    marginRight: 15,
+  },
   itemTitleText: {
     color: COLOR.textTintColor,
     fontFamily: 'genju-medium',
+    fontSize: 14,
     marginRight: 10,
   },
 });

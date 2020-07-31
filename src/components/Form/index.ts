@@ -14,3 +14,5 @@ export * from './DatePicker';
 export * from './PrefecturePicker';
 /** 自己紹介編集フォーム */
 export * from './InputLabelTextAreaForm';
+
+export * from './DateTimePickerLabel';

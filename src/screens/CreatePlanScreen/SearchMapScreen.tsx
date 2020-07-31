@@ -1,23 +1,24 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, {
-  useState,
-  useCallback,
-  useMemo,
-  useEffect,
-  useRef,
-} from 'react';
-import { StyleSheet, Alert } from 'react-native';
+/* eslint-disable import/no-extraneous-dependencies */
+import React, { useState, useCallback, useEffect, useRef } from 'react';
+import { StyleSheet, Image, View, Text, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import MapView, { Polyline } from 'react-native-maps';
-import * as Location from 'expo-location';
+import { Slider, Button, Overlay, CheckBox } from 'react-native-elements';
+import MapView, {
+  Marker,
+  Callout,
+  CalloutSubview,
+  Region,
+} from 'react-native-maps';
+import debounce from 'lodash/debounce';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { Entypo } from '@expo/vector-icons';
 
 // from app
-import { ILocation, IHere, IMarker, ILine } from 'app/src/interfaces/app/Map';
-import { MapCircle, MapHere, MapPin } from 'app/src/components/MapItem';
-import { View } from 'native-base';
+import { ILocation, IPlace, IPlaceOpenHour } from 'app/src/interfaces/app/Map';
+import { MapCircle } from 'app/src/components/MapItem';
 import { SmallCompleteButton } from 'app/src/components/Button/SmallCompleteButton';
-
-const locationInitialRound = 700;
+import { useGooglePlace } from 'app/src/hooks';
+import { COLOR, SPOT_TYPE } from 'app/src/constants';
 
 /**
  * マップからスポット範囲指定画面
@@ -32,256 +33,235 @@ const SearchMapScreen: React.FC = () => {
     latitudeDelta: 0.038651027332100796,
     longitudeDelta: 0.02757163010454633,
   });
-  const [accuracy, setAccuracy] = useState<number>(65);
-  // prettier-ignore
-  const [here, setHere] = useState<IHere>({ latitude: 0, longitude: 0, timestamp: 0 });
-  const [isModalVisible, setModalVisible] = useState<boolean>(false);
-  const [keyword, setKeyword] = useState<string>('');
-  const [markers, setMarkers] = useState<Array<IMarker>>([]);
-  // prettier-ignore
-  const [editMarkers, setEditMarker] = useState<IMarker>({ latitude: 0, longitude: 0, radius: 0, color: "", unit: "km" });
-  const [distanceMode, setDistanceMode] = useState<boolean>(false);
-  const [lines, setLines] = useState<Array<ILine>>([]);
-  const [activeLine, setActiveLine] = useState<number>(0);
-  const [pinCount, setPinCount] = useState<number>(0);
+
+  const [radius, setRadius] = useState(7);
+  const [openHours, setOpenHours] = useState<{ [key: string]: string }>({});
+  const [currentOpHour, setCurrentOpHour] = useState('');
+  const [spots, setSpots] = useState<IPlace[]>([]);
+  const [typesPopup, setTypesPopup] = useState(false);
+  const [spotChecked, setSpotChecked] = useState<boolean[]>([]);
+
+  const {
+    searchNearbyPlace,
+    getPlacePhoto,
+    getPlaceDetail,
+    getPlaceOpeningHours,
+    places,
+    setPlaces,
+    API_KEY,
+  } = useGooglePlace();
 
   const onCompleteButtonPress = useCallback(() => {
     navigate('Flick');
+    // console.log('complete');
   }, []);
+
+  useEffect(() => {
+    searchNearbyPlace(location, radius * 100, 'bar');
+  }, [location.latitude, location.longitude, radius]);
+
+  // useEffect(() => {
+  //   if (nextToken) {
+  //     setTimeout(() => {
+  //       getNextPlaces(nextToken);
+  //     }, 500);
+  //   }
+  // }, [nextToken]);
+
+  useEffect(() => {
+    const checked: boolean[] = [];
+    for (let i = 0; i < SPOT_TYPE.length; i += 1) {
+      checked.push(false);
+    }
+    setSpotChecked(checked);
+  }, [SPOT_TYPE]);
 
   const mapRef = useRef(null);
 
-  const onMapPress = useCallback(
-    ({ nativeEvent }) => {
-      const { coordinate = {}, action = null } = nativeEvent;
+  // map region changed
+  const handleMapMoved = debounce((newRegion: Region) => {
+    setLocation(newRegion);
+  }, 100);
 
-      if (!action) {
-        const region: ILocation = {
-          latitude: coordinate.latitude,
-          longitude: coordinate.longitude,
-          latitudeDelta: location.latitudeDelta,
-          longitudeDelta: location.longitudeDelta,
-        };
+  function onRegionChange(newRegion: Region) {
+    handleMapMoved(newRegion);
+  }
 
-        // mapRef.current.animateToRegion(region, 100);
-        setLocation(region);
+  // Radius Change event
+  const handleRadiusScroll = debounce((value: number) => {
+    setRadius(value);
+  }, 100);
+
+  function onRadiusScroll(value: number) {
+    handleRadiusScroll(value);
+  }
+  // Spot Photo and Operation Hour
+  async function onSpotPress(place: IPlace) {
+    if (!openHours[place.place_id]) {
+      const openHours = await getPlaceOpeningHours(place.place_id);
+      if (openHours) {
+        setOpenHours((prev) => {
+          const obj = prev;
+          obj[place.place_id] = formatPlaceOpeningHours(openHours);
+
+          return obj;
+        });
+        setCurrentOpHour(formatPlaceOpeningHours(openHours));
       }
-    },
-    [location, setLocation],
-  );
-
-  const onRegionChangeComplete = useCallback(
-    (region: ILocation) => setLocation(region),
-    [setLocation],
-  );
-
-  const onDistancePress = useCallback(() => {
-    if (markers.length >= 2) {
-      setDistanceMode((currentState) => !currentState);
     } else {
-      Alert.alert('距離計測', 'ピンが2つ必要です');
+      setCurrentOpHour(openHours[place.place_id]);
     }
-  }, [markers, setDistanceMode]);
+  }
 
-  // prettier-ignore
-  const onAddButtonPress = useCallback((marker?: IMarker | null) => {
-    setDistanceMode(false);
+  const formatOpHour = (value: string) =>
+    `${value.slice(0, 2)}:${value.slice(2, 4)}`;
 
-    setEditMarker(
-      marker && marker.key
-        ? marker
-        : {
-            latitude: location.latitude,
-            longitude: location.longitude,
-            // TODO
-            radius: 0,
-            // TODO
-            color: "#000",
-            // TODO
-            unit: "km"
-          }
-    );
+  function formatPlaceOpeningHours(opHour: IPlaceOpenHour) {
+    if (opHour.periods) {
+      const dayHour = opHour.periods[0];
+      if (dayHour && dayHour.close) {
+        return `${formatOpHour(dayHour.open.time)} - ${formatOpHour(
+          dayHour.close.time,
+        )}`;
+      }
 
-    setModalVisible(true);
-  }, [location, setDistanceMode, setModalVisible]);
-
-  const onLocationButtonPress = useCallback(() => {
-    setDistanceMode(false);
-
-    if (!here.latitude || !here.longitude) {
-      Alert.alert('位置情報無効', '位置情報を有効にしてください');
-    } else {
-      // TODO
+      return '24時間営業';
     }
-  }, [here, setDistanceMode]);
 
-  // prettier-ignore
-  const onCenterPinCalloutPress = useCallback(() => onAddButtonPress(), [onAddButtonPress]);
-  // prettier-ignore
-  const onMarkerPinCalloutPress = useCallback((marker: IMarker) => onAddButtonPress(marker), [onAddButtonPress]);
-  // prettier-ignore
-  const onSearchFocus = useCallback(() => setDistanceMode(false), [setDistanceMode]);
+    return '';
+  }
 
-  const onSearchSubmit = useCallback(() => {
-    if (keyword) {
-      Location.geocodeAsync(keyword).then((r) => {
-        if (r.length) {
-          const region: ILocation = {
-            latitude: r[0].latitude,
-            longitude: r[0].longitude,
-            latitudeDelta: location.latitudeDelta,
-            longitudeDelta: location.longitudeDelta,
-          };
+  const getPhotoUrl = (place: IPlace) =>
+    place.photos && place.photos.length > 0
+      ? getPlacePhoto(place.photos[0].photo_reference)
+      : 'https://via.placeholder.com/120x90?text=No+Image';
 
-          setLocation(region);
+  // add Spot to recommend list
+  function onAddSpot(place: IPlace) {
+    if (spots.indexOf(place) < 0) {
+      setSpots((prev) => [...prev, place]);
+      setPlaces((prev) =>
+        prev.filter((item) => item.place_id !== place.place_id),
+      );
+    }
+  }
 
-          // mapRef.current.animateToRegion(region, 1);
-        } else {
-          // TODO if no result
-        }
+  // get place detail on autocomplete
+  async function onAutoComplete(details: any) {
+    const detail = await getPlaceDetail(details.place_id);
+    if (detail?.opening_hours) {
+      setPlaces((prev) => [...prev, detail]);
+      setLocation((prev) => {
+        return {
+          ...prev,
+          latitude: detail.geometry.location.lat,
+          longitude: detail.geometry.location.lng,
+        };
       });
     }
-  }, []);
+  }
 
-  const onPinDelete = useCallback(
-    (marker: IMarker) => {
-      // prettier-ignore
-      setMarkers(markers.filter(m => !(m.latitude === marker.latitude && m.longitude === marker.longitude)))
-    },
-    [markers, setMarkers],
-  );
-
-  const onPinCreate = useCallback(
-    (marker: IMarker) => {
-      if (marker.key) {
-        setMarkers(
-          markers.map((m) => {
-            // prettier-ignore
-            if (m.latitude === marker.latitude && m.longitude === marker.longitude ) {
-            return {
-              ...m,
-              key: `${marker.longitude + marker.latitude + accuracy + marker.radius}`,
-              radius: marker.radius,
-              color: marker.color
-            };
-          }
-
-            return m;
-          }),
-        );
-      } else {
-        setMarkers([
-          ...markers,
-          {
-            ...marker,
-            // prettier-ignore
-            key: `${marker.longitude + marker.latitude + accuracy + marker.radius}`
-          },
-        ]);
-
-        setPinCount((currentState) => currentState + 1);
-      }
-    },
-    [markers, setMarkers, setPinCount],
-  );
-
-  const onLinePress = useCallback((i = 0) => {
-    setActiveLine(i);
-  }, []);
-
-  useEffect(() => {
-    // TODO
-  }, []);
-
-  useEffect(() => {
-    // TODO
-  }, []);
-
-  useEffect(() => {
-    // TODO
-  }, []);
-
-  const delta = useMemo(
-    () =>
-      location.latitudeDelta > location.longitudeDelta
-        ? location.latitudeDelta
-        : location.longitudeDelta,
-    [location],
-  );
-
-  /** マーカー */
-  const Markers = markers.map((marker) => (
-    <MapPin
-      key={marker.key}
-      location={{
-        latitude: marker.latitude,
-        longitude: marker.longitude,
-        timestamp: 0,
+  // autoComplete Object
+  const autoComplete = () => (
+    <GooglePlacesAutocomplete
+      placeholder="Search"
+      onPress={(details) => {
+        onAutoComplete(details);
       }}
-      accuracy={accuracy}
+      query={{
+        key: API_KEY,
+        language: 'ja',
+      }}
+      renderRightButton={() => (
+        <View
+          style={{
+            marginRight: 10,
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: '#dedede',
+              height: 30,
+              width: 2,
+              marginRight: 10,
+            }}
+          />
+          <Button
+            onPress={() => {
+              setTypesPopup(true);
+            }}
+            icon={() => (
+              <Entypo name="dots-three-horizontal" size={24} color="#dedede" />
+            )}
+            buttonStyle={{
+              backgroundColor: 'white',
+            }}
+          />
+        </View>
+      )}
+      styles={{
+        container: thisStyle.headerContainer,
+        textInputContainer: thisStyle.headerTextInputContainer,
+        textInput: thisStyle.headerTextInput,
+        listView: thisStyle.headerListView,
+        powered: {
+          height: 0,
+        },
+        poweredContainer: {
+          height: 0,
+        },
+      }}
+    />
+  );
+
+  const renderMarker = (place: IPlace, color: string) => (
+    <Marker
+      description={place.name}
+      coordinate={{
+        latitude: place.geometry.location.lat,
+        longitude: place.geometry.location.lng,
+      }}
+      pinColor={color}
+      key={place.id}
+      onSelect={() => onSpotPress(place)}
     >
-      MapPin
-    </MapPin>
-  ));
-
-  /** 円 */
-  const Circle =
-    !distanceMode &&
-    markers.map((marker) => (
-      <MapCircle
-        key={marker.key}
-        location={marker}
-        color={marker.color}
-        radius={marker.radius}
-      />
-    ));
-
-  /** 現在位置 */
-  const Here = <MapHere location={here} accuracy={accuracy} delta={delta} />;
-
-  /** 中央 */
-  const CenterPin =
-    !distanceMode && !isModalVisible ? (
-      <MapPin
-        center
-        location={{
-          latitude: location.latitude,
-          longitude: location.longitude,
-          timestamp: 0,
-        }}
-        accuracy={accuracy}
-      >
-        MapPin
-      </MapPin>
-    ) : null;
-
-  /** ライン */
-  const Line =
-    here.timestamp && !distanceMode && !isModalVisible ? (
-      <Polyline
-        key={(
-          here.longitude +
-          here.latitude +
-          location.longitude +
-          location.latitude +
-          accuracy +
-          here.timestamp +
-          3000 * delta
-        ).toString()}
-        coordinates={[
-          {
-            latitude: here.latitude,
-            longitude: here.longitude,
-          },
-          {
-            latitude: location.latitude,
-            longitude: location.longitude,
-          },
-        ]}
-        strokeWidth={2}
-        strokeColor="rgba(0,0,0,0.3)"
-      />
-    ) : null;
+      <Callout alphaHitTest>
+        <View>
+          <Text style={{ width: 200, flexWrap: 'wrap' }}>{place.name}</Text>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              marginTop: 5,
+            }}
+          >
+            <Text>
+              <Image
+                source={{
+                  uri: getPhotoUrl(place),
+                }}
+                style={{ width: 120, height: 90 }}
+                resizeMode="stretch"
+              />
+            </Text>
+            <View style={{ marginLeft: 10 }}>
+              <Text>営業時間</Text>
+              <Text style={{ width: 100 }}>{currentOpHour}</Text>
+              <CalloutSubview
+                onPress={() => onAddSpot(place)}
+                style={[thisStyle.calloutButton]}
+              >
+                <Text style={{ color: '#fff' }}>追加</Text>
+              </CalloutSubview>
+            </View>
+          </View>
+        </View>
+      </Callout>
+    </Marker>
+  );
 
   return (
     <>
@@ -300,28 +280,93 @@ const SearchMapScreen: React.FC = () => {
         style={thisStyle.map}
         ref={mapRef}
         initialRegion={location}
-        onPress={onMapPress}
-        // onRegionChangeComplete={onRegionChangeConplete}
+        onRegionChange={onRegionChange}
       >
-        {Line}
-        {Here}
-        {Markers}
-        {Circle}
-        {CenterPin}
-        {/* Lines */}
-        {/* Distance */}
-        {/* <Text style={appTextStyle.defaultText}>保存済みスポット</Text> */}
-        {/* TODO ピンポイントで保存したスポットを小さな画像で表示 */}
-        {/* TODO 縮尺ボタンを表示したい */}
-        <View style={{ marginLeft: 10 }} />
-        <SmallCompleteButton
-          title="スポットを保存"
-          onPress={onCompleteButtonPress}
+        <MapCircle
+          location={location}
+          radius={radius * 100}
+          color="#FFA50040"
         />
-        <View style={{ width: 20, marginRight: 10 }} />
-        <SmallCompleteButton title="決定" onPress={onCompleteButtonPress} />
+        {places?.map((place) => renderMarker(place, 'orange'))}
+        {spots.map((place) => renderMarker(place, 'green'))}
       </MapView>
-      {/* TODO MapHeader */}
+      <View
+        style={{
+          position: 'absolute',
+          top: 20,
+          width: '90%',
+          marginHorizontal: '5%',
+        }}
+      >
+        {autoComplete()}
+      </View>
+      <Overlay
+        isVisible={typesPopup}
+        windowBackgroundColor="rgba(0, 0, 0, .5)"
+        overlayBackgroundColor="white"
+        onBackdropPress={() => {
+          setTypesPopup(false);
+        }}
+        width="auto"
+        height={500}
+      >
+        <FlatList
+          data={SPOT_TYPE}
+          renderItem={({ item, index }) => (
+            <CheckBox
+              title={item.title}
+              checked={spotChecked[index]}
+              onPress={() => {
+                const arrChecked = [...spotChecked];
+                arrChecked[index] = !arrChecked[index];
+                setSpotChecked(arrChecked);
+              }}
+            />
+          )}
+          keyExtractor={(item) => item.id}
+        />
+      </Overlay>
+      <View style={thisStyle.bottomPanel}>
+        <View style={thisStyle.halfView}>
+          <View style={{ flex: 1 }}>
+            <View style={thisStyle.spotsContainer}>
+              <Text style={{ fontSize: 10, marginLeft: 10, marginTop: 10 }}>
+                保存済みスポット
+              </Text>
+            </View>
+          </View>
+          <View style={{ flex: 1 }}>
+            <Slider
+              value={radius}
+              minimumValue={0}
+              maximumValue={50}
+              thumbStyle={{ width: 10, height: 10, backgroundColor: '#000' }}
+              trackStyle={{ height: 1 }}
+              onValueChange={onRadiusScroll}
+              style={{ marginLeft: 20, marginRight: 20 }}
+            />
+          </View>
+        </View>
+        <View style={thisStyle.halfView}>
+          <View>
+            <FlatList
+              data={spots}
+              renderItem={({ item }) => (
+                <Image
+                  source={{ uri: getPhotoUrl(item) }}
+                  style={thisStyle.spotImage}
+                  resizeMode="stretch"
+                  key={item.place_id}
+                />
+              )}
+              horizontal
+            />
+          </View>
+          <View style={thisStyle.buttonContainer}>
+            <SmallCompleteButton title="決定" onPress={onCompleteButtonPress} />
+          </View>
+        </View>
+      </View>
     </>
   );
 };
@@ -330,6 +375,72 @@ const SearchMapScreen: React.FC = () => {
 const thisStyle = StyleSheet.create({
   map: {
     height: '100%',
+  },
+  bottomPanel: {
+    backgroundColor: '#fff',
+    position: 'absolute',
+    bottom: 0,
+    height: 100,
+    width: '100%',
+  },
+  halfView: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  buttonContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  spotsContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    height: 40,
+    marginTop: 10,
+  },
+  calloutButton: {
+    width: 'auto',
+    backgroundColor: COLOR.tintColor,
+    paddingHorizontal: 6,
+    paddingVertical: 6,
+    borderRadius: 6,
+    alignItems: 'center',
+    marginRight: 10,
+    marginVertical: 10,
+  },
+  spotImage: {
+    width: 30,
+    height: 30,
+    marginLeft: 5,
+  },
+  headerContainer: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
+    backgroundColor: '#fff',
+    borderRadius: 5,
+  },
+  headerTextInputContainer: {
+    backgroundColor: 'rgba(0, 0, 0, 0)',
+    // backgroundColor: '#000',
+    borderTopWidth: 0,
+    borderBottomWidth: 0,
+    alignItems: 'center',
+  },
+  headerTextInput: {
+    marginLeft: 0,
+    marginRight: 0,
+    marginTop: 2,
+    height: 38,
+    margin: 'auto',
+    color: '#5d5d5d',
+    fontSize: 16,
+  },
+  headerListView: {
+    backgroundColor: '#fff',
+    marginHorizontal: 5,
+    marginTop: 2,
   },
 });
 
