@@ -14,10 +14,10 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import { Entypo } from '@expo/vector-icons';
 
 // from app
-import { ILocation } from 'app/src/interfaces/app/Map';
+import { ILocation, IPlace, IPlaceOpenHour } from 'app/src/interfaces/app/Map';
 import { MapCircle } from 'app/src/components/MapItem';
 import { SmallCompleteButton } from 'app/src/components/Button/SmallCompleteButton';
-import { googlePlace, IPlace, IPlaceOpenHour } from 'app/src/hooks';
+import { useGooglePlace } from 'app/src/hooks';
 import { COLOR, SPOT_TYPE } from 'app/src/constants';
 
 /**
@@ -33,18 +33,6 @@ const SearchMapScreen: React.FC = () => {
     latitudeDelta: 0.038651027332100796,
     longitudeDelta: 0.02757163010454633,
   });
-  // const [accuracy, setAccuracy] = useState<number>(65);
-  // // prettier-ignore
-  // const [here, setHere] = useState<IHere>({ latitude: 0, longitude: 0, timestamp: 0 });
-  // const [isModalVisible, setModalVisible] = useState<boolean>(false);
-  // const [keyword, setKeyword] = useState<string>('');
-  // const [markers, setMarkers] = useState<Array<IMarker>>([]);
-  // // prettier-ignore
-  // const [editMarkers, setEditMarker] = useState<IMarker>({ latitude: 0, longitude: 0, radius: 0, color: "", unit: "km" });
-  // const [distanceMode, setDistanceMode] = useState<boolean>(true);
-  // const [lines, setLines] = useState<Array<ILine>>([]);
-  // const [activeLine, setActiveLine] = useState<number>(0);
-  // const [pinCount, setPinCount] = useState<number>(0);
 
   const [radius, setRadius] = useState(7);
   const [openHours, setOpenHours] = useState<{ [key: string]: string }>({});
@@ -61,11 +49,11 @@ const SearchMapScreen: React.FC = () => {
     places,
     setPlaces,
     API_KEY,
-  } = googlePlace();
+  } = useGooglePlace();
 
   const onCompleteButtonPress = useCallback(() => {
     navigate('Flick');
-    console.log('complete');
+    // console.log('complete');
   }, []);
 
   useEffect(() => {
@@ -342,21 +330,9 @@ const SearchMapScreen: React.FC = () => {
         <View style={thisStyle.halfView}>
           <View style={{ flex: 1 }}>
             <View style={thisStyle.spotsContainer}>
-              <Text style={{ fontSize: 10, marginLeft: 10 }}>
+              <Text style={{ fontSize: 10, marginLeft: 10, marginTop: 10 }}>
                 保存済みスポット
               </Text>
-              <FlatList
-                data={spots}
-                renderItem={({ item }) => (
-                  <Image
-                    source={{ uri: getPhotoUrl(item) }}
-                    style={thisStyle.spotImage}
-                    resizeMode="stretch"
-                    key={item.place_id}
-                  />
-                )}
-                horizontal
-              />
             </View>
           </View>
           <View style={{ flex: 1 }}>
@@ -372,17 +348,22 @@ const SearchMapScreen: React.FC = () => {
           </View>
         </View>
         <View style={thisStyle.halfView}>
-          <View style={thisStyle.buttonContainer}>
-            <SmallCompleteButton
-              title="スポットを保存"
-              onPress={onCompleteButtonPress}
+          <View>
+            <FlatList
+              data={spots}
+              renderItem={({ item }) => (
+                <Image
+                  source={{ uri: getPhotoUrl(item) }}
+                  style={thisStyle.spotImage}
+                  resizeMode="stretch"
+                  key={item.place_id}
+                />
+              )}
+              horizontal
             />
           </View>
           <View style={thisStyle.buttonContainer}>
-            <SmallCompleteButton
-              title="スポットを保存"
-              onPress={onCompleteButtonPress}
-            />
+            <SmallCompleteButton title="決定" onPress={onCompleteButtonPress} />
           </View>
         </View>
       </View>

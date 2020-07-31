@@ -44,7 +44,7 @@
       "facebook": {
         "appId": "488030672048305"
       },
-      "apiEndpoint": "http://localhost:3080",
+      "apiEndpoint": "https://one-date-dev.herokuapp.com",
       "webEndpoint": "https://one-date-dev.web.app"
     }
   }

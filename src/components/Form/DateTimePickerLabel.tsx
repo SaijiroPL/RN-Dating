@@ -14,10 +14,6 @@ interface Props {
   maxDate?: string;
 }
 
-/**
- * 日付選択フォーム
- * @author kotatanaka
- */
 export const DateTimePickerLabel: React.FC<Props> = (props: Props) => {
   const { date, setDate, minDate, maxDate } = props;
 
@@ -28,7 +24,7 @@ export const DateTimePickerLabel: React.FC<Props> = (props: Props) => {
   }, [date]);
 
   const strDate = useMemo(() => {
-    return formatDate(datetime, 'D/M');
+    return formatDate(datetime, 'M/D');
   }, [datetime]);
 
   const strTime = useMemo(() => {

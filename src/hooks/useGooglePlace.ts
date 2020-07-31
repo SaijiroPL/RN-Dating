@@ -3,71 +3,14 @@ import { useState } from 'react';
 import axios from 'axios';
 
 // from app
-import { ILocation } from '../interfaces/app/Map';
+import {
+  ILocation,
+  IPlace,
+  IPlaceOpenHour,
+  IGoogleResult,
+} from 'app/src/interfaces/app/Map';
 
-export interface ISimpleLocation {
-  lat: number;
-  lng: number;
-}
-
-export interface IPlacePhoto {
-  width: number;
-  height: number;
-  html_attributions: Array<string>;
-  photo_reference: string;
-}
-
-export interface IPlace {
-  geometry: {
-    location: ISimpleLocation;
-    viewport: {
-      northeast: ISimpleLocation;
-      southwest: ISimpleLocation;
-    };
-  };
-  icon: string;
-  id: string;
-  name: string;
-  opening_hours: IPlaceOpenHour;
-  photos: Array<IPlacePhoto>;
-  place_id: string;
-  types: Array<string>;
-}
-
-export interface IPlaceOpenHour {
-  open_now: boolean;
-  periods: IPlaceDayHour[];
-  weekday_text: string[];
-}
-
-export interface IPlaceDayHour {
-  open: {
-    day: number;
-    time: string;
-  };
-  close?: {
-    day: number;
-    time: string;
-  };
-}
-
-export interface IPlaceDetail {
-  opening_hours: {
-    open_now: boolean;
-    periods: IPlaceDayHour[];
-    weekday_text: string[];
-  };
-}
-
-export interface IGoogleResult {
-  html_attributions: string;
-  next_page_token?: string;
-  results?: IPlace[];
-  result?: IPlace;
-  status: string;
-}
-
-export const googlePlace = () => {
+export const useGooglePlace = () => {
   const [places, setPlaces] = useState<IPlace[]>([]);
   const [nextToken, setNextToken] = useState<string | undefined>(undefined);
   const baseUrl = 'https://maps.googleapis.com/maps/api/place';
