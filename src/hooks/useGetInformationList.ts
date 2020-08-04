@@ -9,7 +9,6 @@ import { handleError } from 'app/src/utils';
 
 /**
  * 運営からのお知らせ一覧取得フック
- * @author kotatanaka
  * @param userId 対象のユーザーID
  */
 export const useGetInformationList = (userId: string) => {

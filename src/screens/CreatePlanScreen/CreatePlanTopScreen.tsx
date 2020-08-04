@@ -12,10 +12,7 @@ import { DateTimePickerLabel } from 'app/src/components/Form';
 import { getToday } from 'app/src/utils';
 import { appStyle } from 'app/src/styles';
 
-/**
- * デートプラン作成画面トップ(基本情報入力画面)
- * @author kotatanaka
- */
+/** デートプラン作成画面トップ(基本情報入力画面) */
 const CreatePlanTopScreen: React.FC = () => {
   const { navigate } = useNavigation();
   const dispatch = useDispatch();

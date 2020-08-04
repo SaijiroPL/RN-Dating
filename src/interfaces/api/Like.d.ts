@@ -1,7 +1,4 @@
-/**
- * デートプランお気に入り登録者一覧取得APIレスポンス要素
- * @author kotatanaka
- */
+/** デートプランお気に入り登録者一覧取得APIレスポンス要素  */
 export interface ILikeUser {
   user_id: string;
   user_name: string;
@@ -9,10 +6,7 @@ export interface ILikeUser {
   user_image_url: string;
 }
 
-/**
- * デートプランお気に入り登録者一覧取得APIレスポンス
- * @author kotatanaka
- */
+/** デートプランお気に入り登録者一覧取得APIレスポンス */
 export interface ILikeUserList {
   total: number;
   liked_user_list: Array<ILikeUser>;

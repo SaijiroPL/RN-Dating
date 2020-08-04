@@ -11,10 +11,7 @@ import { useUpdatePassword } from 'app/src/hooks';
 import { isEmpty } from 'app/src/utils';
 import { appStyle } from 'app/src/styles';
 
-/**
- * パスワード変更画面
- * @author itsukiyamada, kotatanaka
- */
+/** パスワード変更画面 */
 const ChangePasswordScreen: React.FC = () => {
   /** ナビゲーター */
   const { navigate } = useNavigation();

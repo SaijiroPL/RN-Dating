@@ -7,10 +7,7 @@ import { IFaqList } from 'app/src/interfaces/api/Question';
 import { IApiError } from 'app/src/interfaces/api/Error';
 import { handleError } from 'app/src/utils';
 
-/**
- * よくある質問一覧取得フック
- * @author kotatanaka
- */
+/** よくある質問一覧取得フック */
 export const useGetFaqList = () => {
   /** 正常レスポンス */
   const [questions, setQuestions] = useState<IFaqList>({

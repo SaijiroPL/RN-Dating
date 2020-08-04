@@ -20,10 +20,7 @@ interface Props {
   spots: Array<ICandidateSpot>;
 }
 
-/**
- * デートスポットスワイパー
- * @author kotatanaka
- */
+/** デートスポットスワイパー */
 export const SpotSwiper: React.FC<Props> = (props: Props) => {
   const { spots } = props;
 

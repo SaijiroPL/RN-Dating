@@ -13,10 +13,7 @@ interface Props {
   errors?: Array<string>;
 }
 
-/**
- * お問い合わせフォーム
- * @author itsukiyamada, kotatanaka
- */
+/** お問い合わせフォーム */
 export const QuestionForm: React.FC<Props> = (props: Props) => {
   const { question, setQuestion, onSendButtonPress, errors } = props;
 

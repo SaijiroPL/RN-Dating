@@ -15,10 +15,7 @@ interface Props {
   reload?: () => Promise<void>;
 }
 
-/**
- * ユーザーヘッダーコンポーネント
- * @author kotatanaka
- */
+/** ユーザーヘッダー */
 export const UserHeader: React.FC<Props> = (props: Props) => {
   const { navigate } = useNavigation();
   const { user, onFollow, onUnfollow, reload } = props;

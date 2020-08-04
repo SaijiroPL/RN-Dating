@@ -1,7 +1,4 @@
-/**
- * ユーザー情報
- * @author kotatanaka
- */
+/** ユーザー情報 */
 export interface IUserInfo {
   userId: string;
   userName: string;

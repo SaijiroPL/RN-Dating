@@ -9,10 +9,7 @@ import { useGetCommentList } from 'app/src/hooks';
 import { IPlanNavigationParam } from 'app/src/interfaces/app/Navigation';
 import { appTextStyle } from 'app/src/styles';
 
-/**
- * コメント一覧画面
- * @author kotatanaka
- */
+/** コメント一覧画面 */
 const CommentScreen: React.FC = () => {
   const route = useRoute();
   const planNavigationParam = route.params as IPlanNavigationParam;

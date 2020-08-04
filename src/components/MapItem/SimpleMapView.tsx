@@ -11,10 +11,7 @@ interface Props {
   spot: ISpot;
 }
 
-/**
- * シンプルなマップコンポーネント
- * @author kotatanaka
- */
+/** シンプルなマップコ */
 export const SimpleMapView: React.FC<Props> = (props: Props) => {
   const { spot } = props;
 

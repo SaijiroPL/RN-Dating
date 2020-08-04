@@ -10,7 +10,6 @@ import { handleError } from 'app/src/utils';
 
 /**
  * 検索履歴一覧取得・検索履歴削除フック
- * @author itsukiyamada
  * @param userId ユーザーID
  */
 export const useGetHistoryList = (userId: string) => {

@@ -15,10 +15,7 @@ interface Props {
   reload: () => Promise<void>;
 }
 
-/**
- * フォローボタン
- * @author kotatanaka
- */
+/** フォローボタン */
 export const FollowButton: React.FC<Props> = (props: Props) => {
   const { targetUserId, followed, onFollow, onUnfollow, reload } = props;
 

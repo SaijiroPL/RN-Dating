@@ -21,10 +21,7 @@ import { IPlanNavigationParam } from 'app/src/interfaces/app/Navigation';
 import { formatDate } from 'app/src/utils';
 import { appStyle, appTextStyle } from 'app/src/styles';
 
-/**
- * デートプラン詳細画面
- * @author kotatanaka
- */
+/** デートプラン詳細画面 */
 const PlanDetailScreen: React.FC = () => {
   const route = useRoute();
   const planNavigationParam = route.params as IPlanNavigationParam;

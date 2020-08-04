@@ -23,10 +23,7 @@ const SAMPLE_DATA = [
   },
 ];
 
-/**
- * 画像スライドカルーセル
- * @author kotatanaka
- */
+/** 画像スライドカルーセル */
 export const ImageCarousel: React.FC<Props> = (props: Props) => {
   const renderImageItem = ({ item }: { item: any }): JSX.Element => {
     return <Image style={thisStyle.image} source={item.image} />;

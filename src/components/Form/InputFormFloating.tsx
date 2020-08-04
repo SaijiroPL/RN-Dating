@@ -12,10 +12,7 @@ interface Props {
   errors?: Array<string>;
 }
 
-/**
- * 入力中にラベルが浮く入力フォーム
- * @author kotatanaka
- */
+/** 入力中にラベルが浮く入力フォーム */
 export const InputFormFloating: React.FC<Props> = (props: Props) => {
   const { label, value, setValue, errors } = props;
 

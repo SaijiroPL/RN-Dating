@@ -1,7 +1,4 @@
-/**
- * デートスポット候補
- * @author kotatanaka
- */
+/** デートスポット候補 */
 export interface ICandidateSpot {
   spotName: string;
   address: string;

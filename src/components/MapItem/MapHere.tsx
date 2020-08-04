@@ -15,10 +15,7 @@ interface Props {
   delta: number;
 }
 
-/**
- * 現在位置のマーカー
- * @author kotatanaka
- */
+/** 現在位置のマーカー */
 export const MapHere: React.FC<Props> = (props: Props) => {
   const { location, accuracy, delta } = props;
 

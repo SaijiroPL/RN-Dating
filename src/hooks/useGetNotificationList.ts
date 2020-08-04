@@ -9,7 +9,6 @@ import { handleError } from 'app/src/utils';
 
 /**
  * 通知一覧取得フック
- * @author kotatanaka
  * @param userId 対象のユーザーID
  */
 export const useGetNotificationList = (userId: string) => {

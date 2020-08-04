@@ -9,10 +9,7 @@ import { CreatePlanFab } from 'app/src/components/Button';
 import { useGetPlanList } from 'app/src/hooks';
 import { appTextStyle } from 'app/src/styles';
 
-/**
- * ホーム画面トップ
- * @author kotatanaka
- */
+/** ホーム画面トップ */
 const HomeScreen: React.FC = () => {
   /** デートプラン一覧取得 */
   const {

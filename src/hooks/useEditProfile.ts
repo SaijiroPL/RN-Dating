@@ -11,7 +11,6 @@ import { handleError } from 'app/src/utils';
 
 /**
  * プロフィール編集(ユーザー情報取得&プロフィール更新)フック
- * @author itsukiyamada, kotatanaka
  * @param userId 対象のユーザーID
  */
 export const useEditProfile = (userId: string) => {

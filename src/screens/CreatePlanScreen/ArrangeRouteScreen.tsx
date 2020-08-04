@@ -23,10 +23,7 @@ import { DatePicker } from 'app/src/components/Form';
 import { getToday } from 'app/src/utils';
 import { SmallCompleteButton } from 'app/src/components/Button/SmallCompleteButton';
 
-/**
- * デートスポット順番並べ替え画面
- * @author kotatanaka, itsukiyamada
- */
+/** デートスポット順番並べ替え画面 */
 const ArrangeRouteScreen: React.FC = () => {
   const { navigate } = useNavigation();
 

@@ -9,7 +9,6 @@ import { handleError } from 'app/src/utils';
 
 /**
  * フォロワーリスト取得フック
- * @author kotatanaka
  * @param userId 対象のユーザーID
  */
 export const useGetFollowerList = (userId: string) => {

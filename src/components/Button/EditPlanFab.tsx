@@ -6,10 +6,7 @@ import { AntDesign } from '@expo/vector-icons';
 // from app
 import { COLOR } from 'app/src/constants';
 
-/**
- * プラン編集フローティングボタン
- * @author kotatanaka
- */
+/** プラン編集フローティングボタン */
 export const EditPlanFab: React.FC = () => {
   const { navigate } = useNavigation();
 

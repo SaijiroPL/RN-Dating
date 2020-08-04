@@ -8,10 +8,7 @@ import { NotificationList } from 'app/src/components/List';
 import { useGetNotificationList } from 'app/src/hooks';
 import { appTextStyle } from 'app/src/styles';
 
-/**
- * 通知一覧画面
- * @author kotatanaka
- */
+/** 通知一覧画面 */
 const NotificationAllScreen: React.FC = () => {
   /** ログイン中のユーザー */
   const loginUser = useGlobalState('loginUser');

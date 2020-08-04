@@ -6,10 +6,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 // from app
 import { COLOR } from 'app/src/constants';
 
-/**
- * プラン作成フローティングボタン
- * @author kotatanaka
- */
+/** プラン作成フローティングボタン */
 export const CreatePlanFab: React.FC = () => {
   const { navigate } = useNavigation();
 

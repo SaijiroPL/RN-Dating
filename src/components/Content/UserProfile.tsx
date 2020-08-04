@@ -19,10 +19,7 @@ interface Props {
   reload: () => Promise<void>;
 }
 
-/**
- * ユーザー情報コンポーネント
- * @author kotatanaka
- */
+/** ユーザー情報 */
 export const UserProfile: React.FC<Props> = (props: Props) => {
   const { navigate } = useNavigation();
   const { user, me, image, pickImage, follow, unfollow, reload } = props;

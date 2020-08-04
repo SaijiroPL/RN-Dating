@@ -13,10 +13,7 @@ interface Props {
   reload: () => Promise<void>;
 }
 
-/**
- * スポット追加ボタン
- * @author itsukiyamada
- */
+/** スポット追加ボタン */
 export const AddSpotButton: React.FC<Props> = (props: Props) => {
   // const { spot, addSpot, onAddspot, reload } = props;
 

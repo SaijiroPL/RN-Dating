@@ -10,10 +10,7 @@ import { IApiError } from 'app/src/interfaces/api/Error';
 import { ICreateUserBody } from 'app/src/interfaces/api/User';
 import { getAge, handleError } from 'app/src/utils';
 
-/**
- * ユーザー登録フック
- * @author kotatanaka
- */
+/** ユーザー登録フック */
 export const useSignup = () => {
   /** ユーザー登録に必要な情報 */
   const registerUser = useGlobalState('registerUser');

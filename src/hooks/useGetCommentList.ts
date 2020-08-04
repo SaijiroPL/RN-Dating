@@ -9,7 +9,6 @@ import { handleError } from 'app/src/utils';
 
 /**
  * コメント一覧取得フック
- * @author kotatanaka
  * @param planId コメントのデートプランID
  */
 export const useGetCommentList = (planId: string) => {

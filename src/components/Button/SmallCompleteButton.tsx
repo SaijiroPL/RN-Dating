@@ -11,10 +11,7 @@ interface Props {
   disabled?: boolean;
 }
 
-/**
- * 完了ボタン(ミニ)
- * @author itsukiyamada
- */
+/** 完了ボタン(ミニ) */
 export const SmallCompleteButton: React.FC<Props> = (props: Props) => {
   const { disabled, title, onPress } = props;
 

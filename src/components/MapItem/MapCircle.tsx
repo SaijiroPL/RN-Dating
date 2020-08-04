@@ -10,10 +10,7 @@ interface Props {
   radius: number;
 }
 
-/**
- * 範囲円
- * @author kotatanaka
- */
+/** 範囲円 */
 export const MapCircle: React.FC<Props> = (props: Props) => {
   const { location, color, radius } = props;
 

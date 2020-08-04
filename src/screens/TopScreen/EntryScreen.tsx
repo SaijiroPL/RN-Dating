@@ -15,10 +15,7 @@ import { useSignin, useSignup } from 'app/src/hooks';
 import { getToday } from 'app/src/utils';
 import { appStyle } from 'app/src/styles';
 
-/**
- * ユーザー基本情報入力画面
- * @author kotatanaka
- */
+/** ユーザー基本情報入力画面 */
 const EntryScreen: React.FC = () => {
   /** ナビゲーター */
   const { navigate } = useNavigation();

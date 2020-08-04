@@ -10,7 +10,6 @@ import { handleError } from 'app/src/utils';
 
 /**
  * パスワード変更フック
- * @author itsukiyamada, kotatanaka
  * @param userId 対象のユーザーID
  */
 export const useUpdatePassword = (userId: string) => {

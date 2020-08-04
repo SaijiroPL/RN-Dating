@@ -1,7 +1,4 @@
-/**
- * 位置情報
- * @author kotatanaka
- */
+/** 位置情報 */
 export interface ILocation {
   latitude: number;
   longitude: number;
@@ -9,20 +6,14 @@ export interface ILocation {
   longitudeDelta: number;
 }
 
-/**
- * 現在位置
- * @author kotatanaka
- */
+/** 現在位置 */
 export interface IHere {
   latitude: number;
   longitude: number;
   timestamp: number;
 }
 
-/**
- * 位置マーカー
- * @author kotatanaka
- */
+/** 位置マーカー */
 export interface IMarker {
   key?: string;
   latitude: number;
@@ -32,10 +23,7 @@ export interface IMarker {
   unit: 'km' | 'm';
 }
 
-/**
- * 線
- * @author kotatanaka
- */
+/** 線 */
 export interface ILine {
   latitude: number;
   longitude: number;

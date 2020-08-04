@@ -10,10 +10,7 @@ interface Props {
   pickImage: () => Promise<void>;
 }
 
-/**
- * 画像選択ボタン
- * @author itsukiyamada, kotatanaka
- */
+/** 画像選択ボタン */
 export const ImagePickerButton: React.FC<Props> = (props) => {
   const { pickImage } = props;
 

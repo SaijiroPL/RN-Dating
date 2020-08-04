@@ -9,7 +9,6 @@ import { handleError } from 'app/src/utils';
 
 /**
  * デートプランお気に入り登録者一覧取得フック
- * @author kotatanaka
  * @param planId デートプランID
  */
 export const useGetLikeUserList = (planId: string) => {

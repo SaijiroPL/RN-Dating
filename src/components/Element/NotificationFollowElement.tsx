@@ -11,10 +11,7 @@ interface Props {
   notification: INotification;
 }
 
-/**
- * 通知リスト要素(フォロー通知)コンポーネント
- * @author kotatanaka
- */
+/** 通知リスト要素(フォロー通知) */
 export const NotificationFollowElement: React.FC<Props> = (props: Props) => {
   const { notification } = props;
 

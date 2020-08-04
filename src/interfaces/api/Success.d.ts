@@ -1,7 +1,4 @@
-/**
- * API 200OKレスポンス
- * @author kotatanaka
- */
+/** API 200OKレスポンス */
 export interface IOK {
   code: number;
   message: string;

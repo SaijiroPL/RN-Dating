@@ -9,10 +9,7 @@ import { PlanCardList } from 'app/src/components/List';
 import { useSearchPlanList } from 'app/src/hooks';
 import { appTextStyle } from 'app/src/styles';
 
-/**
- * デートプラン検索画面
- * @author kotatanaka
- */
+/** デートプラン検索画面 */
 const SearchScreen: React.FC = () => {
   /** デートプラン検索 */
   const {

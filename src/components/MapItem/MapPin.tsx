@@ -14,10 +14,7 @@ interface Props {
   onCalloutPress?: () => void;
 }
 
-/**
- * ピン付けマーカー
- * @author kotatanaka
- */
+/** ピン付けマーカー */
 export const MapPin: React.FC<Props> = (props: Props) => {
   const { children, center, location, onCalloutPress } = props;
   const pinColor = center ? 'black' : 'red';

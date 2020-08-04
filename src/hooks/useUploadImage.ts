@@ -3,10 +3,7 @@ import { Platform } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 
-/**
- * 画像アップロードフック
- * @author kotatanaka
- */
+/** 画像アップロードフック */
 export const useUploadImage = () => {
   /** カメラロールに対するパーミッションの有無 */
   const [hasPermission, setHasPermission] = useState<boolean>(false);

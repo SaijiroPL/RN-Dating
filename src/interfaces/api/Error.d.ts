@@ -1,7 +1,4 @@
-/**
- * APIエラーレスポンス
- * @author kotatanaka
- */
+/** APIエラーレスポンス */
 export interface IApiError {
   code: number;
   message: string;

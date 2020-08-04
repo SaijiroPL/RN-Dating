@@ -17,10 +17,7 @@ interface Props {
   onRefresh: () => Promise<void>;
 }
 
-/**
- * 通知リストコンポーネント
- * @author kotatanaka
- */
+/** 通知リスト */
 export const NotificationList: React.FC<Props> = (props: Props) => {
   const { notificationList, isRefreshing, onRefresh } = props;
 

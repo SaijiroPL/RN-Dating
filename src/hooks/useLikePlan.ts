@@ -10,7 +10,6 @@ import { handleError } from 'app/src/utils';
 
 /**
  * お気に入り登録・解除フック
- * @author kotatanaka
  * @param userId 操作を行うユーザーID
  */
 export const useLikePlan = (userId: string) => {

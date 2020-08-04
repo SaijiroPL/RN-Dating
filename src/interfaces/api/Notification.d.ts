@@ -1,7 +1,4 @@
-/**
- * 通知一覧取得APIレスポンス要素
- * @author kotatanaka
- */
+/** 通知一覧取得APIレスポンス要素 */
 export interface INotification {
   notification_id: string;
   notification_category: NOTIFICATION_CATEGORY;
@@ -15,19 +12,13 @@ export interface INotification {
   read: boolean;
 }
 
-/**
- * 通知一覧取得APIレスポンス
- * @author kotatanaka
- */
+/**  通知一覧取得APIレスポンス */
 export interface INotificationList {
   unread_count: number;
   notification_list: Array<INotification>;
 }
 
-/**
- * 運営からのお知らせ一覧取得APIレスポンス要素
- * @author kotatanaka
- */
+/** 運営からのお知らせ一覧取得APIレスポンス要素 */
 export interface IInformation {
   notification_id: string;
   notification_date: string;
@@ -36,10 +27,7 @@ export interface IInformation {
   read: boolean;
 }
 
-/**
- * 運営からのお知らせ一覧取得APIレスポンス
- * @author kotatanaka
- */
+/** 運営からのお知らせ一覧取得APIレスポンス */
 export interface IInformationList {
   unread_count: number;
   information_list: Array<IInformation>;

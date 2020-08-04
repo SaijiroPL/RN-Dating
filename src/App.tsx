@@ -17,10 +17,7 @@ interface Props {
 /** 警告を表示しない設定 */
 YellowBox.ignoreWarnings([]);
 
-/**
- * アプリケーションの初期化
- * @author kotatanaka
- */
+/** アプリケーションの初期化 */
 const App: React.FC<Props> = (props: Props) => {
   const { skipLoadingScreen } = props;
 

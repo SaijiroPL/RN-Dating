@@ -8,10 +8,7 @@ import { IPlanList } from 'app/src/interfaces/api/Plan';
 import { IApiError } from 'app/src/interfaces/api/Error';
 import { handleError } from 'app/src/utils';
 
-/**
- * デートプラン検索フック
- * @author kotatanaka
- */
+/** デートプラン検索フック */
 export const useSearchPlanList = () => {
   /** ログイン中のユーザー */
   const loginUser = useGlobalState('loginUser');

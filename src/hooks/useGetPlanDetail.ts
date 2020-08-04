@@ -9,7 +9,6 @@ import { handleError } from 'app/src/utils';
 
 /**
  * デートプラン詳細取得フック
- * @author kotatanaka
  * @param planId 取得するデートプランID
  * @param userId 取得者のユーザーID
  */

@@ -12,10 +12,7 @@ import { useGetUserDetail, useGetPlanList, useFollowUser } from 'app/src/hooks';
 import { IUserNavigationParam } from 'app/src/interfaces/app/Navigation';
 import { appStyle } from 'app/src/styles';
 
-/**
- * プロフィール(ユーザー詳細)画面トップ
- * @author kotatanaka
- */
+/** プロフィール(ユーザー詳細)画面トップ */
 const ProfileScreen: React.FC = () => {
   const route = useRoute();
   const planNavigationParam = route.params as IUserNavigationParam;

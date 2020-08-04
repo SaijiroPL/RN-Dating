@@ -11,10 +11,7 @@ interface Props {
   maxDate?: string;
 }
 
-/**
- * 日付選択フォーム
- * @author kotatanaka
- */
+/** 日付選択フォーム */
 export const DatePicker: React.FC<Props> = (props: Props) => {
   const { date, setDate, minDate, maxDate } = props;
 

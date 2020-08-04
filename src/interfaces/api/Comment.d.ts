@@ -1,7 +1,4 @@
-/**
- * コメント一覧取得APIレスポンス要素
- * @author kotatanaka
- */
+/** コメント一覧取得APIレスポンス要素 */
 export interface IComment {
   comment_id: string;
   comment: string;
@@ -12,10 +9,7 @@ export interface IComment {
   user_image_url: string;
 }
 
-/**
- * コメント一覧取得APIレスポンス
- * @author kotatanaka
- */
+/** コメント一覧取得APIレスポンス */
 export interface ICommentList {
   total: number;
   comment_list: Array<IComment>;
