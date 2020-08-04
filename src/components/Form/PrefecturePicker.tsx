@@ -10,10 +10,7 @@ interface Props {
   setPrefecture: React.Dispatch<React.SetStateAction<string>>;
 }
 
-/**
- * 都道府県選択フォーム
- * @author kotatanaka
- */
+/** 都道府県選択フォーム */
 export const PrefecturePicker: React.FC<Props> = (props: Props) => {
   const { prefecture, setPrefecture } = props;
 

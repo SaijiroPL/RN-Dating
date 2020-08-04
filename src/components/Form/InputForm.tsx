@@ -13,10 +13,7 @@ interface Props {
   errors?: Array<string>;
 }
 
-/**
- * テキスト入力フォーム
- * @author kotatanaka
- */
+/** テキスト入力フォーム */
 export const InputForm: React.FC<Props> = (props: Props) => {
   const { placeholder, value, setValue, errors } = props;
 

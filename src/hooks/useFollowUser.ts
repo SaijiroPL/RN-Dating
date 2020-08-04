@@ -10,7 +10,6 @@ import { handleError } from 'app/src/utils';
 
 /**
  * アカウントフォロー・フォロー解除フック
- * @author kotatanaka
  * @param userId 操作を行うユーザーID
  */
 export const useFollowUser = (userId: string) => {

@@ -25,10 +25,7 @@ const SAMPLE_SPOTS: Array<ICandidateSpot> = [
   },
 ];
 
-/**
- * デートスポット候補スワイプ画面
- * @author kotatanaka
- */
+/** デートスポット候補スワイプ画面 */
 const SwipeSpotScreen: React.FC = () => {
   const { navigate } = useNavigation();
 

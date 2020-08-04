@@ -10,10 +10,7 @@ interface Props {
   notification: IInformation;
 }
 
-/**
- * 運営からのお知らせリスト要素コンポーネント
- * @author kotatanaka
- */
+/** 運営からのお知らせリスト要素 */
 export const InformationElement: React.FC<Props> = (props: Props) => {
   const { notification } = props;
 

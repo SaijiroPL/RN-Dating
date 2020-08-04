@@ -13,10 +13,7 @@ interface Props {
   onRefresh: () => Promise<void>;
 }
 
-/**
- * デートプランリストコンポーネント
- * @author kotatanaka
- */
+/** デートプランリスト */
 export const PlanCardList: React.FC<Props> = (props: Props) => {
   const { planList, myPlan, isRefreshing, onRefresh } = props;
 

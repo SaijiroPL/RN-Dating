@@ -5,10 +5,7 @@ import Constants from 'expo-constants';
 /** Firebase 初期化 */
 firebase.initializeApp(Constants.manifest.extra.firebase);
 
-/**
- * Facebook ログイン認証
- * @author kotatanaka
- */
+/** Facebook ログイン認証 */
 export const facebookLogin = async () => {
   const { appId } = Constants.manifest.extra.facebook;
 

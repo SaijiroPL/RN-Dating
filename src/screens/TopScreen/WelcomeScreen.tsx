@@ -36,10 +36,7 @@ const SLIDE_DATA = [
   },
 ];
 
-/**
- * ウェルカム画面
- * @author kotatanaka
- */
+/** ウェルカム画面 */
 const WelcomeScreen: React.FC = () => {
   const { navigate } = useNavigation();
 

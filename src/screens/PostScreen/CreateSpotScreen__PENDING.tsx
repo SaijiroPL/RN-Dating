@@ -21,10 +21,7 @@ import { CompleteButton } from 'app/src/components/Button';
 import { InputLabelForm } from 'app/src/components/Form';
 // import { COLOR } from 'app/src/constants';
 
-/**
- * スポット作成画面
- * @author itsukiyamada
- */
+/** スポット作成画面 */
 const CreateSpotScreen: React.FC = () => {
   const { navigate } = useNavigation();
 

@@ -15,10 +15,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { COLOR } from 'app/src/constants';
 import { appTextStyle } from 'app/src/styles';
 
-/**
- * リンク済みアカウント画面
- * @author itsukiyamada, kotatanaka
- */
+/** リンク済みアカウント画面 */
 const LinkedAccountScreen: React.FC = () => {
   const [facebookOn, setFacebookOn] = useState<boolean>(false);
 

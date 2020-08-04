@@ -20,10 +20,7 @@ import {
 import { CompleteButton } from 'app/src/components/Button';
 import { appTextStyle } from 'app/src/styles';
 
-/**
- * 案内中投稿画面
- * @author itsukiyamada
- */
+/** 案内中投稿画面 */
 const GuidePostScreen: React.FC = () => {
   /** ナビゲーター */
   const { navigate } = useNavigation();

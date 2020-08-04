@@ -6,10 +6,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 // from app
 import { COLOR } from 'app/src/constants';
 
-/**
- * スポット作成フローティングボタン
- * @author itsukiyamada
- */
+/** スポット作成フローティングボタン */
 export const CreateSpotFab: React.FC = () => {
   const { navigate } = useNavigation();
 

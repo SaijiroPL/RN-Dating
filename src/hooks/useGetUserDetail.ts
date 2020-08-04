@@ -9,7 +9,6 @@ import { handleError } from 'app/src/utils';
 
 /**
  * ユーザー詳細取得フック
- * @author kotatanaka
  * @param userId 対象のユーザーID
  * @param meId 操作者のユーザーID
  */

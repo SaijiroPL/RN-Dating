@@ -11,10 +11,7 @@ interface Props {
   user: ILikeUser;
 }
 
-/**
- * デートプランお気に入り登録者リスト要素コンポーネント
- * @author kotatanaka
- */
+/** デートプランお気に入り登録者リスト要素 */
 export const LikeUserElement: React.FC<Props> = (props: Props) => {
   const { navigate } = useNavigation();
   const { user } = props;

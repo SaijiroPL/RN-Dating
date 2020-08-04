@@ -9,7 +9,6 @@ import { handleError } from 'app/src/utils';
 
 /**
  * デートプラン一覧取得フック
- * @author kotatanaka
  * @param userId ユーザーID(Optional:マイプラン一覧取得時に必要)
  */
 export const useGetPlanList = (userId?: string) => {

@@ -6,10 +6,7 @@ import { Container, Content } from 'native-base';
 import { ImageGrid } from 'app/src/components/List';
 import { CompleteFooterButton } from 'app/src/components/Button';
 
-/**
- * デートスポット厳選画面
- * @author kotatanaka
- */
+/** デートスポット厳選画面 */
 const SelectSpotScreen: React.FC = () => {
   const { navigate } = useNavigation();
 

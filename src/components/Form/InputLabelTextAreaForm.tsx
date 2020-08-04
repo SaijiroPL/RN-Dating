@@ -11,10 +11,7 @@ interface Props {
   errors?: Array<string>;
 }
 
-/**
- * ラベル付きテキストエリアフォーム
- * @author itsukiyamada, kotatanaka
- */
+/** ラベル付きテキストエリアフォーム */
 export const InputLabelTextAreaForm: React.FC<Props> = (props: Props) => {
   const { label, value, setValue, errors } = props;
 

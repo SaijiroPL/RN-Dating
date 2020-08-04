@@ -10,10 +10,7 @@ import { QuestionForm } from 'app/src/components/Form';
 import { useGetFaqList, usePostQuestion } from 'app/src/hooks';
 import { appTextStyle } from 'app/src/styles';
 
-/**
- * よくある質問画面
- * @author itsukiyamada, kotatanaka
- */
+/** よくある質問画面 */
 const FaqScreen: React.FC = () => {
   /** ログイン中のユーザー */
   const loginUser = useGlobalState('loginUser');

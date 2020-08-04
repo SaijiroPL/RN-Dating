@@ -15,10 +15,7 @@ interface Props {
   reload?: () => Promise<void>;
 }
 
-/**
- * お気に入りボタン
- * @author kotatanaka
- */
+/** お気に入りボタン */
 export const LikeButton: React.FC<Props> = (props: Props) => {
   const { targetPlanId, likeCount, liked, onLike, onUnlike, reload } = props;
 

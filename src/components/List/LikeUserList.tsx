@@ -9,10 +9,7 @@ interface Props {
   users: Array<ILikeUser>;
 }
 
-/**
- * デートプランお気に入り登録者リストコンポーネント
- * @author kotatanaka
- */
+/** デートプランお気に入り登録者リスト */
 export const LikeUserList: React.FC<Props> = (props: Props) => {
   const { users } = props;
 

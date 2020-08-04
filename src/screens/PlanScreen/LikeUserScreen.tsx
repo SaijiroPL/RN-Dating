@@ -9,10 +9,7 @@ import { useGetLikeUserList } from 'app/src/hooks';
 import { IPlanNavigationParam } from 'app/src/interfaces/app/Navigation';
 import { appTextStyle } from 'app/src/styles';
 
-/**
- * デートプランお気に入り登録者一覧画面
- * @author kotatanaka
- */
+/** デートプランお気に入り登録者一覧画面 */
 const LikeUserScreen: React.FC = () => {
   const route = useRoute();
   const planNavigationParam = route.params as IPlanNavigationParam;

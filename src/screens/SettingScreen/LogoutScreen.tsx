@@ -5,10 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { CompleteButton } from 'app/src/components/Button';
 import { appStyle, appTextStyle } from 'app/src/styles';
 
-/**
- * ログアウト確認画面
- * @author itsukiyamada
- */
+/** ログアウト確認画面 */
 const LogoutScreen: React.FC = () => {
   const { navigate } = useNavigation();
 

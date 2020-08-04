@@ -10,10 +10,7 @@ interface Props {
   comment: IComment;
 }
 
-/**
- * コメントリスト要素コンポーネント
- * @author kotatanaka
- */
+/** コメントリスト要素 */
 export const CommentElement: React.FC<Props> = (props: Props) => {
   const { comment } = props;
 

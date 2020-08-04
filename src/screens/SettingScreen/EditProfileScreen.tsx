@@ -27,10 +27,7 @@ import { useEditProfile } from 'app/src/hooks';
 import { isEmpty } from 'app/src/utils';
 import { appTextStyle } from 'app/src/styles';
 
-/**
- * プロフィール編集画面
- * @author itsukiyamada, kotatanaka
- */
+/** プロフィール編集画面 */
 const EditProfileScreen: React.FC = () => {
   /** ログイン中のユーザー */
   const loginUser = useGlobalState('loginUser');

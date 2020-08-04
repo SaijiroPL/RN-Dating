@@ -14,10 +14,7 @@ import {
 import { PlanCardList } from 'app/src/components/List';
 import { appStyle } from 'app/src/styles';
 
-/**
- * マイプロフィール画面
- * @author kotatanaka
- */
+/** マイプロフィール画面 */
 const MyProfileScreen: React.FC = () => {
   /** ログイン中のユーザー */
   const loginUser = useGlobalState('loginUser');

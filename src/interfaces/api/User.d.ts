@@ -1,7 +1,4 @@
-/**
- * ユーザー情報取得APIレスポンス
- * @author kotatanaka
- */
+/** ユーザー情報取得APIレスポンス */
 export interface IUserDetail {
   user_id: string;
   name: string;
@@ -19,10 +16,7 @@ export interface IUserDetail {
   is_follow: boolean;
 }
 
-/**
- * ユーザー登録APIリクエストボディ
- * @author kotatanaka
- */
+/** ユーザー登録APIリクエストボディ */
 export interface ICreateUserBody {
   name: string;
   sex: string;
@@ -32,30 +26,21 @@ export interface ICreateUserBody {
   password: string;
 }
 
-/**
- * アプリにログインAPIリクエストボディ
- * @author kotatanaka
- */
+/** アプリにログインAPIリクエストボディ */
 export interface ILogin {
   mail_address?: string;
   '1did'?: string;
   password: string;
 }
 
-/**
- * アプリにログインAPIレスポンス
- * @author kotatanaka
- */
+/** アプリにログインAPIレスポンス */
 export interface ILoginUser {
   user_id: string;
   name: string;
   user_image_url: string;
 }
 
-/**
- * プロフィール編集APIレスポンス
- * @author itsukiyamada, kotatanaka
- */
+/** プロフィール編集APIレスポンス */
 export interface IUpdateUserBody {
   name?: string;
   profile?: string;
@@ -65,10 +50,7 @@ export interface IUpdateUserBody {
   mail_address?: string;
 }
 
-/**
- * パスワード編集APIレスポンス
- * @author itsukiyamada
- */
+/** パスワード編集APIレスポンス */
 export interface IUpdatePasswordBody {
   old_password: string;
   new_password: string;

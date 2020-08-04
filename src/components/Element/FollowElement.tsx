@@ -17,10 +17,7 @@ interface Props {
   reload: () => Promise<void>;
 }
 
-/**
- * フォロー/フォロワーリスト要素コンポーネント
- * @author kotatanaka
- */
+/** フォロー/フォロワーリスト要素 */
 export const FollowElement: React.FC<Props> = (props: Props) => {
   const { navigate } = useNavigation();
   const { meId, follow, follower, onFollow, onUnfollow, reload } = props;

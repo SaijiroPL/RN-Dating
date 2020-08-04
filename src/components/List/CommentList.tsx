@@ -9,10 +9,7 @@ interface Props {
   commentList: Array<IComment>;
 }
 
-/**
- * コメントリストコンポーネント
- * @author kotatanaka
- */
+/** コメントリスト */
 export const CommentList: React.FC<Props> = (props: Props) => {
   const { commentList } = props;
 

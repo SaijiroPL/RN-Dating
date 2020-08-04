@@ -20,10 +20,7 @@ import { SmallCompleteButton } from 'app/src/components/Button/SmallCompleteButt
 import { useGooglePlace } from 'app/src/hooks';
 import { COLOR, SPOT_TYPE } from 'app/src/constants';
 
-/**
- * マップからスポット範囲指定画面
- * @author kotatanaka
- */
+/** マップからスポット範囲指定画面 */
 const SearchMapScreen: React.FC = () => {
   const { navigate } = useNavigation();
 

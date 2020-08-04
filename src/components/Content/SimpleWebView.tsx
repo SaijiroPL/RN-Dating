@@ -8,10 +8,7 @@ interface Props {
   uri: string;
 }
 
-/**
- * WebView
- * @author kotatanaka
- */
+/** WebView */
 export const SimpleWebView: React.FC<Props> = (props: Props) => {
   const { uri } = props;
 

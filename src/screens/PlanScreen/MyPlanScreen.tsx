@@ -9,10 +9,7 @@ import { PlanCardList } from 'app/src/components/List';
 import { useGetLikePlanList } from 'app/src/hooks';
 import { appTextStyle } from 'app/src/styles';
 
-/**
- * マイプラン画面
- * @author kotatanaka
- */
+/** マイプラン画面 */
 const MyPlanScreen: React.FC = () => {
   /** ログイン中のユーザー */
   const loginUser = useGlobalState('loginUser');

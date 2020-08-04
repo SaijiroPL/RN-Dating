@@ -10,10 +10,7 @@ import { IApiError } from 'app/src/interfaces/api/Error';
 
 import { handleError } from 'app/src/utils';
 
-/**
- * ログインフック
- * @author kotatanaka
- */
+/** ログインフック */
 export const useSignin = () => {
   /** グローバルステート更新関数 */
   const dispatch = useDispatch();

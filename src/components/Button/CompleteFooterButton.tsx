@@ -12,10 +12,7 @@ interface Props {
   disabled?: boolean;
 }
 
-/**
- * フッター完了ボタン
- * @author kotatanaka
- */
+/** フッター完了ボタン */
 export const CompleteFooterButton: React.FC<Props> = (props: Props) => {
   const { disabled, title, onPress } = props;
 

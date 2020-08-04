@@ -12,10 +12,7 @@ interface Props {
   onDelete: (id: number) => void;
 }
 
-/**
- * 検索履歴スワイプリスト
- * @author kotatanaka
- */
+/** 検索履歴スワイプリスト */
 export const HistorySwipeList: React.FC<Props> = (props: Props) => {
   const { histories, onDelete } = props;
 

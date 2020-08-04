@@ -1,17 +1,11 @@
-/**
- * デートスポットリスト要素(簡易)
- * @author kotatanaka
- */
+/** デートスポットリスト要素(簡易) */
 export interface ISpot {
   spot_name: string;
   latitude: number;
   longitude: number;
 }
 
-/**
- * デートプラン一覧取得APIレスポンス要素
- * @author kotatanaka
- */
+/** デートプラン一覧取得APIレスポンス要素 */
 export interface IPlan {
   plan_id: string;
   title: string;
@@ -26,19 +20,13 @@ export interface IPlan {
   comment_count: number;
 }
 
-/**
- * デートプラン一覧取得APIレスポンス
- * @author kotatanaka
- */
+/** デートプラン一覧取得APIレスポンス */
 export interface IPlanList {
   total: number;
   plan_list: Array<IPlan>;
 }
 
-/**
- * デートスポットリスト要素(詳細)
- * @author kotatanaka
- */
+/** デートスポットリスト要素(詳細) */
 export interface ISpotFull {
   spot_name: string;
   latitude: number;
@@ -47,10 +35,7 @@ export interface ISpotFull {
   need_time: number;
 }
 
-/**
- * デートプラン詳細取得APIレスポンス
- * @author kotatanaka
- */
+/** デートプラン詳細取得APIレスポンス */
 export interface IPlanFull {
   plan_id: string;
   title: string;

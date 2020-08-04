@@ -12,10 +12,7 @@ interface Props {
   comments: Array<IComment>;
 }
 
-/**
- * コメントグリッド表示
- * @author kotatanaka
- */
+/** コメントグリッド表示 */
 export const CommentGrid: React.FC<Props> = (props: Props) => {
   const { comments } = props;
 

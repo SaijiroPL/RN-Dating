@@ -8,10 +8,7 @@ import { InformationList } from 'app/src/components/List';
 import { useGetInformationList } from 'app/src/hooks';
 import { appTextStyle } from 'app/src/styles';
 
-/**
- * 運営からのお知らせ一覧画面
- * @author kotatanaka
- */
+/** 運営からのお知らせ一覧画面 */
 const InformationScreen: React.FC = () => {
   /** ログイン中のユーザー */
   const loginUser = useGlobalState('loginUser');

@@ -11,10 +11,7 @@ interface Props {
   disabled?: boolean;
 }
 
-/**
- * 完了ボタン
- * @author kotatanaka
- */
+/** 完了ボタン */
 export const CompleteButton: React.FC<Props> = (props: Props) => {
   const { disabled, title, onPress } = props;
 

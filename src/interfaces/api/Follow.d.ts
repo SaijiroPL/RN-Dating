@@ -1,7 +1,4 @@
-/**
- * フォロー一覧取得APIレスポンス要素
- * @author kotatanaka
- */
+/** フォロー一覧取得APIレスポンス要素 */
 export interface IFollow {
   user_id: string;
   user_name: string;
@@ -12,19 +9,13 @@ export interface IFollow {
   is_followed: boolean;
 }
 
-/**
- * フォロー一覧取得APIレスポンス
- * @author kotatanaka
- */
+/** フォロー一覧取得APIレスポンス */
 export interface IFollowList {
   total: number;
   follow_list: Array<IFollow>;
 }
 
-/**
- * フォロワー一覧取得APIレスポンス要素
- * @author kotatanaka
- */
+/** フォロワー一覧取得APIレスポンス要素 */
 export interface IFollower {
   user_id: string;
   user_name: string;
@@ -35,10 +26,7 @@ export interface IFollower {
   is_follow: boolean;
 }
 
-/**
- * フォロワー一覧取得APIレスポンス
- * @author kotatanaka
- */
+/** フォロワー一覧取得APIレスポンス */
 export interface IFollowerList {
   total: number;
   follower_list: Array<IFollower>;

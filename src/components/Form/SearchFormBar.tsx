@@ -12,10 +12,7 @@ interface Props {
   onSearch: () => void;
 }
 
-/**
- * 検索フォームバー
- * @author kotatanaka
- */
+/** 検索フォームバー */
 export const SearchFormBar: React.FC<Props> = (props: Props) => {
   const { value, setValue, onSearch } = props;
 

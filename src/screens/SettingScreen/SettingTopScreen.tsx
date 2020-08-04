@@ -5,10 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 // from app
 import { appTextStyle } from 'app/src/styles';
 
-/**
- * 設定画面トップ
- * @author itsukiyamada, kotatanaka
- */
+/** 設定画面トップ */
 const SettingTopScreen: React.FC = () => {
   const { navigate } = useNavigation();
 

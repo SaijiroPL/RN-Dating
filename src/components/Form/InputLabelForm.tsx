@@ -15,10 +15,7 @@ interface Props {
   errors?: Array<string>;
 }
 
-/**
- * テキスト入力フォーム(ラベル付き)
- * @author kotatanaka
- */
+/** テキスト入力フォーム(ラベル付き) */
 export const InputLabelForm: React.FC<Props> = (props: Props) => {
   const { label, value, numValue, setValue, setNumValue, errors } = props;
 

@@ -11,10 +11,7 @@ interface Props {
   faqList: Array<IFaq>;
 }
 
-/**
- * FAQリストコンポーネント
- * @author kotatanaka
- */
+/** FAQリスト */
 export const FaqList: React.FC<Props> = (props: Props) => {
   /** FAQリストデータ */
   const { faqList } = props;

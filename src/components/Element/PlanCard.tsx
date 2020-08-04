@@ -22,10 +22,7 @@ interface Props {
   myPlan?: boolean;
 }
 
-/**
- * デートプランコンポーネント
- * @author kotatanaka
- */
+/** デートプランカード */
 export const PlanCard: React.FC<Props> = (props: Props) => {
   const { navigate } = useNavigation();
   const { plan, myPlan } = props;

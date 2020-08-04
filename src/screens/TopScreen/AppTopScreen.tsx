@@ -12,10 +12,7 @@ import { useSignin, useSignup } from 'app/src/hooks';
 import { validateEmail, validateAlphaNumeric } from 'app/src/utils';
 import { appStyle, appTextStyle } from 'app/src/styles';
 
-/**
- * 初回起動時の画面
- * @author kotatanaka
- */
+/** 初回起動時の画面 */
 const AppTopScreen: React.FC = () => {
   /** ナビゲーター */
   const { navigate } = useNavigation();

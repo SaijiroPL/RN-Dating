@@ -18,10 +18,7 @@ interface Props {
   buttonName: string;
 }
 
-/**
- * 選択ボタン
- * @author kotatanaka
- */
+/** 選択ボタン */
 export const SelectButton: React.FC<Props> = (props: Props) => {
   const { value, setValue, setOtherValues, reversible, buttonName } = props;
 

@@ -10,7 +10,6 @@ import { handleError } from 'app/src/utils';
 
 /**
  * 質問投稿フック
- * @author kotatanaka
  * @param userId 操作を行うユーザーID
  */
 export const usePostQuestion = (userId: string) => {

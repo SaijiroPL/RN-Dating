@@ -6,10 +6,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 // from app
 import { COLOR } from 'app/src/constants';
 
-/**
- * 設定フローティングボタン
- * @author kotatanaka
- */
+/** 設定フローティングボタン */
 export const SettingFab: React.FC = () => {
   const { navigate } = useNavigation();
 

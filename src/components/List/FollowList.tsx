@@ -14,10 +14,7 @@ interface Props {
   reload: () => Promise<void>;
 }
 
-/**
- * フォローリスト/フォロワーリストコンポーネント
- * @author kotatanaka
- */
+/** フォローリスト/フォロワーリスト */
 export const FollowList: React.FC<Props> = (props: Props) => {
   const { meId, follows, followers, onFollow, onUnfollow, reload } = props;
 

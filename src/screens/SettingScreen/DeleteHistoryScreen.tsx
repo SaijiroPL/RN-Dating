@@ -8,10 +8,7 @@ import { appTextStyle } from 'app/src/styles';
 import { useGetHistoryList } from 'app/src/hooks';
 import { useGlobalState } from 'app/src/Store';
 
-/**
- * 検索履歴一覧画面
- * @author itsukiyamada
- */
+/** 検索履歴一覧画面 */
 const DeleteHistoryScreen: React.FC = () => {
   /** ログイン中のユーザー */
   const loginUser = useGlobalState('loginUser');

@@ -6,10 +6,8 @@ import { Col, Row, Grid } from 'react-native-easy-grid';
 import { IMAGE, LAYOUT } from 'app/src/constants';
 
 // interface Props {}
-/**
- * 画像選択グリッド
- * @author kotatanaka
- */
+
+/** 画像選択グリッド */
 export const ImageGrid: React.FC = () => {
   return (
     <Grid>

@@ -11,10 +11,7 @@ import { useGetFollowList, useFollowUser } from 'app/src/hooks';
 import { IUserNavigationParam } from 'app/src/interfaces/app/Navigation';
 import { appTextStyle } from 'app/src/styles';
 
-/**
- * フォローリスト一覧画面
- * @author kotatanaka
- */
+/** フォローリスト一覧画面 */
 const FollowScreen: React.FC = () => {
   const route = useRoute();
   const planNavigationParam = route.params as IUserNavigationParam;
