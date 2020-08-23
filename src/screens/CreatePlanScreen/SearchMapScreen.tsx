@@ -1,23 +1,18 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, {
-  useState,
-  useCallback,
-  useMemo,
-  useEffect,
-  useRef,
-} from 'react';
-import { StyleSheet, Alert } from 'react-native';
+/* eslint-disable import/no-extraneous-dependencies */
+import React, { useState, useCallback, useEffect, useRef } from 'react';
+import { StyleSheet, Image, View, Text, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import MapView, { Polyline } from 'react-native-maps';
-import * as Location from 'expo-location';
+import { Slider } from 'react-native-elements';
+import MapView, { Marker, Callout, CalloutSubview } from 'react-native-maps';
+
+import debounce from 'lodash/debounce';
 
 // from app
-import { ILocation, IHere, IMarker, ILine } from 'app/src/interfaces/app/Map';
-import { MapCircle, MapHere, MapPin } from 'app/src/components/MapItem';
-import { View } from 'native-base';
+import { ILocation } from 'app/src/interfaces/app/Map';
+import { MapCircle } from 'app/src/components/MapItem';
 import { SmallCompleteButton } from 'app/src/components/Button/SmallCompleteButton';
-
-const locationInitialRound = 700;
+import { googlePlace, IPlace } from 'app/src/hooks';
+import { COLOR } from 'app/src/constants';
 
 /**
  * マップからスポット範囲指定画面
@@ -32,256 +27,73 @@ const SearchMapScreen: React.FC = () => {
     latitudeDelta: 0.038651027332100796,
     longitudeDelta: 0.02757163010454633,
   });
-  const [accuracy, setAccuracy] = useState<number>(65);
-  // prettier-ignore
-  const [here, setHere] = useState<IHere>({ latitude: 0, longitude: 0, timestamp: 0 });
-  const [isModalVisible, setModalVisible] = useState<boolean>(false);
-  const [keyword, setKeyword] = useState<string>('');
-  const [markers, setMarkers] = useState<Array<IMarker>>([]);
-  // prettier-ignore
-  const [editMarkers, setEditMarker] = useState<IMarker>({ latitude: 0, longitude: 0, radius: 0, color: "", unit: "km" });
-  const [distanceMode, setDistanceMode] = useState<boolean>(false);
-  const [lines, setLines] = useState<Array<ILine>>([]);
-  const [activeLine, setActiveLine] = useState<number>(0);
-  const [pinCount, setPinCount] = useState<number>(0);
+  // const [accuracy, setAccuracy] = useState<number>(65);
+  // // prettier-ignore
+  // const [here, setHere] = useState<IHere>({ latitude: 0, longitude: 0, timestamp: 0 });
+  // const [isModalVisible, setModalVisible] = useState<boolean>(false);
+  // const [keyword, setKeyword] = useState<string>('');
+  // const [markers, setMarkers] = useState<Array<IMarker>>([]);
+  // // prettier-ignore
+  // const [editMarkers, setEditMarker] = useState<IMarker>({ latitude: 0, longitude: 0, radius: 0, color: "", unit: "km" });
+  // const [distanceMode, setDistanceMode] = useState<boolean>(true);
+  // const [lines, setLines] = useState<Array<ILine>>([]);
+  // const [activeLine, setActiveLine] = useState<number>(0);
+  // const [pinCount, setPinCount] = useState<number>(0);
+
+  const [radius, setRadius] = useState(7);
+  const [openHours, setOpenHours] = useState<string>('...');
+  const [spots, updateSpots] = useState<IPlace[]>([]);
+
+  const {
+    searchNearbyPlace,
+    getPlacePhoto,
+    getPlaceOpeningHours,
+    places,
+  } = googlePlace();
 
   const onCompleteButtonPress = useCallback(() => {
     navigate('Flick');
+    console.log('complete');
   }, []);
+
+  useEffect(() => {
+    searchNearbyPlace(location, radius * 100, 'bar');
+  }, [radius]);
+
+  // useEffect(() => {
+  //   if (nextToken) {
+  //     setTimeout(() => {
+  //       getNextPlaces(nextToken);
+  //     }, 500);
+  //   }
+  // }, [nextToken]);
 
   const mapRef = useRef(null);
 
-  const onMapPress = useCallback(
-    ({ nativeEvent }) => {
-      const { coordinate = {}, action = null } = nativeEvent;
+  // Radius Change event
+  const handleRadiusScroll = debounce((value: number) => {
+    setRadius(value);
+  }, 100);
 
-      if (!action) {
-        const region: ILocation = {
-          latitude: coordinate.latitude,
-          longitude: coordinate.longitude,
-          latitudeDelta: location.latitudeDelta,
-          longitudeDelta: location.longitudeDelta,
-        };
+  function onRadiusScroll(value: number) {
+    handleRadiusScroll(value);
+  }
+  // Spot Photo and Operation Hour
+  async function onSpotPress(place: IPlace) {
+    const detail = await getPlaceOpeningHours(place.place_id);
+    setOpenHours(detail);
+  }
 
-        // mapRef.current.animateToRegion(region, 100);
-        setLocation(region);
-      }
-    },
-    [location, setLocation],
-  );
+  const getPhotoUrl = (place: IPlace) =>
+    place.photos && place.photos.length > 0
+      ? getPlacePhoto(place.photos[0].photo_reference)
+      : '';
 
-  const onRegionChangeComplete = useCallback(
-    (region: ILocation) => setLocation(region),
-    [setLocation],
-  );
-
-  const onDistancePress = useCallback(() => {
-    if (markers.length >= 2) {
-      setDistanceMode((currentState) => !currentState);
-    } else {
-      Alert.alert('距離計測', 'ピンが2つ必要です');
-    }
-  }, [markers, setDistanceMode]);
-
-  // prettier-ignore
-  const onAddButtonPress = useCallback((marker?: IMarker | null) => {
-    setDistanceMode(false);
-
-    setEditMarker(
-      marker && marker.key
-        ? marker
-        : {
-            latitude: location.latitude,
-            longitude: location.longitude,
-            // TODO
-            radius: 0,
-            // TODO
-            color: "#000",
-            // TODO
-            unit: "km"
-          }
-    );
-
-    setModalVisible(true);
-  }, [location, setDistanceMode, setModalVisible]);
-
-  const onLocationButtonPress = useCallback(() => {
-    setDistanceMode(false);
-
-    if (!here.latitude || !here.longitude) {
-      Alert.alert('位置情報無効', '位置情報を有効にしてください');
-    } else {
-      // TODO
-    }
-  }, [here, setDistanceMode]);
-
-  // prettier-ignore
-  const onCenterPinCalloutPress = useCallback(() => onAddButtonPress(), [onAddButtonPress]);
-  // prettier-ignore
-  const onMarkerPinCalloutPress = useCallback((marker: IMarker) => onAddButtonPress(marker), [onAddButtonPress]);
-  // prettier-ignore
-  const onSearchFocus = useCallback(() => setDistanceMode(false), [setDistanceMode]);
-
-  const onSearchSubmit = useCallback(() => {
-    if (keyword) {
-      Location.geocodeAsync(keyword).then((r) => {
-        if (r.length) {
-          const region: ILocation = {
-            latitude: r[0].latitude,
-            longitude: r[0].longitude,
-            latitudeDelta: location.latitudeDelta,
-            longitudeDelta: location.longitudeDelta,
-          };
-
-          setLocation(region);
-
-          // mapRef.current.animateToRegion(region, 1);
-        } else {
-          // TODO if no result
-        }
-      });
-    }
-  }, []);
-
-  const onPinDelete = useCallback(
-    (marker: IMarker) => {
-      // prettier-ignore
-      setMarkers(markers.filter(m => !(m.latitude === marker.latitude && m.longitude === marker.longitude)))
-    },
-    [markers, setMarkers],
-  );
-
-  const onPinCreate = useCallback(
-    (marker: IMarker) => {
-      if (marker.key) {
-        setMarkers(
-          markers.map((m) => {
-            // prettier-ignore
-            if (m.latitude === marker.latitude && m.longitude === marker.longitude ) {
-            return {
-              ...m,
-              key: `${marker.longitude + marker.latitude + accuracy + marker.radius}`,
-              radius: marker.radius,
-              color: marker.color
-            };
-          }
-
-            return m;
-          }),
-        );
-      } else {
-        setMarkers([
-          ...markers,
-          {
-            ...marker,
-            // prettier-ignore
-            key: `${marker.longitude + marker.latitude + accuracy + marker.radius}`
-          },
-        ]);
-
-        setPinCount((currentState) => currentState + 1);
-      }
-    },
-    [markers, setMarkers, setPinCount],
-  );
-
-  const onLinePress = useCallback((i = 0) => {
-    setActiveLine(i);
-  }, []);
-
-  useEffect(() => {
-    // TODO
-  }, []);
-
-  useEffect(() => {
-    // TODO
-  }, []);
-
-  useEffect(() => {
-    // TODO
-  }, []);
-
-  const delta = useMemo(
-    () =>
-      location.latitudeDelta > location.longitudeDelta
-        ? location.latitudeDelta
-        : location.longitudeDelta,
-    [location],
-  );
-
-  /** マーカー */
-  const Markers = markers.map((marker) => (
-    <MapPin
-      key={marker.key}
-      location={{
-        latitude: marker.latitude,
-        longitude: marker.longitude,
-        timestamp: 0,
-      }}
-      accuracy={accuracy}
-    >
-      MapPin
-    </MapPin>
-  ));
-
-  /** 円 */
-  const Circle =
-    !distanceMode &&
-    markers.map((marker) => (
-      <MapCircle
-        key={marker.key}
-        location={marker}
-        color={marker.color}
-        radius={marker.radius}
-      />
-    ));
-
-  /** 現在位置 */
-  const Here = <MapHere location={here} accuracy={accuracy} delta={delta} />;
-
-  /** 中央 */
-  const CenterPin =
-    !distanceMode && !isModalVisible ? (
-      <MapPin
-        center
-        location={{
-          latitude: location.latitude,
-          longitude: location.longitude,
-          timestamp: 0,
-        }}
-        accuracy={accuracy}
-      >
-        MapPin
-      </MapPin>
-    ) : null;
-
-  /** ライン */
-  const Line =
-    here.timestamp && !distanceMode && !isModalVisible ? (
-      <Polyline
-        key={(
-          here.longitude +
-          here.latitude +
-          location.longitude +
-          location.latitude +
-          accuracy +
-          here.timestamp +
-          3000 * delta
-        ).toString()}
-        coordinates={[
-          {
-            latitude: here.latitude,
-            longitude: here.longitude,
-          },
-          {
-            latitude: location.latitude,
-            longitude: location.longitude,
-          },
-        ]}
-        strokeWidth={2}
-        strokeColor="rgba(0,0,0,0.3)"
-      />
-    ) : null;
+  // add Spot to recommend list
+  function onAddSpot(place: IPlace) {
+    console.log(spots.indexOf(place));
+    if (spots.indexOf(place) < 0) updateSpots((prev) => [...prev, place]);
+  }
 
   return (
     <>
@@ -300,27 +112,114 @@ const SearchMapScreen: React.FC = () => {
         style={thisStyle.map}
         ref={mapRef}
         initialRegion={location}
-        onPress={onMapPress}
-        // onRegionChangeComplete={onRegionChangeConplete}
       >
-        {Line}
-        {Here}
-        {Markers}
-        {Circle}
-        {CenterPin}
-        {/* Lines */}
-        {/* Distance */}
-        {/* <Text style={appTextStyle.defaultText}>保存済みスポット</Text> */}
-        {/* TODO ピンポイントで保存したスポットを小さな画像で表示 */}
-        {/* TODO 縮尺ボタンを表示したい */}
-        <View style={{ marginLeft: 10 }} />
-        <SmallCompleteButton
-          title="スポットを保存"
-          onPress={onCompleteButtonPress}
+        <MapCircle
+          location={location}
+          radius={radius * 100}
+          color="#FFA50040"
         />
-        <View style={{ width: 20, marginRight: 10 }} />
-        <SmallCompleteButton title="決定" onPress={onCompleteButtonPress} />
+        {places?.map((place) => (
+          <Marker
+            description={place.name}
+            coordinate={{
+              latitude: place.geometry.location.lat,
+              longitude: place.geometry.location.lng,
+            }}
+            pinColor="orange"
+            key={place.id}
+            // image={{ uri: place.icon, width: 15, height: 15 }}
+            onPress={() => onSpotPress(place)}
+          >
+            <Callout alphaHitTest>
+              <View>
+                <Text style={{ width: 200, flexWrap: 'wrap' }}>
+                  {place.name}
+                </Text>
+                <View
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    marginTop: 5,
+                  }}
+                >
+                  <Text>
+                    <Image
+                      source={{
+                        uri: getPhotoUrl(place),
+                      }}
+                      style={{ width: 120, height: 90 }}
+                      resizeMode="stretch"
+                    />
+                  </Text>
+                  <View style={{ marginLeft: 10 }}>
+                    <Text>営業時間</Text>
+                    <Text style={{ width: 100 }}>{openHours}</Text>
+                    <CalloutSubview
+                      onPress={() => onAddSpot(place)}
+                      style={[thisStyle.calloutButton]}
+                    >
+                      <Text style={{ color: '#fff' }}>追加</Text>
+                    </CalloutSubview>
+                  </View>
+                </View>
+              </View>
+            </Callout>
+          </Marker>
+        ))}
       </MapView>
+      {/* <SearchBar
+        placeholder="Type Here..."
+        style={{ position: 'absolute', top: 10 }}
+      /> */}
+      <View style={thisStyle.bottomPanel}>
+        <View style={thisStyle.halfView}>
+          <View style={{ flex: 1 }}>
+            <View style={thisStyle.spotsContainer}>
+              <Text style={{ fontSize: 10, marginLeft: 10 }}>
+                保存済みスポット
+              </Text>
+              <FlatList
+                data={spots}
+                renderItem={({ item }) => (
+                  <Image
+                    source={{ uri: getPhotoUrl(item) }}
+                    style={thisStyle.spotImage}
+                    resizeMode="stretch"
+                    key={item.place_id}
+                  />
+                )}
+                horizontal
+              />
+            </View>
+          </View>
+          <View style={{ flex: 1 }}>
+            <Slider
+              value={radius}
+              minimumValue={0}
+              maximumValue={50}
+              thumbStyle={{ width: 10, height: 10, backgroundColor: '#000' }}
+              trackStyle={{ height: 1 }}
+              onValueChange={onRadiusScroll}
+              style={{ marginLeft: 20, marginRight: 20 }}
+            />
+          </View>
+        </View>
+        <View style={thisStyle.halfView}>
+          <View style={thisStyle.buttonContainer}>
+            <SmallCompleteButton
+              title="スポットを保存"
+              onPress={onCompleteButtonPress}
+            />
+          </View>
+          <View style={thisStyle.buttonContainer}>
+            <SmallCompleteButton
+              title="スポットを保存"
+              onPress={onCompleteButtonPress}
+            />
+          </View>
+        </View>
+      </View>
+
       {/* TODO MapHeader */}
     </>
   );
@@ -330,6 +229,42 @@ const SearchMapScreen: React.FC = () => {
 const thisStyle = StyleSheet.create({
   map: {
     height: '100%',
+  },
+  bottomPanel: {
+    backgroundColor: '#fff',
+    position: 'absolute',
+    bottom: 0,
+    height: 100,
+    width: '100%',
+  },
+  halfView: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  buttonContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  spotsContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    height: 30,
+    marginTop: 5,
+  },
+  calloutButton: {
+    width: 'auto',
+    backgroundColor: COLOR.tintColor,
+    paddingHorizontal: 6,
+    paddingVertical: 6,
+    borderRadius: 6,
+    alignItems: 'center',
+    marginRight: 10,
+    marginVertical: 10,
+  },
+  spotImage: {
+    width: 30,
+    height: 30,
+    marginLeft: 5,
   },
 });
 

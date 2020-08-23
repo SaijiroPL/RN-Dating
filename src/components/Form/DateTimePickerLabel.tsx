@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 // from app
 import { formatDate, toDate } from 'app/src/utils/DateUtil';
@@ -47,7 +47,7 @@ export const DateTimePickerLabel: React.FC<Props> = (props: Props) => {
     return toDate(maxDate) || undefined;
   }, [maxDate]);
 
-  const [mode, setMode] = React.useState<'date' | 'time'>('date')
+  const [mode, setMode] = React.useState<'date' | 'time'>('date');
   const [show, setShow] = useState(false);
 
   const showDatepicker = () => {
@@ -61,7 +61,7 @@ export const DateTimePickerLabel: React.FC<Props> = (props: Props) => {
   const onChange = (selectedDate: Date) => {
     const currentDate = selectedDate || date;
     setShow(false);
-    setDate(formatDate(currentDate, 'YYYY-MM-DD HH:mm'))
+    setDate(formatDate(currentDate, 'YYYY-MM-DD HH:mm'));
   };
 
   const showMode = (currentMode: 'date' | 'time') => {
@@ -72,8 +72,12 @@ export const DateTimePickerLabel: React.FC<Props> = (props: Props) => {
   // TODO スタイリング
   return (
     <View style={thisStyle.containerView}>
-      <Text style={thisStyle.displayText} onPress={showDatepicker}>{strDate}</Text>
-      <Text style={thisStyle.displayText} onPress={showTimepicker}>{strTime}</Text>
+      <Text style={thisStyle.displayText} onPress={showDatepicker}>
+        {strDate}
+      </Text>
+      <Text style={thisStyle.displayText} onPress={showTimepicker}>
+        {strTime}
+      </Text>
       <DateTimePickerModal
         isVisible={show}
         mode={mode}

@@ -3,7 +3,10 @@
     "target": "es6",
     "module": "commonjs",
     // "lib": ["dom", "dom.iterable", "esnext"],
-    "lib": ["es2015", "es2016"],
+    "lib": [
+      "es2015",
+      "es2016"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -18,14 +21,27 @@
     "jsx": "react-native",
     "baseUrl": "./",
     "paths": {
-      "app/*": ["./*"]
+      "app/*": [
+        "./*"
+      ]
     },
     "experimentalDecorators": true,
-    "typeRoots": ["node_modules/@types"],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
     "outDir": "build",
     "rootDir": "src"
   },
   "compileOnSave": false,
-  "include": ["src"],
-  "exclude": ["node_modules", "App.js", "App.test.js", "build"]
+  "include": [
+    "src",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "App.js",
+    "App.test.js",
+    "build"
+  ]
 }

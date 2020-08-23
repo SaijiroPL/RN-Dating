@@ -102,8 +102,9 @@ const CreatePlanTopScreen: React.FC = () => {
       {fromDate === '' || (!car && !train && !bus && !walk) ? (
         <SmallCompleteButton title="決定" disabled />
       ) : (
-          <SmallCompleteButton title="決定" onPress={onCompleteButtonPress} />
-        )}
+        <SmallCompleteButton title="決定" onPress={onCompleteButtonPress} />
+      )}
+      <View style={{ marginBottom: 10 }} />
     </View>
   );
 };
