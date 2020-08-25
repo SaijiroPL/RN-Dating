@@ -17,7 +17,11 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.datehq.onedate",
+      "config": {
+        "googleMapsApiKey": "AIzaSyDuF01hShexTHU9FI2u28U9-fmSVBUNmEk"
+      }
     },
     "packagerOpts": {
       "sourceExts": ["ts", "tsx", "js"],

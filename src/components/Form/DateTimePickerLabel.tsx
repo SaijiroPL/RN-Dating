@@ -24,7 +24,7 @@ export const DateTimePickerLabel: React.FC<Props> = (props: Props) => {
   }, [date]);
 
   const strDate = useMemo(() => {
-    return formatDate(datetime, 'M/D');
+    return formatDate(datetime, 'D/M');
   }, [datetime]);
 
   const strTime = useMemo(() => {
