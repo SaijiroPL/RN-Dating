@@ -1,8 +1,15 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { useState, useCallback, useEffect, useRef } from 'react';
-import { StyleSheet, Image, View, Text, FlatList } from 'react-native';
+import {
+  TouchableHighlight,
+  StyleSheet,
+  Image,
+  View,
+  Text,
+  FlatList,
+  Alert,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
 import { Slider, Button, Overlay, CheckBox } from 'react-native-elements';
 import MapView, {
   Marker,
@@ -21,6 +28,7 @@ import { SmallCompleteButton } from 'app/src/components/Button/SmallCompleteButt
 import { useGooglePlace } from 'app/src/hooks';
 import { COLOR, SPOT_TYPE } from 'app/src/constants';
 
+/** マップからスポット範囲指定画面 */
 const SearchMapScreen: React.FC = () => {
   const { navigate } = useNavigation();
 
@@ -32,24 +40,30 @@ const SearchMapScreen: React.FC = () => {
   });
 
   const [radius, setRadius] = useState(7);
-  const [openHours, setOpenHours] = useState<string>('...');
-  const [spots, updateSpots] = useState<IPlace[]>([]);
+  const [openHours, setOpenHours] = useState<{ [key: string]: string }>({});
+  const [currentOpHour, setCurrentOpHour] = useState('');
+  const [spots, setSpots] = useState<IPlace[]>([]);
+  const [typesPopup, setTypesPopup] = useState(false);
+  const [spotChecked, setSpotChecked] = useState<boolean[]>([]);
 
   const {
     searchNearbyPlace,
     getPlacePhoto,
+    getPlaceDetail,
     getPlaceOpeningHours,
     places,
-  } = googlePlace();
+    setPlaces,
+    API_KEY,
+  } = useGooglePlace();
 
   const onCompleteButtonPress = useCallback(() => {
     navigate('Flick');
-    console.log('complete');
+    // console.log('complete');
   }, []);
 
   useEffect(() => {
     searchNearbyPlace(location, radius * 100, 'bar');
-  }, [radius]);
+  }, [location.latitude, location.longitude, radius]);
 
   // useEffect(() => {
   //   if (nextToken) {
@@ -59,7 +73,24 @@ const SearchMapScreen: React.FC = () => {
   //   }
   // }, [nextToken]);
 
+  useEffect(() => {
+    const checked: boolean[] = [];
+    for (let i = 0; i < SPOT_TYPE.length; i += 1) {
+      checked.push(false);
+    }
+    setSpotChecked(checked);
+  }, [SPOT_TYPE]);
+
   const mapRef = useRef(null);
+
+  // map region changed
+  const handleMapMoved = debounce((newRegion: Region) => {
+    setLocation(newRegion);
+  }, 100);
+
+  function onRegionChange(newRegion: Region) {
+    handleMapMoved(newRegion);
+  }
 
   // Radius Change event
   const handleRadiusScroll = debounce((value: number) => {
@@ -71,20 +102,181 @@ const SearchMapScreen: React.FC = () => {
   }
   // Spot Photo and Operation Hour
   async function onSpotPress(place: IPlace) {
-    const detail = await getPlaceOpeningHours(place.place_id);
-    setOpenHours(detail);
+    if (!openHours[place.place_id]) {
+      const openHours = await getPlaceOpeningHours(place.place_id);
+      if (openHours) {
+        setOpenHours((prev) => {
+          const obj = prev;
+          obj[place.place_id] = formatPlaceOpeningHours(openHours);
+
+          return obj;
+        });
+        setCurrentOpHour(formatPlaceOpeningHours(openHours));
+      }
+    } else {
+      setCurrentOpHour(openHours[place.place_id]);
+    }
+  }
+
+  const formatOpHour = (value: string) =>
+    `${value.slice(0, 2)}:${value.slice(2, 4)}`;
+
+  function formatPlaceOpeningHours(opHour: IPlaceOpenHour) {
+    if (opHour.periods) {
+      const dayHour = opHour.periods[0];
+      if (dayHour && dayHour.close) {
+        return `${formatOpHour(dayHour.open.time)} - ${formatOpHour(
+          dayHour.close.time,
+        )}`;
+      }
+
+      return '24時間営業';
+    }
+
+    return '';
   }
 
   const getPhotoUrl = (place: IPlace) =>
     place.photos && place.photos.length > 0
       ? getPlacePhoto(place.photos[0].photo_reference)
-      : '';
+      : 'https://via.placeholder.com/120x90?text=No+Image';
 
   // add Spot to recommend list
-  function onAddSpot(place: IPlace) {
-    console.log(spots.indexOf(place));
-    if (spots.indexOf(place) < 0) updateSpots((prev) => [...prev, place]);
+  async function onAddSpot(place: IPlace) {
+    if (spots.indexOf(place) < 0) {
+      setSpots((prev) => [...prev, place]);
+      setPlaces((prev) =>
+        prev.filter((item) => item.place_id !== place.place_id),
+      );
+    }
   }
+
+  // get place detail on autocomplete
+  async function onAutoComplete(details: any) {
+    const detail = await getPlaceDetail(details.place_id);
+    if (detail) {
+      setPlaces((prev) => [...prev, detail]);
+      // setLocation((prev) => {
+      //   return {
+      //     ...prev,
+      //     latitude: detail.geometry.location.lat,
+      //     longitude: detail.geometry.location.lng,
+      //   };
+      // });
+      var newLocation = {
+        latitude: detail.geometry.location.lat,
+        longitude: detail.geometry.location.lng,
+        latitudeDelta: location.latitudeDelta,
+        longitudeDelta: location.longitudeDelta,
+      };
+      console.log(location, 'location1');
+      onRegionChange(newLocation);
+      console.log(newLocation, 'new');
+    }
+  }
+
+  // autoComplete Object
+  const autoComplete = () => (
+    <GooglePlacesAutocomplete
+      placeholder="Search"
+      onPress={(details) => {
+        onAutoComplete(details);
+      }}
+      query={{
+        key: API_KEY,
+        language: 'ja',
+      }}
+      renderRightButton={() => (
+        <View
+          style={{
+            marginRight: 10,
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: '#dedede',
+              height: 30,
+              width: 2,
+              marginRight: 10,
+            }}
+          />
+          <Button
+            onPress={() => {
+              setTypesPopup(true);
+            }}
+            icon={() => (
+              <Entypo name="dots-three-horizontal" size={24} color="#dedede" />
+            )}
+            buttonStyle={{
+              backgroundColor: 'white',
+            }}
+          />
+        </View>
+      )}
+      styles={{
+        container: thisStyle.headerContainer,
+        textInputContainer: thisStyle.headerTextInputContainer,
+        textInput: thisStyle.headerTextInput,
+        listView: thisStyle.headerListView,
+        powered: {
+          height: 0,
+        },
+        poweredContainer: {
+          height: 0,
+        },
+      }}
+    />
+  );
+
+  const renderMarker = (place: IPlace, color: string) => (
+    <Marker
+      description={place.name}
+      coordinate={{
+        latitude: place.geometry.location.lat,
+        longitude: place.geometry.location.lng,
+      }}
+      pinColor={color}
+      key={place.id}
+      onPress={() => onSpotPress(place)}
+      onCalloutPress={() => onAddSpot(place)}
+    >
+      <Callout alphaHitTest>
+        <View>
+          <Text style={{ width: 200, flexWrap: 'wrap' }}>{place.name}</Text>
+          <View
+            style={{
+              // display: 'flex',
+              flexDirection: 'row',
+              marginTop: 5,
+            }}
+          >
+            <Text>
+              <Image
+                source={{
+                  uri: getPhotoUrl(place),
+                }}
+                style={{ width: 120, height: 90 }}
+                resizeMode="stretch"
+              />
+            </Text>
+            <View style={{ marginLeft: 10, flexDirection: 'column' }}>
+              <Text>営業時間</Text>
+              <Text style={{ width: 100 }}>{currentOpHour}</Text>
+              <TouchableHighlight
+                onPress={() => onAddSpot(place)}
+                style={[thisStyle.calloutButton]}
+              >
+                <Text style={{ color: '#fff' }}>追加</Text>
+              </TouchableHighlight>
+            </View>
+          </View>
+        </View>
+      </Callout>
+    </Marker>
+  );
 
   return (
     <>
@@ -103,84 +295,59 @@ const SearchMapScreen: React.FC = () => {
         style={thisStyle.map}
         ref={mapRef}
         initialRegion={location}
+        onRegionChange={onRegionChange}
       >
         <MapCircle
           location={location}
           radius={radius * 100}
           color="#FFA50040"
         />
-        {places?.map((place) => (
-          <Marker
-            description={place.name}
-            coordinate={{
-              latitude: place.geometry.location.lat,
-              longitude: place.geometry.location.lng,
-            }}
-            pinColor="orange"
-            key={place.id}
-            // image={{ uri: place.icon, width: 15, height: 15 }}
-            onPress={() => onSpotPress(place)}
-          >
-            <Callout alphaHitTest>
-              <View>
-                <Text style={{ width: 200, flexWrap: 'wrap' }}>
-                  {place.name}
-                </Text>
-                <View
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    marginTop: 5,
-                  }}
-                >
-                  <Text>
-                    <Image
-                      source={{
-                        uri: getPhotoUrl(place),
-                      }}
-                      style={{ width: 120, height: 90 }}
-                      resizeMode="stretch"
-                    />
-                  </Text>
-                  <View style={{ marginLeft: 10 }}>
-                    <Text>営業時間</Text>
-                    <Text style={{ width: 100 }}>{openHours}</Text>
-                    <CalloutSubview
-                      onPress={() => onAddSpot(place)}
-                      style={[thisStyle.calloutButton]}
-                    >
-                      <Text style={{ color: '#fff' }}>追加</Text>
-                    </CalloutSubview>
-                  </View>
-                </View>
-              </View>
-            </Callout>
-          </Marker>
-        ))}
+        {places?.map((place) => renderMarker(place, 'orange'))}
+        {spots.map((place) => renderMarker(place, 'green'))}
       </MapView>
-      {/* <SearchBar
-        placeholder="Type Here..."
-        style={{ position: 'absolute', top: 10 }}
-      /> */}
+      <View
+        style={{
+          position: 'absolute',
+          top: 20,
+          width: '90%',
+          marginHorizontal: '5%',
+        }}
+      >
+        {autoComplete()}
+      </View>
+      <Overlay
+        isVisible={typesPopup}
+        windowBackgroundColor="rgba(0, 0, 0, .5)"
+        overlayBackgroundColor="white"
+        onBackdropPress={() => {
+          setTypesPopup(false);
+        }}
+        width="auto"
+        height={500}
+      >
+        <FlatList
+          data={SPOT_TYPE}
+          renderItem={({ item, index }) => (
+            <CheckBox
+              title={item.title}
+              checked={spotChecked[index]}
+              onPress={() => {
+                const arrChecked = [...spotChecked];
+                arrChecked[index] = !arrChecked[index];
+                setSpotChecked(arrChecked);
+              }}
+            />
+          )}
+          keyExtractor={(item) => item.id}
+        />
+      </Overlay>
       <View style={thisStyle.bottomPanel}>
         <View style={thisStyle.halfView}>
           <View style={{ flex: 1 }}>
             <View style={thisStyle.spotsContainer}>
-              <Text style={{ fontSize: 10, marginLeft: 10 }}>
+              <Text style={{ fontSize: 10, marginLeft: 10, marginTop: 10 }}>
                 保存済みスポット
               </Text>
-              <FlatList
-                data={spots}
-                renderItem={({ item }) => (
-                  <Image
-                    source={{ uri: getPhotoUrl(item) }}
-                    style={thisStyle.spotImage}
-                    resizeMode="stretch"
-                    key={item.place_id}
-                  />
-                )}
-                horizontal
-              />
             </View>
           </View>
           <View style={{ flex: 1 }}>
@@ -196,22 +363,35 @@ const SearchMapScreen: React.FC = () => {
           </View>
         </View>
         <View style={thisStyle.halfView}>
-          <View style={thisStyle.buttonContainer}>
-            <SmallCompleteButton
-              title="スポットを保存"
-              onPress={onCompleteButtonPress}
-            />
-          </View>
-          <View style={thisStyle.buttonContainer}>
-            <SmallCompleteButton
-              title="スポットを保存"
-              onPress={onCompleteButtonPress}
+          <View>
+            <FlatList
+              data={spots}
+              renderItem={({ item }) => (
+                <Image
+                  source={{ uri: getPhotoUrl(item) }}
+                  style={thisStyle.spotImage}
+                  resizeMode="stretch"
+                  key={item.place_id}
+                />
+              )}
+              horizontal
             />
           </View>
         </View>
+        <View style={thisStyle.bottomPanelButton}>
+          {spots.length ? (
+            <View style={thisStyle.buttonContainer}>
+              <SmallCompleteButton
+                title="スポツトを保存"
+                onPress={onCompleteButtonPress}
+              />
+            </View>
+          ) : null}
+          <View style={thisStyle.buttonContainer}>
+            <SmallCompleteButton title="決定" onPress={onCompleteButtonPress} />
+          </View>
+        </View>
       </View>
-
-      {/* TODO MapHeader */}
     </>
   );
 };
@@ -225,22 +405,27 @@ const thisStyle = StyleSheet.create({
     backgroundColor: '#fff',
     position: 'absolute',
     bottom: 0,
-    height: 100,
+    height: 130,
     width: '100%',
   },
   halfView: {
     display: 'flex',
     flexDirection: 'row',
   },
-  buttonContainer: {
-    flex: 1,
+  bottomPanelButton: {
+    flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
+  },
+  buttonContainer: {
+    alignItems: 'center',
+    padding: 5,
   },
   spotsContainer: {
     display: 'flex',
     flexDirection: 'row',
-    height: 30,
-    marginTop: 5,
+    height: 40,
+    marginTop: 10,
   },
   calloutButton: {
     width: 'auto',
@@ -251,11 +436,42 @@ const thisStyle = StyleSheet.create({
     alignItems: 'center',
     marginRight: 10,
     marginVertical: 10,
+    zIndex: 10,
   },
   spotImage: {
     width: 30,
     height: 30,
     marginLeft: 5,
+  },
+  headerContainer: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
+    backgroundColor: '#fff',
+    borderRadius: 5,
+  },
+  headerTextInputContainer: {
+    backgroundColor: 'rgba(0, 0, 0, 0)',
+    // backgroundColor: '#000',
+    borderTopWidth: 0,
+    borderBottomWidth: 0,
+    alignItems: 'center',
+  },
+  headerTextInput: {
+    marginLeft: 0,
+    marginRight: 0,
+    marginTop: 2,
+    height: 38,
+    margin: 'auto',
+    color: '#5d5d5d',
+    fontSize: 16,
+  },
+  headerListView: {
+    backgroundColor: '#fff',
+    marginHorizontal: 5,
+    marginTop: 2,
   },
 });
 

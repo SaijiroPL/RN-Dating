@@ -92,10 +92,10 @@ const AppTopScreen: React.FC = () => {
 
   /** メールアドレスログインボタン押下時の処理 */
   const onSignInButtonPress = useCallback(async (): Promise<void> => {
-    const result = await loginByEmail(emailAtSignin, passAtSignin);
-    if (result) {
-      navigate('Main');
-    }
+    // const result = await loginByEmail(emailAtSignin, passAtSignin);
+    // if (result) {
+    navigate('Main');
+    // }
   }, [emailAtSignin, passAtSignin]);
 
   /** 新規登録ボタン押下時の処理 */

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Button, Footer, Text } from 'native-base';
+import { Button, Footer, Text, Left, Right } from 'native-base';
 
 // from app
 import { LAYOUT, COLOR } from 'app/src/constants';
@@ -28,9 +28,23 @@ export const CompleteFooterButton: React.FC<Props> = (props: Props) => {
 
   return (
     <Footer style={thisStyle.touchable}>
-      <Button transparent onPress={onPress} style={thisStyle.button}>
-        <Text style={appTextStyle.whiteText}>{title}</Text>
-      </Button>
+      <Left style={{ flexDirection: 'row' }}>
+        <Text note>ト厳選画面</Text>
+        <Text note style={{ marginLeft: 10 }}>
+          3ト
+        </Text>
+        <Text note style={{ marginLeft: 20 }}>
+          ト厳選画面
+        </Text>
+        <Text note style={{ marginLeft: 10 }}>
+          3:00
+        </Text>
+      </Left>
+      <Right>
+        <Button onPress={onPress} style={thisStyle.button}>
+          <Text style={appTextStyle.whiteText}>{title}</Text>
+        </Button>
+      </Right>
     </Footer>
   );
 };
@@ -43,15 +57,20 @@ CompleteFooterButton.defaultProps = {
 /** スタイリング */
 const thisStyle = StyleSheet.create({
   touchable: {
-    backgroundColor: COLOR.tintColor,
-    height: LAYOUT.window.height * 0.03,
+    backgroundColor: COLOR.greyColor,
+    height: LAYOUT.window.height * 0.04,
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
   },
   disTouchable: {
-    backgroundColor: COLOR.baseBackgroundColor,
-    height: LAYOUT.window.height * 0.03,
+    backgroundColor: COLOR.greyColor,
+    height: LAYOUT.window.height * 0.04,
+    padding: 5,
   },
   button: {
     justifyContent: 'center',
-    width: LAYOUT.window.width,
+    backgroundColor: COLOR.tintColor,
+    width: LAYOUT.window.width * 0.3,
   },
 });

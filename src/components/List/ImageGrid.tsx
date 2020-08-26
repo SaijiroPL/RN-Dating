@@ -13,24 +13,114 @@ export const ImageGrid: React.FC = () => {
     <Grid>
       <Col>
         <Row style={thisStyle.box}>
-          <Image style={thisStyle.image} source={IMAGE.noImage} />
+          <Image
+            style={thisStyle.image}
+            source={{
+              uri:
+                'https://i.pinimg.com/originals/5b/55/88/5b5588af841070a2284ea76e2042dd9d.jpg',
+            }}
+          />
         </Row>
         <Row style={thisStyle.box}>
-          <Image style={thisStyle.image} source={IMAGE.noImage} />
+          <Image
+            style={thisStyle.image}
+            source={{
+              uri:
+                'https://i.pinimg.com/originals/5b/55/88/5b5588af841070a2284ea76e2042dd9d.jpg',
+            }}
+          />
         </Row>
         <Row style={thisStyle.box}>
-          <Image style={thisStyle.image} source={IMAGE.noImage} />
+          <Image
+            style={thisStyle.image}
+            source={{
+              uri:
+                'https://i.pinimg.com/originals/5b/55/88/5b5588af841070a2284ea76e2042dd9d.jpg',
+            }}
+          />
+        </Row>
+        <Row style={thisStyle.box}>
+          <Image
+            style={thisStyle.image}
+            source={{
+              uri:
+                'https://i.pinimg.com/originals/5b/55/88/5b5588af841070a2284ea76e2042dd9d.jpg',
+            }}
+          />
+        </Row>
+        <Row style={thisStyle.box}>
+          <Image
+            style={thisStyle.image}
+            source={{
+              uri:
+                'https://i.pinimg.com/originals/5b/55/88/5b5588af841070a2284ea76e2042dd9d.jpg',
+            }}
+          />
+        </Row>
+        <Row style={thisStyle.box}>
+          <Image
+            style={thisStyle.image}
+            source={{
+              uri:
+                'https://i.pinimg.com/originals/5b/55/88/5b5588af841070a2284ea76e2042dd9d.jpg',
+            }}
+          />
         </Row>
       </Col>
       <Col>
         <Row style={thisStyle.box}>
-          <Image style={thisStyle.image} source={IMAGE.noImage} />
+          <Image
+            style={thisStyle.image}
+            source={{
+              uri:
+                'https://i.pinimg.com/originals/5b/55/88/5b5588af841070a2284ea76e2042dd9d.jpg',
+            }}
+          />
         </Row>
         <Row style={thisStyle.box}>
-          <Image style={thisStyle.image} source={IMAGE.noImage} />
+          <Image
+            style={thisStyle.image}
+            source={{
+              uri:
+                'https://i.pinimg.com/originals/5b/55/88/5b5588af841070a2284ea76e2042dd9d.jpg',
+            }}
+          />
         </Row>
         <Row style={thisStyle.box}>
-          <Image style={thisStyle.image} source={IMAGE.noImage} />
+          <Image
+            style={thisStyle.image}
+            source={{
+              uri:
+                'https://i.pinimg.com/originals/5b/55/88/5b5588af841070a2284ea76e2042dd9d.jpg',
+            }}
+          />
+        </Row>
+        <Row style={thisStyle.box}>
+          <Image
+            style={thisStyle.image}
+            source={{
+              uri:
+                'https://i.pinimg.com/originals/5b/55/88/5b5588af841070a2284ea76e2042dd9d.jpg',
+            }}
+          />
+        </Row>
+        <Row style={thisStyle.box}>
+          <Image
+            style={thisStyle.image}
+            source={{
+              uri:
+                'https://i.pinimg.com/originals/5b/55/88/5b5588af841070a2284ea76e2042dd9d.jpg',
+            }}
+          />
+        </Row>
+        <Row style={thisStyle.box}>
+          <Image
+            style={thisStyle.image}
+            source={{
+              uri:
+                'https://i.pinimg.com/originals/5b/55/88/5b5588af841070a2284ea76e2042dd9d.jpg',
+            }}
+          />
         </Row>
       </Col>
     </Grid>

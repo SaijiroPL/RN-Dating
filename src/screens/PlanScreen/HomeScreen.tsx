@@ -19,6 +19,73 @@ const HomeScreen: React.FC = () => {
     onRefresh,
   } = useGetPlanList();
 
+  // temp plan data
+  const temp_plans: any[] = [
+    {
+      plan_id: '1',
+      title: 'plan1',
+      description: 'i am description1',
+      create_date: '2020-08-24',
+      spots: [
+        {
+          spot_name: 'spot1',
+          latitude: 35.658606737323325,
+          longitude: 139.69814462256613,
+        },
+      ],
+      user_id: '1',
+      user_name: '花子',
+      user_attr: 'habako.des',
+      user_avatar: 'https://www.w3schools.com/howto/img_avatar.png',
+      user_image_url:
+        'https://i.pinimg.com/originals/5b/55/88/5b5588af841070a2284ea76e2042dd9d.jpg',
+      like_count: 10,
+      comment_count: 4,
+    },
+    {
+      plan_id: '2',
+      title: 'plan2',
+      description: 'i am description1',
+      create_date: '2020-08-24',
+      spots: [
+        {
+          spot_name: 'spot2',
+          latitude: 35.658606737323325,
+          longitude: 139.69814462256613,
+        },
+      ],
+      user_id: '2',
+      user_name: '花子',
+      user_attr: 'habako.des',
+      user_avatar: 'https://www.w3schools.com/howto/img_avatar.png',
+      user_image_url:
+        'https://i.pinimg.com/originals/5b/55/88/5b5588af841070a2284ea76e2042dd9d.jpg',
+      like_count: 10,
+      comment_count: 4,
+    },
+    {
+      plan_id: '3',
+      title: 'plan3',
+      description: 'i am description1',
+      create_date: '2020-08-24',
+      spots: [
+        {
+          spot_name: 'spot3',
+          latitude: 35.658606737323325,
+          longitude: 139.69814462256613,
+        },
+      ],
+      user_id: '3',
+      user_name: '花子',
+      user_attr: 'habako.des',
+      user_avatar: 'https://www.w3schools.com/howto/img_avatar.png',
+      user_image_url:
+        'https://i.pinimg.com/originals/5b/55/88/5b5588af841070a2284ea76e2042dd9d.jpg',
+      like_count: 10,
+      comment_count: 4,
+    },
+  ];
+
   /** ローディング */
   if (isPlanListLoading) {
     return LoadingSpinner;
@@ -26,11 +93,12 @@ const HomeScreen: React.FC = () => {
 
   return (
     <View style={thisStyle.container}>
-      <Text style={appTextStyle.countText}>
+      {/* <Text style={appTextStyle.countText}>
         デートプランの数: {plans.total}
-      </Text>
+      </Text> */}
       <PlanCardList
-        planList={plans.plan_list}
+        // planList={plans.plan_list}
+        planList={temp_plans}
         isRefreshing={isRefreshing}
         onRefresh={onRefresh}
       />

@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react';
-import { Image, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {
   Body,
@@ -8,10 +8,17 @@ import {
   Text,
   Button,
   Left,
+  Right,
   Thumbnail,
 } from 'native-base';
+import { Col, Row, Grid } from 'react-native-easy-grid';
 import MapView from 'react-native-maps';
-import { FontAwesome, SimpleLineIcons } from '@expo/vector-icons';
+import {
+  FontAwesome,
+  FontAwesome5,
+  SimpleLineIcons,
+  Entypo,
+} from '@expo/vector-icons';
 
 // from app
 import { COLOR, IMAGE } from 'app/src/constants';
@@ -26,6 +33,11 @@ interface Props {
 export const PlanCard: React.FC<Props> = (props: Props) => {
   const { navigate } = useNavigation();
   const { plan, myPlan } = props;
+
+  const [heart, setHeart] = useState<boolean>(false);
+  const [star, setStar] = useState<boolean>(false);
+  const [comment, setComment] = useState<boolean>(false);
+  const [head_menu, setHead_menu] = useState<boolean>(false);
 
   /** プラン押下時の処理 */
   const onPlanPress = useCallback(() => {
@@ -51,44 +63,221 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
   const PlannerHeader = (
     <CardItem>
       <Left style={thisStyle.planner}>
-        <Thumbnail source={IMAGE.noUserImage} small />
-        <Body>
-          <Text style={thisStyle.mainText} onPress={onUserPress}>
+        <Thumbnail source={{ uri: plan.user_avatar }} small />
+        <Body style={thisStyle.body}>
+          <Text
+            style={(thisStyle.mainText, [{ fontSize: 18 }])}
+            onPress={onUserPress}
+          >
             {plan.user_name}
           </Text>
-          <Text note style={thisStyle.mainText}>
+          <Text note style={(thisStyle.mainText, [{ marginLeft: 10 }])}>
             {plan.user_attr}
           </Text>
         </Body>
       </Left>
+      <Right style={{ zIndex: 100 }}>
+        <Entypo
+          name="triangle-down"
+          size={30}
+          color={COLOR.tintColor}
+          onPress={() => {
+            setHead_menu(!head_menu);
+          }}
+        />
+        {head_menu ? (
+          <View
+            style={{
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: COLOR.greyColor,
+              padding: 10,
+              position: 'absolute',
+              top: 30,
+              display: 'block',
+            }}
+          >
+            <Text>Mute</Text>
+            <Text>Report</Text>
+            <Text>Link</Text>
+          </View>
+        ) : (
+          <View
+            style={{
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: COLOR.greyColor,
+              padding: 10,
+              position: 'absolute',
+              top: 30,
+              display: 'none',
+            }}
+          >
+            <Text>Mute</Text>
+            <Text>Report</Text>
+            <Text>Link</Text>
+          </View>
+        )}
+      </Right>
     </CardItem>
+  );
+  // plan like
+  const PlannerLike = (
+    <CardItem>
+      <Left />
+      <Body />
+      <Right>
+        <Body style={thisStyle.bodylike}>
+          <Button
+            style={thisStyle.likebutton}
+            transparent
+            onPress={() => setHeart(!heart)}
+          >
+            {heart ? (
+              <FontAwesome5 name="heart" size={24} color={COLOR.tintColor} />
+            ) : (
+              <FontAwesome5 name="heart" size={24} color={COLOR.greyColor} />
+            )}
+          </Button>
+          <Button
+            style={thisStyle.likebutton}
+            transparent
+            onPress={() => setStar(!star)}
+          >
+            {star ? (
+              <Entypo name="star-outlined" size={24} color={COLOR.tintColor} />
+            ) : (
+              <Entypo name="star-outlined" size={24} color={COLOR.greyColor} />
+            )}
+          </Button>
+          <Button
+            style={thisStyle.likebutton}
+            transparent
+            onPress={() => setComment(!comment)}
+          >
+            {comment ? (
+              <FontAwesome name="comment-o" size={24} color={COLOR.tintColor} />
+            ) : (
+              <FontAwesome name="comment-o" size={24} color={COLOR.greyColor} />
+            )}
+          </Button>
+        </Body>
+      </Right>
+    </CardItem>
+  );
+  // plan footer
+  const PlannerFooter = (
+    <Grid>
+      <Row>
+        <Col onPress={onCommentPress}>
+          <CardItem style={thisStyle.footer}>
+            <Left style={thisStyle.planner}>
+              <Thumbnail source={{ uri: plan.user_avatar }} small />
+            </Left>
+            <Body>
+              <Text style={thisStyle.footerText}>{plan.user_name}</Text>
+              <Text note style={thisStyle.footerText}>
+                {plan.user_attr}
+              </Text>
+            </Body>
+            <Right>
+              <Text note style={thisStyle.footerText}>
+                11h
+              </Text>
+            </Right>
+          </CardItem>
+        </Col>
+        <Col onPress={onCommentPress}>
+          <CardItem style={thisStyle.footer}>
+            <Left style={thisStyle.planner}>
+              <Thumbnail source={{ uri: plan.user_avatar }} small />
+            </Left>
+            <Body>
+              <Text style={thisStyle.footerText}>{plan.user_name}</Text>
+              <Text note style={thisStyle.footerText}>
+                {plan.user_attr}
+              </Text>
+            </Body>
+            <Right>
+              <Text note style={thisStyle.footerText}>
+                11h
+              </Text>
+            </Right>
+          </CardItem>
+        </Col>
+      </Row>
+      <Row>
+        <Col onPress={onCommentPress}>
+          <CardItem style={thisStyle.footer}>
+            <Left style={thisStyle.planner}>
+              <Thumbnail source={{ uri: plan.user_avatar }} small />
+            </Left>
+            <Body>
+              <Text style={thisStyle.footerText}>{plan.user_name}</Text>
+              <Text note style={thisStyle.footerText}>
+                {plan.user_attr}
+              </Text>
+            </Body>
+            <Right>
+              <Text note style={thisStyle.footerText}>
+                11h
+              </Text>
+            </Right>
+          </CardItem>
+        </Col>
+        <Col onPress={onCommentPress}>
+          <CardItem style={thisStyle.footer}>
+            <Left style={thisStyle.planner}>
+              <Thumbnail source={{ uri: plan.user_avatar }} small />
+            </Left>
+            <Body>
+              <Text style={thisStyle.footerText}>{plan.user_name}</Text>
+              <Text note style={thisStyle.footerText}>
+                {plan.user_attr}
+              </Text>
+            </Body>
+            <Right>
+              <Text note style={thisStyle.footerText}>
+                11h
+              </Text>
+            </Right>
+          </CardItem>
+        </Col>
+      </Row>
+    </Grid>
   );
 
   return (
     <Card style={thisStyle.card}>
-      <TouchableOpacity onPress={onPlanPress}>
-        {!myPlan && PlannerHeader}
-        <CardItem cardBody>
-          <Image source={IMAGE.noImage} style={thisStyle.image} />
-        </CardItem>
-        <CardItem cardBody>
-          <MapView
-            region={{
-              latitude: plan.spots[0].latitude,
-              longitude: plan.spots[0].longitude,
-              latitudeDelta: 0.02,
-              longitudeDelta: 0.05,
-            }}
-            style={thisStyle.map}
-          />
-        </CardItem>
-        <CardItem style={thisStyle.description}>
+      {!myPlan && PlannerHeader}
+      <CardItem cardBody>
+        <Image source={{ uri: plan.user_image_url }} style={thisStyle.image} />
+      </CardItem>
+      <CardItem cardBody>
+        <MapView
+          region={{
+            latitude: plan.spots[0].latitude,
+            longitude: plan.spots[0].longitude,
+            latitudeDelta: 0.02,
+            longitudeDelta: 0.05,
+          }}
+          style={thisStyle.map}
+        />
+      </CardItem>
+      <CardItem style={thisStyle.description}>
+        <Left>
           <Text style={thisStyle.mainText}>{plan.title}</Text>
+        </Left>
+        <Body />
+        <Right>
           <Text note style={thisStyle.descriptionText}>
             {plan.spots.map((spot) => spot.spot_name).join(' > ')}
           </Text>
-        </CardItem>
-        <CardItem style={thisStyle.linkButtonGroup}>
+        </Right>
+      </CardItem>
+      {/* <CardItem style={thisStyle.linkButtonGroup}>
           <Button
             transparent
             style={thisStyle.linkButton}
@@ -105,8 +294,9 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
             <FontAwesome name="comment-o" size={15} color={COLOR.tintColor} />
             <Text style={thisStyle.linkButtonText}>{plan.comment_count}</Text>
           </Button>
-        </CardItem>
-      </TouchableOpacity>
+        </CardItem> */}
+      {!myPlan && PlannerLike}
+      {!myPlan && PlannerFooter}
     </Card>
   );
 };
@@ -130,15 +320,17 @@ const thisStyle = StyleSheet.create({
   },
   image: {
     flex: 1,
-    height: 150,
+    height: 180,
   },
   map: {
     flex: 1,
-    height: 150,
+    height: 200,
   },
   description: {
     alignItems: 'flex-start',
-    flexDirection: 'column',
+    flexDirection: 'row',
+    borderBottomColor: COLOR.greyColor,
+    borderBottomWidth: 1,
   },
   linkButtonGroup: {
     // backgroundColor: COLOR.baseBackgroundColor,
@@ -155,6 +347,10 @@ const thisStyle = StyleSheet.create({
     fontFamily: 'genju-medium',
     fontSize: 14,
   },
+  footerText: {
+    fontFamily: 'genju-medium',
+    fontSize: 10,
+  },
   descriptionText: {
     fontFamily: 'genju-light',
     fontSize: 12,
@@ -162,6 +358,20 @@ const thisStyle = StyleSheet.create({
   linkButtonText: {
     color: COLOR.tintColor,
     fontSize: 15,
+  },
+  body: {
+    alignItems: 'flex-end',
+    flexDirection: 'row',
+  },
+  bodylike: {
+    justifyContent: 'flex-end',
+    flexDirection: 'row',
+  },
+  likebutton: {
+    padding: 5,
+  },
+  footer: {
+    paddingLeft: 0,
   },
 });
 
