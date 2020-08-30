@@ -27,10 +27,15 @@ import { MapCircle } from 'app/src/components/MapItem';
 import { SmallCompleteButton } from 'app/src/components/Button/SmallCompleteButton';
 import { useGooglePlace } from 'app/src/hooks';
 import { COLOR, SPOT_TYPE } from 'app/src/constants';
+import { PlanCard } from 'app/src/components/Element/dist/PlanCard';
+
+import { ActionType } from 'app/src/Reducer';
+import { useDispatch } from 'app/src/Store';
 
 /** マップからスポット範囲指定画面 */
 const SearchMapScreen: React.FC = () => {
   const { navigate } = useNavigation();
+  const dispatch = useDispatch();
 
   const [location, setLocation] = useState<ILocation>({
     latitude: 35.658606737323325,
@@ -45,6 +50,7 @@ const SearchMapScreen: React.FC = () => {
   const [spots, setSpots] = useState<IPlace[]>([]);
   const [typesPopup, setTypesPopup] = useState(false);
   const [spotChecked, setSpotChecked] = useState<boolean[]>([]);
+  const [spotSaved, setSpotSaved] = useState(false);
 
   const {
     searchNearbyPlace,
@@ -56,10 +62,20 @@ const SearchMapScreen: React.FC = () => {
     API_KEY,
   } = useGooglePlace();
 
+  const setCreateTempSpots = useCallback(() => {
+    dispatch({
+      type: ActionType.SET_CREATE_TEMP_SPOTS,
+      payload: {
+        spots,
+      },
+    });
+  }, [spots]);
+
   const onCompleteButtonPress = useCallback(() => {
+    setCreateTempSpots();
     navigate('Flick');
     // console.log('complete');
-  }, []);
+  }, [setCreateTempSpots]);
 
   useEffect(() => {
     searchNearbyPlace(location, radius * 100, 'bar');
@@ -148,30 +164,23 @@ const SearchMapScreen: React.FC = () => {
       setPlaces((prev) =>
         prev.filter((item) => item.place_id !== place.place_id),
       );
+      setSpotSaved(true);
     }
   }
 
   // get place detail on autocomplete
   async function onAutoComplete(details: any) {
     const detail = await getPlaceDetail(details.place_id);
+    console.log(detail, 'jjjj');
     if (detail) {
       setPlaces((prev) => [...prev, detail]);
-      // setLocation((prev) => {
-      //   return {
-      //     ...prev,
-      //     latitude: detail.geometry.location.lat,
-      //     longitude: detail.geometry.location.lng,
-      //   };
-      // });
-      var newLocation = {
-        latitude: detail.geometry.location.lat,
-        longitude: detail.geometry.location.lng,
-        latitudeDelta: location.latitudeDelta,
-        longitudeDelta: location.longitudeDelta,
-      };
-      console.log(location, 'location1');
-      onRegionChange(newLocation);
-      console.log(newLocation, 'new');
+      setLocation((prev) => {
+        return {
+          ...prev,
+          latitude: detail.geometry.location.lat,
+          longitude: detail.geometry.location.lng,
+        };
+      });
     }
   }
 
@@ -345,7 +354,7 @@ const SearchMapScreen: React.FC = () => {
         <View style={thisStyle.halfView}>
           <View style={{ flex: 1 }}>
             <View style={thisStyle.spotsContainer}>
-              <Text style={{ fontSize: 10, marginLeft: 10, marginTop: 10 }}>
+              <Text style={{ fontSize: 10, marginLeft: 10 }}>
                 保存済みスポット
               </Text>
             </View>
@@ -364,26 +373,41 @@ const SearchMapScreen: React.FC = () => {
         </View>
         <View style={thisStyle.halfView}>
           <View>
-            <FlatList
-              data={spots}
-              renderItem={({ item }) => (
-                <Image
-                  source={{ uri: getPhotoUrl(item) }}
-                  style={thisStyle.spotImage}
-                  resizeMode="stretch"
-                  key={item.place_id}
-                />
-              )}
-              horizontal
-            />
+            {spotSaved ? (
+              <FlatList
+                data={spots}
+                renderItem={({ item }) => (
+                  <Image
+                    source={{ uri: getPhotoUrl(item) }}
+                    style={thisStyle.spotImage}
+                    resizeMode="stretch"
+                    key={item.place_id}
+                  />
+                )}
+                horizontal
+              />
+            ) : (
+              <FlatList
+                data={spots}
+                renderItem={({ item }) => (
+                  <Image
+                    source={{ uri: getPhotoUrl(item) }}
+                    style={[thisStyle.spotImage, { width: 40, height: 40 }]}
+                    resizeMode="stretch"
+                    key={item.place_id}
+                  />
+                )}
+                horizontal
+              />
+            )}
           </View>
         </View>
         <View style={thisStyle.bottomPanelButton}>
-          {spots.length ? (
+          {spotSaved ? (
             <View style={thisStyle.buttonContainer}>
               <SmallCompleteButton
                 title="スポツトを保存"
-                onPress={onCompleteButtonPress}
+                onPress={() => setSpotSaved(!spotSaved)}
               />
             </View>
           ) : null}
@@ -405,7 +429,7 @@ const thisStyle = StyleSheet.create({
     backgroundColor: '#fff',
     position: 'absolute',
     bottom: 0,
-    height: 130,
+    height: 150,
     width: '100%',
   },
   halfView: {

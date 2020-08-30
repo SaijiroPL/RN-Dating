@@ -2,8 +2,13 @@
 export interface ICandidateSpot {
   spotName: string;
   address: string;
-  description: string;
-  imageUrl?: string;
+  rating: string;
+  // description: string;
+  imageUrl: string;
   latitude: number;
   longitude: number;
+  id: string;
+  heart: boolean;
+  like: boolean;
+  openinghour: string;
 }

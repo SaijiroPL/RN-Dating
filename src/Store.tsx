@@ -17,6 +17,12 @@ const initialState: State = {
     date: '',
     transportations: [],
   },
+  createTempSpots: {
+    spots: [],
+  },
+  createRealSpots: {
+    spots: [],
+  },
 };
 
 const StoreContext = createContext<State>(initialState);
