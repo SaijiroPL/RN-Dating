@@ -9,6 +9,7 @@ import { SpotSwiper } from '../Content/dist/SpotSwiper';
 import { useGooglePlace } from 'app/src/hooks';
 import moment from 'moment';
 import { ScrollView } from 'react-native-gesture-handler';
+import { initialWindowSafeAreaInsets } from 'react-native-safe-area-context';
 
 // interface Props {}
 interface Props {
@@ -128,26 +129,21 @@ export const ImageGrid: React.FC<Props> = (props: Props) => {
         return arr;
       });
     }
-    setSetting((prev) => {
-      let arr = prev;
-      if (arr[index][0] != 'black') {
-        if (arr[index][1] == 0.2) {
-          arr[index][1] = 1;
-        } else {
-          arr[index][1] = 0.2;
-        }
+    let arr = [...setting];
+    if (arr[index][0] != 'black') {
+      if (arr[index][1] == 0.2) {
+        arr[index][1] = 1;
+      } else {
+        arr[index][1] = 0.2;
       }
-      return arr;
-    });
+    }
+    setSetting(arr);
   };
-
-  useEffect(() => {}, [setting]);
 
   const renderSpots1 = (spot, index) => {
     if (index % 2 == 0) {
       return (
         <Row style={thisStyle.box} onPress={() => imgCheck(index, spot.id)}>
-          {console.log('setting[index][1]')}
           <View
             style={[
               thisStyle.image,

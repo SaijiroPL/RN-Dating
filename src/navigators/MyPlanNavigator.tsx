@@ -3,6 +3,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 // from app
 import MyPlanScreen from 'app/src/screens/PlanScreen/MyPlanScreen';
+import MyPlanRoadScreen from 'app/src/screens/PlanScreen/MyPlanRoadScreen';
+import MyPlanArrivalScreen from 'app/src/screens/PlanScreen/MyPlanArrivalScreen';
 import PlanDetailScreen from 'app/src/screens/PlanScreen/PlanDetailScreen';
 import CommentScreen from 'app/src/screens/PlanScreen/CommentScreen';
 import LikeUserScreen from 'app/src/screens/PlanScreen/LikeUserScreen';
@@ -18,7 +20,17 @@ const MyPlanNavigator: React.FC = () => (
     <MyPlanStack.Screen
       name="Top"
       component={MyPlanScreen}
-      options={{ title: 'マイプラン' }}
+      options={{ title: 'プランを選択' }}
+    />
+    <MyPlanStack.Screen
+      name="Arrival"
+      component={MyPlanArrivalScreen}
+      options={{ title: '到着' }}
+    />
+    <MyPlanStack.Screen
+      name="Road"
+      component={MyPlanRoadScreen}
+      options={{ title: '経路' }}
     />
     <MyPlanStack.Screen
       name="Detail"

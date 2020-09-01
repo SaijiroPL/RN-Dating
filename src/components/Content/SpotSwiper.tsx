@@ -50,8 +50,8 @@ export const SpotSwiper: React.FC<Props> = (props: Props) => {
   } = useGooglePlace();
 
   const onCompleteButtonPress = () => {
-    let total = realSpots;
-    total.filter((item) => item.id !== selectedSpot.id);
+    let total = [];
+    realSpots.filter((item) => total.push(item));
     total.push(selectedSpot);
     if (
       total.filter((item) => item.heart == true).length +
@@ -73,32 +73,32 @@ export const SpotSwiper: React.FC<Props> = (props: Props) => {
 
   const { spots, selected } = props;
 
-  const [selectedSpot, setSelectedSpot] = useState<ICandidateSpot>(selected[0]);
+  const [selectedSpot, setSelectedSpot] = useState<ICandidateSpot>(spots[0]);
   const [deletedSpots, setDeletedSpots] = useState<ICandidateSpot>([]);
-  const [realSpots, setRealSpots] = useState<ICandidateSpot>(spots);
+  const [realSpots, setRealSpots] = useState<ICandidateSpot>(
+    spots.filter((item) => item.id !== spots[0].id),
+  );
   const [openinghour, setOpeninghour] = useState('');
 
   useEffect(() => {
-    if (selectedSpot) {
-      getOpenHours(selectedSpot.id).then((data) => {
-        setSelectedSpot((prev) => {
-          return {
-            ...prev,
-            openinghour: data,
-          };
+    getOpenHours(selectedSpot.id).then((data) => {
+      setSelectedSpot((prev) => {
+        return {
+          ...prev,
+          openinghour: data,
+        };
+      });
+    });
+    for (let i = 0; i < realSpots.length; i++) {
+      getOpenHours(realSpots[i].id).then((data) => {
+        setRealSpots((prev) => {
+          let arr = prev;
+          arr.filter(
+            (item) => item.id == realSpots[i].id,
+          )[0].openinghour = data;
+          return arr;
         });
       });
-      for (let i = 0; i < realSpots.length; i++) {
-        getOpenHours(realSpots[i].id).then((data) => {
-          setRealSpots((prev) => {
-            let arr = prev;
-            arr.filter(
-              (item) => item.id == realSpots[i].id,
-            )[0].openinghour = data;
-            return arr;
-          });
-        });
-      }
     }
   }, []);
 

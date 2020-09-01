@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Thumbnail, Text } from 'native-base';
 
 // from app
-import { COLOR, IMAGE } from 'app/src/constants';
+import { COLOR, IMAGE, LAYOUT } from 'app/src/constants';
 import { IUserDetail } from 'app/src/interfaces/api/User';
 import { ImagePickerButton, FollowButton } from 'app/src/components/Button';
 import { appTextStyle } from 'app/src/styles';
@@ -41,7 +41,16 @@ export const UserProfile: React.FC<Props> = (props: Props) => {
 
   return (
     <View style={thisStyle.container}>
-      <Thumbnail large source={image ? { uri: image } : IMAGE.noUserImage} />
+      <Thumbnail
+        source={image ? { uri: image } : IMAGE.noUserImage}
+        style={{
+          width: LAYOUT.window.width * 0.2,
+          height: LAYOUT.window.width * 0.2,
+          borderWidth: 2,
+          borderRadius: LAYOUT.window.width * 0.1,
+          borderColor: COLOR.greyColor,
+        }}
+      />
       {me && pickImage && <ImagePickerButton pickImage={pickImage} />}
       <View style={thisStyle.userInfoContainer}>
         <Text style={thisStyle.nameText}>{user.name}</Text>
@@ -50,24 +59,24 @@ export const UserProfile: React.FC<Props> = (props: Props) => {
         </Text>
       </View>
       <View style={thisStyle.countContainer}>
-        <View style={thisStyle.countItem}>
-          <Text style={thisStyle.countTitleText}>プラン数</Text>
-          <Text style={appTextStyle.countText} onPress={onPlanPress}>
-            {user.plan_count}
-          </Text>
-        </View>
-        <View style={thisStyle.countItem}>
-          <Text style={thisStyle.countTitleText}>フォロー</Text>
-          <Text style={appTextStyle.countText} onPress={onFollowPress}>
+        <View style={[thisStyle.countItem, { margin: 10 }]}>
+          <Text style={thisStyle.nameText}>フォロー</Text>
+          <Text style={thisStyle.nameText} onPress={onFollowPress}>
             {user.follow_count}
           </Text>
         </View>
         <View style={thisStyle.countItem}>
-          <Text style={thisStyle.countTitleText}>フォロワー</Text>
-          <Text style={appTextStyle.countText} onPress={onFollowerPress}>
+          <Text style={thisStyle.nameText}>フォロワー</Text>
+          <Text style={thisStyle.nameText} onPress={onFollowerPress}>
             {user.follower_count}
           </Text>
         </View>
+      </View>
+      <View style={thisStyle.userInfoContainer}>
+        <Text style={thisStyle.nameText}>プラン数</Text>
+        <Text style={thisStyle.nameText} onPress={onPlanPress}>
+          {user.plan_count}
+        </Text>
       </View>
       {!me && follow && unfollow && (
         <View style={thisStyle.followContainer}>

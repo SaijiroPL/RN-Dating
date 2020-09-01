@@ -63,10 +63,29 @@ const SearchMapScreen: React.FC = () => {
   } = useGooglePlace();
 
   const setCreateTempSpots = useCallback(() => {
+    let tempSpots = [];
+    spots.filter((item) => {
+      let obj = {
+        spotName: item['name'],
+        address: item['vicinity'],
+        rating: item['user_ratings_total'],
+        imageUrl:
+          item.photos && item.photos.length > 0
+            ? getPlacePhoto(item.photos[0].photo_reference)
+            : 'https://via.placeholder.com/120x90?text=No+Image',
+        latitude: item['geometry']['location']['lat'],
+        longitude: item['geometry']['location']['lng'],
+        id: item['place_id'],
+        heart: false,
+        like: false,
+        openinghour: '',
+      };
+      tempSpots.push(obj);
+    });
     dispatch({
       type: ActionType.SET_CREATE_TEMP_SPOTS,
       payload: {
-        spots,
+        tempSpots,
       },
     });
   }, [spots]);
@@ -171,7 +190,6 @@ const SearchMapScreen: React.FC = () => {
   // get place detail on autocomplete
   async function onAutoComplete(details: any) {
     const detail = await getPlaceDetail(details.place_id);
-    console.log(detail, 'jjjj');
     if (detail) {
       setPlaces((prev) => [...prev, detail]);
       setLocation((prev) => {
