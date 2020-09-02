@@ -3,7 +3,7 @@ import Constants from 'expo-constants';
 const API_HOST =
   process.env.EXPO_API_ENV === 'development'
     ? Constants.manifest.extra.apiEndpoint.dev
-    : Constants.manifest.extra.apiEndpoint.local;
+    : Constants.manifest.extra.apiEndpoint.dev;
 const WEB_HOST = Constants.manifest.extra.webEndpoint;
 
 /** APIエンドポイント */

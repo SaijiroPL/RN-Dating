@@ -35,11 +35,12 @@ const CreatePlanTopScreen: React.FC = () => {
     dispatch({
       type: ActionType.SET_CREATE_PLAN,
       payload: {
+        toDate,
         fromDate,
         trasportations: transportationList,
       },
     });
-  }, [car, train, bus, walk, fromDate]);
+  }, [car, train, bus, walk, toDate]);
 
   const onCompleteButtonPress = useCallback(() => {
     setCreatePlan();
@@ -96,7 +97,7 @@ const CreatePlanTopScreen: React.FC = () => {
       </View>
       {TransportationButtonGroup}
       <View style={appStyle.emptySpace} />
-      {fromDate === '' || (!car && !train && !bus && !walk) ? (
+      {fromDate === '' || toDate === '' || (!car && !train && !bus && !walk) ? (
         <SmallCompleteButton title="決定" disabled />
       ) : (
         <SmallCompleteButton title="決定" onPress={onCompleteButtonPress} />
