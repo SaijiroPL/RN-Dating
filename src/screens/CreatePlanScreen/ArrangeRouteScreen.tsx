@@ -27,17 +27,18 @@ import MapViewDirections from 'react-native-maps-directions';
 import { useDispatch, useGlobalState } from 'app/src/Store';
 
 import { ICandidateSpot } from 'app/src/interfaces/app/Spot';
-const API_KEY = 'AIzaSyCsM1NTvST-ahQ3VC8qRJ6l8QUckrjDMRI';
 import { getDistance, getPreciseDistance } from 'geolib';
 import { preventAutoHide } from 'expo/build/launch/SplashScreen';
 import { ScrollView } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons';
+import { useGooglePlace } from 'app/src/hooks';
 import moment from 'moment';
 import axios from 'axios';
 /** デートスポット順番並べ替え画面 */
 const ArrangeRouteScreen: React.FC = () => {
   const { navigate } = useNavigation();
 
+  const { API_KEY } = useGooglePlace();
   const createRealSpots = useGlobalState('createRealSpots');
   const createPlan = useGlobalState('createPlan');
   const loginUser = useGlobalState('loginUser');
@@ -87,7 +88,6 @@ const ArrangeRouteScreen: React.FC = () => {
 
     axios(config)
       .then(function (response) {
-        console.log(response.data);
         if (response.data.code == 200) {
           navigate('Home');
         }
@@ -131,38 +131,88 @@ const ArrangeRouteScreen: React.FC = () => {
     getSpotRoad(createRealSpots.total[0], createRealSpots.total);
     setSpotRoad(spotArray);
     getDuration(spotArray);
-    var d = moment
+  }, []);
+  function getDuration(array) {
+    let spotDuration = 0;
+    if(array.length > 1){
+      for (let i = 0; i < array.length - 1; i++) {
+        for (let j = i + 1; j < array.length; j++) {
+          if (i + 1 == j) {
+            var config = {
+              method: 'get',
+              url: `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${array[i].latitude},${array[i].longitude}&destinations=${array[j].latitude},${array[j].longitude}&key=AIzaSyCsM1NTvST-ahQ3VC8qRJ6l8QUckrjDMRI&mode=driving`,
+            };
+            axios(config)
+              .then(function (response) {
+                spotDuration += response.data.rows[0].elements[0].duration.value;
+                setDuration(spotDuration);
+                var d = moment
+                  .duration(createPlan.fromDate.split(' ')[1])
+                  .add(
+                    moment.duration(
+                      moment
+                        .utc(spotDuration * 1000 + (array.length) * 3600000)
+                        .format('HH:mm'),
+                    ),
+                  );
+                var dd = moment.utc(d.as('milliseconds')).format('HH:mm');
+                setSpotToDate(dd);
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          }
+        }
+      }
+    }
+    else if(array.length == 1){
+      var d = moment
       .duration(createPlan.fromDate.split(' ')[1])
       .add(
         moment.duration(
           moment
-            .utc(duration * 1000 + (spotArray.length - 1) * 3600000)
+            .utc(3600000)
             .format('HH:mm'),
         ),
       );
     var dd = moment.utc(d.as('milliseconds')).format('HH:mm');
     setSpotToDate(dd);
-  }, []);
-  function getDuration(array) {
-    let spotDuration = 0;
-    for (let i = 0; i < array.length - 1; i++) {
-      for (let j = i + 1; j < array.length; j++) {
-        if (i + 1 == j) {
-          var config = {
-            method: 'get',
-            url: `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${array[i].latitude},${array[i].longitude}&destinations=${array[j].latitude},${array[j].longitude}&key=AIzaSyCsM1NTvST-ahQ3VC8qRJ6l8QUckrjDMRI&mode=driving`,
-          };
-          axios(config)
-            .then(function (response) {
-              spotDuration += response.data.rows[0].elements[0].duration.value;
-              setDuration(spotDuration);
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
-        }
-      }
     }
+  }
+  function getState() {
+    let cur = eval(
+      moment
+        .utc(
+          moment(createPlan.toDate, 'YYYY-MM-DD HH:mm').diff(
+            moment(createPlan.fromDate, 'YYYY-MM-DD HH:mm'),
+          ),
+        )
+        .format('HH') *
+        60 +
+        eval(
+          moment
+            .utc(
+              moment(createPlan.toDate, 'YYYY-MM-DD HH:mm').diff(
+                moment(createPlan.fromDate, 'YYYY-MM-DD HH:mm'),
+              ),
+            )
+            .format('mm') * 1,
+        ),
+    );
+    let stay = eval(
+      moment
+        .utc(moment(spotToDate, 'HH:mm').diff(moment(spotFromDate, 'HH:mm')))
+        .format('HH') *
+        60 +
+        eval(
+          moment
+            .utc(
+              moment(spotToDate, 'HH:mm').diff(moment(spotFromDate, 'HH:mm')),
+            )
+            .format('mm') * 1,
+        ),
+    );
+    return cur > stay;
   }
   const onSpotPress = (place: any, index: any) => {
     if (spotRoad.filter((item) => item.select == true).length) {
@@ -172,17 +222,6 @@ const ArrangeRouteScreen: React.FC = () => {
       arr.filter((item) => item.select == true)[0].select = false;
       setSpotRoad(arr);
       getDuration(arr);
-      var d = moment
-        .duration(spotFromDate)
-        .add(
-          moment.duration(
-            moment
-              .utc(duration * 1000 + (spotRoad.length - 1) * 3600000)
-              .format('HH:mm'),
-          ),
-        );
-      var dd = moment.utc(d.as('milliseconds')).format('HH:mm');
-      setSpotToDate(dd);
     } else {
       let arr = [...spotRoad];
       arr.filter((item) => item.id == place.id)[0].select = true;
@@ -198,7 +237,8 @@ const ArrangeRouteScreen: React.FC = () => {
       }}
       pinColor={color}
       key={place.id}
-    ></Marker>
+    >
+    </Marker>
   );
   const renderDirection = (place: any, index: any) => {
     if (index == 0) {
@@ -415,17 +455,35 @@ const ArrangeRouteScreen: React.FC = () => {
       </View>
       <View style={thisStyle.button1}>
         <View style={{ marginLeft: 10 }} />
-        <Button
-          title="保存"
-          buttonStyle={thisStyle.footerButton}
-          onPress={onGotoHome}
-        />
+        {getState() ? (
+          <Button
+            title="保存"
+            buttonStyle={thisStyle.footerButton}
+            onPress={onGotoHome}
+          />
+        ) : (
+          <Button
+            title="保存"
+            buttonStyle={thisStyle.footerButton}
+            disabled
+            onPress={onGotoHome}
+          />
+        )}
         <View style={{ width: 20, marginRight: 10 }} />
-        <Button
-          buttonStyle={thisStyle.footerButton}
-          title="保存して案内"
-          onPress={onCompleteButtonPress}
-        />
+        {getState() ? (
+          <Button
+            buttonStyle={thisStyle.footerButton}
+            title="保存して案内"
+            onPress={onCompleteButtonPress}
+          />
+        ) : (
+          <Button
+            buttonStyle={thisStyle.footerButton}
+            disabled
+            title="保存して案内"
+            onPress={onCompleteButtonPress}
+          />
+        )}
       </View>
     </Container>
   );

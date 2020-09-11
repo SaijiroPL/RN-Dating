@@ -30,6 +30,11 @@ export const ImageGrid: React.FC<Props> = (props: Props) => {
       if (getOpenHours(total[i].openinghour)) {
         if (total[i].like) {
           arr1 = ['orange', 0.2];
+          setTotal((prev) => {
+            let arr = prev;
+            arr[i].check = true;
+            return arr;
+          });
         } else {
           arr1 = ['orange', 1];
         }
@@ -123,8 +128,10 @@ export const ImageGrid: React.FC<Props> = (props: Props) => {
         let arr = prev;
         if (arr.filter((item) => item.id == id)[0].like == true) {
           arr.filter((item) => item.id == id)[0].like = false;
+          arr.filter((item) => item.id == id)[0].check = false;
         } else {
           arr.filter((item) => item.id == id)[0].like = true;
+          arr.filter((item) => item.id == id)[0].check = true;
         }
         return arr;
       });

@@ -8,6 +8,7 @@ import {
   Text,
   FlatList,
   Alert,
+  Modal,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Slider, Button, Overlay, CheckBox } from 'react-native-elements';
@@ -26,11 +27,12 @@ import { ILocation, IPlace, IPlaceOpenHour } from 'app/src/interfaces/app/Map';
 import { MapCircle } from 'app/src/components/MapItem';
 import { SmallCompleteButton } from 'app/src/components/Button/SmallCompleteButton';
 import { useGooglePlace } from 'app/src/hooks';
-import { COLOR, SPOT_TYPE } from 'app/src/constants';
+import { COLOR, SPOT_TYPE, LAYOUT } from 'app/src/constants';
 import { PlanCard } from 'app/src/components/Element/dist/PlanCard';
 
 import { ActionType } from 'app/src/Reducer';
 import { useDispatch } from 'app/src/Store';
+import { getDistance, getPreciseDistance } from 'geolib';
 
 /** マップからスポット範囲指定画面 */
 const SearchMapScreen: React.FC = () => {
@@ -51,20 +53,22 @@ const SearchMapScreen: React.FC = () => {
   const [typesPopup, setTypesPopup] = useState(false);
   const [spotChecked, setSpotChecked] = useState<boolean[]>([]);
   const [spotSaved, setSpotSaved] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [place, setPlace] = useState({});
 
   const {
-    searchNearbyPlace,
+    // searchNearbyPlace,
     getPlacePhoto,
     getPlaceDetail,
     getPlaceOpeningHours,
-    places,
-    setPlaces,
+    // places,
+    // setPlaces,
     API_KEY,
   } = useGooglePlace();
 
   const setCreateTempSpots = useCallback(() => {
     let tempSpots = [];
-    spots.filter((item) => {
+    spots.filter((item: any) => {
       let obj = {
         spotName: item['name'],
         address: item['vicinity'],
@@ -78,6 +82,7 @@ const SearchMapScreen: React.FC = () => {
         id: item['place_id'],
         heart: false,
         like: false,
+        check: false,
         openinghour: '',
       };
       tempSpots.push(obj);
@@ -86,9 +91,11 @@ const SearchMapScreen: React.FC = () => {
       type: ActionType.SET_CREATE_TEMP_SPOTS,
       payload: {
         tempSpots,
+        location,
+        radius,
       },
     });
-  }, [spots]);
+  }, [spots, location, radius]);
 
   const onCompleteButtonPress = useCallback(() => {
     setCreateTempSpots();
@@ -96,9 +103,10 @@ const SearchMapScreen: React.FC = () => {
     // console.log('complete');
   }, [setCreateTempSpots]);
 
-  useEffect(() => {
-    searchNearbyPlace(location, radius * 100, 'bar');
-  }, [location.latitude, location.longitude, radius]);
+  // useEffect(() => {
+  //   let type = getSpotType();
+  //   searchNearbyPlace(location, radius * 100, type);
+  // }, [location.latitude, location.longitude, radius, spotChecked]);
 
   // useEffect(() => {
   //   if (nextToken) {
@@ -107,7 +115,15 @@ const SearchMapScreen: React.FC = () => {
   //     }, 500);
   //   }
   // }, [nextToken]);
-
+  function getSpotType() {
+    let arr = [];
+    for (let i = 0; i < spotChecked.length; i++) {
+      if (spotChecked[i]) {
+        arr.push(SPOT_TYPE[i].id);
+      }
+    }
+    return arr.join(',');
+  }
   useEffect(() => {
     const checked: boolean[] = [];
     for (let i = 0; i < SPOT_TYPE.length; i += 1) {
@@ -180,9 +196,7 @@ const SearchMapScreen: React.FC = () => {
   async function onAddSpot(place: IPlace) {
     if (spots.indexOf(place) < 0) {
       setSpots((prev) => [...prev, place]);
-      setPlaces((prev) =>
-        prev.filter((item) => item.place_id !== place.place_id),
-      );
+      setPlace({});
       setSpotSaved(true);
     }
   }
@@ -191,17 +205,39 @@ const SearchMapScreen: React.FC = () => {
   async function onAutoComplete(details: any) {
     const detail = await getPlaceDetail(details.place_id);
     if (detail) {
-      setPlaces((prev) => [...prev, detail]);
-      setLocation((prev) => {
-        return {
-          ...prev,
-          latitude: detail.geometry.location.lat,
-          longitude: detail.geometry.location.lng,
-        };
-      });
+      setModalVisible(true);
+      setPlace(detail);
     }
   }
 
+  const goPlace = () => {
+    setLocation((prev) => {
+      return {
+        ...prev,
+        latitude: place.geometry.location.lat,
+        longitude: place.geometry.location.lng,
+      };
+    });
+    setModalVisible(false);
+  };
+  const displayRadius = () => {
+    let dis = getDistance(
+      { latitude: location.latitude, longitude: location.longitude },
+      {
+        latitude: place.geometry.location.lat,
+        longitude: place.geometry.location.lng,
+      },
+    );
+    if (dis > 20000) {
+      alert('so far');
+    } else {
+      let rad = Math.round(dis / 100);
+      if (rad > radius) {
+        setRadius(rad);
+      }
+    }
+    setModalVisible(false);
+  };
   // autoComplete Object
   const autoComplete = () => (
     <GooglePlacesAutocomplete
@@ -213,36 +249,36 @@ const SearchMapScreen: React.FC = () => {
         key: API_KEY,
         language: 'ja',
       }}
-      renderRightButton={() => (
-        <View
-          style={{
-            marginRight: 10,
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}
-        >
-          <View
-            style={{
-              backgroundColor: '#dedede',
-              height: 30,
-              width: 2,
-              marginRight: 10,
-            }}
-          />
-          <Button
-            onPress={() => {
-              setTypesPopup(true);
-            }}
-            icon={() => (
-              <Entypo name="dots-three-horizontal" size={24} color="#dedede" />
-            )}
-            buttonStyle={{
-              backgroundColor: 'white',
-            }}
-          />
-        </View>
-      )}
+      // renderRightButton={() => (
+      //   <View
+      //     style={{
+      //       marginRight: 10,
+      //       display: 'flex',
+      //       flexDirection: 'row',
+      //       alignItems: 'center',
+      //     }}
+      //   >
+      //     <View
+      //       style={{
+      //         backgroundColor: '#dedede',
+      //         height: 30,
+      //         width: 2,
+      //         marginRight: 10,
+      //       }}
+      //     />
+      //     <Button
+      //       onPress={() => {
+      //         setTypesPopup(true);
+      //       }}
+      //       icon={() => (
+      //         <Entypo name="dots-three-horizontal" size={24} color="#dedede" />
+      //       )}
+      //       buttonStyle={{
+      //         backgroundColor: 'white',
+      //       }}
+      //     />
+      //   </View>
+      // )}
       styles={{
         container: thisStyle.headerContainer,
         textInputContainer: thisStyle.headerTextInputContainer,
@@ -258,7 +294,7 @@ const SearchMapScreen: React.FC = () => {
     />
   );
 
-  const renderMarker = (place: IPlace, color: string) => (
+  const renderMarker = (place: any, color: string) => (
     <Marker
       description={place.name}
       coordinate={{
@@ -322,6 +358,7 @@ const SearchMapScreen: React.FC = () => {
         style={thisStyle.map}
         ref={mapRef}
         initialRegion={location}
+        region={location}
         onRegionChange={onRegionChange}
       >
         <MapCircle
@@ -329,7 +366,7 @@ const SearchMapScreen: React.FC = () => {
           radius={radius * 100}
           color="#FFA50040"
         />
-        {places?.map((place) => renderMarker(place, 'orange'))}
+        {place.place_id ? renderMarker(place, 'orange') : null}
         {spots.map((place) => renderMarker(place, 'green'))}
       </MapView>
       <View
@@ -381,7 +418,7 @@ const SearchMapScreen: React.FC = () => {
             <Slider
               value={radius}
               minimumValue={0}
-              maximumValue={50}
+              maximumValue={200}
               thumbStyle={{ width: 10, height: 10, backgroundColor: '#000' }}
               trackStyle={{ height: 1 }}
               onValueChange={onRadiusScroll}
@@ -434,6 +471,46 @@ const SearchMapScreen: React.FC = () => {
           </View>
         </View>
       </View>
+      <Modal
+        animationType={'slide'}
+        transparent
+        visible={modalVisible}
+        onRequestClose={() => {
+          console.log('Modal has been closed.');
+        }}
+      >
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <View
+            style={{
+              alignItems: 'center',
+              width: LAYOUT.window.width * 0.5,
+              height: LAYOUT.window.width * 0.3,
+              backgroundColor: COLOR.backgroundColor,
+              padding: 10,
+              borderRadius: 10,
+            }}
+          >
+            <Text style={thisStyle.headerTextInput}>
+              どのように使用しますか?
+            </Text>
+            <View style={thisStyle.buttonContainer}>
+              <SmallCompleteButton title="円の中心" onPress={goPlace} />
+            </View>
+            <View style={thisStyle.buttonContainer}>
+              <SmallCompleteButton
+                title="スポット表示"
+                onPress={displayRadius}
+              />
+            </View>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 };
@@ -507,7 +584,7 @@ const thisStyle = StyleSheet.create({
     marginTop: 2,
     height: 38,
     margin: 'auto',
-    color: '#5d5d5d',
+    // color: '#5d5d5d',
     fontSize: 16,
   },
   headerListView: {

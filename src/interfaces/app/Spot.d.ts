@@ -10,5 +10,6 @@ export interface ICandidateSpot {
   id: string;
   heart: boolean;
   like: boolean;
+  check: boolean;
   openinghour: string;
 }
