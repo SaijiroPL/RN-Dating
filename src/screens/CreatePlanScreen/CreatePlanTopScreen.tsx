@@ -6,7 +6,7 @@ import { Text } from 'native-base';
 // from app
 import { useDispatch } from 'app/src/Store';
 import { ActionType } from 'app/src/Reducer';
-import { COLOR } from 'app/src/constants';
+import { COLOR, LAYOUT } from 'app/src/constants';
 import { SelectButton, SmallCompleteButton } from 'app/src/components/Button';
 import { DateTimePickerLabel } from 'app/src/components/Form';
 import { getToday } from 'app/src/utils';
@@ -27,10 +27,18 @@ const CreatePlanTopScreen: React.FC = () => {
   /** デート予定日と交通手段を永続化 */
   const setCreatePlan = useCallback(() => {
     const transportationList = [];
-    if (car) transportationList.push('car');
-    if (train) transportationList.push('train');
-    if (bus) transportationList.push('bus');
-    if (walk) transportationList.push('walk');
+    if (car){
+      transportationList.push('car');
+    } 
+    else if (train){
+      transportationList.push('train');
+    } 
+    else if (bus){
+      transportationList.push('bus');
+    } 
+    else if (walk){
+      transportationList.push('walk');
+    } 
 
     dispatch({
       type: ActionType.SET_CREATE_PLAN,
@@ -51,22 +59,25 @@ const CreatePlanTopScreen: React.FC = () => {
   const TransportationButtonGroup: JSX.Element = (
     <View style={thisStyle.formGroup}>
       <Text style={thisStyle.itemTitleText}>移動手段</Text>
-      <SelectButton value={car} setValue={setCar} reversible buttonName="車" />
+      <SelectButton value={car} setValue={setCar} reversible buttonName="車" setOtherValues={[setTrain,setBus,setWalk]} />
       <SelectButton
         value={train}
         setValue={setTrain}
         reversible
+        setOtherValues={[setBus,setCar,setWalk]}
         buttonName="電車"
       />
       <SelectButton
         value={bus}
         setValue={setBus}
         reversible
+        setOtherValues={[setTrain,setCar,setWalk]}
         buttonName="バス"
       />
       <SelectButton
         value={walk}
         setValue={setWalk}
+        setOtherValues={[setBus,setCar,setTrain]}
         reversible
         buttonName="徒歩"
       />
@@ -111,15 +122,16 @@ const CreatePlanTopScreen: React.FC = () => {
 const thisStyle = StyleSheet.create({
   formGroup: {
     alignItems: 'center',
-    flex: 1,
     flexDirection: 'row',
+    justifyContent:'center',
+    paddingTop:LAYOUT.window.height*0.03
   },
   dateGroup: {
     alignItems: 'center',
-    flex: 1,
     flexDirection: 'row',
     borderBottomColor: COLOR.textTintColor,
     borderBottomWidth: 2,
+    paddingBottom:LAYOUT.window.height*0.03
   },
   dateView: {
     alignItems: 'center',
@@ -130,7 +142,7 @@ const thisStyle = StyleSheet.create({
     color: COLOR.textTintColor,
     fontFamily: 'genju-medium',
     fontSize: 14,
-    marginRight: 10,
+    marginRight: 30,
   },
 });
 

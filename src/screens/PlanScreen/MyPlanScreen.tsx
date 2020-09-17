@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { StyleSheet, View, Image } from 'react-native';
 import {
   Body,
@@ -9,16 +9,17 @@ import {
   Left,
   Right,
   Thumbnail,
+  ListItem
 } from 'native-base';
+import { ScrollView } from 'react-native-gesture-handler';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 // from app
 import { COLOR, LAYOUT } from 'app/src/constants';
 import { LoadingSpinner } from 'app/src/components/Spinners';
-import { PlanCardList } from 'app/src/components/List';
 import { CreatePlanFab } from 'app/src/components/Button';
-import { useGetPlanList } from 'app/src/hooks';
 import { appTextStyle } from 'app/src/styles';
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions';
 import {
   FontAwesome,
   FontAwesome5,
@@ -26,66 +27,52 @@ import {
   Entypo,
 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useGlobalState } from 'app/src/Store';
+import { useGooglePlace } from 'app/src/hooks';
 /** ホーム画面トップ */
 const HomeScreen: React.FC = () => {
   /** デートプラン一覧取得 */
-  const {
-    isPlanListLoading,
-    plans,
-    isRefreshing,
-    onRefresh,
-  } = useGetPlanList();
   const { navigate } = useNavigation();
   const onCompleteButtonPress = useCallback(() => {
-    navigate('Arrival');
+    navigate('Road');
   }, []);
+  const myPlan = useGlobalState('myPlan');
+  const {
+    API_KEY,
+  } = useGooglePlace();
   const [heart, setHeart] = useState<boolean>(false);
   const [star, setStar] = useState<boolean>(false);
   const [comment, setComment] = useState<boolean>(false);
   const [head_menu, setHead_menu] = useState<boolean>(false);
-  // temp plan data
-  const temp_plans: any = {
-    plan_id: '1',
-    title: 'plan1',
-    description: 'i am description1',
-    create_date: '2020-08-24',
-    spots: [
-      {
-        spot_name: 'spot1',
-        latitude: 35.658606737323325,
-        longitude: 139.69814462256613,
-      },
-    ],
-    user_id: '1',
-    user_name: '花子',
-    user_attr: 'habako.des',
-    user_avatar: 'https://www.w3schools.com/howto/img_avatar.png',
-    user_image_url:
-      'https://i.pinimg.com/originals/5b/55/88/5b5588af841070a2284ea76e2042dd9d.jpg',
-    like_count: 10,
-    comment_count: 4,
-  };
+  let origin = {};
+
   const PlannerHeader = (
     <CardItem>
       <Left style={thisStyle.planner}>
-        <Thumbnail source={{ uri: temp_plans.user_avatar }} small />
+        <Thumbnail source={{ uri: "https://www.w3schools.com/howto/img_avatar.png" }} small />
         <Body style={thisStyle.body}>
-          <Text style={(thisStyle.mainText, [{ fontSize: 18 }])}>
-            {temp_plans.user_name}
+          <Text
+            style={(thisStyle.mainText, [{ fontSize: 18 }])}
+          >
+            {myPlan.plan.user_name}
           </Text>
           <Text note style={(thisStyle.mainText, [{ marginLeft: 10 }])}>
-            {temp_plans.user_attr}
+            {myPlan.plan.user_attr}.des
           </Text>
         </Body>
       </Left>
       <Right style={{ zIndex: 100 }}>
-        <Entypo name="triangle-down" size={30} color={COLOR.tintColor} />
+        <Entypo
+          name="triangle-down"
+          size={30}
+          color={COLOR.tintColor}
+        />
       </Right>
     </CardItem>
   );
   // plan like
   const PlannerLike = (
-    <CardItem>
+    <CardItem style={{ paddingTop: 20 }}>
       <Left />
       <Body />
       <Right>
@@ -98,8 +85,8 @@ const HomeScreen: React.FC = () => {
             {heart ? (
               <FontAwesome5 name="heart" size={24} color={COLOR.tintColor} />
             ) : (
-              <FontAwesome5 name="heart" size={24} color={COLOR.greyColor} />
-            )}
+                <FontAwesome5 name="heart" size={24} color={COLOR.greyColor} />
+              )}
           </Button>
           <Button
             style={thisStyle.likebutton}
@@ -109,8 +96,8 @@ const HomeScreen: React.FC = () => {
             {star ? (
               <Entypo name="star-outlined" size={24} color={COLOR.tintColor} />
             ) : (
-              <Entypo name="star-outlined" size={24} color={COLOR.greyColor} />
-            )}
+                <Entypo name="star-outlined" size={24} color={COLOR.greyColor} />
+              )}
           </Button>
           <Button
             style={thisStyle.likebutton}
@@ -120,8 +107,8 @@ const HomeScreen: React.FC = () => {
             {comment ? (
               <FontAwesome name="comment-o" size={24} color={COLOR.tintColor} />
             ) : (
-              <FontAwesome name="comment-o" size={24} color={COLOR.greyColor} />
-            )}
+                <FontAwesome name="comment-o" size={24} color={COLOR.greyColor} />
+              )}
           </Button>
         </Body>
       </Right>
@@ -132,14 +119,14 @@ const HomeScreen: React.FC = () => {
     <Grid>
       <Row>
         <Col>
-          <CardItem style={thisStyle.footer}>
+          <ListItem thumbnail>
             <Left style={thisStyle.planner}>
-              <Thumbnail source={{ uri: temp_plans.user_avatar }} small />
+              <Thumbnail source={{ uri: "https://www.w3schools.com/howto/img_avatar.png" }} small />
             </Left>
-            <Body>
-              <Text style={thisStyle.footerText}>{temp_plans.user_name}</Text>
+            <Body style={{ width: LAYOUT.window.width * 0.3 }}>
+              <Text style={thisStyle.footerText}>{myPlan.plan.user_name}</Text>
               <Text note style={thisStyle.footerText}>
-                {temp_plans.user_attr}
+                {myPlan.plan.user_attr}.des
               </Text>
             </Body>
             <Right>
@@ -147,17 +134,17 @@ const HomeScreen: React.FC = () => {
                 11h
               </Text>
             </Right>
-          </CardItem>
+          </ListItem >
         </Col>
         <Col>
-          <CardItem style={thisStyle.footer}>
+          <ListItem thumbnail>
             <Left style={thisStyle.planner}>
-              <Thumbnail source={{ uri: temp_plans.user_avatar }} small />
+              <Thumbnail source={{ uri: "https://www.w3schools.com/howto/img_avatar.png" }} small />
             </Left>
-            <Body>
-              <Text style={thisStyle.footerText}>{temp_plans.user_name}</Text>
+            <Body style={{ width: LAYOUT.window.width * 0.3 }}>
+              <Text style={thisStyle.footerText}>{myPlan.plan.user_name}</Text>
               <Text note style={thisStyle.footerText}>
-                {temp_plans.user_attr}
+                {myPlan.plan.user_attr}.des
               </Text>
             </Body>
             <Right>
@@ -165,19 +152,19 @@ const HomeScreen: React.FC = () => {
                 11h
               </Text>
             </Right>
-          </CardItem>
+          </ListItem >
         </Col>
       </Row>
       <Row>
         <Col>
-          <CardItem style={thisStyle.footer}>
+          <ListItem thumbnail>
             <Left style={thisStyle.planner}>
-              <Thumbnail source={{ uri: temp_plans.user_avatar }} small />
+              <Thumbnail source={{ uri: "https://www.w3schools.com/howto/img_avatar.png" }} small />
             </Left>
-            <Body>
-              <Text style={thisStyle.footerText}>{temp_plans.user_name}</Text>
+            <Body style={{ width: LAYOUT.window.width * 0.3 }}>
+              <Text style={thisStyle.footerText}>{myPlan.plan.user_name}</Text>
               <Text note style={thisStyle.footerText}>
-                {temp_plans.user_attr}
+                {myPlan.plan.user_attr}.des
               </Text>
             </Body>
             <Right>
@@ -185,17 +172,17 @@ const HomeScreen: React.FC = () => {
                 11h
               </Text>
             </Right>
-          </CardItem>
+          </ListItem >
         </Col>
         <Col>
-          <CardItem style={thisStyle.footer}>
+          <ListItem thumbnail>
             <Left style={thisStyle.planner}>
-              <Thumbnail source={{ uri: temp_plans.user_avatar }} small />
+              <Thumbnail source={{ uri: "https://www.w3schools.com/howto/img_avatar.png" }} small />
             </Left>
-            <Body>
-              <Text style={thisStyle.footerText}>{temp_plans.user_name}</Text>
+            <Body style={{ width: LAYOUT.window.width * 0.3 }}>
+              <Text style={thisStyle.footerText}>{myPlan.plan.user_name}</Text>
               <Text note style={thisStyle.footerText}>
-                {temp_plans.user_attr}
+                {myPlan.plan.user_attr}.des
               </Text>
             </Body>
             <Right>
@@ -203,52 +190,88 @@ const HomeScreen: React.FC = () => {
                 11h
               </Text>
             </Right>
-          </CardItem>
+          </ListItem >
         </Col>
       </Row>
     </Grid>
   );
-
+  const renderMarker = (place: any, color: string) => (
+    <Marker
+      coordinate={{
+        latitude: place.latitude,
+        longitude: place.longitude,
+      }}
+      pinColor={color}
+      key={place.id}
+    >
+    </Marker >
+  );
+  const renderDirection = (place: any, index: any) => {
+    if (index == 0) {
+      origin = place;
+    }
+    else {
+      let temp_origin = origin;
+      origin = place;
+      return (
+        <MapViewDirections
+          origin={{
+            latitude: temp_origin.latitude,
+            longitude: temp_origin.longitude,
+          }}
+          destination={{
+            latitude: place.latitude,
+            longitude: place.longitude,
+          }}
+          apikey={`${API_KEY}`}
+          strokeWidth={3}
+          strokeColor="orange"
+        >
+        </MapViewDirections>
+      )
+    }
+  }
   return (
     <View style={thisStyle.container}>
       <Card style={thisStyle.card}>
         {PlannerHeader}
         <CardItem cardBody>
-          <Image
-            source={{ uri: temp_plans.user_image_url }}
-            style={thisStyle.image}
-          />
+          <Image source={{ uri: '' }} style={thisStyle.image} />
         </CardItem>
         <CardItem cardBody>
           <MapView
             region={{
-              latitude: temp_plans.spots[0].latitude,
-              longitude: temp_plans.spots[0].longitude,
+              latitude: myPlan.plan.spots[0].latitude,
+              longitude: myPlan.plan.spots[0].longitude,
               latitudeDelta: 0.02,
               longitudeDelta: 0.05,
             }}
             style={thisStyle.map}
-          />
+          >
+            {myPlan.plan.spots.map((place: any, index: any) => renderDirection(place, index))}
+            {myPlan.plan.spots.map((place: any) => renderMarker(place, 'orange'))}
+          </MapView>
         </CardItem>
         <CardItem style={thisStyle.description}>
           <Left>
-            <Text style={thisStyle.mainText}>{temp_plans.title}</Text>
+            <Text style={thisStyle.mainText}>{myPlan.plan.title}</Text>
           </Left>
-          <Body />
           <Right>
-            <Text note style={thisStyle.descriptionText}>
-              {temp_plans.spots.map((spot) => spot.spot_name).join(' > ')}
-            </Text>
+            <ScrollView horizontal>
+              <Text note style={thisStyle.descriptionText}>
+                {myPlan.plan.spots.map((spot) => spot.spot_name).join(' > ')}
+              </Text>
+            </ScrollView>
           </Right>
         </CardItem>
         {PlannerLike}
         {PlannerFooter}
       </Card>
       <View style={{ alignItems: 'center', paddingTop: 5 }}>
-        <Button style={thisStyle.footerButton} onPress={onCompleteButtonPress}>
-          <Text style={{ fontSize: 16, color: COLOR.baseBackgroundColor }}>
-            プランを使用する
-          </Text>
+        <Button style={thisStyle.footerButton}
+          onPress={onCompleteButtonPress}
+        >
+          <Text style={{ fontSize: 16, color: COLOR.baseBackgroundColor }}>プランを使用する</Text>
         </Button>
       </View>
     </View>
@@ -272,7 +295,7 @@ const thisStyle = StyleSheet.create({
     },
     shadowOpacity: 1,
     shadowRadius: 2,
-    height: LAYOUT.window.height * 0.8,
+    height: LAYOUT.window.height * 0.8
   },
   planner: {
     justifyContent: 'center',
@@ -309,6 +332,7 @@ const thisStyle = StyleSheet.create({
   footerText: {
     fontFamily: 'genju-medium',
     fontSize: 10,
+    height: LAYOUT.window.height * 0.015
   },
   descriptionText: {
     fontFamily: 'genju-light',
@@ -336,7 +360,7 @@ const thisStyle = StyleSheet.create({
     backgroundColor: COLOR.tintColor,
     width: LAYOUT.window.width * 0.4,
     borderRadius: 10,
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
 });
 

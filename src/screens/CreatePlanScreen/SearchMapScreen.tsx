@@ -46,7 +46,7 @@ const SearchMapScreen: React.FC = () => {
     longitudeDelta: 0.02757163010454633,
   });
 
-  const [radius, setRadius] = useState(7);
+  const [radius, setRadius] = useState(50);
   const [openHours, setOpenHours] = useState<{ [key: string]: string }>({});
   const [currentOpHour, setCurrentOpHour] = useState('');
   const [spots, setSpots] = useState<IPlace[]>([]);
@@ -102,35 +102,6 @@ const SearchMapScreen: React.FC = () => {
     navigate('Flick');
     // console.log('complete');
   }, [setCreateTempSpots]);
-
-  // useEffect(() => {
-  //   let type = getSpotType();
-  //   searchNearbyPlace(location, radius * 100, type);
-  // }, [location.latitude, location.longitude, radius, spotChecked]);
-
-  // useEffect(() => {
-  //   if (nextToken) {
-  //     setTimeout(() => {
-  //       getNextPlaces(nextToken);
-  //     }, 500);
-  //   }
-  // }, [nextToken]);
-  function getSpotType() {
-    let arr = [];
-    for (let i = 0; i < spotChecked.length; i++) {
-      if (spotChecked[i]) {
-        arr.push(SPOT_TYPE[i].id);
-      }
-    }
-    return arr.join(',');
-  }
-  useEffect(() => {
-    const checked: boolean[] = [];
-    for (let i = 0; i < SPOT_TYPE.length; i += 1) {
-      checked.push(false);
-    }
-    setSpotChecked(checked);
-  }, [SPOT_TYPE]);
 
   const mapRef = useRef(null);
 
@@ -249,36 +220,6 @@ const SearchMapScreen: React.FC = () => {
         key: API_KEY,
         language: 'ja',
       }}
-      // renderRightButton={() => (
-      //   <View
-      //     style={{
-      //       marginRight: 10,
-      //       display: 'flex',
-      //       flexDirection: 'row',
-      //       alignItems: 'center',
-      //     }}
-      //   >
-      //     <View
-      //       style={{
-      //         backgroundColor: '#dedede',
-      //         height: 30,
-      //         width: 2,
-      //         marginRight: 10,
-      //       }}
-      //     />
-      //     <Button
-      //       onPress={() => {
-      //         setTypesPopup(true);
-      //       }}
-      //       icon={() => (
-      //         <Entypo name="dots-three-horizontal" size={24} color="#dedede" />
-      //       )}
-      //       buttonStyle={{
-      //         backgroundColor: 'white',
-      //       }}
-      //     />
-      //   </View>
-      // )}
       styles={{
         container: thisStyle.headerContainer,
         textInputContainer: thisStyle.headerTextInputContainer,
@@ -360,6 +301,8 @@ const SearchMapScreen: React.FC = () => {
         initialRegion={location}
         region={location}
         onRegionChange={onRegionChange}
+        minZoomLevel={1}
+        maxZoomLevel={13}
       >
         <MapCircle
           location={location}

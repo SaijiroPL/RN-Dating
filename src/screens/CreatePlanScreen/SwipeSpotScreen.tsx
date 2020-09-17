@@ -46,11 +46,9 @@ import { LoadingSpinner } from 'app/src/components/Spinners';
 
 /** デートスポット候補スワイプ画面 */
 const SwipeSpotScreen: React.FC = () => {
-  const [nextToken, setNextToken] = useState<string | undefined>(undefined);
-  const [tokenState, setTokenState] = useState(true);
   const [spots, setSpots] = useState([]);
   const [typesPopup, setTypesPopup] = useState(false);
-  const [spotChecked, setSpotChecked] = useState<boolean[]>([]);
+  const [spotChecked, setSpotChecked] = useState([]);
   const [deletedSpots, setDeletedSpots] = useState<ICandidateSpot>([]);
   const [isPlacesLoading, setIsPlacesLoading] = useState<boolean>(true);
 
@@ -71,106 +69,113 @@ const SwipeSpotScreen: React.FC = () => {
 
   useEffect(() => {
     setIsPlacesLoading(true);
-    async function place_load(){
-      let tempSpots = [];
-      createTempSpots.tempSpots.filter((item)=>tempSpots.push(item));
-      let type = getSpotType();
-      if(type.length){
-        for (let i = 0; i < type.length; i++) {
-          if (tokenState && nextToken == undefined) {
-            let data = await getPlaces1(type[i]);
-            if (data.results?.length) {
-              data.results.filter((item: any, index:any) => {
-                let obj = {
-                  spotName: item['name'],
-                  address: item['vicinity'],
-                  rating: item['user_ratings_total'],
-                  imageUrl:
-                    item.photos && item.photos.length > 0
-                      ? getPlacePhoto(item.photos[0].photo_reference)
-                      : 'https://via.placeholder.com/120x90?text=No+Image',
-                  latitude: item['geometry']['location']['lat'],
-                  longitude: item['geometry']['location']['lng'],
-                  id: item['place_id'],
-                  heart: false,
-                  like: false,
-                  check: false,
-                  openinghour: '',
-                };
-                if(tempSpots.length){
-                  for(let j = 0; j < tempSpots.length; j++){
-                    if(tempSpots[j].id == obj.id){
-                      break;
-                    }
-                    else if(j == tempSpots.length - 1){
-                      tempSpots.push(obj);
-                    }
-                  }
-                }
-                else{
-                  tempSpots.push(obj);
-                }
-              });
-              if (data.next_page_token) {
-                i--;
-              }
-            }
-            setNextToken(data.next_page_token);
-            setTokenState(false);
-          } else if (nextToken != undefined) {
-            let data = await getPlaces2(type[i], nextToken);
-            if (data.results?.length) {
-              data.results.filter((item: any) => {
-                let obj = {
-                  spotName: item['name'],
-                  address: item['vicinity'],
-                  rating: item['user_ratings_total'],
-                  imageUrl:
-                    item.photos && item.photos.length > 0
-                      ? getPlacePhoto(item.photos[0].photo_reference)
-                      : 'https://via.placeholder.com/120x90?text=No+Image',
-                  latitude: item['geometry']['location']['lat'],
-                  longitude: item['geometry']['location']['lng'],
-                  id: item['place_id'],
-                  heart: false,
-                  like: false,
-                  check: false,
-                  openinghour: '',
-                };
-                if(tempSpots.length){
-                  for(let j = 0; j < tempSpots.length; j++){
-                    if(tempSpots[j].id == obj.id){
-                      break;
-                    }
-                    else if(j == tempSpots.length - 1){
-                      tempSpots.push(obj);
-                    }
-                  }
-                }
-                else{
-                  tempSpots.push(obj);
-                }
-              });
-              if (data.next_page_token) {
-                i--;
-              }
-            }
-            setNextToken(data.next_page_token);
-          } else {
-            setTokenState(true);
-          }
-        }
-        for (let i = 0; i < tempSpots.length; i++) {
-          let data = await getOpenHours(tempSpots[i].id);
-          tempSpots.filter((item) => item.id == tempSpots[i].id)[0].openinghour = data;
-        }
-        setSpots(tempSpots);
-        setIsPlacesLoading(false);
-      }
-    }
     place_load();
   }, [spotChecked]);
-
+  
+  async function place_load(){
+    let tempSpots = [], tokenState = true, nextToken=undefined;
+    createTempSpots.tempSpots.filter((item)=>tempSpots.push(item));
+    let type = spotChecked;
+    if(type.length){
+      for (let i = 0; i < type.length; i++) {
+        if (tokenState && !nextToken) {
+          let data = await getPlaces1(type[i]);
+          if (data.results?.length) {
+            console.log(data.results.length, '22222222222222222222')
+            data.results.filter((item: any, index:any) => {
+              let obj = {
+                spotName: item['name'],
+                address: item['vicinity'],
+                rating: item['user_ratings_total'],
+                imageUrl:
+                  item.photos && item.photos.length > 0
+                    ? getPlacePhoto(item.photos[0].photo_reference)
+                    : 'https://via.placeholder.com/120x90?text=No+Image',
+                latitude: item['geometry']['location']['lat'],
+                longitude: item['geometry']['location']['lng'],
+                id: item['place_id'],
+                heart: false,
+                like: false,
+                check: false,
+                openinghour: '',
+              };
+              if(tempSpots.length){
+                for(let j = 0; j < tempSpots.length; j++){
+                  if(tempSpots[j].id == obj.id){
+                    break;
+                  }
+                  else if(j == tempSpots.length - 1){
+                    tempSpots.push(obj);
+                  }
+                }
+              }
+              else{
+                tempSpots.push(obj);
+              }
+            });
+            if (data.next_page_token) {
+              nextToken = data.next_page_token;
+              i--;
+            }
+            else{
+              nextToken = undefined;
+            }
+          }
+          tokenState = false;
+        } else if (nextToken) {
+          let data = await getPlaces2(type[i], nextToken);
+          if (data.results?.length) {
+            data.results.filter((item: any) => {
+              let obj = {
+                spotName: item['name'],
+                address: item['vicinity'],
+                rating: item['user_ratings_total'],
+                imageUrl:
+                  item.photos && item.photos.length > 0
+                    ? getPlacePhoto(item.photos[0].photo_reference)
+                    : 'https://via.placeholder.com/120x90?text=No+Image',
+                latitude: item['geometry']['location']['lat'],
+                longitude: item['geometry']['location']['lng'],
+                id: item['place_id'],
+                heart: false,
+                like: false,
+                check: false,
+                openinghour: '',
+              };
+              if(tempSpots.length){
+                for(let j = 0; j < tempSpots.length; j++){
+                  if(tempSpots[j].id == obj.id){
+                    break;
+                  }
+                  else if(j == tempSpots.length - 1){
+                    tempSpots.push(obj);
+                  }
+                }
+              }
+              else{
+                tempSpots.push(obj);
+              }
+            });
+            if (data.next_page_token) {
+              nextToken = data.next_page_token;
+              i--;
+            }
+            else{
+              nextToken = undefined;
+            }
+          }
+        } else {
+          tokenState = true;
+        }
+      }
+      for (let i = 0; i < tempSpots.length; i++) {
+        let data = await getOpenHours(tempSpots[i].id);
+        tempSpots.filter((item) => item.id == tempSpots[i].id)[0].openinghour = data;
+      }
+      await setSpots(tempSpots);
+      await setIsPlacesLoading(false);
+    }
+  }
   async function getPlaces1(type) {
     let location = createTempSpots.location;
     let radius = createTempSpots.radius;
@@ -185,20 +190,12 @@ const SwipeSpotScreen: React.FC = () => {
     const { data } = await axios.get<IGoogleResult>(url);
     return data;
   }
-  function getSpotType() {
-    let arr = [];
-    for (let i = 0; i < spotChecked.length; i++) {
-      if (spotChecked[i]) {
-        arr.push(SPOT_TYPE[i].id);
-      }
-    }
-    return arr;
-  }
-
   useEffect(() => {
-    const checked: boolean[] = [];
+    const checked = [];
     for (let i = 0; i < SPOT_TYPE.length; i += 1) {
-      checked.push(true);
+      if(SPOT_TYPE[i].id == 'restaurant'){
+        checked.push(SPOT_TYPE[i].id);
+      }
     }
     setSpotChecked(checked);
   }, [SPOT_TYPE]);

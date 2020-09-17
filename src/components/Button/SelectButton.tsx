@@ -54,7 +54,7 @@ export const SelectButton: React.FC<Props> = (props: Props) => {
     ) {
       setOtherValues.forEach(
         (setValue: React.Dispatch<React.SetStateAction<boolean>>) => {
-          setValue(true);
+          setValue(false);
         },
       );
     }

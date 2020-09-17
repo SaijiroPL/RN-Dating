@@ -17,9 +17,9 @@ const SelectSpotScreen: React.FC = () => {
   const onCompleteButtonPress = useCallback(() => {
     let total = [];
     for (let i = 0; i < createRealSpots.total.length; i++) {
-      if (createRealSpots.total[i].check) {
+      // if (createRealSpots.total[i].check) {
         total.push(createRealSpots.total[i]);
-      }
+      // }
     }
     if(total.length){
       dispatch({
