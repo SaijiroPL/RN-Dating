@@ -35,6 +35,9 @@ import { useGooglePlace } from 'app/src/hooks';
 import moment from 'moment';
 import axios from 'axios';
 import { LoadingSpinner } from 'app/src/components/Spinners';
+import { EKI_ENDPOINT } from 'app/src/constants/Url';
+import { GOOGLE_MAP_ENDPOINT } from 'app/src/constants/Url';
+import { API_ENDPOINT } from 'app/src/constants/Url';
 /** デートスポット順番並べ替え画面 */
 const ArrangeRouteScreen: React.FC = () => {
   const { navigate } = useNavigation();
@@ -59,20 +62,17 @@ const ArrangeRouteScreen: React.FC = () => {
   const [directionMode, setDirectionMode] = useState(null);
   const [durationMode, setDurationMode] = useState(null);
   const [state, setState] = useState(true);
-  let origin = null, pol_origin = null;
+  let origin = null,
+    pol_origin = null;
 
   const onGotoHome = () => {
-    let spots = [];
-    for (let i = 0; i < spotRoad.length; i++) {
-      let obj = {
-        spot_name: spotRoad[i].spotName,
-        latitude: spotRoad[i].latitude,
-        longitude: spotRoad[i].longitude,
-        order: i + 1,
-        need_time: 60,
-      };
-      spots.push(obj);
-    }
+    const spots = spotRoad.map((item, index) => ({
+      spot_name: item.spotName,
+      latitude: item.latitude,
+      longitude: item.longitude,
+      order: index + 1,
+      need_time: 60,
+    }));
     let data = {
       user_id: loginUser.id,
       title: title,
@@ -84,7 +84,7 @@ const ArrangeRouteScreen: React.FC = () => {
     };
     var config = {
       method: 'post',
-      url: 'https://one-date-dev.herokuapp.com/plans?',
+      url: API_ENDPOINT.PLAN_GET,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -113,7 +113,8 @@ const ArrangeRouteScreen: React.FC = () => {
     let spotArray = [];
     spotArray.push(start);
     array = array.filter((item) => item.id !== start.id);
-    let arr = [],arr1 = [];
+    let arr = [],
+      arr1 = [];
     for (let i = 0; i < array.length; i++) {
       let dis = getDistance(
         { latitude: start.latitude, longitude: start.longitude },
@@ -138,23 +139,22 @@ const ArrangeRouteScreen: React.FC = () => {
   }
   async function getSpotTransitRoad(array, type) {
     let totalArray = [];
-    for(let i = 0; i < array.length - 1; i ++){
-      for(let j = i + 1; j < array.length; j ++){
-        if(i == j - 1){
+    for (let i = 0; i < array.length - 1; i++) {
+      for (let j = i + 1; j < array.length; j++) {
+        if (i == j - 1) {
           let dis = getDistance(
             { latitude: array[i].latitude, longitude: array[i].longitude },
             { latitude: array[j].latitude, longitude: array[j].longitude },
           );
-          if(dis < 2000){
+          if (dis < 2000) {
             array[i].transitmode = 'walking';
             array[j].transitmode = 'transit';
             totalArray.push(array[i]);
-            if(i == array.length - 2){
+            if (i == array.length - 2) {
               array[j].transitmode = 'walking';
               totalArray.push(array[j]);
             }
-          }
-          else{
+          } else {
             array[i].transitmode = 'walking';
             totalArray.push(array[i]);
             let nearbyplace = await getNearbyPlace(array[i], type);
@@ -163,7 +163,7 @@ const ArrangeRouteScreen: React.FC = () => {
             let nearbyplace1 = await getNearbyPlace(array[j], type);
             nearbyplace1.transitmode = 'transit';
             totalArray.push(nearbyplace1);
-            if(i == array.length - 2){
+            if (i == array.length - 2) {
               array[j].transitmode = 'walking';
               totalArray.push(array[j]);
             }
@@ -176,60 +176,77 @@ const ArrangeRouteScreen: React.FC = () => {
   }
   async function getAllData() {
     await setSpotFromDate(createPlan.fromDate.split(' ')[1]);
-    if(createPlan.trasportations[0] == 'car'){
-      await setDirectionMode("DRIVING");
-      await setDurationMode("driving");
-      let arr = await getSpotRoad(createRealSpots.total[0], createRealSpots.total); 
+    if (createPlan.trasportations[0] == 'car') {
+      await setDirectionMode('DRIVING');
+      await setDurationMode('driving');
+      let arr = await getSpotRoad(
+        createRealSpots.total[0],
+        createRealSpots.total,
+      );
       getDuration(arr, 'driving');
-    }
-    else if(createPlan.trasportations[0] == 'walk'){
-      await setDirectionMode("WALKING");
-      await setDurationMode("walking");
-      let arr = await getSpotRoad(createRealSpots.total[0], createRealSpots.total);
+    } else if (createPlan.trasportations[0] == 'walk') {
+      await setDirectionMode('WALKING');
+      await setDurationMode('walking');
+      let arr = await getSpotRoad(
+        createRealSpots.total[0],
+        createRealSpots.total,
+      );
       getDuration(arr, 'walking');
-    }
-    else if(createPlan.trasportations[0] == 'bus'){
-      await setDirectionMode("WALKING");
-      await setDurationMode("bus");
-      let arr = await getSpotRoad(createRealSpots.total[0], createRealSpots.total); 
-      let nearby = await getSpotTransitRoad(arr,'bus');
+    } else if (createPlan.trasportations[0] == 'bus') {
+      await setDirectionMode('WALKING');
+      await setDurationMode('bus');
+      let arr = await getSpotRoad(
+        createRealSpots.total[0],
+        createRealSpots.total,
+      );
+      let nearby = await getSpotTransitRoad(arr, 'bus');
       getTransitDuration(nearby);
-    }
-    else{
-      await setDirectionMode("WALKING");
-      await setDurationMode("train");
-      let arr = await getSpotRoad(createRealSpots.total[0], createRealSpots.total);
-      let nearby = await getSpotTransitRoad(arr, 'train'); 
+    } else {
+      await setDirectionMode('WALKING');
+      await setDurationMode('train');
+      let arr = await getSpotRoad(
+        createRealSpots.total[0],
+        createRealSpots.total,
+      );
+      let nearby = await getSpotTransitRoad(arr, 'train');
       getTransitDuration(nearby);
     }
   }
-  async function getNearbyPlace(data, type){
-    var url = `http://api.ekispert.jp/v1/json/geo/station?key=test_PJAzvXweALm&geoPoint=${data.latitude},${data.longitude},wgs84,1000&gcs=wgs84&type=${type}`;
+  async function getNearbyPlace(data, type) {
+    var url = EKI_ENDPOINT.NEARBYPLACE.replace('$1', data.latitude)
+      .replace('$2', data.longitude)
+      .replace('$3', type);
     let response = await axios.get(url);
-    if(Array.isArray(response.data.ResultSet.Point)){
+    if (Array.isArray(response.data.ResultSet.Point)) {
       return response.data.ResultSet.Point[0];
-    }
-    else{
+    } else {
       return response.data.ResultSet.Point;
     }
   }
   async function getDuration(array, durationState) {
     let spotDuration = 0;
-    if(array.length > 1){
+    if (array.length > 1) {
       for (let i = 0; i < array.length - 1; i++) {
         for (let j = i + 1; j < array.length; j++) {
           if (i + 1 == j) {
-            var url= `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${array[i].latitude},${array[i].longitude}&destinations=${array[j].latitude},${array[j].longitude}&key=AIzaSyCsM1NTvST-ahQ3VC8qRJ6l8QUckrjDMRI&mode=${durationState}`;
+            var url = GOOGLE_MAP_ENDPOINT.DISTANCE.replace(
+              '$1',
+              array[i].latitude,
+            )
+              .replace('$2', array[i].longitude)
+              .replace('$3', array[j].latitude)
+              .replace('$4', array[j].longitude)
+              .replace('$5', durationState);
             let response = await axios.get(url);
             spotDuration += response.data.rows[0].elements[0].duration.value;
-            if(i == array.length - 2){
+            if (i == array.length - 2) {
               await setDuration(spotDuration);
               var d = moment
                 .duration(createPlan.fromDate.split(' ')[1])
                 .add(
                   moment.duration(
                     moment
-                      .utc(spotDuration * 1000 + (array.length) * 3600000)
+                      .utc(spotDuration * 1000 + array.length * 3600000)
                       .format('HH:mm'),
                   ),
                 );
@@ -239,66 +256,72 @@ const ArrangeRouteScreen: React.FC = () => {
           }
         }
       }
-    }
-    else if(array.length == 1){
+    } else if (array.length == 1) {
       var d = moment
-      .duration(createPlan.fromDate.split(' ')[1])
-      .add(
-        moment.duration(
-          moment
-            .utc(3600000)
-            .format('HH:mm'),
-        ),
-      );
+        .duration(createPlan.fromDate.split(' ')[1])
+        .add(moment.duration(moment.utc(3600000).format('HH:mm')));
       var dd = moment.utc(d.as('milliseconds')).format('HH:mm');
       await setSpotToDate(dd);
     }
   }
   async function getTransitDuration(array) {
     let spotDuration = 0;
-    if(array.length > 1){
+    if (array.length > 1) {
       for (let i = 0; i < array.length - 1; i++) {
         for (let j = i + 1; j < array.length; j++) {
           if (i + 1 == j) {
-            if(array[i].transitmode == 'transit' && array[j].transitmode == 'transit'){
-              var url= `http://api.ekispert.jp/v1/json/search/course/extreme?key=test_PJAzvXweALm&viaList=${array[i].GeoPoint.lati_d},${array[i].GeoPoint.longi_d},wgs84:${array[j].GeoPoint.lati_d},${array[j].GeoPoint.longi_d}`;
+            if (
+              array[i].transitmode == 'transit' &&
+              array[j].transitmode == 'transit'
+            ) {
+              var url = EKI_ENDPOINT.COURSE.replace(
+                '$1',
+                array[i].GeoPoint.lati_d,
+              )
+                .replace('$2', array[i].GeoPoint.longi_d)
+                .replace('$3', array[j].GeoPoint.lati_d)
+                .replace('$4', array[j].GeoPoint.longi_d);
               let response = await axios.get(url);
               let temp_arr = [];
-              for(var k = 0; k < response.data.ResultSet.Course.length; k++){
-                temp_arr.push(parseInt(response.data.ResultSet.Course[k].Route.timeOnBoard));
+              for (var k = 0; k < response.data.ResultSet.Course.length; k++) {
+                temp_arr.push(
+                  parseInt(response.data.ResultSet.Course[k].Route.timeOnBoard),
+                );
               }
               temp_arr = temp_arr.sort(function (a, b) {
                 return a - b;
               });
               spotDuration += temp_arr[0] * 60;
-            }
-            else{
+            } else {
               let lat, lot, lat1, lot1;
-              if(array[i].transitmode == 'walking'){
+              if (array[i].transitmode == 'walking') {
                 lat = array[i].latitude;
                 lot = array[i].longitude;
-              }
-              else if(array[i].transitmode == 'transit'){
+              } else if (array[i].transitmode == 'transit') {
                 lat = array[i].GeoPoint.lati_d;
                 lot = array[i].GeoPoint.longi_d;
               }
-              if(array[j].transitmode == 'walking'){
+              if (array[j].transitmode == 'walking') {
                 lat1 = array[j].latitude;
                 lot1 = array[j].longitude;
-              }
-              else if(array[j].transitmode == 'transit'){
+              } else if (array[j].transitmode == 'transit') {
                 lat1 = array[j].GeoPoint.lati_d;
                 lot1 = array[j].GeoPoint.longi_d;
               }
-              var url= `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${lat},${lot}&destinations=${lat1},${lot1}&key=AIzaSyCsM1NTvST-ahQ3VC8qRJ6l8QUckrjDMRI&mode=walking`;
+
+              var url = GOOGLE_MAP_ENDPOINT.DISTANCE.replace('$1', lat)
+                .replace('$2', lot)
+                .replace('$3', lat1)
+                .replace('$4', lot1)
+                .replace('$5', 'walking');
               let response = await axios.get(url);
               spotDuration += response.data.rows[0].elements[0].duration.value;
             }
-            if(i == array.length - 2){
+            if (i == array.length - 2) {
               await setDuration(spotDuration);
               let realpalce = 0;
-              for(let k = 0; k < array.length; k++){
-                if(array[k].transitmode == 'walking'){
+              for (let k = 0; k < array.length; k++) {
+                if (array[k].transitmode == 'walking') {
                   realpalce++;
                 }
               }
@@ -319,17 +342,10 @@ const ArrangeRouteScreen: React.FC = () => {
           }
         }
       }
-    }
-    else if(array.length == 1){
+    } else if (array.length == 1) {
       var d = moment
-      .duration(createPlan.fromDate.split(' ')[1])
-      .add(
-        moment.duration(
-          moment
-            .utc(3600000)
-            .format('HH:mm'),
-        ),
-      );
+        .duration(createPlan.fromDate.split(' ')[1])
+        .add(moment.duration(moment.utc(3600000).format('HH:mm')));
       var dd = moment.utc(d.as('milliseconds')).format('HH:mm');
       await setSpotToDate(dd);
     }
@@ -369,18 +385,17 @@ const ArrangeRouteScreen: React.FC = () => {
     );
     return cur > stay;
   }
-  const onSpotPress = async(place: any, index: any) => {
+  const onSpotPress = async (place: any, index: any) => {
     if (spotRoad.filter((item) => item.select == true).length) {
       let arr = [...spotRoad];
       arr[index] = arr.filter((item) => item.select == true)[0];
       arr[selectedIndex] = place;
       arr.filter((item) => item.select == true)[0].select = false;
       await setSpotRoad(arr);
-      if(durationMode == 'bus' || durationMode == 'train'){
+      if (durationMode == 'bus' || durationMode == 'train') {
         let nearby = await getSpotTransitRoad(arr, durationMode);
         getTransitDuration(nearby);
-      }
-      else{
+      } else {
         getDuration(arr, durationMode);
       }
     } else {
@@ -391,13 +406,13 @@ const ArrangeRouteScreen: React.FC = () => {
     }
   };
   const renderMarker = (place: any) => {
-    if(place.transitmode == 'transit'){
-      if(place == undefined){
+    if (place.transitmode == 'transit') {
+      if (place == undefined) {
         return false;
       }
       let lat = parseFloat(place.GeoPoint.lati_d);
       let lot = parseFloat(place.GeoPoint.longi_d);
-      return(
+      return (
         <Marker
           coordinate={{
             latitude: lat,
@@ -405,12 +420,10 @@ const ArrangeRouteScreen: React.FC = () => {
           }}
           pinColor={'green'}
           key={place.Station.code}
-        >
-        </Marker>
-      )
-    }
-    else{
-      return(
+        ></Marker>
+      );
+    } else {
+      return (
         <Marker
           coordinate={{
             latitude: place.latitude,
@@ -418,17 +431,16 @@ const ArrangeRouteScreen: React.FC = () => {
           }}
           pinColor={'orange'}
           key={place.id}
-        >
-        </Marker>
-      )
+        ></Marker>
+      );
     }
-  }
+  };
   const renderDirection = (place: any, index: any) => {
-    if(durationMode == 'bus' || durationMode == 'train'){
-      if(place.transitmode == 'walking'){
-        if(!origin){
+    if (durationMode == 'bus' || durationMode == 'train') {
+      if (place.transitmode == 'walking') {
+        if (!origin) {
           origin = place;
-          if(pol_origin){
+          if (pol_origin) {
             let lat = parseFloat(pol_origin.GeoPoint.lati_d);
             let lot = parseFloat(pol_origin.GeoPoint.longi_d);
             let lat1 = place.latitude;
@@ -449,10 +461,9 @@ const ArrangeRouteScreen: React.FC = () => {
                 strokeColor="orange"
                 mode={directionMode}
               ></MapViewDirections>
-            )
+            );
           }
-        }
-        else{
+        } else {
           let temp_origin = origin;
           origin = place;
           return (
@@ -472,11 +483,10 @@ const ArrangeRouteScreen: React.FC = () => {
             ></MapViewDirections>
           );
         }
-      }
-      else{
-        if(!pol_origin){
+      } else {
+        if (!pol_origin) {
           pol_origin = place;
-          if(origin){
+          if (origin) {
             let lat = origin.latitude;
             let lot = origin.longitude;
             let lat1 = parseFloat(place.GeoPoint.lati_d);
@@ -497,30 +507,30 @@ const ArrangeRouteScreen: React.FC = () => {
                 strokeColor="orange"
                 mode={directionMode}
               ></MapViewDirections>
-            )
+            );
           }
-        }
-        else{
+        } else {
           let lat = parseFloat(pol_origin.GeoPoint.lati_d);
           let lot = parseFloat(pol_origin.GeoPoint.longi_d);
           let lat1 = parseFloat(place.GeoPoint.lati_d);
           let lot1 = parseFloat(place.GeoPoint.longi_d);
           pol_origin = place;
-          return(
-            <Polyline 
+          return (
+            <Polyline
               strokeWidth={5}
-              strokeColor="green" 
-              coordinates={[{latitude:lat, longitude:lot}, {latitude:lat1, longitude:lot1}]}>
-            </Polyline>
-          )
+              strokeColor="green"
+              coordinates={[
+                { latitude: lat, longitude: lot },
+                { latitude: lat1, longitude: lot1 },
+              ]}
+            ></Polyline>
+          );
         }
       }
-    }
-    else{
+    } else {
       if (index == 0) {
         origin = place;
-      } 
-      else {
+      } else {
         let temp_origin = origin;
         origin = place;
         return (
@@ -611,16 +621,16 @@ const ArrangeRouteScreen: React.FC = () => {
           }}
           style={{ height: LAYOUT.window.height * 0.25 }}
         >
-          {durationMode == 'bus' || durationMode == 'train'?spotTrasitRoad.map((place: any, index: any) =>
-            renderDirection(place, index)
-          ):spotRoad.map((place: any, index: any) =>
-            renderDirection(place, index)
-         )}
-          {durationMode == 'bus' || durationMode == 'train'?spotTrasitRoad.map((place: any) =>
-            renderMarker(place)
-          ):spotRoad.map((place: any) =>
-            renderMarker(place)
-          )}
+          {durationMode == 'bus' || durationMode == 'train'
+            ? spotTrasitRoad.map((place: any, index: any) =>
+                renderDirection(place, index),
+              )
+            : spotRoad.map((place: any, index: any) =>
+                renderDirection(place, index),
+              )}
+          {durationMode == 'bus' || durationMode == 'train'
+            ? spotTrasitRoad.map((place: any) => renderMarker(place))
+            : spotRoad.map((place: any) => renderMarker(place))}
         </MapView>
       </View>
       <ScrollView
@@ -739,7 +749,7 @@ const ArrangeRouteScreen: React.FC = () => {
       </View>
       <View style={thisStyle.button1}>
         <View style={{ marginLeft: 10 }} />
-        {state?(
+        {state ? (
           <>
             <Button
               title="保存"
@@ -752,7 +762,7 @@ const ArrangeRouteScreen: React.FC = () => {
               onPress={onCompleteButtonPress}
             />
           </>
-        ):(
+        ) : (
           <>
             <Button
               title="保存"
@@ -829,8 +839,8 @@ const thisStyle = StyleSheet.create({
     backgroundColor: COLOR.tintColor,
     width: LAYOUT.window.width * 0.4,
     borderRadius: 10,
-    marginLeft:3,
-    marginRight:3
+    marginLeft: 3,
+    marginRight: 3,
   },
   arrowH: {
     flexDirection: 'column',

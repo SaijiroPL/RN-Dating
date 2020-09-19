@@ -26,19 +26,20 @@ const CreatePlanTopScreen: React.FC = () => {
 
   /** デート予定日と交通手段を永続化 */
   const setCreatePlan = useCallback(() => {
-    const transportationList = [];
-    if (car){
+    var transportationList = [];
+    if (car) {
+      transportationList = [];
       transportationList.push('car');
-    } 
-    else if (train){
+    } else if (train) {
+      transportationList = [];
       transportationList.push('train');
-    } 
-    else if (bus){
+    } else if (bus) {
+      transportationList = [];
       transportationList.push('bus');
-    } 
-    else if (walk){
+    } else if (walk) {
+      transportationList = [];
       transportationList.push('walk');
-    } 
+    }
 
     dispatch({
       type: ActionType.SET_CREATE_PLAN,
@@ -59,25 +60,31 @@ const CreatePlanTopScreen: React.FC = () => {
   const TransportationButtonGroup: JSX.Element = (
     <View style={thisStyle.formGroup}>
       <Text style={thisStyle.itemTitleText}>移動手段</Text>
-      <SelectButton value={car} setValue={setCar} reversible buttonName="車" setOtherValues={[setTrain,setBus,setWalk]} />
+      <SelectButton
+        value={car}
+        setValue={setCar}
+        reversible
+        buttonName="車"
+        setOtherValues={[setTrain, setBus, setWalk]}
+      />
       <SelectButton
         value={train}
         setValue={setTrain}
         reversible
-        setOtherValues={[setBus,setCar,setWalk]}
+        setOtherValues={[setBus, setCar, setWalk]}
         buttonName="電車"
       />
       <SelectButton
         value={bus}
         setValue={setBus}
         reversible
-        setOtherValues={[setTrain,setCar,setWalk]}
+        setOtherValues={[setTrain, setCar, setWalk]}
         buttonName="バス"
       />
       <SelectButton
         value={walk}
         setValue={setWalk}
-        setOtherValues={[setBus,setCar,setTrain]}
+        setOtherValues={[setBus, setCar, setTrain]}
         reversible
         buttonName="徒歩"
       />
@@ -123,15 +130,15 @@ const thisStyle = StyleSheet.create({
   formGroup: {
     alignItems: 'center',
     flexDirection: 'row',
-    justifyContent:'center',
-    paddingTop:LAYOUT.window.height*0.03
+    justifyContent: 'center',
+    paddingTop: LAYOUT.window.height * 0.03,
   },
   dateGroup: {
     alignItems: 'center',
     flexDirection: 'row',
     borderBottomColor: COLOR.textTintColor,
     borderBottomWidth: 2,
-    paddingBottom:LAYOUT.window.height*0.03
+    paddingBottom: LAYOUT.window.height * 0.03,
   },
   dateView: {
     alignItems: 'center',

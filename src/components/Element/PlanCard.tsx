@@ -1,5 +1,11 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { View, Image, StyleSheet, TouchableOpacity, Picker } from 'react-native';
+import {
+  View,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Picker,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {
   Body,
@@ -46,9 +52,7 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
   const [comment, setComment] = useState<boolean>(false);
   const [head_menu, setHead_menu] = useState<boolean>(false);
 
-  const {
-    API_KEY,
-  } = useGooglePlace();
+  const { API_KEY } = useGooglePlace();
   let origin = {};
   /** プラン押下時の処理 */
   const onPlanPress = useCallback(() => {
@@ -75,7 +79,7 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
       dispatch({
         type: ActionType.SET_MY_PLAN,
         payload: {
-          plan
+          plan,
         },
       });
     }
@@ -83,12 +87,15 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
     //   let detail = await getPlaceDetail(plan.plan_id);
     // }
     // getPhotos();
-  }, [])
+  }, []);
   /** プラン作成者ヘッダー */
   const PlannerHeader = (
     <CardItem>
       <Left style={thisStyle.planner}>
-        <Thumbnail source={{ uri: "https://www.w3schools.com/howto/img_avatar.png" }} small />
+        <Thumbnail
+          source={{ uri: 'https://www.w3schools.com/howto/img_avatar.png' }}
+          small
+        />
         <Body style={thisStyle.body}>
           <Text
             style={(thisStyle.mainText, [{ fontSize: 18 }])}
@@ -97,16 +104,12 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
             {plan.user_name}
           </Text>
           <Text note style={(thisStyle.mainText, [{ marginLeft: 10 }])}>
-            {plan.user_attr}.des
+            {plan.user_attr}
           </Text>
         </Body>
       </Left>
       <Right style={{ zIndex: 100 }}>
-        <Entypo
-          name="triangle-down"
-          size={30}
-          color={COLOR.tintColor}
-        />
+        <Entypo name="triangle-down" size={30} color={COLOR.tintColor} />
       </Right>
     </CardItem>
   );
@@ -125,8 +128,8 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
             {heart ? (
               <FontAwesome5 name="heart" size={24} color={COLOR.tintColor} />
             ) : (
-                <FontAwesome5 name="heart" size={24} color={COLOR.greyColor} />
-              )}
+              <FontAwesome5 name="heart" size={24} color={COLOR.greyColor} />
+            )}
           </Button>
           <Button
             style={thisStyle.likebutton}
@@ -136,8 +139,8 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
             {star ? (
               <Entypo name="star-outlined" size={24} color={COLOR.tintColor} />
             ) : (
-                <Entypo name="star-outlined" size={24} color={COLOR.greyColor} />
-              )}
+              <Entypo name="star-outlined" size={24} color={COLOR.greyColor} />
+            )}
           </Button>
           <Button
             style={thisStyle.likebutton}
@@ -147,8 +150,8 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
             {comment ? (
               <FontAwesome name="comment-o" size={24} color={COLOR.tintColor} />
             ) : (
-                <FontAwesome name="comment-o" size={24} color={COLOR.greyColor} />
-              )}
+              <FontAwesome name="comment-o" size={24} color={COLOR.greyColor} />
+            )}
           </Button>
         </Body>
       </Right>
@@ -161,7 +164,12 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
         <Col onPress={onCommentPress}>
           <CardItem style={thisStyle.footer}>
             <Left style={thisStyle.planner}>
-              <Thumbnail source={{ uri: "https://www.w3schools.com/howto/img_avatar.png" }} small />
+              <Thumbnail
+                source={{
+                  uri: 'https://www.w3schools.com/howto/img_avatar.png',
+                }}
+                small
+              />
             </Left>
             <Body>
               <Text style={thisStyle.footerText}>{plan.user_name}</Text>
@@ -179,7 +187,12 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
         <Col onPress={onCommentPress}>
           <CardItem style={thisStyle.footer}>
             <Left style={thisStyle.planner}>
-              <Thumbnail source={{ uri: "https://www.w3schools.com/howto/img_avatar.png" }} small />
+              <Thumbnail
+                source={{
+                  uri: 'https://www.w3schools.com/howto/img_avatar.png',
+                }}
+                small
+              />
             </Left>
             <Body>
               <Text style={thisStyle.footerText}>{plan.user_name}</Text>
@@ -199,7 +212,12 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
         <Col onPress={onCommentPress}>
           <CardItem style={thisStyle.footer}>
             <Left style={thisStyle.planner}>
-              <Thumbnail source={{ uri: "https://www.w3schools.com/howto/img_avatar.png" }} small />
+              <Thumbnail
+                source={{
+                  uri: 'https://www.w3schools.com/howto/img_avatar.png',
+                }}
+                small
+              />
             </Left>
             <Body>
               <Text style={thisStyle.footerText}>{plan.user_name}</Text>
@@ -217,7 +235,12 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
         <Col onPress={onCommentPress}>
           <CardItem style={thisStyle.footer}>
             <Left style={thisStyle.planner}>
-              <Thumbnail source={{ uri: "https://www.w3schools.com/howto/img_avatar.png" }} small />
+              <Thumbnail
+                source={{
+                  uri: 'https://www.w3schools.com/howto/img_avatar.png',
+                }}
+                small
+              />
             </Left>
             <Body>
               <Text style={thisStyle.footerText}>{plan.user_name}</Text>
@@ -243,14 +266,12 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
       }}
       pinColor={color}
       key={place.id}
-    >
-    </Marker >
+    ></Marker>
   );
   const renderDirection = (place: any, index: any) => {
     if (index == 0) {
       origin = place;
-    }
-    else {
+    } else {
       let temp_origin = origin;
       origin = place;
       return (
@@ -266,11 +287,10 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
           apikey={`${API_KEY}`}
           strokeWidth={3}
           strokeColor="orange"
-        >
-        </MapViewDirections>
-      )
+        ></MapViewDirections>
+      );
     }
-  }
+  };
 
   return (
     <Card style={thisStyle.card}>
@@ -288,7 +308,9 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
           }}
           style={thisStyle.map}
         >
-          {plan.spots.map((place: any, index: any) => renderDirection(place, index))}
+          {plan.spots.map((place: any, index: any) =>
+            renderDirection(place, index),
+          )}
           {plan.spots.map((place: any) => renderMarker(place, 'orange'))}
         </MapView>
       </CardItem>

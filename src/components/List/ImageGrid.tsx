@@ -148,58 +148,54 @@ export const ImageGrid: React.FC<Props> = (props: Props) => {
   };
 
   const renderSpots1 = (spot, index) => {
-    if (index % 2 == 0) {
-      return (
-        <Row style={thisStyle.box} onPress={() => imgCheck(index, spot.id)}>
-          <View
-            style={[
-              thisStyle.image,
-              {
-                position: 'absolute',
-                backgroundColor:
-                  setting.length == total.length ? setting[index][0] : '',
-              },
-            ]}
-          ></View>
-          <Image
-            style={[
-              thisStyle.image,
-              {
-                opacity: setting.length == total.length ? setting[index][1] : 1,
-              },
-            ]}
-            source={{ uri: spot.imageUrl }}
-          />
-        </Row>
-      );
-    }
+    return index % 2 == 0 ? (
+      <Row style={thisStyle.box} onPress={() => imgCheck(index, spot.id)}>
+        <View
+          style={[
+            thisStyle.image,
+            {
+              position: 'absolute',
+              backgroundColor:
+                setting.length == total.length ? setting[index][0] : '',
+            },
+          ]}
+        ></View>
+        <Image
+          style={[
+            thisStyle.image,
+            {
+              opacity: setting.length == total.length ? setting[index][1] : 1,
+            },
+          ]}
+          source={{ uri: spot.imageUrl }}
+        />
+      </Row>
+    ) : null;
   };
   const renderSpots2 = (spot, index) => {
-    if (index % 2 != 0) {
-      return (
-        <Row style={thisStyle.box} onPress={() => imgCheck(index, spot.id)}>
-          <View
-            style={[
-              thisStyle.image,
-              {
-                position: 'absolute',
-                backgroundColor:
-                  setting.length == total.length ? setting[index][0] : '',
-              },
-            ]}
-          ></View>
-          <Image
-            style={[
-              thisStyle.image,
-              {
-                opacity: setting.length == total.length ? setting[index][1] : 1,
-              },
-            ]}
-            source={{ uri: spot.imageUrl }}
-          />
-        </Row>
-      );
-    }
+    return index % 2 != 0 ? (
+      <Row style={thisStyle.box} onPress={() => imgCheck(index, spot.id)}>
+        <View
+          style={[
+            thisStyle.image,
+            {
+              position: 'absolute',
+              backgroundColor:
+                setting.length == total.length ? setting[index][0] : '',
+            },
+          ]}
+        ></View>
+        <Image
+          style={[
+            thisStyle.image,
+            {
+              opacity: setting.length == total.length ? setting[index][1] : 1,
+            },
+          ]}
+          source={{ uri: spot.imageUrl }}
+        />
+      </Row>
+    ) : null;
   };
 
   return (

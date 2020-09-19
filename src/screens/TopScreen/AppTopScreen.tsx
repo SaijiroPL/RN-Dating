@@ -70,8 +70,8 @@ const AppTopScreen: React.FC = () => {
   /** メールアドレスでログイン押下時の処理 */
   const openMailAddressScreen = useCallback(() => {
     // デートマスターを初期値に設定しておく
-    const masterMailAddress = 'dragon@gmail.com';
-    const masterPassword = 'dragon';
+    const masterMailAddress = 'master@onedate.com';
+    const masterPassword = 'password';
     setEmailAtSignin(masterMailAddress);
     setPassAtSignin(masterPassword);
     setScreenPhase(1);
