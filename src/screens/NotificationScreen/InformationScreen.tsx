@@ -1,28 +1,35 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 
 // from app
 import { useGlobalState } from 'app/src/Store';
-import { COLOR } from 'app/src/constants';
-import { InformationList } from 'app/src/components/List';
-import { useGetInformationList } from 'app/src/hooks';
+import { COLOR, LAYOUT } from 'app/src/constants';
+import { NotificationList } from 'app/src/components/List';
+import { useGetNotificationList } from 'app/src/hooks';
 import { appTextStyle } from 'app/src/styles';
 
-/** 運営からのお知らせ一覧画面 */
-const InformationScreen: React.FC = () => {
+/** 通知一覧画面 */
+const NotificationAllScreen: React.FC = () => {
   /** ログイン中のユーザー */
   const loginUser = useGlobalState('loginUser');
 
-  /** 運営からのお知らせ一覧取得 */
-  const { isRefreshing, onRefresh, information } = useGetInformationList(
+  /** 通知一覧取得 */
+  const { isRefreshing, onRefresh, notifications } = useGetNotificationList(
     loginUser.id,
   );
 
   return (
     <View style={thisStyle.container}>
-      {information.information_list.length ? (
-        <InformationList
-          informationList={information.information_list}
+      <Image
+        source={{
+          uri:
+            'https://i.pinimg.com/originals/5b/55/88/5b5588af841070a2284ea76e2042dd9d.jpg',
+        }}
+        style={thisStyle.image}
+      />
+      {notifications.notification_list.length ? (
+        <NotificationList
+          notificationList={notifications.notification_list}
           isRefreshing={isRefreshing}
           onRefresh={onRefresh}
         />
@@ -39,7 +46,11 @@ const InformationScreen: React.FC = () => {
 const thisStyle = StyleSheet.create({
   container: {
     backgroundColor: COLOR.backgroundColor,
+    padding: 10,
+  },
+  image: {
+    height: LAYOUT.window.height * 0.2,
   },
 });
 
-export default InformationScreen;
+export default NotificationAllScreen;

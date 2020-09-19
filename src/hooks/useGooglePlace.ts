@@ -79,5 +79,6 @@ export const useGooglePlace = () => {
     setPlaces,
     nextToken,
     API_KEY,
+    baseUrl
   };
 };

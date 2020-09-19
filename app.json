@@ -17,7 +17,11 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.datehq.onedate",
+      "config": {
+        "googleMapsApiKey": "AIzaSyDuF01hShexTHU9FI2u28U9-fmSVBUNmEk"
+      }
     },
     "packagerOpts": {
       "sourceExts": ["ts", "tsx", "js"],
@@ -38,6 +42,14 @@
       "apiEndpoint": {
         "local": "http://localhost:3080",
         "dev": "https://one-date-dev.herokuapp.com"
+      },
+      "googlemapEndpoint": {
+        "api": "https://maps.googleapis.com/maps/api",
+        "key": "AIzaSyCsM1NTvST-ahQ3VC8qRJ6l8QUckrjDMRI"
+      },
+      "ekispertEndpoint": {
+        "api": "http://api.ekispert.jp/v1",
+        "key": "test_PJAzvXweALm"
       },
       "webEndpoint": "https://one-date-dev.web.app"
     }

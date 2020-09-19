@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useCallback, useState, useEffect } from 'react';
+import { StyleSheet, Text, View, ToastAndroid } from 'react-native';
 
 // from app
 import { COLOR } from 'app/src/constants';
@@ -8,6 +8,7 @@ import { PlanCardList } from 'app/src/components/List';
 import { CreatePlanFab } from 'app/src/components/Button';
 import { useGetPlanList } from 'app/src/hooks';
 import { appTextStyle } from 'app/src/styles';
+import axios from 'axios';
 
 /** ホーム画面トップ */
 const HomeScreen: React.FC = () => {
@@ -24,6 +25,16 @@ const HomeScreen: React.FC = () => {
     return LoadingSpinner;
   }
 
+  // if (true) {
+  //   ToastAndroid.showWithGravityAndOffset(
+  //     'プラソを保存しました。',
+  //     ToastAndroid.SHORT,
+  //     ToastAndroid.CENTER,
+  //     25,
+  //     50
+  //   );
+  // }
+
   return (
     <View style={thisStyle.container}>
       <Text style={appTextStyle.countText}>
@@ -33,6 +44,7 @@ const HomeScreen: React.FC = () => {
         planList={plans.plan_list}
         isRefreshing={isRefreshing}
         onRefresh={onRefresh}
+        myPlan={true}
       />
       <CreatePlanFab />
     </View>

@@ -3,8 +3,13 @@ import Constants from 'expo-constants';
 const API_HOST =
   process.env.EXPO_API_ENV === 'development'
     ? Constants.manifest.extra.apiEndpoint.dev
-    : Constants.manifest.extra.apiEndpoint.local;
+    : Constants.manifest.extra.apiEndpoint.dev;
 const WEB_HOST = Constants.manifest.extra.webEndpoint;
+const GOOGLE_MAP_API = Constants.manifest.extra.googlemapEndpoint.api;
+const GOOGLE_MAP_KEY = Constants.manifest.extra.googlemapEndpoint.key;
+
+const EKI_API = Constants.manifest.extra.ekispertEndpoint.api;
+const EKI_KEY = Constants.manifest.extra.ekispertEndpoint.key;
 
 /** APIエンドポイント */
 export const API_ENDPOINT = {
@@ -44,6 +49,7 @@ export const API_ENDPOINT = {
   PLANS_SEARCH_HISTORY: `${API_HOST}/plans/search/history/$1`,
   // お気に入り登録者一覧取得, お気に入り登録, お気に入り解除
   PLAN_LIKES: `${API_HOST}/plans/$1/likes`,
+  PLAN_GET: `${API_HOST}/plans?`,
 };
 
 /** WebViewエンドポイント */
@@ -52,4 +58,16 @@ export const WEB_ENDPOINT = {
   TERMS: `${WEB_HOST}/terms`,
   // プライバシーポリシー
   PRIVACY_POLICY: `${WEB_HOST}/privacy`,
+};
+
+export const EKI_ENDPOINT = {
+  NEARBYPLACE: `${EKI_API}/json/geo/station?key=${EKI_KEY}&geoPoint=$1,$2,wgs84,1000&gcs=wgs84&type=$3`,
+  COURSE: `${EKI_API}/json/search/course/extreme?key=${EKI_KEY}&viaList=$1,$2,wgs84:$3,$4`,
+};
+
+export const GOOGLE_MAP_ENDPOINT = {
+  DISTANCE: `${GOOGLE_MAP_API}/distancematrix/json?units=imperial&origins=$1,$2&destinations=$3,$4&key=${GOOGLE_MAP_KEY}&mode=$5`,
+  //COURSE: `${EKI_API}/json/search/course/extreme?key=${EKI_KEY}&viaList=$1,$2,wgs84:$3,$4`,
+  PLACE_PHOTO: `https://maps.googleapis.com/maps/api/place/photo`,
+  KEY: `${GOOGLE_MAP_KEY}`,
 };

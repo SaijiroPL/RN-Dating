@@ -1,6 +1,15 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { useState, useCallback, useEffect, useRef } from 'react';
-import { StyleSheet, Image, View, Text, FlatList } from 'react-native';
+import {
+  TouchableHighlight,
+  StyleSheet,
+  Image,
+  View,
+  Text,
+  FlatList,
+  Alert,
+  Modal,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Slider, Button, Overlay, CheckBox } from 'react-native-elements';
 import MapView, {
@@ -18,11 +27,17 @@ import { ILocation, IPlace, IPlaceOpenHour } from 'app/src/interfaces/app/Map';
 import { MapCircle } from 'app/src/components/MapItem';
 import { SmallCompleteButton } from 'app/src/components/Button/SmallCompleteButton';
 import { useGooglePlace } from 'app/src/hooks';
-import { COLOR, SPOT_TYPE } from 'app/src/constants';
+import { COLOR, SPOT_TYPE, LAYOUT } from 'app/src/constants';
+import { PlanCard } from 'app/src/components/Element/dist/PlanCard';
+
+import { ActionType } from 'app/src/Reducer';
+import { useDispatch } from 'app/src/Store';
+import { getDistance, getPreciseDistance } from 'geolib';
 
 /** マップからスポット範囲指定画面 */
 const SearchMapScreen: React.FC = () => {
   const { navigate } = useNavigation();
+  const dispatch = useDispatch();
 
   const [location, setLocation] = useState<ILocation>({
     latitude: 35.658606737323325,
@@ -31,47 +46,62 @@ const SearchMapScreen: React.FC = () => {
     longitudeDelta: 0.02757163010454633,
   });
 
-  const [radius, setRadius] = useState(7);
+  const [radius, setRadius] = useState(50);
   const [openHours, setOpenHours] = useState<{ [key: string]: string }>({});
   const [currentOpHour, setCurrentOpHour] = useState('');
   const [spots, setSpots] = useState<IPlace[]>([]);
   const [typesPopup, setTypesPopup] = useState(false);
   const [spotChecked, setSpotChecked] = useState<boolean[]>([]);
+  const [spotSaved, setSpotSaved] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [place, setPlace] = useState({});
 
   const {
-    searchNearbyPlace,
+    // searchNearbyPlace,
     getPlacePhoto,
     getPlaceDetail,
     getPlaceOpeningHours,
-    places,
-    setPlaces,
+    // places,
+    // setPlaces,
     API_KEY,
   } = useGooglePlace();
 
+  const setCreateTempSpots = useCallback(() => {
+    let tempSpots = [];
+    spots.filter((item: any) => {
+      let obj = {
+        spotName: item['name'],
+        address: item['vicinity'],
+        rating: item['user_ratings_total'],
+        imageUrl:
+          item.photos && item.photos.length > 0
+            ? getPlacePhoto(item.photos[0].photo_reference)
+            : 'https://via.placeholder.com/120x90?text=No+Image',
+        latitude: item['geometry']['location']['lat'],
+        longitude: item['geometry']['location']['lng'],
+        id: item['place_id'],
+        heart: false,
+        like: false,
+        check: false,
+        openinghour: '',
+      };
+      tempSpots.push(obj);
+    });
+    dispatch({
+      type: ActionType.SET_CREATE_TEMP_SPOTS,
+      payload: {
+        tempSpots,
+        location,
+        radius,
+      },
+    });
+  }, [spots, location, radius]);
+
   const onCompleteButtonPress = useCallback(() => {
+    setCreateTempSpots();
     navigate('Flick');
     // console.log('complete');
-  }, []);
-
-  useEffect(() => {
-    searchNearbyPlace(location, radius * 100, 'bar');
-  }, [location.latitude, location.longitude, radius]);
-
-  // useEffect(() => {
-  //   if (nextToken) {
-  //     setTimeout(() => {
-  //       getNextPlaces(nextToken);
-  //     }, 500);
-  //   }
-  // }, [nextToken]);
-
-  useEffect(() => {
-    const checked: boolean[] = [];
-    for (let i = 0; i < SPOT_TYPE.length; i += 1) {
-      checked.push(false);
-    }
-    setSpotChecked(checked);
-  }, [SPOT_TYPE]);
+  }, [setCreateTempSpots]);
 
   const mapRef = useRef(null);
 
@@ -134,30 +164,51 @@ const SearchMapScreen: React.FC = () => {
       : 'https://via.placeholder.com/120x90?text=No+Image';
 
   // add Spot to recommend list
-  function onAddSpot(place: IPlace) {
+  async function onAddSpot(place: IPlace) {
     if (spots.indexOf(place) < 0) {
       setSpots((prev) => [...prev, place]);
-      setPlaces((prev) =>
-        prev.filter((item) => item.place_id !== place.place_id),
-      );
+      setPlace({});
+      setSpotSaved(true);
     }
   }
 
   // get place detail on autocomplete
   async function onAutoComplete(details: any) {
     const detail = await getPlaceDetail(details.place_id);
-    if (detail?.opening_hours) {
-      setPlaces((prev) => [...prev, detail]);
-      setLocation((prev) => {
-        return {
-          ...prev,
-          latitude: detail.geometry.location.lat,
-          longitude: detail.geometry.location.lng,
-        };
-      });
+    if (detail) {
+      setModalVisible(true);
+      setPlace(detail);
     }
   }
 
+  const goPlace = () => {
+    setLocation((prev) => {
+      return {
+        ...prev,
+        latitude: place.geometry.location.lat,
+        longitude: place.geometry.location.lng,
+      };
+    });
+    setModalVisible(false);
+  };
+  const displayRadius = () => {
+    let dis = getDistance(
+      { latitude: location.latitude, longitude: location.longitude },
+      {
+        latitude: place.geometry.location.lat,
+        longitude: place.geometry.location.lng,
+      },
+    );
+    if (dis > 20000) {
+      alert('so far');
+    } else {
+      let rad = Math.round(dis / 100);
+      if (rad > radius) {
+        setRadius(rad);
+      }
+    }
+    setModalVisible(false);
+  };
   // autoComplete Object
   const autoComplete = () => (
     <GooglePlacesAutocomplete
@@ -169,36 +220,6 @@ const SearchMapScreen: React.FC = () => {
         key: API_KEY,
         language: 'ja',
       }}
-      renderRightButton={() => (
-        <View
-          style={{
-            marginRight: 10,
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}
-        >
-          <View
-            style={{
-              backgroundColor: '#dedede',
-              height: 30,
-              width: 2,
-              marginRight: 10,
-            }}
-          />
-          <Button
-            onPress={() => {
-              setTypesPopup(true);
-            }}
-            icon={() => (
-              <Entypo name="dots-three-horizontal" size={24} color="#dedede" />
-            )}
-            buttonStyle={{
-              backgroundColor: 'white',
-            }}
-          />
-        </View>
-      )}
       styles={{
         container: thisStyle.headerContainer,
         textInputContainer: thisStyle.headerTextInputContainer,
@@ -214,7 +235,7 @@ const SearchMapScreen: React.FC = () => {
     />
   );
 
-  const renderMarker = (place: IPlace, color: string) => (
+  const renderMarker = (place: any, color: string) => (
     <Marker
       description={place.name}
       coordinate={{
@@ -223,14 +244,15 @@ const SearchMapScreen: React.FC = () => {
       }}
       pinColor={color}
       key={place.id}
-      onSelect={() => onSpotPress(place)}
+      onPress={() => onSpotPress(place)}
+      onCalloutPress={() => onAddSpot(place)}
     >
       <Callout alphaHitTest>
         <View>
           <Text style={{ width: 200, flexWrap: 'wrap' }}>{place.name}</Text>
           <View
             style={{
-              display: 'flex',
+              // display: 'flex',
               flexDirection: 'row',
               marginTop: 5,
             }}
@@ -244,15 +266,15 @@ const SearchMapScreen: React.FC = () => {
                 resizeMode="stretch"
               />
             </Text>
-            <View style={{ marginLeft: 10 }}>
+            <View style={{ marginLeft: 10, flexDirection: 'column' }}>
               <Text>営業時間</Text>
               <Text style={{ width: 100 }}>{currentOpHour}</Text>
-              <CalloutSubview
+              <TouchableHighlight
                 onPress={() => onAddSpot(place)}
                 style={[thisStyle.calloutButton]}
               >
                 <Text style={{ color: '#fff' }}>追加</Text>
-              </CalloutSubview>
+              </TouchableHighlight>
             </View>
           </View>
         </View>
@@ -277,14 +299,17 @@ const SearchMapScreen: React.FC = () => {
         style={thisStyle.map}
         ref={mapRef}
         initialRegion={location}
+        region={location}
         onRegionChange={onRegionChange}
+        minZoomLevel={1}
+        maxZoomLevel={13}
       >
         <MapCircle
           location={location}
           radius={radius * 100}
           color="#FFA50040"
         />
-        {places?.map((place) => renderMarker(place, 'orange'))}
+        {place.place_id ? renderMarker(place, 'orange') : null}
         {spots.map((place) => renderMarker(place, 'green'))}
       </MapView>
       <View
@@ -327,7 +352,7 @@ const SearchMapScreen: React.FC = () => {
         <View style={thisStyle.halfView}>
           <View style={{ flex: 1 }}>
             <View style={thisStyle.spotsContainer}>
-              <Text style={{ fontSize: 10, marginLeft: 10, marginTop: 10 }}>
+              <Text style={{ fontSize: 10, marginLeft: 10 }}>
                 保存済みスポット
               </Text>
             </View>
@@ -336,7 +361,7 @@ const SearchMapScreen: React.FC = () => {
             <Slider
               value={radius}
               minimumValue={0}
-              maximumValue={50}
+              maximumValue={200}
               thumbStyle={{ width: 10, height: 10, backgroundColor: '#000' }}
               trackStyle={{ height: 1 }}
               onValueChange={onRadiusScroll}
@@ -346,24 +371,89 @@ const SearchMapScreen: React.FC = () => {
         </View>
         <View style={thisStyle.halfView}>
           <View>
-            <FlatList
-              data={spots}
-              renderItem={({ item }) => (
-                <Image
-                  source={{ uri: getPhotoUrl(item) }}
-                  style={thisStyle.spotImage}
-                  resizeMode="stretch"
-                  key={item.place_id}
-                />
-              )}
-              horizontal
-            />
+            {spotSaved ? (
+              <FlatList
+                data={spots}
+                renderItem={({ item }) => (
+                  <Image
+                    source={{ uri: getPhotoUrl(item) }}
+                    style={thisStyle.spotImage}
+                    resizeMode="stretch"
+                    key={item.place_id}
+                  />
+                )}
+                horizontal
+              />
+            ) : (
+              <FlatList
+                data={spots}
+                renderItem={({ item }) => (
+                  <Image
+                    source={{ uri: getPhotoUrl(item) }}
+                    style={[thisStyle.spotImage, { width: 40, height: 40 }]}
+                    resizeMode="stretch"
+                    key={item.place_id}
+                  />
+                )}
+                horizontal
+              />
+            )}
           </View>
+        </View>
+        <View style={thisStyle.bottomPanelButton}>
+          {spotSaved ? (
+            <View style={thisStyle.buttonContainer}>
+              <SmallCompleteButton
+                title="スポツトを保存"
+                onPress={() => setSpotSaved(!spotSaved)}
+              />
+            </View>
+          ) : null}
           <View style={thisStyle.buttonContainer}>
             <SmallCompleteButton title="決定" onPress={onCompleteButtonPress} />
           </View>
         </View>
       </View>
+      <Modal
+        animationType={'slide'}
+        transparent
+        visible={modalVisible}
+        onRequestClose={() => {
+          console.log('Modal has been closed.');
+        }}
+      >
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <View
+            style={{
+              alignItems: 'center',
+              width: LAYOUT.window.width * 0.5,
+              height: LAYOUT.window.width * 0.3,
+              backgroundColor: COLOR.backgroundColor,
+              padding: 10,
+              borderRadius: 10,
+            }}
+          >
+            <Text style={thisStyle.headerTextInput}>
+              どのように使用しますか?
+            </Text>
+            <View style={thisStyle.buttonContainer}>
+              <SmallCompleteButton title="円の中心" onPress={goPlace} />
+            </View>
+            <View style={thisStyle.buttonContainer}>
+              <SmallCompleteButton
+                title="スポット表示"
+                onPress={displayRadius}
+              />
+            </View>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 };
@@ -377,16 +467,21 @@ const thisStyle = StyleSheet.create({
     backgroundColor: '#fff',
     position: 'absolute',
     bottom: 0,
-    height: 100,
+    height: 150,
     width: '100%',
   },
   halfView: {
     display: 'flex',
     flexDirection: 'row',
   },
-  buttonContainer: {
-    flex: 1,
+  bottomPanelButton: {
+    flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
+  },
+  buttonContainer: {
+    alignItems: 'center',
+    padding: 5,
   },
   spotsContainer: {
     display: 'flex',
@@ -403,6 +498,7 @@ const thisStyle = StyleSheet.create({
     alignItems: 'center',
     marginRight: 10,
     marginVertical: 10,
+    zIndex: 10,
   },
   spotImage: {
     width: 30,
@@ -431,7 +527,7 @@ const thisStyle = StyleSheet.create({
     marginTop: 2,
     height: 38,
     margin: 'auto',
-    color: '#5d5d5d',
+    // color: '#5d5d5d',
     fontSize: 16,
   },
   headerListView: {
