@@ -12,7 +12,7 @@ interface Props {
 /** ホームタブ */
 // TODO 1Dateのロゴに変更
 export const HomeTabIcon = (props: Props) => (
-  <Image source={IMAGE.logo} fadeDuration={0} style={tabStyle.logo} />
+  <Image source={IMAGE.home_icon} fadeDuration={0} style={tabStyle.logo} />
 );
 
 /** 検索タブ */
@@ -74,6 +74,6 @@ const tabStyle = StyleSheet.create({
   },
   logo: {
     height: 20,
-    width: 20,
+    width: 30,
   },
 });
