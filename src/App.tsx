@@ -4,6 +4,7 @@ import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 // from app
 import { Provider } from 'app/src/Store';
 import { IMAGE, FONT } from 'app/src/constants';
@@ -16,7 +17,7 @@ interface Props {
 
 /** 警告を表示しない設定 */
 YellowBox.ignoreWarnings([]);
-
+console.disableYellowBox = true;
 /** アプリケーションの初期化 */
 const App: React.FC<Props> = (props: Props) => {
   const { skipLoadingScreen } = props;

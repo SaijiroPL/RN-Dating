@@ -67,6 +67,7 @@ export const EKI_ENDPOINT = {
 
 export const GOOGLE_MAP_ENDPOINT = {
   DISTANCE: `${GOOGLE_MAP_API}/distancematrix/json?units=imperial&origins=$1,$2&destinations=$3,$4&key=${GOOGLE_MAP_KEY}&mode=$5`,
+  PLACE: 'https://maps.googleapis.com/maps/api/place',
   //COURSE: `${EKI_API}/json/search/course/extreme?key=${EKI_KEY}&viaList=$1,$2,wgs84:$3,$4`,
   PLACE_PHOTO: `https://maps.googleapis.com/maps/api/place/photo`,
   KEY: `${GOOGLE_MAP_KEY}`,

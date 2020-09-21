@@ -43,7 +43,6 @@ import { IGoogleResult } from 'app/src/interfaces/app/Map';
 import axios from 'axios';
 import { LoadingSpinner } from 'app/src/components/Spinners';
 
-
 /** デートスポット候補スワイプ画面 */
 const SwipeSpotScreen: React.FC = () => {
   const [spots, setSpots] = useState([]);
@@ -71,18 +70,21 @@ const SwipeSpotScreen: React.FC = () => {
     setIsPlacesLoading(true);
     place_load();
   }, [spotChecked]);
-  
-  async function place_load(){
-    let tempSpots = [], tokenState = true, nextToken=undefined;
-    createTempSpots.tempSpots.filter((item)=>tempSpots.push(item));
+
+  async function place_load() {
+    console.disableYellowBox = true;
+    let tempSpots = [],
+      tokenState = true,
+      nextToken = undefined;
+    createTempSpots.tempSpots.filter((item) => tempSpots.push(item));
     let type = spotChecked;
-    if(type.length){
+    if (type.length) {
       for (let i = 0; i < type.length; i++) {
         if (tokenState && !nextToken) {
           let data = await getPlaces1(type[i]);
           if (data.results?.length) {
-            console.log(data.results.length, '22222222222222222222')
-            data.results.filter((item: any, index:any) => {
+            console.log(data.results.length, '22222222222222222222');
+            data.results.filter((item: any, index: any) => {
               let obj = {
                 spotName: item['name'],
                 address: item['vicinity'],
@@ -99,25 +101,22 @@ const SwipeSpotScreen: React.FC = () => {
                 check: false,
                 openinghour: '',
               };
-              if(tempSpots.length){
-                for(let j = 0; j < tempSpots.length; j++){
-                  if(tempSpots[j].id == obj.id){
+              if (tempSpots.length) {
+                for (let j = 0; j < tempSpots.length; j++) {
+                  if (tempSpots[j].id == obj.id) {
                     break;
-                  }
-                  else if(j == tempSpots.length - 1){
+                  } else if (j == tempSpots.length - 1) {
                     tempSpots.push(obj);
                   }
                 }
-              }
-              else{
+              } else {
                 tempSpots.push(obj);
               }
             });
             if (data.next_page_token) {
               nextToken = data.next_page_token;
               i--;
-            }
-            else{
+            } else {
               nextToken = undefined;
             }
           }
@@ -142,25 +141,22 @@ const SwipeSpotScreen: React.FC = () => {
                 check: false,
                 openinghour: '',
               };
-              if(tempSpots.length){
-                for(let j = 0; j < tempSpots.length; j++){
-                  if(tempSpots[j].id == obj.id){
+              if (tempSpots.length) {
+                for (let j = 0; j < tempSpots.length; j++) {
+                  if (tempSpots[j].id == obj.id) {
                     break;
-                  }
-                  else if(j == tempSpots.length - 1){
+                  } else if (j == tempSpots.length - 1) {
                     tempSpots.push(obj);
                   }
                 }
-              }
-              else{
+              } else {
                 tempSpots.push(obj);
               }
             });
             if (data.next_page_token) {
               nextToken = data.next_page_token;
               i--;
-            }
-            else{
+            } else {
               nextToken = undefined;
             }
           }
@@ -170,7 +166,9 @@ const SwipeSpotScreen: React.FC = () => {
       }
       for (let i = 0; i < tempSpots.length; i++) {
         let data = await getOpenHours(tempSpots[i].id);
-        tempSpots.filter((item) => item.id == tempSpots[i].id)[0].openinghour = data;
+        tempSpots.filter(
+          (item) => item.id == tempSpots[i].id,
+        )[0].openinghour = data;
       }
       await setSpots(tempSpots);
       await setIsPlacesLoading(false);
@@ -193,7 +191,7 @@ const SwipeSpotScreen: React.FC = () => {
   useEffect(() => {
     const checked = [];
     for (let i = 0; i < SPOT_TYPE.length; i += 1) {
-      if(SPOT_TYPE[i].id == 'restaurant'){
+      if (SPOT_TYPE[i].id == 'restaurant') {
         checked.push(SPOT_TYPE[i].id);
       }
     }
@@ -501,6 +499,7 @@ const thisStyle = StyleSheet.create({
   },
   footer: {
     flexDirection: 'row',
+
     justifyContent: 'center',
     alignItems: 'flex-end',
     marginTop: LAYOUT.window.height * 0.01,
@@ -536,9 +535,11 @@ const thisStyle = StyleSheet.create({
     backgroundColor: COLOR.tintColor,
   },
   touchable: {
+    display: 'flex',
+    //flexDirection: 'row',
     backgroundColor: COLOR.backgroundColor,
     height: LAYOUT.window.height * 0.1,
-    padding: 10,
+    //padding: 10,
     alignItems: 'center',
     justifyContent: 'center',
   },

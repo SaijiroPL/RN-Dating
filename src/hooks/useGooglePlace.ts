@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useState } from 'react';
 import axios from 'axios';
-
+import { GOOGLE_MAP_ENDPOINT } from 'app/src/constants/Url';
 // from app
 import {
   ILocation,
@@ -13,8 +13,8 @@ import {
 export const useGooglePlace = () => {
   const [places, setPlaces] = useState<IPlace[]>([]);
   const [nextToken, setNextToken] = useState<string | undefined>(undefined);
-  const baseUrl = 'https://maps.googleapis.com/maps/api/place';
-  const API_KEY = 'AIzaSyCsM1NTvST-ahQ3VC8qRJ6l8QUckrjDMRI';
+  const baseUrl = GOOGLE_MAP_ENDPOINT.PLACE;
+  const API_KEY = GOOGLE_MAP_ENDPOINT.KEY;
 
   const searchNearbyPlace = async (
     location: ILocation,
@@ -79,6 +79,6 @@ export const useGooglePlace = () => {
     setPlaces,
     nextToken,
     API_KEY,
-    baseUrl
+    baseUrl,
   };
 };

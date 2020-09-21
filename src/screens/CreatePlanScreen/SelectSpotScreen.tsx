@@ -17,11 +17,11 @@ const SelectSpotScreen: React.FC = () => {
   const onCompleteButtonPress = useCallback(() => {
     let total = [];
     for (let i = 0; i < createRealSpots.total.length; i++) {
-      // if (createRealSpots.total[i].check) {
+      if (createRealSpots.total[i].check) {
         total.push(createRealSpots.total[i]);
-      // }
+      }
     }
-    if(total.length){
+    if (total.length) {
       dispatch({
         type: ActionType.SET_CREATE_REAL_SPOTS,
         payload: {
@@ -29,8 +29,7 @@ const SelectSpotScreen: React.FC = () => {
         },
       });
       navigate('Arrange');
-    }
-    else{
+    } else {
       alert('No Place!');
     }
   }, []);

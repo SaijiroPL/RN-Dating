@@ -35,12 +35,14 @@ import { useGooglePlace } from 'app/src/hooks';
 import moment from 'moment';
 import axios from 'axios';
 import { LoadingSpinner } from 'app/src/components/Spinners';
+import { ActionType } from 'app/src/Reducer';
 import { EKI_ENDPOINT } from 'app/src/constants/Url';
 import { GOOGLE_MAP_ENDPOINT } from 'app/src/constants/Url';
 import { API_ENDPOINT } from 'app/src/constants/Url';
 /** デートスポット順番並べ替え画面 */
 const ArrangeRouteScreen: React.FC = () => {
   const { navigate } = useNavigation();
+  const dispatch = useDispatch();
 
   const { API_KEY } = useGooglePlace();
   const createRealSpots = useGlobalState('createRealSpots');
@@ -66,13 +68,47 @@ const ArrangeRouteScreen: React.FC = () => {
     pol_origin = null;
 
   const onGotoHome = () => {
-    const spots = spotRoad.map((item, index) => ({
-      spot_name: item.spotName,
-      latitude: item.latitude,
-      longitude: item.longitude,
-      order: index + 1,
-      need_time: 60,
-    }));
+    var config = save();
+    axios(config)
+      .then(function (response) {
+        if (response.data.code == 200) {
+          navigate('Home');
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+  const onCompleteButtonPress = useCallback(() => {
+    var config = save();
+    axios(config)
+      .then(function (response) {
+        if (response.data.code == 200) {
+          navigate('Home');
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
+  // 仮データ
+
+  useEffect(() => {
+    getAllData();
+  }, []);
+
+  function save() {
+    let spots = [];
+    for (let i = 0; i < spotRoad.length; i++) {
+      let obj = {
+        spot_name: spotRoad[i].spotName,
+        latitude: spotRoad[i].latitude,
+        longitude: spotRoad[i].longitude,
+        order: i + 1,
+        need_time: 60,
+      };
+      spots.push(obj);
+    }
     let data = {
       user_id: loginUser.id,
       title: title,
@@ -85,30 +121,11 @@ const ArrangeRouteScreen: React.FC = () => {
     var config = {
       method: 'post',
       url: API_ENDPOINT.PLAN_GET,
-      headers: {
-        'Content-Type': 'application/json',
-      },
       data: data,
     };
+    return config;
+  }
 
-    axios(config)
-      .then(function (response) {
-        if (response.data.code == 200) {
-          navigate('Home');
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
-  const onCompleteButtonPress = useCallback(() => {
-    navigate('Plan');
-  }, []);
-  // 仮データ
-
-  useEffect(() => {
-    getAllData();
-  }, []);
   async function getSpotRoad(start, array) {
     let spotArray = [];
     spotArray.push(start);
@@ -137,35 +154,40 @@ const ArrangeRouteScreen: React.FC = () => {
     await setSpotRoad(spotArray);
     return spotArray;
   }
+
   async function getSpotTransitRoad(array, type) {
     let totalArray = [];
-    for (let i = 0; i < array.length - 1; i++) {
-      for (let j = i + 1; j < array.length; j++) {
-        if (i == j - 1) {
-          let dis = getDistance(
-            { latitude: array[i].latitude, longitude: array[i].longitude },
-            { latitude: array[j].latitude, longitude: array[j].longitude },
-          );
-          if (dis < 2000) {
-            array[i].transitmode = 'walking';
-            array[j].transitmode = 'transit';
-            totalArray.push(array[i]);
-            if (i == array.length - 2) {
-              array[j].transitmode = 'walking';
-              totalArray.push(array[j]);
-            }
-          } else {
-            array[i].transitmode = 'walking';
-            totalArray.push(array[i]);
-            let nearbyplace = await getNearbyPlace(array[i], type);
-            nearbyplace.transitmode = 'transit';
-            totalArray.push(nearbyplace);
-            let nearbyplace1 = await getNearbyPlace(array[j], type);
-            nearbyplace1.transitmode = 'transit';
-            totalArray.push(nearbyplace1);
-            if (i == array.length - 2) {
-              array[j].transitmode = 'walking';
-              totalArray.push(array[j]);
+    if (array.length == 1) {
+      totalArray = array;
+    } else {
+      for (let i = 0; i < array.length - 1; i++) {
+        for (let j = i + 1; j < array.length; j++) {
+          if (i == j - 1) {
+            let dis = getDistance(
+              { latitude: array[i].latitude, longitude: array[i].longitude },
+              { latitude: array[j].latitude, longitude: array[j].longitude },
+            );
+            if (dis < 2000) {
+              array[i].transitmode = 'walking';
+              array[j].transitmode = 'transit';
+              totalArray.push(array[i]);
+              if (i == array.length - 2) {
+                array[j].transitmode = 'walking';
+                totalArray.push(array[j]);
+              }
+            } else {
+              array[i].transitmode = 'walking';
+              totalArray.push(array[i]);
+              let nearbyplace = await getNearbyPlace(array[i], type);
+              nearbyplace.transitmode = 'transit';
+              totalArray.push(nearbyplace);
+              let nearbyplace1 = await getNearbyPlace(array[j], type);
+              nearbyplace1.transitmode = 'transit';
+              totalArray.push(nearbyplace1);
+              if (i == array.length - 2) {
+                array[j].transitmode = 'walking';
+                totalArray.push(array[j]);
+              }
             }
           }
         }
@@ -174,6 +196,7 @@ const ArrangeRouteScreen: React.FC = () => {
     await setSpotTrasitRoad(totalArray);
     return totalArray;
   }
+
   async function getAllData() {
     await setSpotFromDate(createPlan.fromDate.split(' ')[1]);
     if (createPlan.trasportations[0] == 'car') {
@@ -212,6 +235,7 @@ const ArrangeRouteScreen: React.FC = () => {
       getTransitDuration(nearby);
     }
   }
+
   async function getNearbyPlace(data, type) {
     var url = EKI_ENDPOINT.NEARBYPLACE.replace('$1', data.latitude)
       .replace('$2', data.longitude)

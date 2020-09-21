@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Container, Content, Text } from 'native-base';
@@ -31,6 +31,10 @@ const PlanDetailScreen: React.FC = () => {
 
   /** ナビゲーター */
   const { navigate } = useNavigation();
+
+  if (route) {
+    console.log(route, planNavigationParam, '-----------------------------');
+  }
 
   /** デートプラン詳細取得 */
   const { isPlanLoading, plan, getPlanDetail } = useGetPlanDetail(
