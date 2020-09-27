@@ -9,22 +9,27 @@ import {
   FlatList,
   Alert,
   Modal,
+  Platform,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Slider, Button, Overlay, CheckBox } from 'react-native-elements';
 import MapView, {
   Marker,
   Callout,
+  Circle,
   CalloutSubview,
+  PROVIDER_GOOGLE,
   Region,
+  PROVIDER_DEFAULT,
 } from 'react-native-maps';
+
 import debounce from 'lodash/debounce';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Entypo } from '@expo/vector-icons';
 
 // from app
 import { ILocation, IPlace, IPlaceOpenHour } from 'app/src/interfaces/app/Map';
-import { MapCircle } from 'app/src/components/MapItem';
+import { MyMapCircle } from 'app/src/components/MapItem';
 import { SmallCompleteButton } from 'app/src/components/Button/SmallCompleteButton';
 import { useGooglePlace } from 'app/src/hooks';
 import { COLOR, SPOT_TYPE, LAYOUT } from 'app/src/constants';
@@ -46,7 +51,7 @@ const SearchMapScreen: React.FC = () => {
     longitudeDelta: 0.02757163010454633,
   });
 
-  const [radius, setRadius] = useState(50);
+  const [radius, setRadius] = useState(10);
   const [openHours, setOpenHours] = useState<{ [key: string]: string }>({});
   const [currentOpHour, setCurrentOpHour] = useState('');
   const [spots, setSpots] = useState<IPlace[]>([]);
@@ -100,6 +105,7 @@ const SearchMapScreen: React.FC = () => {
   const onCompleteButtonPress = useCallback(() => {
     setCreateTempSpots();
     navigate('Flick');
+
     // console.log('complete');
   }, [setCreateTempSpots]);
 
@@ -165,6 +171,7 @@ const SearchMapScreen: React.FC = () => {
 
   // add Spot to recommend list
   async function onAddSpot(place: IPlace) {
+    console.log("sdfsdfsd");
     if (spots.indexOf(place) < 0) {
       setSpots((prev) => [...prev, place]);
       setPlace({});
@@ -234,8 +241,10 @@ const SearchMapScreen: React.FC = () => {
       }}
     />
   );
-
+  //TouchableHighlight
+  //
   const renderMarker = (place: any, color: string) => (
+
     <Marker
       description={place.name}
       coordinate={{
@@ -247,7 +256,7 @@ const SearchMapScreen: React.FC = () => {
       onPress={() => onSpotPress(place)}
       onCalloutPress={() => onAddSpot(place)}
     >
-      <Callout alphaHitTest>
+      <Callout alphaHitTest onPress={() => onAddSpot(place)}>
         <View>
           <Text style={{ width: 200, flexWrap: 'wrap' }}>{place.name}</Text>
           <View
@@ -269,12 +278,15 @@ const SearchMapScreen: React.FC = () => {
             <View style={{ marginLeft: 10, flexDirection: 'column' }}>
               <Text>営業時間</Text>
               <Text style={{ width: 100 }}>{currentOpHour}</Text>
-              <TouchableHighlight
+              {/*
+              <CalloutSubview
+                key={'test'}
                 onPress={() => onAddSpot(place)}
                 style={[thisStyle.calloutButton]}
               >
                 <Text style={{ color: '#fff' }}>追加</Text>
-              </TouchableHighlight>
+              </CalloutSubview> */}
+
             </View>
           </View>
         </View>
@@ -286,6 +298,7 @@ const SearchMapScreen: React.FC = () => {
     <>
       <MapView
         testID="mapView"
+        provider={PROVIDER_GOOGLE}
         showsMyLocationButton={false}
         showsPointsOfInterest={false}
         showsCompass={false}
@@ -304,14 +317,31 @@ const SearchMapScreen: React.FC = () => {
         minZoomLevel={1}
         maxZoomLevel={13}
       >
-        <MapCircle
+
+
+        {/* <MyMapCircle
           location={location}
           radius={radius * 100}
           color="#FFA50040"
+        /> */}
+
+        <Circle
+          key={'test'}
+          center={{
+            latitude: location.latitude,
+            longitude: location.longitude,
+            latitudeDelta: location.latitudeDelta,
+            longitudeDelta: location.longitudeDelta,
+          }}
+          strokeColor={'transparent'}
+          fillColor={'#FFA50040'}
+          radius={radius * 100}
         />
         {place.place_id ? renderMarker(place, 'orange') : null}
         {spots.map((place) => renderMarker(place, 'green'))}
+
       </MapView>
+
       <View
         style={{
           position: 'absolute',
@@ -385,19 +415,19 @@ const SearchMapScreen: React.FC = () => {
                 horizontal
               />
             ) : (
-              <FlatList
-                data={spots}
-                renderItem={({ item }) => (
-                  <Image
-                    source={{ uri: getPhotoUrl(item) }}
-                    style={[thisStyle.spotImage, { width: 40, height: 40 }]}
-                    resizeMode="stretch"
-                    key={item.place_id}
-                  />
-                )}
-                horizontal
-              />
-            )}
+                <FlatList
+                  data={spots}
+                  renderItem={({ item }) => (
+                    <Image
+                      source={{ uri: getPhotoUrl(item) }}
+                      style={[thisStyle.spotImage, { width: 40, height: 40 }]}
+                      resizeMode="stretch"
+                      key={item.place_id}
+                    />
+                  )}
+                  horizontal
+                />
+              )}
           </View>
         </View>
         <View style={thisStyle.bottomPanelButton}>
@@ -433,7 +463,7 @@ const SearchMapScreen: React.FC = () => {
             style={{
               alignItems: 'center',
               width: LAYOUT.window.width * 0.5,
-              height: LAYOUT.window.width * 0.3,
+              height: LAYOUT.window.width * 0.4,
               backgroundColor: COLOR.backgroundColor,
               padding: 10,
               borderRadius: 10,

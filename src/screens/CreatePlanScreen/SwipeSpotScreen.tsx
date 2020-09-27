@@ -332,7 +332,7 @@ const SwipeSpotScreen: React.FC = () => {
                     >
                       <View
                         style={{
-                          height: LAYOUT.window.height * 0.04,
+                          height: LAYOUT.window.height * 0.05,
                           padding: 10,
                         }}
                       >
@@ -374,22 +374,22 @@ const SwipeSpotScreen: React.FC = () => {
                       >
                         <FontAwesome5
                           name="heart"
-                          size={40}
+                          size={5}
                           color={COLOR.greyColor}
                         />
                       </TouchableOpacity>
                     ) : (
-                      <TouchableOpacity
-                        style={thisStyle.footerIcon2}
-                        onPress={() => setSpotSelect(item)}
-                      >
-                        <FontAwesome5
-                          name="heart"
-                          size={40}
-                          color={COLOR.tintColor}
-                        />
-                      </TouchableOpacity>
-                    )}
+                        <TouchableOpacity
+                          style={thisStyle.footerIcon2}
+                          onPress={() => setSpotSelect(item)}
+                        >
+                          <FontAwesome5
+                            name="heart"
+                            size={40}
+                            color={COLOR.tintColor}
+                          />
+                        </TouchableOpacity>
+                      )}
                     {item.like ? (
                       <TouchableOpacity
                         style={[
@@ -405,17 +405,17 @@ const SwipeSpotScreen: React.FC = () => {
                         />
                       </TouchableOpacity>
                     ) : (
-                      <TouchableOpacity
-                        style={thisStyle.footerIcon1}
-                        onPress={() => setSpotLike(item)}
-                      >
-                        <FontAwesome5
-                          name="star"
-                          size={30}
-                          color={COLOR.tintColor}
-                        />
-                      </TouchableOpacity>
-                    )}
+                        <TouchableOpacity
+                          style={thisStyle.footerIcon1}
+                          onPress={() => setSpotLike(item)}
+                        >
+                          <FontAwesome5
+                            name="star"
+                            size={30}
+                            color={COLOR.tintColor}
+                          />
+                        </TouchableOpacity>
+                      )}
                   </CardItem>
                 </Card>
               );
@@ -501,9 +501,9 @@ const thisStyle = StyleSheet.create({
     flexDirection: 'row',
 
     justifyContent: 'center',
-    alignItems: 'flex-end',
-    marginTop: LAYOUT.window.height * 0.01,
-    marginBottom: LAYOUT.window.height * 0.01,
+    alignItems: 'center',
+    //marginTop: LAYOUT.window.height * 0.01,
+    //marginBottom: LAYOUT.window.height * 0.01,
     height: LAYOUT.window.height * 0.1,
   },
   footerText: {
@@ -513,7 +513,7 @@ const thisStyle = StyleSheet.create({
     backgroundColor: COLOR.greyColor,
     width: LAYOUT.window.width * 0.1,
     height: LAYOUT.window.width * 0.1,
-    padding: 10,
+    padding: 5,
     borderRadius: LAYOUT.window.width * 0.1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -524,8 +524,8 @@ const thisStyle = StyleSheet.create({
     backgroundColor: COLOR.greyColor,
     width: LAYOUT.window.width * 0.13,
     height: LAYOUT.window.width * 0.13,
-    padding: 10,
-    borderRadius: LAYOUT.window.width * 0.13,
+    padding: 5,
+    borderRadius: LAYOUT.window.width * 0.16,
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: LAYOUT.window.width * 0.05,
@@ -535,19 +535,24 @@ const thisStyle = StyleSheet.create({
     backgroundColor: COLOR.tintColor,
   },
   touchable: {
+    position: 'absolute',
+    bottom: 0,
     display: 'flex',
-    //flexDirection: 'row',
+    flexDirection: 'column',
     backgroundColor: COLOR.backgroundColor,
-    height: LAYOUT.window.height * 0.1,
-    //padding: 10,
+    height: LAYOUT.window.height * 0.07,
+    padding: 0,
+    marginBottom: 0,
+    marginTop: 0,
     alignItems: 'center',
     justifyContent: 'center',
+
   },
   button: {
     justifyContent: 'center',
     backgroundColor: COLOR.tintColor,
     width: LAYOUT.window.width * 0.3,
     borderRadius: 10,
-    marginBottom: 5,
+    marginBottom: 0,
   },
 });

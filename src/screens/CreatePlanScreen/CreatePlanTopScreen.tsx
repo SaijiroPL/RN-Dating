@@ -17,7 +17,7 @@ const CreatePlanTopScreen: React.FC = () => {
   const { navigate } = useNavigation();
   const dispatch = useDispatch();
 
-  const [fromDate, updateFrom] = useState<string>('');
+  const [fromDate, updateFrom] = useState<String>(new Date().toString());
   const [toDate, updateTo] = useState<string>('');
   const [car, setCar] = useState<boolean>(false);
   const [train, setTrain] = useState<boolean>(false);
@@ -118,8 +118,8 @@ const CreatePlanTopScreen: React.FC = () => {
       {fromDate === '' || toDate === '' || (!car && !train && !bus && !walk) ? (
         <SmallCompleteButton title="決定" disabled />
       ) : (
-        <SmallCompleteButton title="決定" onPress={onCompleteButtonPress} />
-      )}
+          <SmallCompleteButton title="決定" onPress={onCompleteButtonPress} />
+        )}
       <View style={{ marginBottom: 10 }} />
     </View>
   );
