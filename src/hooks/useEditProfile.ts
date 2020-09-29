@@ -79,13 +79,14 @@ export const useEditProfile = (userId: string) => {
     };
 
     console.log('Update data', body);
+    console.log(url);
 
     try {
       await axios.put<IOK>(`${url}/status`, {
         status: body.status,
       });
     } catch (e) {
-      console.log(e);
+      console.log(e.messge);
     }
     try {
       await axios.put<IOK>(url, body);
