@@ -26,6 +26,7 @@ export const useEditProfile = (userId: string) => {
   const [mailAddress, setMailAddress] = useState<string>('');
   /** ローディング状態 */
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isPrivate, setIsPrivate] = useState<boolean>(false);
 
   /** ユーザー情報取得正常レスポンス */
   const [user, setUser] = useState<IUserDetail>({
@@ -43,6 +44,7 @@ export const useEditProfile = (userId: string) => {
     follow_count: 0,
     follower_count: 0,
     is_follow: false,
+    status: 'public',
   });
 
   /** 異常レスポンス */
@@ -73,8 +75,18 @@ export const useEditProfile = (userId: string) => {
       age: age !== user.age ? age : undefined,
       address: address !== user.address ? address : undefined,
       mail_address: mailAddress !== user.mail_address ? mailAddress : undefined,
+      status: !isPrivate ? 'public' : 'private',
     };
 
+    console.log('Update data', body);
+
+    try {
+      await axios.put<IOK>(`${url}/status`, {
+        status: body.status,
+      });
+    } catch (e) {
+      console.log(e);
+    }
     try {
       await axios.put<IOK>(url, body);
     } catch (err) {
@@ -105,12 +117,16 @@ export const useEditProfile = (userId: string) => {
         },
         cancelToken: signal.token,
       });
+
+      console.log('User detail:', data);
+
       setUser(data);
       setName(data.name);
       setProfile(data.profile);
       setAge(data.age);
       setAddress(data.address);
       setMailAddress(data.mail_address);
+      setIsPrivate(data.status === 'private');
     } catch (err) {
       if (axios.isCancel(err)) {
         console.log(`Request Cancelled: ${err.message}`);
@@ -139,5 +155,7 @@ export const useEditProfile = (userId: string) => {
     updateProfile,
     isLoading,
     errors,
+    isPrivate,
+    setIsPrivate,
   };
 };
