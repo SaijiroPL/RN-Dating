@@ -60,9 +60,9 @@ const MyProfileScreen: React.FC = () => {
           small
         />
         <Body style={thisStyle.body}>
-          <Text style={(thisStyle.mainText, [{ fontSize: 18 }])}>{'花子'}</Text>
+          <Text style={(thisStyle.mainText, [{ fontSize: 18 }])}>花子</Text>
           <Text note style={(thisStyle.mainText, [{ marginLeft: 10 }])}>
-            {'habako.des'}
+            habako.des
           </Text>
         </Body>
       </Left>
@@ -71,6 +71,7 @@ const MyProfileScreen: React.FC = () => {
       </Right>
     </CardItem>
   );
+
   return (
     <View style={[{ padding: 20 }]}>
       <UserProfile
