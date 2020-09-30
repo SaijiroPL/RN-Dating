@@ -41,7 +41,7 @@
       },
       "apiEndpoint": {
         "local": "http://localhost:3080",
-        "dev": "http://localhost:3080"
+        "dev": "https://one-date-dev.herokuapp.com"
       },
       "googlemapEndpoint": {
         "api": "https://maps.googleapis.com/maps/api",
