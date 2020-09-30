@@ -1,6 +1,7 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useRoute } from '@react-navigation/native';
+import { COLOR } from 'app/src/constants';
 
 // from app
 import { useGlobalState } from 'app/src/Store';
@@ -40,7 +41,7 @@ const ProfileScreen: React.FC = () => {
   }
 
   return (
-    <View style={appStyle.standardContainer}>
+    <View style={thisStyle.container}>
       <UserProfile
         user={user}
         follow={follow}
@@ -56,5 +57,13 @@ const ProfileScreen: React.FC = () => {
     </View>
   );
 };
+
+const thisStyle = StyleSheet.create({
+  container: {
+    backgroundColor: COLOR.backgroundColor,
+    flex: 1,
+    justifyContent: 'center',
+  },
+});
 
 export default ProfileScreen;
