@@ -13,7 +13,7 @@ export const EditPlanFab: React.FC = () => {
   /** プラン編集画面に遷移 */
   const toCreate = useCallback(() => {
     // TODO プラン編集画面に遷移
-    navigate('Top');
+    navigate('PostNav');
   }, []);
 
   return (

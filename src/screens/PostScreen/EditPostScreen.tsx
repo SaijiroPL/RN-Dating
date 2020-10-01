@@ -8,6 +8,7 @@ import {
   Left,
   Body,
   // Switch,
+  View,
   Right,
   Form,
   Label,
@@ -20,13 +21,13 @@ import {
 import { CompleteButton } from 'app/src/components/Button';
 import { appTextStyle } from 'app/src/styles';
 
-/** 投稿作成画面 */
-const PostScreen: React.FC = () => {
+/** 投稿編集画面 */
+const EditPostScreen: React.FC = () => {
   /** ナビゲーター */
   const { navigate } = useNavigation();
 
   const onCompleteButtonPress = useCallback(() => {
-    navigate('Post');
+    // navigate('Post');
   }, []);
 
   return (
@@ -62,7 +63,9 @@ const PostScreen: React.FC = () => {
           <Switch onValueChange={handleSwitchPrivateValue} value={privateOn} /> */}
         </Right>
       </Content>
-      <CompleteButton title="投稿" onPress={onCompleteButtonPress} />
+      <View style={{ alignItems: 'center' }}>
+        <CompleteButton title="投稿" onPress={onCompleteButtonPress} />
+      </View>
     </Container>
   );
 };
@@ -76,4 +79,4 @@ const PostScreen: React.FC = () => {
 //   },
 // });
 
-export default PostScreen;
+export default EditPostScreen;
