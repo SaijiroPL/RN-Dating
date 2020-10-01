@@ -5,15 +5,25 @@ import { AntDesign } from '@expo/vector-icons';
 
 // from app
 import { COLOR } from 'app/src/constants';
+import { IPlan } from 'app/src/interfaces/api/Plan';
 
+interface EditPostScreenProps {
+  plan: IPlan;
+}
 /** プラン編集フローティングボタン */
-export const EditPlanFab: React.FC = () => {
-  const { navigate } = useNavigation();
+export const EditPlanFab: React.FC<EditPostScreenProps> = (
+  props: EditPostScreenProps,
+) => {
+  const navigation = useNavigation();
+  const { plan } = props;
 
   /** プラン編集画面に遷移 */
   const toCreate = useCallback(() => {
     // TODO プラン編集画面に遷移
-    navigate('PostNav');
+    navigation.navigate('PostNav', {
+      screen: 'EditPost',
+      params: { plan },
+    });
   }, []);
 
   return (

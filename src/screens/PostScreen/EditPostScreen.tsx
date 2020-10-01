@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 // import { StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import {
   Container,
   Content,
@@ -23,8 +23,8 @@ import { appTextStyle } from 'app/src/styles';
 
 /** 投稿編集画面 */
 const EditPostScreen: React.FC = () => {
-  /** ナビゲーター */
-  const { navigate } = useNavigation();
+  const { params } = useRoute();
+  const { plan } = params;
 
   const onCompleteButtonPress = useCallback(() => {
     // navigate('Post');
@@ -38,12 +38,12 @@ const EditPostScreen: React.FC = () => {
         <Form>
           <Item fixedLabel>
             {/* TODO ここにスポットの名前が自動で挿入されるようにする */}
-            <Label>スポット名を入力</Label>
-            <Input />
+            <Label>プラン名</Label>
+            <Input value={plan.title} />
           </Item>
           <Item fixedLabel last>
-            <Label>ポイントを書く</Label>
-            <Input />
+            <Label>プランの説明</Label>
+            <Input value={plan.description} />
           </Item>
         </Form>
         <Left>

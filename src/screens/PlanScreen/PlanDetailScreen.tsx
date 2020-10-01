@@ -153,7 +153,7 @@ const PlanDetailScreen: React.FC = () => {
           </View>
         )}
       </Content>
-      <EditPlanFab />
+      <EditPlanFab plan={plan} />
     </Container>
   );
 };
