@@ -14,6 +14,7 @@ export interface IUserDetail {
   follow_count: number;
   follower_count: number;
   is_follow: boolean;
+  status: string;
 }
 
 /** ユーザー登録APIリクエストボディ */
@@ -48,6 +49,7 @@ export interface IUpdateUserBody {
   area?: string;
   address?: string;
   mail_address?: string;
+  status: string;
 }
 
 /** パスワード編集APIレスポンス */

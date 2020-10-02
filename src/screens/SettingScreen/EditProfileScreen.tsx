@@ -47,6 +47,8 @@ const EditProfileScreen: React.FC = () => {
     updateProfile,
     isLoading,
     errors,
+    isPrivate,
+    setIsPrivate,
   } = useEditProfile(loginUser.id);
 
   /** 更新ボタン押下時の処理 */
@@ -81,10 +83,8 @@ const EditProfileScreen: React.FC = () => {
     });
   }
 
-  const [privateOn, setPrivateOn] = useState<boolean>(false);
-
   const handleSwitchPrivateValue = useCallback((value: boolean) => {
-    setPrivateOn(value);
+    setIsPrivate(value);
   }, []);
 
   // ローディング
@@ -157,7 +157,7 @@ const EditProfileScreen: React.FC = () => {
           <Right>
             <Switch
               onValueChange={handleSwitchPrivateValue}
-              value={privateOn}
+              value={isPrivate}
             />
           </Right>
         </ListItem>
