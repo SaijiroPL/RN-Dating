@@ -16,6 +16,7 @@ interface Props {
 
 /** 警告を表示しない設定 */
 YellowBox.ignoreWarnings([]);
+console.disableYellowBox = true;
 
 /** アプリケーションの初期化 */
 const App: React.FC<Props> = (props: Props) => {
