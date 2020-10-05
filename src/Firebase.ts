@@ -1,4 +1,4 @@
-import Facebook from 'expo-facebook';
+import * as Facebook from 'expo-facebook';
 import firebase from 'firebase';
 import Constants from 'expo-constants';
 
@@ -11,8 +11,11 @@ export const facebookLogin = async () => {
 
   try {
     // prettier-ignore
-    const facebookLoginResult = await Facebook.logInWithReadPermissionsAsync(appId);
-
+    await Facebook.initializeAsync(appId);
+    const facebookLoginResult = await Facebook.logInWithReadPermissionsAsync(
+      appId,
+    );
+    console.log('facebookLoginResult: ', facebookLoginResult);
     if (facebookLoginResult.type === 'success') {
       // prettier-ignore
       const credential = firebase.auth.FacebookAuthProvider.credential(facebookLoginResult.token);

@@ -78,9 +78,6 @@ export const useEditProfile = (userId: string) => {
       status: !isPrivate ? 'public' : 'private',
     };
 
-    console.log('Update data', body);
-    console.log(url);
-
     try {
       await axios.put<IOK>(`${url}/status`, {
         status: body.status,
