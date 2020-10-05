@@ -34,6 +34,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { useGooglePlace } from 'app/src/hooks';
 import { useDispatch, useGlobalState } from 'app/src/Store';
 import { ActionType } from 'app/src/Reducer';
+
 interface Props {
   plan: IPlan;
   myPlan?: boolean;
@@ -266,14 +267,15 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
       }}
       pinColor={color}
       key={place.id}
-    ></Marker>
+    />
   );
   const renderDirection = (place: any, index: any) => {
     if (index == 0) {
       origin = place;
     } else {
-      let temp_origin = origin;
+      const temp_origin = origin;
       origin = place;
+
       return (
         <MapViewDirections
           origin={{
@@ -287,48 +289,53 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
           apikey={`${API_KEY}`}
           strokeWidth={3}
           strokeColor="orange"
-        ></MapViewDirections>
+        />
       );
     }
   };
 
   return (
-    <Card style={thisStyle.card}>
-      {PlannerHeader}
-      <CardItem cardBody>
-        <Image source={{ uri: plan.user_image_url }} style={thisStyle.image} />
-      </CardItem>
-      <CardItem cardBody>
-        <MapView
-          region={{
-            latitude: plan.spots[0].latitude,
-            longitude: plan.spots[0].longitude,
-            latitudeDelta: 0.02,
-            longitudeDelta: 0.05,
-          }}
-          style={thisStyle.map}
-        >
-          {plan.spots.map((place: any, index: any) =>
-            renderDirection(place, index),
-          )}
-          {plan.spots.map((place: any) => renderMarker(place, 'orange'))}
-        </MapView>
-      </CardItem>
-      <CardItem style={thisStyle.description}>
-        <Left>
-          <Text style={thisStyle.mainText}>{plan.title}</Text>
-        </Left>
-        <Right>
-          <ScrollView horizontal>
-            <Text note style={thisStyle.descriptionText}>
-              {plan.spots.map((spot) => spot.spot_name).join(' > ')}
-            </Text>
-          </ScrollView>
-        </Right>
-      </CardItem>
-      {myPlan && PlannerLike}
-      {myPlan && PlannerFooter}
-    </Card>
+    <TouchableOpacity onPress={onPlanPress}>
+      <Card style={thisStyle.card}>
+        {PlannerHeader}
+        <CardItem cardBody>
+          <Image
+            source={{ uri: plan.user_image_url }}
+            style={thisStyle.image}
+          />
+        </CardItem>
+        <CardItem cardBody>
+          <MapView
+            region={{
+              latitude: plan.spots[0].latitude,
+              longitude: plan.spots[0].longitude,
+              latitudeDelta: 0.02,
+              longitudeDelta: 0.05,
+            }}
+            style={thisStyle.map}
+          >
+            {plan.spots.map((place: any, index: any) =>
+              renderDirection(place, index),
+            )}
+            {plan.spots.map((place: any) => renderMarker(place, 'orange'))}
+          </MapView>
+        </CardItem>
+        <CardItem style={thisStyle.description}>
+          <Left>
+            <Text style={thisStyle.mainText}>{plan.title}</Text>
+          </Left>
+          <Right>
+            <ScrollView horizontal>
+              <Text note style={thisStyle.descriptionText}>
+                {plan.spots.map((spot) => spot.spot_name).join(' > ')}
+              </Text>
+            </ScrollView>
+          </Right>
+        </CardItem>
+        {myPlan && PlannerLike}
+        {myPlan && PlannerFooter}
+      </Card>
+    </TouchableOpacity>
   );
 };
 
