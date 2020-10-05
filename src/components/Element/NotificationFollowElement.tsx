@@ -15,7 +15,7 @@ import { COLOR, IMAGE } from 'app/src/constants';
 import { INotification } from 'app/src/interfaces/api/Notification';
 
 import { useDispatch, useGlobalState } from 'app/src/Store';
-import { useFollowUser } from '../../hooks/useFollowUser';
+import { useFollowUser } from 'app/src/hooks/useFollowUser';
 
 interface Props {
   notification: INotification;
@@ -31,8 +31,6 @@ export const NotificationFollowElement: React.FC<Props> = (props: Props) => {
   const followHook = useFollowUser(loginUser.id);
 
   const unFollow = async () => {
-    // console.log(loginUser.id);
-    // console.log(notification.user_id);
     await followHook.unfollow(notification.user_id);
     setFollowed(false);
   };
@@ -70,7 +68,7 @@ export const NotificationFollowElement: React.FC<Props> = (props: Props) => {
               <Button title="フォロー" onPress={follow} color="green" />
             )}
             {followed && (
-              <Button title="アンフォロー" onPress={unFollow} color="red" />
+              <Button title="フォロー中" onPress={unFollow} color="red" />
             )}
           </View>
         )}

@@ -81,12 +81,9 @@ export const useGetNotificationList = (userId: string) => {
       userId,
     )}/${notifyId}`;
     try {
-      const { data } = await axios.put(url);
-      console.log('Notification:', data);
+      await axios.put(url);
     } catch (err) {
-      if (axios.isCancel(err)) {
-        console.log(`Request Cancelled: ${err.message}`);
-      } else {
+      if (!axios.isCancel(err)) {
         const apiError = handleError(err);
         if (apiError) {
           setErrors(apiError);

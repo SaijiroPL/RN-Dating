@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, FlatList, View } from 'react-native';
+import { Button, FlatList, View, TouchableOpacity } from 'react-native';
 
 // from app
 import { NOTIFICATION_CATEGORY } from 'app/src/constants/Enum';
@@ -10,7 +10,6 @@ import {
   NotificationLikeElement,
   NotificationCommentElement,
 } from 'app/src/components/Element';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useGetNotificationList } from 'app/src/hooks';
 import { useGlobalState } from 'app/src/Store';
 
@@ -27,11 +26,8 @@ export const NotificationList: React.FC<Props> = (props: Props) => {
 
   const { readNotification } = useGetNotificationList(loginUser.id);
 
-  const onReadNotification = (notifyId: string) => {
-    console.log('Read notification');
-    readNotification(notifyId).then((e) => {
-      console.log(e);
-    });
+  const onReadNotification = async (notifyId: string) => {
+    await readNotification(notifyId);
   };
 
   /** 通知リスト要素の描画 */
