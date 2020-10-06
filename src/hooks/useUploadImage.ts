@@ -55,13 +55,7 @@ export const useUploadImage = () => {
           method: 'post',
           data: formData,
           headers: { 'Content-Type': 'multipart/form-data' },
-        })
-          .then((res) => {
-            console.log('Upload user profile', res);
-          })
-          .catch((err) => {
-            console.log('Upload user profile', err.response);
-          });
+        });
       }
     } catch (err) {
       console.log(err);
