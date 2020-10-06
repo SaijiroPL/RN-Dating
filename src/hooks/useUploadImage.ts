@@ -4,6 +4,7 @@ import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import Axios from 'axios';
 import { useGlobalState } from 'app/src/Store';
+import { API_ENDPOINT } from 'app/src/constants';
 
 /** 画像アップロードフック */
 export const useUploadImage = () => {
@@ -43,21 +44,24 @@ export const useUploadImage = () => {
 
       if (!result.cancelled) {
         setImage(result.uri);
-        // const formData = new FormData();
+        const formData = new FormData();
         // TODO: Call api for upload avatar here
-
-        // Axios({
-        //   url: API_ENDPOINT.USER.replace('$1', user.user_id),
-        //   method: 'post',
-        //   data: formData,
-        //   headers: { 'Content-Type': 'multipart/form-data' },
-        // })
-        //   .then((res) => {
-        //     console.log('Upload user profile', res);
-        //   })
-        //   .catch((err) => {
-        //     console.log('Upload user profile', err);
-        //   });
+        formData.append('file', result);
+        Axios({
+          url: `${API_ENDPOINT.USER.replace(
+            '$1',
+            loginUser.id,
+          )}/profimageupload`,
+          method: 'post',
+          data: formData,
+          headers: { 'Content-Type': 'multipart/form-data' },
+        })
+          .then((res) => {
+            console.log('Upload user profile', res);
+          })
+          .catch((err) => {
+            console.log('Upload user profile', err.response);
+          });
       }
     } catch (err) {
       console.log(err);
