@@ -39,6 +39,8 @@ export const UserProfile: React.FC<Props> = (props: Props) => {
     navigate('MyPlan');
   }, []);
 
+  console.log(user);
+
   return (
     <View style={thisStyle.container}>
       <Thumbnail
@@ -53,7 +55,12 @@ export const UserProfile: React.FC<Props> = (props: Props) => {
       />
       {me && pickImage && <ImagePickerButton pickImage={pickImage} />}
       <View style={thisStyle.userInfoContainer}>
-        <Text style={thisStyle.nameText}>{user.name}</Text>
+        <Text style={thisStyle.nameText}>
+          {user.name}
+          {user.user_attr === 'official' && (
+            <Text style={thisStyle.officalStar}>★</Text>
+          )}
+        </Text>
         <Text note style={thisStyle.nameText}>
           @{user.user_id}
         </Text>
@@ -130,5 +137,8 @@ const thisStyle = StyleSheet.create({
     color: COLOR.textTintColor,
     fontFamily: 'genju-light',
     fontSize: 15,
+  },
+  officalStar: {
+    color: '#ff891f',
   },
 });

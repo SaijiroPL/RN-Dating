@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, View } from 'react-native';
+import { Button, FlatList, View, TouchableOpacity } from 'react-native';
 
 // from app
 import { NOTIFICATION_CATEGORY } from 'app/src/constants/Enum';
@@ -10,6 +10,8 @@ import {
   NotificationLikeElement,
   NotificationCommentElement,
 } from 'app/src/components/Element';
+import { useGetNotificationList } from 'app/src/hooks';
+import { useGlobalState } from 'app/src/Store';
 
 interface Props {
   notificationList: Array<INotification>;
@@ -20,6 +22,13 @@ interface Props {
 /** 通知リスト */
 export const NotificationList: React.FC<Props> = (props: Props) => {
   const { notificationList, isRefreshing, onRefresh } = props;
+  const loginUser = useGlobalState('loginUser');
+
+  const { readNotification } = useGetNotificationList(loginUser.id);
+
+  const onReadNotification = async (notifyId: string) => {
+    await readNotification(notifyId);
+  };
 
   /** 通知リスト要素の描画 */
   const renderNotificationElement = ({
@@ -27,16 +36,29 @@ export const NotificationList: React.FC<Props> = (props: Props) => {
   }: {
     item: INotification;
   }): JSX.Element => {
+    let returnItem = null;
     switch (item.notification_category) {
       case NOTIFICATION_CATEGORY.FOLLOW:
         return <NotificationFollowElement notification={item} />;
       case NOTIFICATION_CATEGORY.LIKE:
-        return <NotificationLikeElement notification={item} />;
+        returnItem = <NotificationLikeElement notification={item} />;
+        break;
       case NOTIFICATION_CATEGORY.COMMENT:
-        return <NotificationCommentElement notification={item} />;
+        returnItem = <NotificationCommentElement notification={item} />;
+        break;
       default:
-        return <View />;
+        returnItem = <View />;
     }
+
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          onReadNotification(item.notification_id);
+        }}
+      >
+        {returnItem}
+      </TouchableOpacity>
+    );
   };
 
   return (

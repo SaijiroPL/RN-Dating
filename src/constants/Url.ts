@@ -56,6 +56,7 @@ export const API_ENDPOINT = {
 export const WEB_ENDPOINT = {
   // 利用規約
   TERMS: `${WEB_HOST}/terms`,
+  ABOUT: `${WEB_HOST}/about`,
   // プライバシーポリシー
   PRIVACY_POLICY: `${WEB_HOST}/privacy`,
 };
@@ -67,7 +68,7 @@ export const EKI_ENDPOINT = {
 
 export const GOOGLE_MAP_ENDPOINT = {
   DISTANCE: `${GOOGLE_MAP_API}/distancematrix/json?units=imperial&origins=$1,$2&destinations=$3,$4&key=${GOOGLE_MAP_KEY}&mode=$5`,
-  //COURSE: `${EKI_API}/json/search/course/extreme?key=${EKI_KEY}&viaList=$1,$2,wgs84:$3,$4`,
+  // COURSE: `${EKI_API}/json/search/course/extreme?key=${EKI_KEY}&viaList=$1,$2,wgs84:$3,$4`,
   PLACE_PHOTO: `https://maps.googleapis.com/maps/api/place/photo`,
   KEY: `${GOOGLE_MAP_KEY}`,
 };
