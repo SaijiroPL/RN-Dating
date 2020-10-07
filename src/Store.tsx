@@ -2,6 +2,7 @@ import React, { createContext, useReducer, useContext } from 'react';
 
 // from app
 import Reducer, { State, Action } from 'app/src/Reducer';
+import { LatLng } from 'react-native-maps';
 
 const initialState: State = {
   loginUser: {
@@ -16,8 +17,11 @@ const initialState: State = {
   createPlan: {
     date: '',
     transportations: [],
-  },
-  createTempSpots: {
+    center: {
+      latitude: 35.658606737323325,
+      longitude: 139.69814462256613,
+    } as LatLng,
+    radius: 1000,
     spots: [],
   },
   createRealSpots: {

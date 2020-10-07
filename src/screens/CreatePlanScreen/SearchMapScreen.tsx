@@ -1,43 +1,28 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useState, useCallback, useEffect, useRef } from 'react';
-import {
-  TouchableHighlight,
-  StyleSheet,
-  Image,
-  View,
-  Text,
-  FlatList,
-  Alert,
-  Modal,
-  Platform,
-} from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { StyleSheet, Image, View, Text, FlatList, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Slider, Button, Overlay, CheckBox } from 'react-native-elements';
+import { Slider } from 'react-native-elements';
 import MapView, {
   Marker,
   Callout,
   Circle,
   CalloutSubview,
-  PROVIDER_GOOGLE,
   Region,
-  PROVIDER_DEFAULT,
+  LatLng,
 } from 'react-native-maps';
 
 import debounce from 'lodash/debounce';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { Entypo } from '@expo/vector-icons';
-
 // from app
-import { ILocation, IPlace, IPlaceOpenHour } from 'app/src/interfaces/app/Map';
-import { MyMapCircle } from 'app/src/components/MapItem';
+import { ILocation, IPlace } from 'app/src/interfaces/app/Map';
 import { SmallCompleteButton } from 'app/src/components/Button/SmallCompleteButton';
 import { useGooglePlace } from 'app/src/hooks';
-import { COLOR, SPOT_TYPE, LAYOUT } from 'app/src/constants';
-import { PlanCard } from 'app/src/components/Element/dist/PlanCard';
+import { COLOR, LAYOUT } from 'app/src/constants';
 
-import { ActionType } from 'app/src/Reducer';
-import { useDispatch } from 'app/src/Store';
-import { getDistance, getPreciseDistance } from 'geolib';
+import { ActionType, SelectedPlace } from 'app/src/Reducer';
+import { useDispatch, useGlobalState } from 'app/src/Store';
+import { getDistance, earthRadius } from 'geolib';
 
 /** マップからスポット範囲指定画面 */
 const SearchMapScreen: React.FC = () => {
@@ -51,69 +36,63 @@ const SearchMapScreen: React.FC = () => {
     longitudeDelta: 0.02757163010454633,
   });
 
+  const [center, setCenter] = useState<LatLng>({
+    latitude: 35.658606737323325,
+    longitude: 139.69814462256613,
+  } as LatLng);
+
   const [radius, setRadius] = useState(10);
   const [openHours, setOpenHours] = useState<{ [key: string]: string }>({});
   const [currentOpHour, setCurrentOpHour] = useState('');
   const [spots, setSpots] = useState<IPlace[]>([]);
-  const [typesPopup, setTypesPopup] = useState(false);
-  const [spotChecked, setSpotChecked] = useState<boolean[]>([]);
-  const [spotSaved, setSpotSaved] = useState(false);
+  const [places, setPlaces] = useState<IPlace[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
-  const [place, setPlace] = useState({});
+  const [place, setPlace] = useState<IPlace | null>(null);
+  const [searching, setSearching] = useState(false);
 
   const {
-    // searchNearbyPlace,
     getPlacePhoto,
     getPlaceDetail,
     getPlaceOpeningHours,
-    // places,
-    // setPlaces,
+    formatPlaceOpeningHours,
     API_KEY,
   } = useGooglePlace();
 
-  const setCreateTempSpots = useCallback(() => {
-    let tempSpots = [];
-    spots.filter((item: any) => {
-      let obj = {
-        spotName: item['name'],
-        address: item['vicinity'],
-        rating: item['user_ratings_total'],
-        imageUrl:
-          item.photos && item.photos.length > 0
-            ? getPlacePhoto(item.photos[0].photo_reference)
-            : 'https://via.placeholder.com/120x90?text=No+Image',
-        latitude: item['geometry']['location']['lat'],
-        longitude: item['geometry']['location']['lng'],
-        id: item['place_id'],
+  const mapRef = useRef(null);
+  const createPlan = useGlobalState('createPlan');
+
+  function onCompleteButtonPress() {
+    const tempSpots = [];
+    for (let i = 0; i < spots.length; i += 1) {
+      const item = spots[i];
+      const obj = {
+        place: item,
         heart: false,
         like: false,
         check: false,
-        openinghour: '',
-      };
+      } as SelectedPlace;
       tempSpots.push(obj);
-    });
+    }
     dispatch({
-      type: ActionType.SET_CREATE_TEMP_SPOTS,
+      type: ActionType.SET_CREATE_PLAN,
       payload: {
-        tempSpots,
-        location,
+        ...createPlan,
+        spots: tempSpots,
+        center,
         radius,
       },
     });
-  }, [spots, location, radius]);
-
-  const onCompleteButtonPress = useCallback(() => {
-    setCreateTempSpots();
     navigate('Flick');
-
-    // console.log('complete');
-  }, [setCreateTempSpots]);
-
-  const mapRef = useRef(null);
+  }
 
   // map region changed
   const handleMapMoved = debounce((newRegion: Region) => {
     setLocation(newRegion);
+    const newCenter = {
+      latitude: newRegion.latitude,
+      longitude: newRegion.longitude,
+    } as LatLng;
+    setCenter(newCenter);
   }, 100);
 
   function onRegionChange(newRegion: Region) {
@@ -121,65 +100,32 @@ const SearchMapScreen: React.FC = () => {
   }
 
   // Radius Change event
+  function onRadiusScroll(value: number) {
+    handleRadiusScroll(value);
+  }
+
   const handleRadiusScroll = debounce((value: number) => {
     setRadius(value);
   }, 100);
 
-  function onRadiusScroll(value: number) {
-    handleRadiusScroll(value);
-  }
-  // Spot Photo and Operation Hour
-  async function onSpotPress(place: IPlace) {
-    if (!openHours[place.place_id]) {
-      const openHours = await getPlaceOpeningHours(place.place_id);
-      if (openHours) {
-        setOpenHours((prev) => {
-          const obj = prev;
-          obj[place.place_id] = formatPlaceOpeningHours(openHours);
+  const deg2rad = (angle: number) => (angle / 180) * Math.PI;
+  const rad2deg = (angle: number) => (angle / Math.PI) * 180;
 
-          return obj;
-        });
-        setCurrentOpHour(formatPlaceOpeningHours(openHours));
-      }
-    } else {
-      setCurrentOpHour(openHours[place.place_id]);
-    }
-  }
+  useEffect(() => {
+    const radiusInRad = (radius * 2.2 * 100) / earthRadius;
+    const lngDelta = rad2deg(
+      radiusInRad / Math.cos(deg2rad(location.latitude)),
+    );
+    const latDelta = rad2deg(radiusInRad);
+    setLocation({
+      latitude: location.latitude,
+      longitude: location.longitude,
+      longitudeDelta: lngDelta,
+      latitudeDelta: latDelta,
+    } as ILocation);
+  }, [radius]);
 
-  const formatOpHour = (value: string) =>
-    `${value.slice(0, 2)}:${value.slice(2, 4)}`;
-
-  function formatPlaceOpeningHours(opHour: IPlaceOpenHour) {
-    if (opHour.periods) {
-      const dayHour = opHour.periods[0];
-      if (dayHour && dayHour.close) {
-        return `${formatOpHour(dayHour.open.time)} - ${formatOpHour(
-          dayHour.close.time,
-        )}`;
-      }
-
-      return '24時間営業';
-    }
-
-    return '';
-  }
-
-  const getPhotoUrl = (place: IPlace) =>
-    place.photos && place.photos.length > 0
-      ? getPlacePhoto(place.photos[0].photo_reference)
-      : 'https://via.placeholder.com/120x90?text=No+Image';
-
-  // add Spot to recommend list
-  async function onAddSpot(place: IPlace) {
-    console.log("sdfsdfsd");
-    if (spots.indexOf(place) < 0) {
-      setSpots((prev) => [...prev, place]);
-      setPlace({});
-      setSpotSaved(true);
-    }
-  }
-
-  // get place detail on autocomplete
+  // Autocomplete
   async function onAutoComplete(details: any) {
     const detail = await getPlaceDetail(details.place_id);
     if (detail) {
@@ -188,40 +134,12 @@ const SearchMapScreen: React.FC = () => {
     }
   }
 
-  const goPlace = () => {
-    setLocation((prev) => {
-      return {
-        ...prev,
-        latitude: place.geometry.location.lat,
-        longitude: place.geometry.location.lng,
-      };
-    });
-    setModalVisible(false);
-  };
-  const displayRadius = () => {
-    let dis = getDistance(
-      { latitude: location.latitude, longitude: location.longitude },
-      {
-        latitude: place.geometry.location.lat,
-        longitude: place.geometry.location.lng,
-      },
-    );
-    if (dis > 20000) {
-      alert('so far');
-    } else {
-      let rad = Math.round(dis / 100);
-      if (rad > radius) {
-        setRadius(rad);
-      }
-    }
-    setModalVisible(false);
-  };
-  // autoComplete Object
   const autoComplete = () => (
     <GooglePlacesAutocomplete
       placeholder="Search"
       onPress={(details) => {
         onAutoComplete(details);
+        setSearching(false);
       }}
       query={{
         key: API_KEY,
@@ -239,12 +157,78 @@ const SearchMapScreen: React.FC = () => {
           height: 0,
         },
       }}
+      textInputProps={{
+        onFocus: () => setSearching(true),
+        onBlur: () => setSearching(false),
+      }}
     />
   );
-  //TouchableHighlight
-  //
-  const renderMarker = (place: any, color: string) => (
 
+  const goPlace = () => {
+    if (place) {
+      setLocation((prev) => {
+        return {
+          ...prev,
+          latitude: place.geometry.location.lat,
+          longitude: place.geometry.location.lng,
+        };
+      });
+      setCenter({
+        latitude: place.geometry.location.lat,
+        longitude: place.geometry.location.lng,
+      } as LatLng);
+    }
+    setModalVisible(false);
+  };
+  const displayRadius = () => {
+    if (place) {
+      const dis = getDistance(
+        { latitude: location.latitude, longitude: location.longitude },
+        {
+          latitude: place.geometry.location.lat,
+          longitude: place.geometry.location.lng,
+        },
+      );
+      console.log(place.user_ratings_total);
+      if (dis < 50000) {
+        setPlaces((prev) => [...prev, place]);
+        const rad = Math.round(dis / 100);
+        if (rad > radius) {
+          setRadius(rad);
+        }
+      }
+    }
+    setModalVisible(false);
+  };
+  // Marker related actions
+  const getPhotoUrl = (place: IPlace) =>
+    place.photos && place.photos.length > 0
+      ? getPlacePhoto(place.photos[0].photo_reference)
+      : 'https://via.placeholder.com/120x90?text=No+Image';
+
+  async function onAddSpot(place: IPlace) {
+    console.log('onAdd');
+    if (spots.indexOf(place) < 0) {
+      setSpots((prev) => [...prev, place]);
+    }
+  }
+  async function onSpotPress(place: IPlace) {
+    if (!openHours[place.place_id]) {
+      const openHours = await getPlaceOpeningHours(place.place_id);
+      if (openHours) {
+        setOpenHours((prev) => {
+          const obj = prev;
+          obj[place.place_id] = formatPlaceOpeningHours(openHours);
+
+          return obj;
+        });
+        setCurrentOpHour(formatPlaceOpeningHours(openHours));
+      }
+    } else {
+      setCurrentOpHour(openHours[place.place_id]);
+    }
+  }
+  const renderMarker = (place: IPlace, color: string) => (
     <Marker
       description={place.name}
       coordinate={{
@@ -252,11 +236,10 @@ const SearchMapScreen: React.FC = () => {
         longitude: place.geometry.location.lng,
       }}
       pinColor={color}
-      key={place.id}
+      key={place.place_id}
       onPress={() => onSpotPress(place)}
-      onCalloutPress={() => onAddSpot(place)}
     >
-      <Callout alphaHitTest onPress={() => onAddSpot(place)}>
+      <Callout alphaHitTest>
         <View>
           <Text style={{ width: 200, flexWrap: 'wrap' }}>{place.name}</Text>
           <View
@@ -278,15 +261,14 @@ const SearchMapScreen: React.FC = () => {
             <View style={{ marginLeft: 10, flexDirection: 'column' }}>
               <Text>営業時間</Text>
               <Text style={{ width: 100 }}>{currentOpHour}</Text>
-              {/*
+
               <CalloutSubview
-                key={'test'}
+                key="test"
                 onPress={() => onAddSpot(place)}
                 style={[thisStyle.calloutButton]}
               >
                 <Text style={{ color: '#fff' }}>追加</Text>
-              </CalloutSubview> */}
-
+              </CalloutSubview>
             </View>
           </View>
         </View>
@@ -295,10 +277,9 @@ const SearchMapScreen: React.FC = () => {
   );
 
   return (
-    <>
+    <View>
       <MapView
         testID="mapView"
-        provider={PROVIDER_GOOGLE}
         showsMyLocationButton={false}
         showsPointsOfInterest={false}
         showsCompass={false}
@@ -314,78 +295,49 @@ const SearchMapScreen: React.FC = () => {
         initialRegion={location}
         region={location}
         onRegionChange={onRegionChange}
-        minZoomLevel={1}
-        maxZoomLevel={13}
+        mapPadding={{ top: 20, left: 0, right: 0, bottom: 40 }}
       >
-
-
-        {/* <MyMapCircle
-          location={location}
-          radius={radius * 100}
-          color="#FFA50040"
-        /> */}
-
         <Circle
-          key={'test'}
-          center={{
-            latitude: location.latitude,
-            longitude: location.longitude,
-            latitudeDelta: location.latitudeDelta,
-            longitudeDelta: location.longitudeDelta,
-          }}
-          strokeColor={'transparent'}
-          fillColor={'#FFA50040'}
+          key="center"
+          center={center}
+          strokeColor="transparent"
+          fillColor="#FFA50040"
           radius={radius * 100}
         />
-        {place.place_id ? renderMarker(place, 'orange') : null}
+        {places.map((place) => renderMarker(place, 'green'))}
         {spots.map((place) => renderMarker(place, 'green'))}
-
       </MapView>
-
       <View
         style={{
           position: 'absolute',
           top: 20,
           width: '90%',
           marginHorizontal: '5%',
+          opacity: searching ? 1 : 0.5,
         }}
       >
         {autoComplete()}
       </View>
-      <Overlay
-        isVisible={typesPopup}
-        windowBackgroundColor="rgba(0, 0, 0, .5)"
-        overlayBackgroundColor="white"
-        onBackdropPress={() => {
-          setTypesPopup(false);
-        }}
-        width="auto"
-        height={500}
-      >
-        <FlatList
-          data={SPOT_TYPE}
-          renderItem={({ item, index }) => (
-            <CheckBox
-              title={item.title}
-              checked={spotChecked[index]}
-              onPress={() => {
-                const arrChecked = [...spotChecked];
-                arrChecked[index] = !arrChecked[index];
-                setSpotChecked(arrChecked);
-              }}
-            />
-          )}
-          keyExtractor={(item) => item.id}
-        />
-      </Overlay>
       <View style={thisStyle.bottomPanel}>
         <View style={thisStyle.halfView}>
           <View style={{ flex: 1 }}>
             <View style={thisStyle.spotsContainer}>
-              <Text style={{ fontSize: 10, marginLeft: 10 }}>
+              <Text style={{ fontSize: 10, marginLeft: 10, marginBottom: 10 }}>
                 保存済みスポット
               </Text>
             </View>
+            <FlatList
+              data={spots}
+              renderItem={({ item }) => (
+                <Image
+                  source={{ uri: getPhotoUrl(item) }}
+                  style={thisStyle.spotImage}
+                  resizeMode="stretch"
+                  key={item.place_id}
+                />
+              )}
+              horizontal
+            />
           </View>
           <View style={{ flex: 1 }}>
             <Slider
@@ -397,55 +349,17 @@ const SearchMapScreen: React.FC = () => {
               onValueChange={onRadiusScroll}
               style={{ marginLeft: 20, marginRight: 20 }}
             />
-          </View>
-        </View>
-        <View style={thisStyle.halfView}>
-          <View>
-            {spotSaved ? (
-              <FlatList
-                data={spots}
-                renderItem={({ item }) => (
-                  <Image
-                    source={{ uri: getPhotoUrl(item) }}
-                    style={thisStyle.spotImage}
-                    resizeMode="stretch"
-                    key={item.place_id}
-                  />
-                )}
-                horizontal
-              />
-            ) : (
-                <FlatList
-                  data={spots}
-                  renderItem={({ item }) => (
-                    <Image
-                      source={{ uri: getPhotoUrl(item) }}
-                      style={[thisStyle.spotImage, { width: 40, height: 40 }]}
-                      resizeMode="stretch"
-                      key={item.place_id}
-                    />
-                  )}
-                  horizontal
-                />
-              )}
-          </View>
-        </View>
-        <View style={thisStyle.bottomPanelButton}>
-          {spotSaved ? (
             <View style={thisStyle.buttonContainer}>
               <SmallCompleteButton
-                title="スポツトを保存"
-                onPress={() => setSpotSaved(!spotSaved)}
+                onPress={onCompleteButtonPress}
+                title="決定"
               />
             </View>
-          ) : null}
-          <View style={thisStyle.buttonContainer}>
-            <SmallCompleteButton title="決定" onPress={onCompleteButtonPress} />
           </View>
         </View>
       </View>
       <Modal
-        animationType={'slide'}
+        animationType="slide"
         transparent
         visible={modalVisible}
         onRequestClose={() => {
@@ -462,7 +376,7 @@ const SearchMapScreen: React.FC = () => {
           <View
             style={{
               alignItems: 'center',
-              width: LAYOUT.window.width * 0.5,
+              width: LAYOUT.window.width * 0.55,
               height: LAYOUT.window.width * 0.4,
               backgroundColor: COLOR.backgroundColor,
               padding: 10,
@@ -484,7 +398,7 @@ const SearchMapScreen: React.FC = () => {
           </View>
         </View>
       </Modal>
-    </>
+    </View>
   );
 };
 
@@ -497,7 +411,7 @@ const thisStyle = StyleSheet.create({
     backgroundColor: '#fff',
     position: 'absolute',
     bottom: 0,
-    height: 150,
+    height: 100,
     width: '100%',
   },
   halfView: {
@@ -516,7 +430,6 @@ const thisStyle = StyleSheet.create({
   spotsContainer: {
     display: 'flex',
     flexDirection: 'row',
-    height: 40,
     marginTop: 10,
   },
   calloutButton: {
@@ -531,8 +444,8 @@ const thisStyle = StyleSheet.create({
     zIndex: 10,
   },
   spotImage: {
-    width: 30,
-    height: 30,
+    width: 50,
+    height: 50,
     marginLeft: 5,
   },
   headerContainer: {

@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  useRef,
+  useMemo,
+} from 'react';
 
 import {
   DeckSwiper,
@@ -20,6 +26,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 
+import Carousel from 'react-native-snap-carousel';
 // from app
 import { ICandidateSpot } from 'app/src/interfaces/app/Spot';
 import { SpotSwiper } from 'app/src/components/Content';
@@ -27,10 +34,14 @@ import { CompleteFooterButton } from 'app/src/components/Button';
 import { useGooglePlace } from 'app/src/hooks';
 import { useDispatch, useGlobalState } from 'app/src/Store';
 import { useNavigation } from '@react-navigation/native';
-import { ActionType } from 'app/src/Reducer';
-import SelectSpotScreen from './dist/SelectSpotScreen';
-import { ILocation, IPlace, IPlaceOpenHour } from 'app/src/interfaces/app/Map';
-import { COLOR, SPOT_TYPE, LAYOUT } from 'app/src/constants';
+import { ActionType, SelectedPlace } from 'app/src/Reducer';
+import {
+  ILocation,
+  IPlace,
+  IPlaceOpenHour,
+  IGoogleResult,
+} from 'app/src/interfaces/app/Map';
+import { COLOR, SPOT_TYPE, LAYOUT, getTypeIndex } from 'app/src/constants';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Slider, Button, Overlay, CheckBox } from 'react-native-elements';
 import {
@@ -39,245 +50,221 @@ import {
   Entypo,
   Ionicons,
 } from '@expo/vector-icons';
-import { IGoogleResult } from 'app/src/interfaces/app/Map';
+
 import axios from 'axios';
 import { LoadingSpinner } from 'app/src/components/Spinners';
+import SelectSpotScreen from 'app/src/screens/CreatePlanScreen/SelectSpotScreen';
 
 /** デートスポット候補スワイプ画面 */
 const SwipeSpotScreen: React.FC = () => {
-  const [spots, setSpots] = useState([]);
-  const [typesPopup, setTypesPopup] = useState(false);
-  const [spotChecked, setSpotChecked] = useState([]);
-  const [deletedSpots, setDeletedSpots] = useState<ICandidateSpot>([]);
-  const [isPlacesLoading, setIsPlacesLoading] = useState<boolean>(true);
-
   const {
-    // searchNearbyPlace,
+    searchNearbyPlace,
     getPlacePhoto,
     getPlaceDetail,
     getPlaceOpeningHours,
-    // places,
-    // setPlaces,
+    places,
+    setPlaces,
     API_KEY,
     baseUrl,
   } = useGooglePlace();
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
 
-  const createTempSpots = useGlobalState('createTempSpots');
+  const createPlan = useGlobalState('createPlan');
+  const [typesPopup, setTypesPopup] = useState(false);
+  const [isPlacesLoading, setIsPlacesLoading] = useState<boolean>(true);
+  const [spots, setSpots] = useState<SelectedPlace[]>(createPlan.spots);
+  const [deletedSpots, setDeletedSpots] = useState<string[]>([]);
+  const [excludeTypes, setExcludeTypes] = useState<number[]>([]);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [currentSpot, setCurrentSpot] = useState<SelectedPlace>();
+
+  const carouselRef = useRef();
+
+  const showSpots = useMemo(() => {
+    const result = [...spots];
+
+    const includeTypes: number[] = [];
+    for (let i = 0; i < SPOT_TYPE.length; i += 1) {
+      if (excludeTypes.indexOf(i) < 0) includeTypes.push(i);
+    }
+
+    return result.filter((value) => {
+      if (deletedSpots.indexOf(value.place.place_id) >= 0) return false;
+
+      for (let i = 0; i < value.place.types.length; i += 1) {
+        const type = value.place.types[i];
+        const typeIdx = getTypeIndex(type);
+        if (includeTypes.indexOf(typeIdx) >= 0) {
+          return true;
+        }
+      }
+
+      return false;
+    });
+  }, [excludeTypes, deletedSpots, spots]);
+
+  function onPressSpotType(index: number) {
+    const orgExcludeTypes = [...excludeTypes];
+    const exists = excludeTypes.indexOf(index);
+    if (exists >= 0) {
+      orgExcludeTypes.splice(exists, 1);
+      setExcludeTypes(orgExcludeTypes);
+    } else {
+      setExcludeTypes((prev) => [...prev, index]);
+    }
+  }
+
+  function loadSpotByTypeIndex(idx: number) {
+    if (idx < SPOT_TYPE.length) {
+      searchNearbyPlace(
+        createPlan.center,
+        createPlan.radius * 100,
+        SPOT_TYPE[idx].id,
+      );
+      setTimeout(() => {
+        loadSpotByTypeIndex(idx + 1);
+      }, 100);
+    } else {
+      setIsPlacesLoading(false);
+    }
+  }
 
   useEffect(() => {
     setIsPlacesLoading(true);
-    place_load();
-  }, [spotChecked]);
+    loadSpotByTypeIndex(0);
+  }, []);
 
-  async function place_load() {
-    console.disableYellowBox = true;
-    let tempSpots = [],
-      tokenState = true,
-      nextToken = undefined;
-    createTempSpots.tempSpots.filter((item) => tempSpots.push(item));
-    let type = spotChecked;
-    if (type.length) {
-      for (let i = 0; i < type.length; i++) {
-        if (tokenState && !nextToken) {
-          let data = await getPlaces1(type[i]);
-          if (data.results?.length) {
-            console.log(data.results.length, '22222222222222222222');
-            data.results.filter((item: any, index: any) => {
-              let obj = {
-                spotName: item['name'],
-                address: item['vicinity'],
-                rating: item['user_ratings_total'],
-                imageUrl:
-                  item.photos && item.photos.length > 0
-                    ? getPlacePhoto(item.photos[0].photo_reference)
-                    : 'https://via.placeholder.com/120x90?text=No+Image',
-                latitude: item['geometry']['location']['lat'],
-                longitude: item['geometry']['location']['lng'],
-                id: item['place_id'],
-                heart: false,
-                like: false,
-                check: false,
-                openinghour: '',
-              };
-              if (tempSpots.length) {
-                for (let j = 0; j < tempSpots.length; j++) {
-                  if (tempSpots[j].id == obj.id) {
-                    break;
-                  } else if (j == tempSpots.length - 1) {
-                    tempSpots.push(obj);
-                  }
-                }
-              } else {
-                tempSpots.push(obj);
-              }
-            });
-            if (data.next_page_token) {
-              nextToken = data.next_page_token;
-              i--;
-            } else {
-              nextToken = undefined;
-            }
-          }
-          tokenState = false;
-        } else if (nextToken) {
-          let data = await getPlaces2(type[i], nextToken);
-          if (data.results?.length) {
-            data.results.filter((item: any) => {
-              let obj = {
-                spotName: item['name'],
-                address: item['vicinity'],
-                rating: item['user_ratings_total'],
-                imageUrl:
-                  item.photos && item.photos.length > 0
-                    ? getPlacePhoto(item.photos[0].photo_reference)
-                    : 'https://via.placeholder.com/120x90?text=No+Image',
-                latitude: item['geometry']['location']['lat'],
-                longitude: item['geometry']['location']['lng'],
-                id: item['place_id'],
-                heart: false,
-                like: false,
-                check: false,
-                openinghour: '',
-              };
-              if (tempSpots.length) {
-                for (let j = 0; j < tempSpots.length; j++) {
-                  if (tempSpots[j].id == obj.id) {
-                    break;
-                  } else if (j == tempSpots.length - 1) {
-                    tempSpots.push(obj);
-                  }
-                }
-              } else {
-                tempSpots.push(obj);
-              }
-            });
-            if (data.next_page_token) {
-              nextToken = data.next_page_token;
-              i--;
-            } else {
-              nextToken = undefined;
-            }
-          }
-        } else {
-          tokenState = true;
-        }
-      }
-      for (let i = 0; i < tempSpots.length; i++) {
-        let data = await getOpenHours(tempSpots[i].id);
-        tempSpots.filter(
-          (item) => item.id == tempSpots[i].id,
-        )[0].openinghour = data;
-      }
-      await setSpots(tempSpots);
-      await setIsPlacesLoading(false);
-    }
-  }
-  async function getPlaces1(type) {
-    let location = createTempSpots.location;
-    let radius = createTempSpots.radius;
-    const url = `${baseUrl}/nearbysearch/json?location=${location.latitude},${location.longitude}&radius=${radius}&type=${type}&language=ja&key=${API_KEY}`;
-    const { data } = await axios.get<IGoogleResult>(url);
-    return data;
-  }
-  async function getPlaces2(type, next_token) {
-    let location = createTempSpots.location;
-    let radius = createTempSpots.radius;
-    const url = `${baseUrl}/nearbysearch/json?location=${location.latitude},${location.longitude}&radius=${radius}&type=${type}&language=ja&key=${API_KEY}&pagetoken=${next_token}`;
-    const { data } = await axios.get<IGoogleResult>(url);
-    return data;
-  }
   useEffect(() => {
-    const checked = [];
-    for (let i = 0; i < SPOT_TYPE.length; i += 1) {
-      if (SPOT_TYPE[i].id == 'restaurant') {
-        checked.push(SPOT_TYPE[i].id);
-      }
-    }
-    setSpotChecked(checked);
-  }, [SPOT_TYPE]);
+    if (places.length > 0) {
+      // get places from api
+      const newSpots = [...spots];
+      for (let i = 0; i < places.length; i += 1) {
+        const item = places[i];
+        const obj = {
+          place: item,
+          heart: false,
+          like: false,
+          check: false,
+        } as SelectedPlace;
 
-  const onCompleteButtonPress = () => {
-    let total = [];
-    for (let i = 0; i < spots.length; i++) {
-      if (spots[i].heart || spots[i].like) {
-        total.push(spots[i]);
+        let exists = false;
+        for (let j = 0; j < newSpots.length; j += 1) {
+          if (newSpots[j].place.place_id === item.place_id) {
+            exists = true;
+          }
+        }
+        if (!exists) newSpots.push(obj);
       }
+      setSpots(newSpots);
     }
-    if (total.length > 20) {
-      alert('Too Much!');
-      return;
-    } else if (total.length == 0) {
-      alert('Select Correctly!');
-      return;
-    } else {
-      dispatch({
-        type: ActionType.SET_CREATE_REAL_SPOTS,
-        payload: {
-          total,
-        },
-      });
-      navigate('Select');
-    }
-  };
-
-  const formatOpHour = (value: string) =>
-    `${value.slice(0, 2)}:${value.slice(2, 4)}`;
-  async function getOpenHours(id) {
-    const openHours = await getPlaceOpeningHours(id);
-    return formatPlaceOpeningHours(openHours);
-  }
-  function formatPlaceOpeningHours(opHour) {
-    if (opHour) {
-      const dayHour = opHour.periods[0];
-      if (dayHour && dayHour.close) {
-        return `${formatOpHour(dayHour.open.time)}-${formatOpHour(
-          dayHour.close.time,
-        )}`;
-      }
-      return '24時間営業';
-    }
-    return '';
-  }
-
-  const setSpotFilter = () => {
-    setTypesPopup(true);
-  };
-  const setSpotRestore = () => {
-    if (deletedSpots.length) {
-      let resoteId = deletedSpots[0].id;
-      setSpots((prev) => [...prev, deletedSpots[0]]);
-      setDeletedSpots((prev) => prev.filter((item) => item.id !== resoteId));
-    }
-  };
-  const setSpotDelete = (spot) => {
-    setDeletedSpots((prev) => [...prev, spot]);
-    setSpots((prev) => prev.filter((item) => item.id !== spot.id));
-  };
-  const setSpotSelect = (spot) => {
-    let arr = [...spots];
-    arr.filter((item) => item.id == spot.id)[0].heart = true;
-    arr.filter((item) => item.id == spot.id)[0].like = false;
-    setSpots(arr);
-  };
-  const setSpotLike = (spot) => {
-    let arr = [...spots];
-    arr.filter((item) => item.id == spot.id)[0].heart = false;
-    arr.filter((item) => item.id == spot.id)[0].like = true;
-    setSpots(arr);
-  };
+  }, [places]);
 
   if (isPlacesLoading) {
     return LoadingSpinner;
   }
 
+  function setSpotDelete() {
+    const idx = currentIndex;
+    setDeletedSpots((prev) => [...prev, showSpots[idx].place.place_id]);
+  }
+
+  function setSpotRestore() {
+    const newDeletedSpots = [...deletedSpots];
+    newDeletedSpots.pop();
+    setDeletedSpots(newDeletedSpots);
+  }
+
+  function setSpotSelect() {
+    const idx = currentIndex;
+    showSpots[idx].heart = !showSpots[idx].heart;
+    setCurrentSpot({ ...showSpots[idx] });
+  }
+
+  function setSpotLike() {
+    const idx = currentIndex;
+    showSpots[idx].like = !showSpots[idx].like;
+    setCurrentSpot({ ...showSpots[idx] });
+  }
+
   const PlannerLike = (
     <Body style={thisStyle.bodylike}>
-      <FontAwesome5 name="heart" size={24} color={COLOR.greyColor} />
-      <Entypo name="star-outlined" size={24} color={COLOR.greyColor} />
-      <FontAwesome name="comment-o" size={24} color={COLOR.greyColor} />
+      <FontAwesome5
+        name="heart"
+        size={24}
+        color={COLOR.greyColor}
+        style={{ marginRight: 3 }}
+      />
+      <FontAwesome5
+        name="star"
+        size={24}
+        color={COLOR.greyColor}
+        style={{ marginRight: 3 }}
+      />
+      <FontAwesome5
+        name="comment"
+        size={24}
+        color={COLOR.greyColor}
+        style={{ marginRight: 3 }}
+      />
     </Body>
+  );
+
+  const renderItem = (item: SelectedPlace, index: number) => (
+    <View>
+      <Image
+        style={{
+          height: LAYOUT.window.height * 0.35,
+          borderTopLeftRadius: 10,
+          borderTopRightRadius: 10,
+        }}
+        source={{
+          uri:
+            item.place.photos && item.place.photos.length > 0
+              ? getPlacePhoto(item.place.photos[0].photo_reference)
+              : 'https://via.placeholder.com/120x90?text=No+Image',
+        }}
+      />
+      <CardItem
+        style={{
+          borderBottomLeftRadius: 10,
+          borderBottomRightRadius: 10,
+          borderStyle: 'solid',
+          borderWidth: 1,
+          borderColor: COLOR.greyColor,
+        }}
+      >
+        <View
+          style={{
+            flexDirection: 'column',
+            width: LAYOUT.window.width * 0.55,
+          }}
+        >
+          <Text note style={thisStyle.centerText}>
+            {item.place.name}
+          </Text>
+          <Text note style={thisStyle.centerText}>
+            {item.place.vicinity}
+          </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: 'column',
+          }}
+        >
+          <View
+            style={{
+              height: LAYOUT.window.height * 0.05,
+            }}
+          >
+            {PlannerLike}
+          </View>
+          <Text note style={thisStyle.footerText}>
+            {item.place.user_ratings_total}
+          </Text>
+        </View>
+      </CardItem>
+    </View>
   );
 
   return (
@@ -286,150 +273,92 @@ const SwipeSpotScreen: React.FC = () => {
         style={{
           justifyContent: 'flex-end',
           flexDirection: 'row',
-          marginBottom: 10,
         }}
       >
         <TouchableOpacity
           style={[thisStyle.filter]}
-          onPress={() => setSpotFilter()}
+          onPress={() => setTypesPopup(true)}
         >
-          <Entypo name="list" size={30} color={COLOR.greyColor} />
+          <FontAwesome5 name="list" size={20} color={COLOR.greyColor} />
         </TouchableOpacity>
       </View>
-      {spots.length ? (
-        <View style={{ height: LAYOUT.window.height * 0.7, padding: 10 }}>
-          <DeckSwiper
-            dataSource={spots}
-            renderItem={(item: any) => {
-              return (
-                <Card>
-                  <Image
-                    style={{ height: LAYOUT.window.height * 0.4 }}
-                    source={{
-                      uri: item.imageUrl,
-                    }}
-                  />
-                  <CardItem>
-                    <View
-                      style={{
-                        flexDirection: 'column',
-                        width: LAYOUT.window.width * 0.7,
-                      }}
-                    >
-                      <Text note style={thisStyle.centerText}>
-                        {item.spotName}
-                      </Text>
-                      <Text note style={thisStyle.centerText}>
-                        {item.address}
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        flexDirection: 'column',
-                        width: LAYOUT.window.width * 0.3,
-                        paddingRight: 50,
-                      }}
-                    >
-                      <View
-                        style={{
-                          height: LAYOUT.window.height * 0.05,
-                          padding: 10,
-                        }}
-                      >
-                        {PlannerLike}
-                      </View>
-                      <Text note style={thisStyle.footerText}>
-                        {item.rating}
-                      </Text>
-                    </View>
-                  </CardItem>
-                  <CardItem>
-                    <TouchableOpacity
-                      style={thisStyle.footerIcon1}
-                      onPress={() => setSpotRestore()}
-                    >
-                      <Ionicons
-                        name="md-refresh"
-                        size={30}
-                        color={COLOR.tintColor}
-                      />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={thisStyle.footerIcon2}
-                      onPress={() => setSpotDelete(item)}
-                    >
-                      <Ionicons
-                        name="ios-close"
-                        size={50}
-                        color={COLOR.tintColor}
-                      />
-                    </TouchableOpacity>
-                    {item.heart ? (
-                      <TouchableOpacity
-                        style={[
-                          thisStyle.footerIcon2,
-                          thisStyle.footerIconActive,
-                        ]}
-                        onPress={() => setSpotSelect(item)}
-                      >
-                        <FontAwesome5
-                          name="heart"
-                          size={5}
-                          color={COLOR.greyColor}
-                        />
-                      </TouchableOpacity>
-                    ) : (
-                        <TouchableOpacity
-                          style={thisStyle.footerIcon2}
-                          onPress={() => setSpotSelect(item)}
-                        >
-                          <FontAwesome5
-                            name="heart"
-                            size={40}
-                            color={COLOR.tintColor}
-                          />
-                        </TouchableOpacity>
-                      )}
-                    {item.like ? (
-                      <TouchableOpacity
-                        style={[
-                          thisStyle.footerIcon1,
-                          thisStyle.footerIconActive,
-                        ]}
-                        onPress={() => setSpotLike(item)}
-                      >
-                        <FontAwesome5
-                          name="star"
-                          size={30}
-                          color={COLOR.greyColor}
-                        />
-                      </TouchableOpacity>
-                    ) : (
-                        <TouchableOpacity
-                          style={thisStyle.footerIcon1}
-                          onPress={() => setSpotLike(item)}
-                        >
-                          <FontAwesome5
-                            name="star"
-                            size={30}
-                            color={COLOR.tintColor}
-                          />
-                        </TouchableOpacity>
-                      )}
-                  </CardItem>
-                </Card>
-              );
+      <View
+        style={{
+          height: LAYOUT.window.height * 0.55,
+          padding: 5,
+        }}
+      >
+        {showSpots.length ? (
+          <Carousel
+            data={showSpots}
+            sliderWidth={LAYOUT.window.width * 0.95}
+            itemWidth={LAYOUT.window.width * 0.85}
+            renderItem={({
+              item,
+              index,
+            }: {
+              item: SelectedPlace;
+              index: number;
+            }) => renderItem(item, index)}
+            onBeforeSnapToItem={(slideIndex) => {
+              setCurrentIndex(slideIndex);
+              setCurrentSpot(showSpots[slideIndex]);
             }}
-          ></DeckSwiper>
-        </View>
-      ) : null}
-      <Footer style={thisStyle.touchable}>
+          />
+        ) : null}
+      </View>
+      <View
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+        }}
+      >
+        <TouchableOpacity
+          style={thisStyle.footerIcon1}
+          onPress={() => setSpotRestore()}
+        >
+          <FontAwesome5 name="redo-alt" size={20} color={COLOR.tintColor} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={thisStyle.footerIcon2}
+          onPress={() => setSpotDelete()}
+        >
+          <FontAwesome5 name="times" size={30} color={COLOR.tintColor} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={thisStyle.footerIcon2}
+          onPress={() => setSpotSelect()}
+        >
+          {currentSpot?.heart ? (
+            <FontAwesome5
+              name="heart"
+              size={30}
+              color={COLOR.tintColor}
+              solid
+            />
+          ) : (
+            <FontAwesome5 name="heart" size={30} color={COLOR.tintColor} />
+          )}
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={thisStyle.footerIcon1}
+          onPress={() => setSpotLike()}
+        >
+          {currentSpot?.like ? (
+            <FontAwesome5 name="star" size={20} color={COLOR.tintColor} solid />
+          ) : (
+            <FontAwesome5 name="star" size={20} color={COLOR.tintColor} />
+          )}
+        </TouchableOpacity>
+      </View>
+      <View style={thisStyle.touchable}>
         <Button
           buttonStyle={thisStyle.footerButton}
           title="保存して案内"
-          onPress={onCompleteButtonPress}
+          // onPress={onCompleteButtonPress}
         />
-      </Footer>
+      </View>
       <Overlay
         isVisible={typesPopup}
         windowBackgroundColor="rgba(0, 0, 0, .5)"
@@ -445,12 +374,8 @@ const SwipeSpotScreen: React.FC = () => {
           renderItem={({ item, index }) => (
             <CheckBox
               title={item.title}
-              checked={spotChecked[index]}
-              onPress={() => {
-                const arrChecked = [...spotChecked];
-                arrChecked[index] = !arrChecked[index];
-                setSpotChecked(arrChecked);
-              }}
+              checked={excludeTypes.indexOf(index) < 0}
+              onPress={() => onPressSpotType(index)}
             />
           )}
           keyExtractor={(item) => item.id}
@@ -460,7 +385,6 @@ const SwipeSpotScreen: React.FC = () => {
   );
 };
 
-export default SwipeSpotScreen;
 const thisStyle = StyleSheet.create({
   filter: {
     width: LAYOUT.window.width * 0.1,
@@ -499,11 +423,8 @@ const thisStyle = StyleSheet.create({
   },
   footer: {
     flexDirection: 'row',
-
     justifyContent: 'center',
     alignItems: 'center',
-    //marginTop: LAYOUT.window.height * 0.01,
-    //marginBottom: LAYOUT.window.height * 0.01,
     height: LAYOUT.window.height * 0.1,
   },
   footerText: {
@@ -513,18 +434,18 @@ const thisStyle = StyleSheet.create({
     backgroundColor: COLOR.greyColor,
     width: LAYOUT.window.width * 0.1,
     height: LAYOUT.window.width * 0.1,
-    padding: 5,
+    // padding: 5,
     borderRadius: LAYOUT.window.width * 0.1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: LAYOUT.window.width * 0.05,
-    marginRight: LAYOUT.window.width * 0.05,
+    marginLeft: LAYOUT.window.width * 0.01,
+    marginRight: LAYOUT.window.width * 0.01,
   },
   footerIcon2: {
     backgroundColor: COLOR.greyColor,
     width: LAYOUT.window.width * 0.13,
     height: LAYOUT.window.width * 0.13,
-    padding: 5,
+    // padding: 5,
     borderRadius: LAYOUT.window.width * 0.16,
     justifyContent: 'center',
     alignItems: 'center',
@@ -535,18 +456,15 @@ const thisStyle = StyleSheet.create({
     backgroundColor: COLOR.tintColor,
   },
   touchable: {
-    position: 'absolute',
-    bottom: 0,
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: COLOR.backgroundColor,
     height: LAYOUT.window.height * 0.07,
     padding: 0,
     marginBottom: 0,
-    marginTop: 0,
+    marginTop: 15,
     alignItems: 'center',
     justifyContent: 'center',
-
   },
   button: {
     justifyContent: 'center',
@@ -556,3 +474,4 @@ const thisStyle = StyleSheet.create({
     marginBottom: 0,
   },
 });
+export default SwipeSpotScreen;

@@ -1,3 +1,6 @@
+import { LatLng } from 'react-native-maps';
+import { IPlace } from './interfaces/app/Map';
+
 /** ログイン中のユーザー */
 interface LoginUser {
   id: string;
@@ -11,16 +14,26 @@ interface RegisterUser {
   password: string;
 }
 
+export interface SelectedPlace {
+  place: IPlace;
+  heart: boolean;
+  like: boolean;
+  check: boolean;
+}
+
 /** プラン作成に必要な情報 */
 interface CreatePlan {
   date: string;
   transportations: Array<string>;
+  center: LatLng;
+  radius: number;
+  spots: SelectedPlace[];
 }
 interface MyPlan {
   plan: object;
 }
 interface CreateTempSpots {
-  spots: object;
+  spots: IPlace[];
 }
 interface CreateRealSpots {
   spots: Array<object>;
@@ -32,7 +45,6 @@ export interface State {
   registerUser: RegisterUser;
   createPlan: CreatePlan;
   myPlan: MyPlan;
-  createTempSpots: CreateTempSpots;
   createRealSpots: CreateRealSpots;
 }
 
@@ -41,7 +53,6 @@ export enum ActionType {
   SET_REGISTER_USER = 'SET_REGISTER_USER',
   SET_CREATE_PLAN = 'SET_CREATE_PLAN',
   SET_MY_PLAN = 'SET_MY_PLAN',
-  SET_CREATE_TEMP_SPOTS = 'SET_CREATE_TEMP_SPOTS',
   SET_CREATE_REAL_SPOTS = 'SET_CREATE_REAL_SPOTS',
 }
 
@@ -74,11 +85,6 @@ const Reducer = (state: State, action: Action): any => {
       return {
         ...state,
         myPlan: payload,
-      };
-    case ActionType.SET_CREATE_TEMP_SPOTS:
-      return {
-        ...state,
-        createTempSpots: payload,
       };
     case ActionType.SET_CREATE_REAL_SPOTS:
       return {

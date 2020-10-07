@@ -6,4 +6,5 @@ export const COLOR = {
   backgroundColor: 'white',
   facebookColor: '#3b5998',
   baseBackgroundColor: '#faf0e6',
+  greyColor: '#eeeeee',
 };

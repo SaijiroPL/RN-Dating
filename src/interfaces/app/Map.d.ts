@@ -56,6 +56,8 @@ export interface IPlace {
   photos: Array<IPlacePhoto>;
   place_id: string;
   types: Array<string>;
+  vicinity: string;
+  user_ratings_total: number;
 }
 
 export interface IPlaceOpenHour {
