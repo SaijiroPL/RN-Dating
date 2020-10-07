@@ -19,13 +19,14 @@ export const useUpdatePost = (plan) => {
 
   const updatePlan = async () => {
     const url = API_ENDPOINT.PLAN.replace('$1', plan.plan_id);
+    const date = fromDate.split(' ')[0];
     try {
       await Axios.put(url, {
         user_id: plan.user_id,
         spots: plan.spots,
         title,
         description: desc,
-        date: fromDate,
+        date,
         need_time: plan.need_time,
         transportation: [transportation],
       });

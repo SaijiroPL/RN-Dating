@@ -20,8 +20,8 @@ export const EditPlanFab: React.FC<EditPostScreenProps> = (
   /** プラン編集画面に遷移 */
   const toCreate = useCallback(() => {
     // TODO プラン編集画面に遷移
-    navigation.navigate('PostNav', {
-      screen: 'EditPost',
+    navigation.navigate('EditDatePlanNav', {
+      screen: 'EditDatePlan',
       params: { plan },
     });
   }, []);

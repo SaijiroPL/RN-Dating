@@ -91,6 +91,7 @@ const EditPostScreen: React.FC = () => {
             <Right>
               <DateTimePickerLabel
                 date={fromDate}
+                showTime={false}
                 setDate={updateFrom}
                 // minDate={getToday()}
               />

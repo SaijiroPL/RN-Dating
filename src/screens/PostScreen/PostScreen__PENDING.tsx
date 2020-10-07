@@ -22,7 +22,7 @@ import { appTextStyle } from 'app/src/styles';
 import { formatDate } from 'app/src/utils/DateUtil';
 
 /** 投稿作成画面 */
-const PostScreen: React.FC = () => {
+const PostScreen__PENDING: React.FC = () => {
   /** ナビゲーター */
   const { navigate } = useNavigation();
   const [privateOn, setPrivateOn] = useState<boolean>(false);
@@ -80,4 +80,4 @@ const thisStyle = StyleSheet.create({
   },
 });
 
-export default PostScreen;
+export default PostScreen__PENDING;
