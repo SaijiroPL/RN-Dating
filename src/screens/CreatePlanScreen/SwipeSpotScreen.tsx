@@ -1,76 +1,31 @@
-import React, {
-  useCallback,
-  useEffect,
-  useState,
-  useRef,
-  useMemo,
-} from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 
-import {
-  DeckSwiper,
-  Card,
-  CardItem,
-  Content,
-  Text,
-  Left,
-  Body,
-  Right,
-  Container,
-  Footer,
-} from 'native-base';
-import {
-  View,
-  Image,
-  StyleSheet,
-  FlatList,
-  ActivityIndicator,
-} from 'react-native';
+import { CardItem, Text, Body, Container } from 'native-base';
+import { View, Image, StyleSheet, FlatList } from 'react-native';
 
 import Carousel from 'react-native-snap-carousel';
 // from app
-import { ICandidateSpot } from 'app/src/interfaces/app/Spot';
-import { SpotSwiper } from 'app/src/components/Content';
-import { CompleteFooterButton } from 'app/src/components/Button';
+
 import { useGooglePlace } from 'app/src/hooks';
 import { useDispatch, useGlobalState } from 'app/src/Store';
 import { useNavigation } from '@react-navigation/native';
 import { ActionType, SelectedPlace } from 'app/src/Reducer';
-import {
-  ILocation,
-  IPlace,
-  IPlaceOpenHour,
-  IGoogleResult,
-} from 'app/src/interfaces/app/Map';
+
 import { COLOR, SPOT_TYPE, LAYOUT, getTypeIndex } from 'app/src/constants';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Slider, Button, Overlay, CheckBox } from 'react-native-elements';
-import {
-  FontAwesome,
-  FontAwesome5,
-  Entypo,
-  Ionicons,
-} from '@expo/vector-icons';
+import { Button, Overlay, CheckBox } from 'react-native-elements';
+import { FontAwesome5 } from '@expo/vector-icons';
 
-import axios from 'axios';
 import { LoadingSpinner } from 'app/src/components/Spinners';
-import SelectSpotScreen from 'app/src/screens/CreatePlanScreen/SelectSpotScreen';
 
 /** デートスポット候補スワイプ画面 */
 const SwipeSpotScreen: React.FC = () => {
-  const {
-    searchNearbyPlace,
-    getPlacePhoto,
-    getPlaceDetail,
-    getPlaceOpeningHours,
-    places,
-    setPlaces,
-    API_KEY,
-    baseUrl,
-  } = useGooglePlace();
+  const { searchNearbyPlace, getPlacePhoto, places } = useGooglePlace();
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
 
   const createPlan = useGlobalState('createPlan');
+
   const [typesPopup, setTypesPopup] = useState(false);
   const [isPlacesLoading, setIsPlacesLoading] = useState<boolean>(true);
   const [spots, setSpots] = useState<SelectedPlace[]>(createPlan.spots);
@@ -78,8 +33,6 @@ const SwipeSpotScreen: React.FC = () => {
   const [excludeTypes, setExcludeTypes] = useState<number[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [currentSpot, setCurrentSpot] = useState<SelectedPlace>();
-
-  const carouselRef = useRef();
 
   const showSpots = useMemo(() => {
     const result = [...spots];
@@ -187,6 +140,19 @@ const SwipeSpotScreen: React.FC = () => {
     setCurrentSpot({ ...showSpots[idx] });
   }
 
+  function onCompleteButtonPress() {
+    dispatch({
+      type: ActionType.SET_CREATE_PLAN,
+      payload: {
+        ...createPlan,
+        selectedSpots: showSpots.filter((value) => {
+          return value.heart || value.like;
+        }),
+      },
+    });
+    navigate('Select');
+  }
+
   const PlannerLike = (
     <Body style={thisStyle.bodylike}>
       <FontAwesome5
@@ -210,7 +176,7 @@ const SwipeSpotScreen: React.FC = () => {
     </Body>
   );
 
-  const renderItem = (item: SelectedPlace, index: number) => (
+  const renderItem = (item: SelectedPlace) => (
     <View>
       <Image
         style={{
@@ -293,13 +259,7 @@ const SwipeSpotScreen: React.FC = () => {
             data={showSpots}
             sliderWidth={LAYOUT.window.width * 0.95}
             itemWidth={LAYOUT.window.width * 0.85}
-            renderItem={({
-              item,
-              index,
-            }: {
-              item: SelectedPlace;
-              index: number;
-            }) => renderItem(item, index)}
+            renderItem={({ item }: { item: SelectedPlace }) => renderItem(item)}
             onBeforeSnapToItem={(slideIndex) => {
               setCurrentIndex(slideIndex);
               setCurrentSpot(showSpots[slideIndex]);
@@ -356,7 +316,7 @@ const SwipeSpotScreen: React.FC = () => {
         <Button
           buttonStyle={thisStyle.footerButton}
           title="保存して案内"
-          // onPress={onCompleteButtonPress}
+          onPress={onCompleteButtonPress}
         />
       </View>
       <Overlay

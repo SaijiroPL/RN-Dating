@@ -92,3 +92,24 @@ export interface IGoogleResult {
   result?: IPlace;
   status: string;
 }
+
+export interface IGoogleMatrixResult {
+  status: string;
+  origin_addresses: string[];
+  destination_addresses: string[];
+  rows: IGoogleMatrixRow[];
+}
+
+export interface IGoogleMatrixRow {
+  elements: {
+    status: string;
+    duration: {
+      value: number;
+      text: string;
+    };
+    distance: {
+      value: number;
+      text: string;
+    };
+  }[];
+}

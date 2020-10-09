@@ -7,13 +7,16 @@ import {
   IPlace,
   IPlaceOpenHour,
   IGoogleResult,
+  IGoogleMatrixResult,
 } from 'app/src/interfaces/app/Map';
 import { LatLng } from 'react-native-maps';
 
 export const useGooglePlace = () => {
   const [places, setPlaces] = useState<IPlace[]>([]);
+  const [distanceMatrix, setDistanceMatrix] = useState<IGoogleMatrixResult>();
   const [nextToken, setNextToken] = useState<string | undefined>(undefined);
   const baseUrl = GOOGLE_MAP_ENDPOINT.PLACE;
+  const distanceUrl = GOOGLE_MAP_ENDPOINT.DISTANCE;
   const API_KEY = GOOGLE_MAP_ENDPOINT.KEY;
 
   const searchNearbyPlace = async (
@@ -30,6 +33,15 @@ export const useGooglePlace = () => {
     // if (data.results) setPlaces((prev) => prev.concat(data.results));
     if (data.results) setPlaces(data.results);
     setNextToken(data.next_page_token);
+  };
+
+  const getDistanceMatrix = async (placeIDs: string[]): Promise<void> => {
+    const url = `${distanceUrl}/json?origins=${placeIDs.join(
+      '|',
+    )}&destinations=${placeIDs.join('|')}&key=${API_KEY}`;
+    // console.log(url);
+    const { data } = await axios.get<IGoogleMatrixResult>(url);
+    setDistanceMatrix(data);
   };
 
   const getNextPlaces = async (token: string): Promise<void> => {
@@ -96,6 +108,9 @@ export const useGooglePlace = () => {
     getNextPlaces,
     getPlaceDetail,
     formatPlaceOpeningHours,
+    getDistanceMatrix,
+    distanceMatrix,
+    setDistanceMatrix,
     places,
     setPlaces,
     nextToken,

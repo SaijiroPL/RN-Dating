@@ -15,7 +15,8 @@ const initialState: State = {
     password: '',
   },
   createPlan: {
-    date: '',
+    dateFrom: '',
+    dateTo: '',
     transportations: [],
     center: {
       latitude: 35.658606737323325,
@@ -23,6 +24,7 @@ const initialState: State = {
     } as LatLng,
     radius: 1000,
     spots: [],
+    selectedSpots: [],
   },
   createRealSpots: {
     spots: [],

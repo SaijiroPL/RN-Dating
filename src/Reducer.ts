@@ -23,11 +23,13 @@ export interface SelectedPlace {
 
 /** プラン作成に必要な情報 */
 interface CreatePlan {
-  date: string;
+  dateFrom: string;
+  dateTo: string;
   transportations: Array<string>;
   center: LatLng;
   radius: number;
   spots: SelectedPlace[];
+  selectedSpots: SelectedPlace[];
 }
 interface MyPlan {
   plan: object;

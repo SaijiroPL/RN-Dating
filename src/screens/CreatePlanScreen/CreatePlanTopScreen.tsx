@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Text } from 'native-base';
@@ -17,16 +17,35 @@ const CreatePlanTopScreen: React.FC = () => {
   const { navigate } = useNavigation();
   const dispatch = useDispatch();
 
-  const [fromDate, updateFrom] = useState<String>(new Date().toString());
+  const [fromDate, updateFrom] = useState<string>('');
   const [toDate, updateTo] = useState<string>('');
   const [car, setCar] = useState<boolean>(false);
   const [train, setTrain] = useState<boolean>(false);
   const [bus, setBus] = useState<boolean>(false);
   const [walk, setWalk] = useState<boolean>(false);
 
+  useEffect(() => {
+    const date = new Date();
+    date.setDate(date.getDate() + 1);
+    date.setMinutes(0);
+    updateFrom(date.toString());
+
+    const dateTo = new Date();
+    dateTo.setDate(date.getDate());
+    dateTo.setHours(date.getHours() + 5);
+    dateTo.setMinutes(0);
+    updateTo(dateTo.toString());
+  }, []);
+
   /** デート予定日と交通手段を永続化 */
   const setCreatePlan = useCallback(() => {
-    var transportationList = [];
+    const dateFrom = new Date(fromDate);
+    const dateTo = new Date(toDate);
+    if (dateFrom > dateTo) {
+      return;
+    }
+
+    let transportationList = [];
     if (car) {
       transportationList = [];
       transportationList.push('car');
@@ -44,12 +63,12 @@ const CreatePlanTopScreen: React.FC = () => {
     dispatch({
       type: ActionType.SET_CREATE_PLAN,
       payload: {
-        toDate,
-        fromDate,
+        dateTo: toDate,
+        dateFrom: fromDate,
         trasportations: transportationList,
       },
     });
-  }, [car, train, bus, walk, toDate]);
+  }, [car, train, bus, walk, fromDate, toDate]);
 
   const onCompleteButtonPress = useCallback(() => {
     setCreatePlan();
@@ -115,11 +134,14 @@ const CreatePlanTopScreen: React.FC = () => {
       </View>
       {TransportationButtonGroup}
       <View style={appStyle.emptySpace} />
-      {fromDate === '' || toDate === '' || (!car && !train && !bus && !walk) ? (
+      {fromDate > toDate ||
+      fromDate === '' ||
+      toDate === '' ||
+      (!car && !train && !bus && !walk) ? (
         <SmallCompleteButton title="決定" disabled />
       ) : (
-          <SmallCompleteButton title="決定" onPress={onCompleteButtonPress} />
-        )}
+        <SmallCompleteButton title="決定" onPress={onCompleteButtonPress} />
+      )}
       <View style={{ marginBottom: 10 }} />
     </View>
   );
