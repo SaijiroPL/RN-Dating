@@ -100,16 +100,50 @@ export interface IGoogleMatrixResult {
   rows: IGoogleMatrixRow[];
 }
 
+export interface IGoogleDistanceVector {
+  value: number;
+  text: string;
+}
+
 export interface IGoogleMatrixRow {
   elements: {
     status: string;
-    duration: {
-      value: number;
-      text: string;
+    duration: IGoogleDistanceVector;
+    distance: IGoogleDistanceVector;
+  }[];
+}
+
+export interface IGoogleDirection {
+  status: string;
+  geocoded_waypoints: {
+    geocoder_status: string;
+    place_id: string;
+    types: string[];
+  }[];
+  routes: {
+    summary: string;
+    legs: {
+      steps: {
+        travel_mode: string;
+        start_location: ISimpleLocation;
+        end_location: ISimpleLocation;
+        polyline: {
+          points: string;
+        };
+        duration: IGoogleDistanceVector;
+        distance: IGoogleDistanceVector;
+        html_instructions: string;
+      }[];
+      duration: IGoogleDistanceVector;
+      distance: IGoogleDistanceVector;
+    }[];
+    overview_polyline: {
+      points: string;
     };
-    distance: {
-      value: number;
-      text: string;
+    waypoint_order: number[];
+    bounds: {
+      southwest: ISimpleLocation;
+      northeast: ISimpleLocation;
     };
   }[];
 }

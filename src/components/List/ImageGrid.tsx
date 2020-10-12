@@ -1,33 +1,29 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Image, StyleSheet, View, Text } from 'react-native';
-import { Col, Row, Grid } from 'react-native-easy-grid';
-import { ICandidateSpot } from 'app/src/interfaces/app/Spot';
-import { Container } from 'native-base';
 // from app
-import { IMAGE, LAYOUT, COLOR } from 'app/src/constants';
+import { LAYOUT, COLOR } from 'app/src/constants';
 import { useGooglePlace } from 'app/src/hooks';
-import moment from 'moment';
-import {
-  ScrollView,
-  FlatList,
-  TouchableOpacity,
-} from 'react-native-gesture-handler';
-import { initialWindowSafeAreaInsets } from 'react-native-safe-area-context';
-import { SelectedPlace } from 'app/src/Reducer';
-import { SpotSwiper } from '../Content/dist/SpotSwiper';
+import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
+import { IPlaceNode } from 'app/src/Reducer';
 
 // interface Props {}
 interface Props {
-  realSpots: SelectedPlace[];
-  possibilitySpots: SelectedPlace[];
-  updateSelectedSpots(spots: SelectedPlace[]): void;
+  realSpots: IPlaceNode[];
+  heartedSpots: string[];
+  possibilitySpots: IPlaceNode[];
+  updateSelectedSpots(spots: IPlaceNode[]): void;
 }
 /** 画像選択グリッド */
 export const ImageGrid: React.FC<Props> = (props: Props) => {
-  const { realSpots, possibilitySpots, updateSelectedSpots } = props;
+  const {
+    realSpots,
+    heartedSpots,
+    possibilitySpots,
+    updateSelectedSpots,
+  } = props;
   const { getPlacePhoto } = useGooglePlace();
 
-  const [spots, setSpots] = useState<SelectedPlace[]>(realSpots);
+  const [spots, setSpots] = useState<IPlaceNode[]>(realSpots);
 
   function selectItem(index: number) {
     if (!spots[index].check && possibilitySpots.indexOf(spots[index]) < 0)
@@ -40,27 +36,6 @@ export const ImageGrid: React.FC<Props> = (props: Props) => {
         return value.check;
       }),
     );
-  }
-
-  function renderMask(item: SelectedPlace) {
-    if (item.check) {
-      return <View style={thisStyle.selectMask} />;
-    }
-    if (possibilitySpots.indexOf(item) < 0) {
-      return <View style={thisStyle.disableMask} />;
-    }
-    if (item.like) {
-      return (
-        <>
-          <View style={thisStyle.mask} />
-          <View style={thisStyle.textPane}>
-            <Text style={thisStyle.maskText}>Check</Text>
-          </View>
-        </>
-      );
-    }
-
-    return null;
   }
 
   return (
@@ -82,7 +57,7 @@ export const ImageGrid: React.FC<Props> = (props: Props) => {
                   : 'https://via.placeholder.com/120x90?text=No+Image',
             }}
           />
-          {item.like && (
+          {heartedSpots.indexOf(item.place.place_id) >= 0 && (
             <>
               <View style={thisStyle.mask} />
               <View style={thisStyle.textPane}>

@@ -24,7 +24,12 @@ const initialState: State = {
     } as LatLng,
     radius: 1000,
     spots: [],
-    selectedSpots: [],
+    candidatedSpots: [],
+    heartedSpots: [],
+    route: {
+      spots: [],
+      cost: 0,
+    },
   },
   createRealSpots: {
     spots: [],

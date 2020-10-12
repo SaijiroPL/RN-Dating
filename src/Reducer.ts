@@ -19,6 +19,13 @@ export interface SelectedPlace {
   heart: boolean;
   like: boolean;
   check: boolean;
+  cost: number;
+}
+
+export interface IPlaceNode {
+  place: IPlace;
+  cost: number;
+  check: boolean;
 }
 
 /** プラン作成に必要な情報 */
@@ -28,8 +35,13 @@ interface CreatePlan {
   transportations: Array<string>;
   center: LatLng;
   radius: number;
-  spots: SelectedPlace[];
-  selectedSpots: SelectedPlace[];
+  spots: IPlace[];
+  candidatedSpots: IPlaceNode[];
+  heartedSpots: string[];
+  route: {
+    spots: IPlaceNode[];
+    cost: number;
+  };
 }
 interface MyPlan {
   plan: object;

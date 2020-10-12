@@ -40,3 +40,12 @@ export function getTypeIndex(id: string) {
 
   return res;
 }
+
+export function getRightSpotType(types: string[]) {
+  let typeIdx = -1;
+  types.forEach((value) => {
+    if (getTypeIndex(value) >= 0) typeIdx = getTypeIndex(value);
+  });
+
+  return typeIdx;
+}

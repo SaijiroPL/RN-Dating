@@ -61,23 +61,16 @@ const SearchMapScreen: React.FC = () => {
   const mapRef = useRef(null);
   const createPlan = useGlobalState('createPlan');
 
+  useEffect(() => {
+    console.log(createPlan.dateFrom);
+  }, []);
+
   function onCompleteButtonPress() {
-    const tempSpots = [];
-    for (let i = 0; i < spots.length; i += 1) {
-      const item = spots[i];
-      const obj = {
-        place: item,
-        heart: false,
-        like: false,
-        check: false,
-      } as SelectedPlace;
-      tempSpots.push(obj);
-    }
     dispatch({
       type: ActionType.SET_CREATE_PLAN,
       payload: {
         ...createPlan,
-        spots: tempSpots,
+        spots: [...spots],
         center,
         radius,
       },

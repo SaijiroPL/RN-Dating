@@ -2,14 +2,15 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Container } from 'native-base';
+import moment from 'moment';
 
 // from app
 import { ImageGrid } from 'app/src/components/List';
 import { CompleteFooterButton } from 'app/src/components/Button';
 import { useDispatch, useGlobalState } from 'app/src/Store';
-import { SelectedPlace } from 'app/src/Reducer';
+import { SelectedPlace, ActionType, IPlaceNode } from 'app/src/Reducer';
 import { useGooglePlace } from 'app/src/hooks';
-import { SPOT_TYPE, getTypeIndex } from 'app/src/constants';
+import { SPOT_TYPE, getRightSpotType } from 'app/src/constants';
 import { LoadingSpinner } from 'app/src/components/Spinners';
 
 const G = require('generatorics');
@@ -21,13 +22,13 @@ const SelectSpotScreen: React.FC = () => {
   const { distanceMatrix, getDistanceMatrix } = useGooglePlace();
   const createPlan = useGlobalState('createPlan');
 
-  const [selectedSpots, setSelectedSpots] = useState<SelectedPlace[]>([]);
+  const [selectedSpots, setSelectedSpots] = useState<IPlaceNode[]>([]);
   const [isPlacesLoading, setIsPlacesLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const placeIDs = [];
-    for (let i = 0; i < createPlan.selectedSpots.length; i += 1) {
-      placeIDs.push(`place_id:${createPlan.selectedSpots[i].place.place_id}`);
+    for (let i = 0; i < createPlan.candidatedSpots.length; i += 1) {
+      placeIDs.push(`place_id:${createPlan.candidatedSpots[i].place.place_id}`);
     }
     getDistanceMatrix(placeIDs);
   }, []);
@@ -42,13 +43,13 @@ const SelectSpotScreen: React.FC = () => {
         return {
           cost:
             SPOT_TYPE[getRightSpotType(selectedSpots[0].place.types)].elapse,
-          route: [createPlan.selectedSpots.indexOf(selectedSpots[0])],
+          route: [createPlan.candidatedSpots.indexOf(selectedSpots[0])],
         };
       }
       if (selectedSpots.length > 1) {
         const arrKey: number[] = [];
         selectedSpots.forEach((item) => {
-          arrKey.push(createPlan.selectedSpots.indexOf(item));
+          arrKey.push(createPlan.candidatedSpots.indexOf(item));
         });
 
         let cost = 0;
@@ -56,15 +57,17 @@ const SelectSpotScreen: React.FC = () => {
         for (const comb of G.permutation(arrKey, selectedSpots.length)) {
           let perCost =
             SPOT_TYPE[
-              getRightSpotType(createPlan.selectedSpots[comb[0]].place.types)
+              getRightSpotType(createPlan.candidatedSpots[comb[0]].place.types)
             ].elapse;
           for (let j = 0; j < selectedSpots.length - 1; j += 1) {
             perCost +=
-              distanceMatrix.rows[comb[j]].elements[comb[j + 1]].duration
-                .value +
+              Math.round(
+                distanceMatrix.rows[comb[j]].elements[comb[j + 1]].duration
+                  .value / 60,
+              ) +
               SPOT_TYPE[
                 getRightSpotType(
-                  createPlan.selectedSpots[comb[j + 1]].place.types,
+                  createPlan.candidatedSpots[comb[j + 1]].place.types,
                 )
               ].elapse;
           }
@@ -88,10 +91,10 @@ const SelectSpotScreen: React.FC = () => {
   }, [selectedSpots]);
 
   const remainTime = useMemo(() => {
-    const dateFrom = new Date(createPlan.dateFrom);
-    const dateTo = new Date(createPlan.dateTo);
-    // const orgTime = (dateTo - dateFrom) / 60000;
-    const orgTime = 1000;
+    const orgTime = moment(createPlan.dateTo).diff(
+      moment(createPlan.dateFrom),
+      'minutes',
+    );
     if (selectedSpots.length === 1) {
       const typeIdx = getRightSpotType(selectedSpots[0].place.types);
 
@@ -105,19 +108,20 @@ const SelectSpotScreen: React.FC = () => {
   }, [path]);
 
   const possibilitySpots = useMemo(() => {
-    const remainSpots = createPlan.selectedSpots.filter((item) => {
+    const remainSpots = createPlan.candidatedSpots.filter((item) => {
       return selectedSpots.indexOf(item) < 0;
     });
     if (distanceMatrix) {
       return remainSpots.filter((item) => {
-        const idx = createPlan.selectedSpots.indexOf(item);
         if (selectedSpots.length > 0) {
           const lastItem =
-            createPlan.selectedSpots[path.route[path.route.length - 1]];
+            createPlan.candidatedSpots[path.route[path.route.length - 1]];
           const estimateTime =
-            distanceMatrix.rows[createPlan.selectedSpots.indexOf(lastItem)]
-              .elements[createPlan.selectedSpots.indexOf(item)].duration.value +
-            SPOT_TYPE[getRightSpotType(item.place.types)].elapse;
+            Math.round(
+              distanceMatrix.rows[createPlan.candidatedSpots.indexOf(lastItem)]
+                .elements[createPlan.candidatedSpots.indexOf(item)].duration
+                .value / 60,
+            ) + SPOT_TYPE[getRightSpotType(item.place.types)].elapse;
 
           return estimateTime < remainTime;
         }
@@ -129,16 +133,26 @@ const SelectSpotScreen: React.FC = () => {
     return remainSpots;
   }, [remainTime]);
 
-  function getRightSpotType(types: string[]) {
-    let typeIdx = -1;
-    types.forEach((value) => {
-      if (getTypeIndex(value) >= 0) typeIdx = getTypeIndex(value);
-    });
-
-    return typeIdx;
-  }
-
   function onCompleteButtonPress() {
+    if (path.route.length === 0) return;
+    const routedSpots: IPlaceNode[] = [];
+    selectedSpots.forEach((item, index) => {
+      routedSpots.push({
+        ...item,
+        cost: SPOT_TYPE[getRightSpotType(item.place.types)].elapse,
+      });
+    });
+    dispatch({
+      type: ActionType.SET_CREATE_PLAN,
+      payload: {
+        ...createPlan,
+        route: {
+          spots: routedSpots,
+          cost: path.cost,
+          check: false,
+        },
+      },
+    });
     navigate('Arrange');
   }
 
@@ -149,7 +163,8 @@ const SelectSpotScreen: React.FC = () => {
   return (
     <Container>
       <ImageGrid
-        realSpots={createPlan.selectedSpots}
+        realSpots={createPlan.candidatedSpots}
+        heartedSpots={createPlan.heartedSpots}
         possibilitySpots={possibilitySpots}
         updateSelectedSpots={setSelectedSpots}
       />

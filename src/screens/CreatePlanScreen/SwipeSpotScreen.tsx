@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 
 import { CardItem, Text, Body, Container } from 'native-base';
 import { View, Image, StyleSheet, FlatList } from 'react-native';
 
-import Carousel from 'react-native-snap-carousel';
+import CardStack, { Card } from 'react-native-card-stack-swiper';
 // from app
 
 import { useGooglePlace } from 'app/src/hooks';
@@ -11,12 +11,19 @@ import { useDispatch, useGlobalState } from 'app/src/Store';
 import { useNavigation } from '@react-navigation/native';
 import { ActionType, SelectedPlace } from 'app/src/Reducer';
 
-import { COLOR, SPOT_TYPE, LAYOUT, getTypeIndex } from 'app/src/constants';
+import {
+  COLOR,
+  SPOT_TYPE,
+  LAYOUT,
+  getTypeIndex,
+  getRightSpotType,
+} from 'app/src/constants';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Button, Overlay, CheckBox } from 'react-native-elements';
 import { FontAwesome5 } from '@expo/vector-icons';
 
 import { LoadingSpinner } from 'app/src/components/Spinners';
+import { IPlace } from 'app/src/interfaces/app/Map';
 
 /** デートスポット候補スワイプ画面 */
 const SwipeSpotScreen: React.FC = () => {
@@ -28,11 +35,19 @@ const SwipeSpotScreen: React.FC = () => {
 
   const [typesPopup, setTypesPopup] = useState(false);
   const [isPlacesLoading, setIsPlacesLoading] = useState<boolean>(true);
-  const [spots, setSpots] = useState<SelectedPlace[]>(createPlan.spots);
-  const [deletedSpots, setDeletedSpots] = useState<string[]>([]);
+  const [spots, setSpots] = useState<IPlace[]>(createPlan.spots);
   const [excludeTypes, setExcludeTypes] = useState<number[]>([]);
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [currentSpot, setCurrentSpot] = useState<SelectedPlace>();
+  const [currentSwipped, setCurrentSwipped] = useState<number>(-1);
+
+  const [deletedSpots, setDeletedSpots] = useState<string[]>([]);
+  const [likedSpots, setLikedSpots] = useState<string[]>([]);
+  const [heartedSpots, setHeartedSpots] = useState<string[]>([]);
+
+  const cardStack = useRef();
+
+  useEffect(() => {
+    console.log(createPlan.dateFrom);
+  }, []);
 
   const showSpots = useMemo(() => {
     const result = [...spots];
@@ -43,10 +58,8 @@ const SwipeSpotScreen: React.FC = () => {
     }
 
     return result.filter((value) => {
-      if (deletedSpots.indexOf(value.place.place_id) >= 0) return false;
-
-      for (let i = 0; i < value.place.types.length; i += 1) {
-        const type = value.place.types[i];
+      for (let i = 0; i < value.types.length; i += 1) {
+        const type = value.types[i];
         const typeIdx = getTypeIndex(type);
         if (includeTypes.indexOf(typeIdx) >= 0) {
           return true;
@@ -94,20 +107,14 @@ const SwipeSpotScreen: React.FC = () => {
       const newSpots = [...spots];
       for (let i = 0; i < places.length; i += 1) {
         const item = places[i];
-        const obj = {
-          place: item,
-          heart: false,
-          like: false,
-          check: false,
-        } as SelectedPlace;
 
         let exists = false;
         for (let j = 0; j < newSpots.length; j += 1) {
-          if (newSpots[j].place.place_id === item.place_id) {
+          if (newSpots[j].place_id === item.place_id) {
             exists = true;
           }
         }
-        if (!exists) newSpots.push(obj);
+        if (!exists) newSpots.push({ ...item });
       }
       setSpots(newSpots);
     }
@@ -117,37 +124,49 @@ const SwipeSpotScreen: React.FC = () => {
     return LoadingSpinner;
   }
 
-  function setSpotDelete() {
-    const idx = currentIndex;
-    setDeletedSpots((prev) => [...prev, showSpots[idx].place.place_id]);
+  function deleteSpot(idx: number) {
+    setDeletedSpots((prev) => [...prev, showSpots[idx].place_id]);
   }
 
-  function setSpotRestore() {
-    const newDeletedSpots = [...deletedSpots];
-    newDeletedSpots.pop();
-    setDeletedSpots(newDeletedSpots);
+  function likeSpot(idx: number) {
+    setLikedSpots((prev) => [...prev, showSpots[idx].place_id]);
   }
 
-  function setSpotSelect() {
-    const idx = currentIndex;
-    showSpots[idx].heart = !showSpots[idx].heart;
-    setCurrentSpot({ ...showSpots[idx] });
-  }
-
-  function setSpotLike() {
-    const idx = currentIndex;
-    showSpots[idx].like = !showSpots[idx].like;
-    setCurrentSpot({ ...showSpots[idx] });
+  function rewindSpot() {
+    if (currentSwipped < 0) return;
+    setDeletedSpots((prev) =>
+      prev.filter((item) => item !== showSpots[currentSwipped].place_id),
+    );
+    setLikedSpots((prev) =>
+      prev.filter((item) => item !== showSpots[currentSwipped].place_id),
+    );
+    setHeartedSpots((prev) =>
+      prev.filter((item) => item !== showSpots[currentSwipped].place_id),
+    );
+    if (deletedSpots.indexOf(showSpots[currentSwipped].place_id) >= 0)
+      cardStack.current.goBackFromLeft();
+    else if (likedSpots.indexOf(showSpots[currentSwipped].place_id) >= 0)
+      cardStack.current.goBackFromRight();
+    setCurrentSwipped((prev) => prev - 1);
   }
 
   function onCompleteButtonPress() {
+    const candidates = spots
+      .filter((item) => {
+        return likedSpots.indexOf(item.place_id) >= 0;
+      })
+      .map((item) => {
+        return {
+          place: item,
+          cost: SPOT_TYPE[getRightSpotType(item.types)].elapse,
+        };
+      });
     dispatch({
       type: ActionType.SET_CREATE_PLAN,
       payload: {
         ...createPlan,
-        selectedSpots: showSpots.filter((value) => {
-          return value.heart || value.like;
-        }),
+        candidatedSpots: candidates,
+        heartedSpots,
       },
     });
     navigate('Select');
@@ -176,7 +195,7 @@ const SwipeSpotScreen: React.FC = () => {
     </Body>
   );
 
-  const renderItem = (item: SelectedPlace) => (
+  const renderItem = (item: IPlace) => (
     <View>
       <Image
         style={{
@@ -186,8 +205,8 @@ const SwipeSpotScreen: React.FC = () => {
         }}
         source={{
           uri:
-            item.place.photos && item.place.photos.length > 0
-              ? getPlacePhoto(item.place.photos[0].photo_reference)
+            item.photos && item.photos.length > 0
+              ? getPlacePhoto(item.photos[0].photo_reference)
               : 'https://via.placeholder.com/120x90?text=No+Image',
         }}
       />
@@ -207,10 +226,10 @@ const SwipeSpotScreen: React.FC = () => {
           }}
         >
           <Text note style={thisStyle.centerText}>
-            {item.place.name}
+            {item.name}
           </Text>
           <Text note style={thisStyle.centerText}>
-            {item.place.vicinity}
+            {item.vicinity}
           </Text>
         </View>
         <View
@@ -226,7 +245,7 @@ const SwipeSpotScreen: React.FC = () => {
             {PlannerLike}
           </View>
           <Text note style={thisStyle.footerText}>
-            {item.place.user_ratings_total}
+            {item.user_ratings_total}
           </Text>
         </View>
       </CardItem>
@@ -251,21 +270,24 @@ const SwipeSpotScreen: React.FC = () => {
       <View
         style={{
           height: LAYOUT.window.height * 0.55,
+          width: LAYOUT.window.width * 0.9,
+          marginLeft: LAYOUT.window.width * 0.05,
           padding: 5,
         }}
       >
-        {showSpots.length ? (
-          <Carousel
-            data={showSpots}
-            sliderWidth={LAYOUT.window.width * 0.95}
-            itemWidth={LAYOUT.window.width * 0.85}
-            renderItem={({ item }: { item: SelectedPlace }) => renderItem(item)}
-            onBeforeSnapToItem={(slideIndex) => {
-              setCurrentIndex(slideIndex);
-              setCurrentSpot(showSpots[slideIndex]);
-            }}
-          />
-        ) : null}
+        <CardStack
+          ref={cardStack}
+          disableBottomSwipe
+          disableTopSwipe
+          verticalSwipe={false}
+          onSwipedLeft={deleteSpot}
+          onSwipedRight={likeSpot}
+          onSwiped={(idx) => setCurrentSwipped(idx)}
+        >
+          {showSpots.map((item) => (
+            <Card>{renderItem(item)}</Card>
+          ))}
+        </CardStack>
       </View>
       <View
         style={{
@@ -276,40 +298,35 @@ const SwipeSpotScreen: React.FC = () => {
       >
         <TouchableOpacity
           style={thisStyle.footerIcon1}
-          onPress={() => setSpotRestore()}
+          onPress={() => rewindSpot()}
         >
           <FontAwesome5 name="redo-alt" size={20} color={COLOR.tintColor} />
         </TouchableOpacity>
         <TouchableOpacity
           style={thisStyle.footerIcon2}
-          onPress={() => setSpotDelete()}
+          onPress={() => cardStack.current.swipeLeft()}
         >
           <FontAwesome5 name="times" size={30} color={COLOR.tintColor} />
         </TouchableOpacity>
         <TouchableOpacity
           style={thisStyle.footerIcon2}
-          onPress={() => setSpotSelect()}
+          onPress={() => cardStack.current.swipeRight()}
         >
-          {currentSpot?.heart ? (
-            <FontAwesome5
-              name="heart"
-              size={30}
-              color={COLOR.tintColor}
-              solid
-            />
-          ) : (
-            <FontAwesome5 name="heart" size={30} color={COLOR.tintColor} />
-          )}
+          <FontAwesome5 name="heart" size={30} color={COLOR.tintColor} />
         </TouchableOpacity>
         <TouchableOpacity
           style={thisStyle.footerIcon1}
-          onPress={() => setSpotLike()}
+          onPress={() => {
+            cardStack.current.swipeRight();
+            if (currentSwipped < showSpots.length - 1) {
+              setHeartedSpots((prev) => [
+                ...prev,
+                showSpots[currentSwipped + 1].place_id,
+              ]);
+            }
+          }}
         >
-          {currentSpot?.like ? (
-            <FontAwesome5 name="star" size={20} color={COLOR.tintColor} solid />
-          ) : (
-            <FontAwesome5 name="star" size={20} color={COLOR.tintColor} />
-          )}
+          <FontAwesome5 name="star" size={20} color={COLOR.tintColor} />
         </TouchableOpacity>
       </View>
       <View style={thisStyle.touchable}>

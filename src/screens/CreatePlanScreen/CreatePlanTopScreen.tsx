@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Text } from 'native-base';
+import moment from 'moment';
 
 // from app
 import { useDispatch } from 'app/src/Store';
@@ -25,20 +26,25 @@ const CreatePlanTopScreen: React.FC = () => {
   const [walk, setWalk] = useState<boolean>(false);
 
   useEffect(() => {
-    const date = new Date();
-    date.setDate(date.getDate() + 1);
-    date.setMinutes(0);
-    updateFrom(date.toString());
-
-    const dateTo = new Date();
-    dateTo.setDate(date.getDate());
-    dateTo.setHours(date.getHours() + 5);
-    dateTo.setMinutes(0);
-    updateTo(dateTo.toString());
+    updateFrom(
+      moment()
+        .add(1, 'day')
+        .set('minute', 0)
+        .set('second', 0)
+        .format('YYYY/MM/DD HH:mm'),
+    );
+    updateTo(
+      moment()
+        .add(1, 'day')
+        .add(8, 'hours')
+        .set('minute', 0)
+        .set('second', 0)
+        .format('YYYY/MM/DD HH:mm'),
+    );
   }, []);
 
   /** デート予定日と交通手段を永続化 */
-  const setCreatePlan = useCallback(() => {
+  function setCreatePlan() {
     const dateFrom = new Date(fromDate);
     const dateTo = new Date(toDate);
     if (dateFrom > dateTo) {
@@ -60,20 +66,26 @@ const CreatePlanTopScreen: React.FC = () => {
       transportationList.push('walk');
     }
 
+    console.log({
+      dateFrom: fromDate,
+      dateTo: toDate,
+      trasportations: transportationList,
+    });
+
     dispatch({
       type: ActionType.SET_CREATE_PLAN,
       payload: {
-        dateTo: toDate,
         dateFrom: fromDate,
+        dateTo: toDate,
         trasportations: transportationList,
       },
     });
-  }, [car, train, bus, walk, fromDate, toDate]);
+  }
 
-  const onCompleteButtonPress = useCallback(() => {
+  function onCompleteButtonPress() {
     setCreatePlan();
     navigate('Map');
-  }, [setCreatePlan]);
+  }
 
   /** 移動手段選択ボタン */
   const TransportationButtonGroup: JSX.Element = (
