@@ -21,7 +21,7 @@ import { useDispatch, useGlobalState } from 'app/src/Store';
 
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useGooglePlace } from 'app/src/hooks';
-import { ActionType, SelectedPlace } from 'app/src/Reducer';
+import { SelectedPlace, IPlaceNode } from 'app/src/Reducer';
 import { IGoogleDirection } from 'app/src/interfaces/app/Map';
 
 /** デートスポット順番並べ替え画面 */
@@ -33,7 +33,7 @@ const ArrangeRouteScreen: React.FC = () => {
   const createPlan = useGlobalState('createPlan');
   const loginUser = useGlobalState('loginUser');
 
-  const [spots, setSpots] = useState<SelectedPlace[]>(createPlan.route.spots);
+  const [spots, setSpots] = useState<IPlaceNode[]>(createPlan.route.spots);
   const [currentIndex, setCurrentIndex] = useState<number>(-1);
   const [routes, setRoutes] = useState<{
     [key: string]: IGoogleDirection;
@@ -190,7 +190,7 @@ const ArrangeRouteScreen: React.FC = () => {
             data={spots}
             sliderWidth={LAYOUT.window.width * 0.95}
             itemWidth={LAYOUT.window.width * 0.85}
-            renderItem={({ item }: { item: SelectedPlace }) => renderItem(item)}
+            renderItem={({ item }: { item: IPlaceNode }) => renderItem(item)}
             layout="stack"
             scrollEnabled={false}
           />
