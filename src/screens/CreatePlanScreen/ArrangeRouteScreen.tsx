@@ -16,7 +16,7 @@ import polyline from '@mapbox/polyline';
 import moment from 'moment';
 // from app
 import { LAYOUT, COLOR, SPOT_TYPE, getRightSpotType } from 'app/src/constants';
-import MapView, { Marker, Polyline, LatLng } from 'react-native-maps';
+import MapView, { Marker, Polyline, LatLng, Region } from 'react-native-maps';
 import { useDispatch, useGlobalState } from 'app/src/Store';
 
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -141,6 +141,16 @@ const ArrangeRouteScreen: React.FC = () => {
       return {
         location: centerPos,
         cost: Math.round(routes[key].routes[0].legs[0].duration.value / 60),
+        region: {
+          latitude: centerPos.latitude,
+          longitude: centerPos.longitude,
+          latitudeDelta:
+            routes[key].routes[0].bounds.northeast.lat -
+            routes[key].routes[0].bounds.southwest.lat,
+          longitudeDelta:
+            routes[key].routes[0].bounds.northeast.lng -
+            routes[key].routes[0].bounds.southwest.lng,
+        } as Region,
       };
     }
 
@@ -222,6 +232,7 @@ const ArrangeRouteScreen: React.FC = () => {
               longitudeDelta: 0.05,
             }}
             style={{ height: '100%' }}
+            region={routeMarkLocation?.region}
           >
             {spots.map((item, index) => {
               return (
