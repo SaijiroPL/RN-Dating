@@ -8,7 +8,7 @@ import moment from 'moment';
 import { ImageGrid } from 'app/src/components/List';
 import { CompleteFooterButton } from 'app/src/components/Button';
 import { useDispatch, useGlobalState } from 'app/src/Store';
-import { SelectedPlace, ActionType, IPlaceNode } from 'app/src/Reducer';
+import { ActionType, IPlaceNode } from 'app/src/Reducer';
 import { useGooglePlace } from 'app/src/hooks';
 import { SPOT_TYPE, getRightSpotType } from 'app/src/constants';
 import { LoadingSpinner } from 'app/src/components/Spinners';
@@ -30,7 +30,10 @@ const SelectSpotScreen: React.FC = () => {
     for (let i = 0; i < createPlan.candidatedSpots.length; i += 1) {
       placeIDs.push(`place_id:${createPlan.candidatedSpots[i].place.place_id}`);
     }
-    getDistanceMatrix(placeIDs);
+
+    const mode =
+      createPlan.transportations.indexOf('car') >= 0 ? 'drive' : 'transit';
+    getDistanceMatrix(placeIDs, mode);
   }, []);
 
   useEffect(() => {

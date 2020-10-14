@@ -9,7 +9,7 @@ import CardStack, { Card } from 'react-native-card-stack-swiper';
 import { useGooglePlace } from 'app/src/hooks';
 import { useDispatch, useGlobalState } from 'app/src/Store';
 import { useNavigation } from '@react-navigation/native';
-import { ActionType, SelectedPlace } from 'app/src/Reducer';
+import { ActionType } from 'app/src/Reducer';
 
 import {
   COLOR,

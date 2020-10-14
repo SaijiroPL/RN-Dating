@@ -20,7 +20,7 @@ import { SmallCompleteButton } from 'app/src/components/Button/SmallCompleteButt
 import { useGooglePlace } from 'app/src/hooks';
 import { COLOR, LAYOUT } from 'app/src/constants';
 
-import { ActionType, SelectedPlace } from 'app/src/Reducer';
+import { ActionType } from 'app/src/Reducer';
 import { useDispatch, useGlobalState } from 'app/src/Store';
 import { getDistance, earthRadius } from 'geolib';
 

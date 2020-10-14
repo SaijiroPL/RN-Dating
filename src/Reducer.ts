@@ -14,14 +14,6 @@ interface RegisterUser {
   password: string;
 }
 
-export interface SelectedPlace {
-  place: IPlace;
-  heart: boolean;
-  like: boolean;
-  check: boolean;
-  cost: number;
-}
-
 export interface IPlaceNode {
   place: IPlace;
   cost: number;

@@ -21,7 +21,7 @@ import { useDispatch, useGlobalState } from 'app/src/Store';
 
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useGooglePlace } from 'app/src/hooks';
-import { SelectedPlace, IPlaceNode } from 'app/src/Reducer';
+import { IPlaceNode } from 'app/src/Reducer';
 import { IGoogleDirection } from 'app/src/interfaces/app/Map';
 
 /** デートスポット順番並べ替え画面 */
@@ -66,9 +66,13 @@ const ArrangeRouteScreen: React.FC = () => {
   async function getPathInfo(idx: number) {
     const key = combinePlaceId(idx);
     if (!routes[key]) {
+      const mode =
+        createPlan.transportations.indexOf('car') >= 0 ? 'drive' : 'transit';
+
       const newPath = await getDirection(
         spots[idx].place.place_id,
         spots[idx + 1].place.place_id,
+        mode,
       );
 
       setRoutes((prev) => {
@@ -80,7 +84,7 @@ const ArrangeRouteScreen: React.FC = () => {
     }
   }
 
-  const renderItem = (item: SelectedPlace) => (
+  const renderItem = (item: IPlaceNode) => (
     <View>
       <Image
         style={{

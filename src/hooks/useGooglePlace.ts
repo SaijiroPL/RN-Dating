@@ -38,11 +38,13 @@ export const useGooglePlace = () => {
     setNextToken(data.next_page_token);
   };
 
-  const getDistanceMatrix = async (placeIDs: string[]): Promise<void> => {
+  const getDistanceMatrix = async (
+    placeIDs: string[],
+    mode: string,
+  ): Promise<void> => {
     const url = `${distanceUrl}/json?origins=${placeIDs.join(
       '|',
-    )}&destinations=${placeIDs.join('|')}&key=${API_KEY}`;
-    // console.log(url);
+    )}&destinations=${placeIDs.join('|')}&mode=${mode}&key=${API_KEY}`;
     const { data } = await axios.get<IGoogleMatrixResult>(url);
     setDistanceMatrix(data);
   };
@@ -50,8 +52,9 @@ export const useGooglePlace = () => {
   const getDirection = async (
     origin: string,
     destination: string,
+    mode: string,
   ): Promise<IGoogleDirection> => {
-    const url = `${directionUrl}/json?origin=place_id:${origin}&destination=place_id:${destination}&key=${API_KEY}`;
+    const url = `${directionUrl}/json?origin=place_id:${origin}&destination=place_id:${destination}&mode=${mode}&key=${API_KEY}`;
     const { data } = await axios.get<IGoogleDirection>(url);
     setDirection(data);
 

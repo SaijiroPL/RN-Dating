@@ -66,18 +66,12 @@ const CreatePlanTopScreen: React.FC = () => {
       transportationList.push('walk');
     }
 
-    console.log({
-      dateFrom: fromDate,
-      dateTo: toDate,
-      trasportations: transportationList,
-    });
-
     dispatch({
       type: ActionType.SET_CREATE_PLAN,
       payload: {
         dateFrom: fromDate,
         dateTo: toDate,
-        trasportations: transportationList,
+        transportations: transportationList,
       },
     });
   }
@@ -104,20 +98,6 @@ const CreatePlanTopScreen: React.FC = () => {
         reversible
         setOtherValues={[setBus, setCar, setWalk]}
         buttonName="電車"
-      />
-      <SelectButton
-        value={bus}
-        setValue={setBus}
-        reversible
-        setOtherValues={[setTrain, setCar, setWalk]}
-        buttonName="バス"
-      />
-      <SelectButton
-        value={walk}
-        setValue={setWalk}
-        setOtherValues={[setBus, setCar, setTrain]}
-        reversible
-        buttonName="徒歩"
       />
     </View>
   );
