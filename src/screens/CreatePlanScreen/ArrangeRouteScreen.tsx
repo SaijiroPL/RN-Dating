@@ -23,6 +23,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useGooglePlace } from 'app/src/hooks';
 import { IPlaceNode } from 'app/src/Reducer';
 import { IGoogleDirection } from 'app/src/interfaces/app/Map';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 /** デートスポット順番並べ替え画面 */
 const ArrangeRouteScreen: React.FC = () => {
@@ -169,7 +170,7 @@ const ArrangeRouteScreen: React.FC = () => {
     });
 
     return res;
-  }, [routes]);
+  }, [routes, spots]);
 
   function updateElapse(idx: number, val: string) {
     const newSpots = [...spots];
@@ -210,7 +211,7 @@ const ArrangeRouteScreen: React.FC = () => {
           />
         </View>
         <View>
-          <Text style={{ marginTop: 5, textAlign: 'center' }}>
+          <Text style={{ marginTop: 5, textAlign: 'center', fontSize: 12 }}>
             {currentIndex >= 0 && spots[currentIndex].place.name}
           </Text>
         </View>
@@ -244,7 +245,21 @@ const ArrangeRouteScreen: React.FC = () => {
                   }}
                   pinColor={index === currentIndex ? '#00B4AB' : 'orange'}
                   key={item.place.place_id}
-                />
+                >
+                  <View>
+                    <FontAwesome5
+                      name="map-marker"
+                      size={30}
+                      color={COLOR.tintColor}
+                    />
+                    <View style={{ position: 'absolute', top: 5, left: 4 }}>
+                      <Image
+                        source={{ uri: item.place.icon }}
+                        style={{ width: 15, height: 15 }}
+                      />
+                    </View>
+                  </View>
+                </Marker>
               );
             })}
             {routeSeq.map((item, index) => (
@@ -313,6 +328,7 @@ const ArrangeRouteScreen: React.FC = () => {
                     onLongPress={drag}
                     onPress={() => {
                       setCurrentIndex(index || 0);
+                      console.log(item.place);
                       if (index === currentIndex) {
                         setElapseModal(true);
                       }
@@ -425,11 +441,11 @@ const ArrangeRouteScreen: React.FC = () => {
         <View style={{ marginTop: 5 }}>
           <TextInput
             placeholder="プラン名変更"
-            style={{ paddingLeft: 20, fontSize: 14 }}
+            style={{ paddingLeft: 20, fontSize: 18 }}
           />
           <TextInput
             placeholder="ポイントを書く"
-            style={{ paddingLeft: 20, fontSize: 14 }}
+            style={{ paddingLeft: 20, fontSize: 15 }}
             numberOfLines={3}
           />
         </View>
@@ -503,12 +519,13 @@ const ArrangeRouteScreen: React.FC = () => {
                   marginBottom: 15,
                   display: 'flex',
                   flexDirection: 'row',
+                  alignItems: 'baseline',
                 }}
               >
                 <TextInput
                   placeholder="所要時間"
                   style={{
-                    fontSize: 25,
+                    fontSize: 20,
                   }}
                   defaultValue={
                     currentIndex >= 0 ? spots[currentIndex].cost.toString() : ''
@@ -516,11 +533,12 @@ const ArrangeRouteScreen: React.FC = () => {
                   keyboardType="numeric"
                   onChangeText={(text) => setChangedElaspe(text)}
                 />
-                <Text>分</Text>
+                <Text style={{ fontSize: 18 }}>分</Text>
               </View>
               <View>
                 <Button
                   title="OK"
+                  buttonStyle={{ backgroundColor: 'orange', width: 75 }}
                   onPress={() => {
                     setElapseModal(false);
                     updateElapse(currentIndex, changedElapse);

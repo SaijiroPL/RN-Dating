@@ -29,7 +29,7 @@ interface CreatePlan {
   radius: number;
   spots: IPlace[];
   candidatedSpots: IPlaceNode[];
-  heartedSpots: string[];
+  heartedSpots: IPlaceNode[];
   route: {
     spots: IPlaceNode[];
     cost: number;

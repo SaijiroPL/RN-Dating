@@ -22,7 +22,9 @@ const SelectSpotScreen: React.FC = () => {
   const { distanceMatrix, getDistanceMatrix } = useGooglePlace();
   const createPlan = useGlobalState('createPlan');
 
-  const [selectedSpots, setSelectedSpots] = useState<IPlaceNode[]>([]);
+  const [selectedSpots, setSelectedSpots] = useState<IPlaceNode[]>(
+    createPlan.heartedSpots,
+  );
   const [isPlacesLoading, setIsPlacesLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -159,6 +161,9 @@ const SelectSpotScreen: React.FC = () => {
     navigate('Arrange');
   }
 
+  const formatMinute = (time: number) =>
+    `${Math.floor(time / 60)}時間${time % 60}分`;
+
   if (isPlacesLoading) {
     return LoadingSpinner;
   }
@@ -167,14 +172,13 @@ const SelectSpotScreen: React.FC = () => {
     <Container>
       <ImageGrid
         realSpots={createPlan.candidatedSpots}
-        heartedSpots={createPlan.heartedSpots}
         possibilitySpots={possibilitySpots}
         updateSelectedSpots={setSelectedSpots}
       />
       <CompleteFooterButton
         title="次へ"
         spotCount={selectedSpots.length}
-        remainTime={remainTime}
+        remainTime={formatMinute(remainTime)}
         onPress={onCompleteButtonPress}
       />
     </Container>

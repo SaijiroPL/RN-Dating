@@ -1,5 +1,6 @@
 import React, {
   useCallback,
+  useState,
   // useState
 } from 'react';
 // import { StyleSheet } from 'react-native';
@@ -13,12 +14,16 @@ import {
   Item,
   // Icon,
   Text,
+  Picker,
+  Icon,
 } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 
 // from app
 import { CompleteButton } from 'app/src/components/Button';
 import { InputLabelForm } from 'app/src/components/Form';
+import { COLOR } from 'app/src/constants/Color';
+import { StyleSheet } from 'react-native';
 // import { COLOR } from 'app/src/constants';
 
 /** スポット作成画面 */
@@ -26,10 +31,10 @@ const CreateSpotScreen: React.FC = () => {
   const { navigate } = useNavigation();
 
   /** スポットのカテゴリを追加 */
-  // const [selected2, onValueChange2] = useState<boolean>(false);
+  const [selected2, onValueChange2] = useState<boolean>(false);
 
   /** スポットのカテゴリを追加 */
-  // const [date, setDate] = useState<string>('');
+  const [date, setDate] = useState<string>('');
 
   const onCompleteButtonPress = useCallback(() => {
     navigate('Top');
@@ -45,7 +50,7 @@ const CreateSpotScreen: React.FC = () => {
           <Form>
             <Item picker>
               <Text>カテゴリを入力できるボタンを挿入</Text>
-              {/* <Picker
+              <Picker
                 style={thisStyle.itemTitleText}
                 mode="dropdown"
                 iosIcon={<Icon name="arrowdown" />}
@@ -69,7 +74,7 @@ const CreateSpotScreen: React.FC = () => {
                 <Picker.Item label="博物館/美術館" value="key13" />
                 <Picker.Item label="映画館" value="key14" />
                 <Picker.Item label="ナイトクラブ" value="key15" />
-              </Picker> */}
+              </Picker>
             </Item>
           </Form>
         </View>
@@ -100,14 +105,14 @@ const CreateSpotScreen: React.FC = () => {
 export default CreateSpotScreen;
 
 /** スタイリング */
-// const thisStyle = StyleSheet.create({
-//   formGroup: {
-//     alignItems: 'center',
-//     flex: 1,
-//     flexDirection: 'row',
-//   },
-//   itemTitleText: {
-//     color: COLOR.textTintColor,
-//     marginRight: 10,
-//   },
-// });
+const thisStyle = StyleSheet.create({
+  formGroup: {
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'row',
+  },
+  itemTitleText: {
+    color: COLOR.textTintColor,
+    marginRight: 10,
+  },
+});

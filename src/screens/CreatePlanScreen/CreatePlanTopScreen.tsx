@@ -114,7 +114,7 @@ const CreatePlanTopScreen: React.FC = () => {
             minDate={getToday()}
           />
         </View>
-        <Text style={thisStyle.dateView}>→</Text>
+        <Text>→</Text>
         <View style={thisStyle.dateView}>
           <Text style={thisStyle.itemTitleText}>終了予定時間日時</Text>
           <DateTimePickerLabel
@@ -156,14 +156,14 @@ const thisStyle = StyleSheet.create({
   },
   dateView: {
     alignItems: 'center',
-    marginLeft: 20,
-    marginRight: 15,
+    marginLeft: 10,
+    marginRight: 5,
   },
   itemTitleText: {
     color: COLOR.textTintColor,
     fontFamily: 'genju-medium',
     fontSize: 14,
-    marginRight: 30,
+    marginRight: 10,
   },
 });
 

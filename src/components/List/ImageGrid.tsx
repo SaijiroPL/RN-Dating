@@ -9,18 +9,12 @@ import { IPlaceNode } from 'app/src/Reducer';
 // interface Props {}
 interface Props {
   realSpots: IPlaceNode[];
-  heartedSpots: string[];
   possibilitySpots: IPlaceNode[];
   updateSelectedSpots(spots: IPlaceNode[]): void;
 }
 /** 画像選択グリッド */
 export const ImageGrid: React.FC<Props> = (props: Props) => {
-  const {
-    realSpots,
-    heartedSpots,
-    possibilitySpots,
-    updateSelectedSpots,
-  } = props;
+  const { realSpots, possibilitySpots, updateSelectedSpots } = props;
   const { getPlacePhoto } = useGooglePlace();
 
   const [spots, setSpots] = useState<IPlaceNode[]>(realSpots);
@@ -57,14 +51,6 @@ export const ImageGrid: React.FC<Props> = (props: Props) => {
                   : 'https://via.placeholder.com/120x90?text=No+Image',
             }}
           />
-          {heartedSpots.indexOf(item.place.place_id) >= 0 && (
-            <>
-              <View style={thisStyle.mask} />
-              <View style={thisStyle.textPane}>
-                <Text style={thisStyle.maskText}>Check</Text>
-              </View>
-            </>
-          )}
           {item.check && <View style={thisStyle.selectMask} />}
           {!item.check && possibilitySpots.indexOf(item) < 0 && (
             <View style={thisStyle.disableMask} />

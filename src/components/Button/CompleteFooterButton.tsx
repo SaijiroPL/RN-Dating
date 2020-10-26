@@ -13,7 +13,7 @@ interface Props {
   onPress?: () => void;
   disabled?: boolean;
   spotCount: number;
-  remainTime: number;
+  remainTime: string;
 }
 
 /** フッター完了ボタン */

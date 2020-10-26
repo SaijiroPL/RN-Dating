@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
 
 import { CardItem, Text, Body, Container } from 'native-base';
-import { View, Image, StyleSheet, FlatList } from 'react-native';
+import { View, Image, StyleSheet, FlatList, SectionList } from 'react-native';
 
 import CardStack, { Card } from 'react-native-card-stack-swiper';
 // from app
@@ -14,9 +14,12 @@ import { ActionType } from 'app/src/Reducer';
 import {
   COLOR,
   SPOT_TYPE,
+  SPOT_TYPE_GROUP,
   LAYOUT,
   getTypeIndex,
   getRightSpotType,
+  getSpotTypesByGroup,
+  SpotType,
 } from 'app/src/constants';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Button, Overlay, CheckBox } from 'react-native-elements';
@@ -44,10 +47,6 @@ const SwipeSpotScreen: React.FC = () => {
   const [heartedSpots, setHeartedSpots] = useState<string[]>([]);
 
   const cardStack = useRef();
-
-  useEffect(() => {
-    console.log(createPlan.dateFrom);
-  }, []);
 
   const showSpots = useMemo(() => {
     const result = [...spots];
@@ -159,6 +158,18 @@ const SwipeSpotScreen: React.FC = () => {
         return {
           place: item,
           cost: SPOT_TYPE[getRightSpotType(item.types)].elapse,
+          check: heartedSpots.indexOf(item.place_id) >= 0,
+        };
+      });
+    const hearted = spots
+      .filter((item) => {
+        return heartedSpots.indexOf(item.place_id) >= 0;
+      })
+      .map((item) => {
+        return {
+          place: item,
+          cost: SPOT_TYPE[getRightSpotType(item.types)].elapse,
+          check: true,
         };
       });
     dispatch({
@@ -166,10 +177,25 @@ const SwipeSpotScreen: React.FC = () => {
       payload: {
         ...createPlan,
         candidatedSpots: candidates,
-        heartedSpots,
+        heartedSpots: hearted,
       },
     });
     navigate('Select');
+  }
+
+  function getSectionData() {
+    const result: {
+      title: string;
+      data: SpotType[];
+    }[] = [];
+    SPOT_TYPE_GROUP.forEach((item, index) => {
+      result.push({
+        title: item,
+        data: getSpotTypesByGroup(index),
+      });
+    });
+
+    return result;
   }
 
   const PlannerLike = (
@@ -332,7 +358,7 @@ const SwipeSpotScreen: React.FC = () => {
       <View style={thisStyle.touchable}>
         <Button
           buttonStyle={thisStyle.footerButton}
-          title="保存して案内"
+          title="決定"
           onPress={onCompleteButtonPress}
         />
       </View>
@@ -346,16 +372,18 @@ const SwipeSpotScreen: React.FC = () => {
         width="auto"
         height={500}
       >
-        <FlatList
-          data={SPOT_TYPE}
-          renderItem={({ item, index }) => (
+        <SectionList
+          sections={getSectionData()}
+          renderSectionHeader={({ section: { title } }) => (
+            <Text style={thisStyle.sectionHeader}>{title}</Text>
+          )}
+          renderItem={({ item }) => (
             <CheckBox
               title={item.title}
-              checked={excludeTypes.indexOf(index) < 0}
-              onPress={() => onPressSpotType(index)}
+              checked={excludeTypes.indexOf(getTypeIndex(item.id)) < 0}
+              onPress={() => onPressSpotType(getTypeIndex(item.id))}
             />
           )}
-          keyExtractor={(item) => item.id}
         />
       </Overlay>
     </Container>
@@ -363,6 +391,9 @@ const SwipeSpotScreen: React.FC = () => {
 };
 
 const thisStyle = StyleSheet.create({
+  sectionHeader: {
+    backgroundColor: 'white',
+  },
   filter: {
     width: LAYOUT.window.width * 0.1,
     height: LAYOUT.window.width * 0.1,
