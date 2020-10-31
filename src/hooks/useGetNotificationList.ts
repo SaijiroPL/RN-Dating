@@ -75,6 +75,29 @@ export const useGetNotificationList = (userId: string) => {
 
     setIsLoading(false);
   };
+  const readNotification = async (notifyId: string) => {
+    const url = `${API_ENDPOINT.USER_NOTIFICATIONS.replace(
+      '$1',
+      userId,
+    )}/${notifyId}`;
+    try {
+      await axios.put(url);
+    } catch (err) {
+      if (!axios.isCancel(err)) {
+        const apiError = handleError(err);
+        if (apiError) {
+          setErrors(apiError);
+        }
+      }
+    }
+  };
 
-  return { isLoading, isRefreshing, onRefresh, notifications, errors };
+  return {
+    isLoading,
+    isRefreshing,
+    onRefresh,
+    notifications,
+    errors,
+    readNotification,
+  };
 };

@@ -21,7 +21,7 @@ import { CompleteButton } from 'app/src/components/Button';
 import { appTextStyle } from 'app/src/styles';
 
 /** 案内中投稿画面 */
-const GuidePostScreen: React.FC = () => {
+const GuidePostScreen__PENDING: React.FC = () => {
   /** ナビゲーター */
   const { navigate } = useNavigation();
 
@@ -77,4 +77,4 @@ const GuidePostScreen: React.FC = () => {
 //   },
 // });
 
-export default GuidePostScreen;
+export default GuidePostScreen__PENDING;

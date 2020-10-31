@@ -12,10 +12,11 @@ interface Props {
   setDate: React.Dispatch<React.SetStateAction<string>>;
   minDate?: string;
   maxDate?: string;
+  showTime?: boolean;
 }
 
 export const DateTimePickerLabel: React.FC<Props> = (props: Props) => {
-  const { date, setDate, minDate, maxDate } = props;
+  const { date, setDate, minDate, maxDate, showTime } = props;
 
   const datetime = useMemo(() => {
     if (!date) return new Date();
@@ -71,9 +72,11 @@ export const DateTimePickerLabel: React.FC<Props> = (props: Props) => {
       <Text style={thisStyle.displayText} onPress={showDatepicker}>
         {strDate}
       </Text>
-      <Text style={thisStyle.displayText} onPress={showTimepicker}>
-        {strTime}
-      </Text>
+      {showTime && (
+        <Text style={thisStyle.displayText} onPress={showTimepicker}>
+          {strTime}
+        </Text>
+      )}
       <DateTimePickerModal
         isVisible={show}
         mode={mode}
@@ -90,6 +93,7 @@ export const DateTimePickerLabel: React.FC<Props> = (props: Props) => {
 DateTimePickerLabel.defaultProps = {
   minDate: '1970-01-01',
   maxDate: '2020-12-31',
+  showTime: true,
 };
 
 const thisStyle = StyleSheet.create({

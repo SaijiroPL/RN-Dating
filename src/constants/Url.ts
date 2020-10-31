@@ -56,6 +56,7 @@ export const API_ENDPOINT = {
 export const WEB_ENDPOINT = {
   // 利用規約
   TERMS: `${WEB_HOST}/terms`,
+  ABOUT: `${WEB_HOST}/about`,
   // プライバシーポリシー
   PRIVACY_POLICY: `${WEB_HOST}/privacy`,
 };

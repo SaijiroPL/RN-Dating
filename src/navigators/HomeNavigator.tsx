@@ -11,6 +11,7 @@ import FollowScreen from 'app/src/screens/UserScreen/FollowScreen';
 import FollowerScreen from 'app/src/screens/UserScreen/FollowerScreen';
 import CreateSpotScreen from 'app/src/screens/PostScreen/CreateSpotScreen';
 import CreatePlanNavigator from 'app/src/navigators/CreatePlanNavigator';
+import PostNavigator from 'app/src/navigators/EditDatePlanNavigator';
 
 const HomeStack = createStackNavigator();
 
@@ -58,10 +59,20 @@ const HomeNavigator: React.FC = () => (
       options={{ headerShown: false }}
     />
     <HomeStack.Screen
-      name="CreateSpot"
-      component={CreateSpotScreen}
-      options={{ title: 'スポット作成' }}
+      name="PostNav"
+      component={PostNavigator}
+      options={{ title: '計画の編集' }}
     />
+    <HomeStack.Screen
+      name="EditDatePlanNav"
+      component={PostNavigator}
+      options={{ title: '計画の編集' }}
+    />
+    {/* <HomeStack.Screen */}
+    {/*  name="CreateSpot" */}
+    {/*  component={CreateSpotScreen} */}
+    {/*  options={{ title: 'スポット作成' }} */}
+    {/* /> */}
   </HomeStack.Navigator>
 );
 

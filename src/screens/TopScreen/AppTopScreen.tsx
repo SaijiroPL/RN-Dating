@@ -10,6 +10,7 @@ import { InputForm } from 'app/src/components/Form';
 import { CompleteButton } from 'app/src/components/Button';
 import { useSignin, useSignup } from 'app/src/hooks';
 import { validateEmail, validateAlphaNumeric } from 'app/src/utils';
+import { CheckBox } from 'react-native-elements';
 import { appStyle, appTextStyle } from 'app/src/styles';
 
 /** 初回起動時の画面 */
@@ -45,6 +46,10 @@ const AppTopScreen: React.FC = () => {
 
   /** パスワードバリデーションエラー(新規登録用)  */
   const [passErrAtSignup, setPassErrAtSignup] = useState<Array<string>>([]);
+
+  const [acceptTermsAndPrivacy, setAcceptTermsAndPrivacy] = useState<boolean>(
+    false,
+  );
 
   /** パスワード確認バリデーションエラー(新規登録用)  */
   const [confirmPassErrAtSignup, setConfirmPassErrAtSignup] = useState<
@@ -215,10 +220,20 @@ const AppTopScreen: React.FC = () => {
         setValue={setConfirmPassAtSignup}
         errors={confirmPassErrAtSignup}
       />
+      <CheckBox
+        checked={acceptTermsAndPrivacy}
+        wrapperStyle={{ margin: 0, padding: 0 }}
+        containerStyle={thisStyle.checkBoxStyle}
+        onPress={() => {
+          setAcceptTermsAndPrivacy(!acceptTermsAndPrivacy);
+        }}
+        title="利用規約とプライバシーポリシーに同意します"
+      />
       <View style={thisStyle.completeButtonContainer}>
         {/* 未入力項目がある場合はボタン押下不可 */}
         {emailAtSignup.length > 0 &&
         passAtSignup.length > 0 &&
+        acceptTermsAndPrivacy &&
         confirmPassAtSignup.length > 0 ? (
           <CompleteButton title="新規登録" onPress={onSignUpButtonPress} />
         ) : (
@@ -276,10 +291,18 @@ const thisStyle = StyleSheet.create({
     justifyContent: 'center',
   },
   completeButtonContainer: {
+    alignItems: 'center',
     marginTop: 20,
   },
   termsLinkContainer: {
     flexDirection: 'row',
+  },
+  checkBoxStyle: {
+    marginBottom: 30,
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+    marginLeft: 0,
+    paddingLeft: 5,
   },
   welcomeText: {
     color: COLOR.textTintColor,

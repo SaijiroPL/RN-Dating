@@ -16,7 +16,10 @@ import {
   useGetCommentList,
   useLikePlan,
   useFollowUser,
+  useGooglePlace,
 } from 'app/src/hooks';
+import MapView, { Marker } from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions';
 import { IPlanNavigationParam } from 'app/src/interfaces/app/Navigation';
 import { formatDate } from 'app/src/utils';
 import { appStyle, appTextStyle } from 'app/src/styles';
@@ -24,6 +27,9 @@ import { appStyle, appTextStyle } from 'app/src/styles';
 /** デートプラン詳細画面 */
 const PlanDetailScreen: React.FC = () => {
   const route = useRoute();
+  const { API_KEY } = useGooglePlace();
+  let origin = {};
+
   const planNavigationParam = route.params as IPlanNavigationParam;
 
   /** ログイン中のユーザー */
@@ -131,6 +137,41 @@ const PlanDetailScreen: React.FC = () => {
       </View>
     </View>
   );
+  const renderMarker = (place: any, color: string) => (
+    <Marker
+      coordinate={{
+        latitude: place.latitude,
+        longitude: place.longitude,
+      }}
+      pinColor={color}
+      key={place.id}
+    />
+  );
+
+  const renderDirection = (place: any, index: any) => {
+    if (index == 0) {
+      origin = place;
+    } else {
+      const temp_origin = origin;
+      origin = place;
+
+      return (
+        <MapViewDirections
+          origin={{
+            latitude: temp_origin.latitude,
+            longitude: temp_origin.longitude,
+          }}
+          destination={{
+            latitude: place.latitude,
+            longitude: place.longitude,
+          }}
+          apikey={`${API_KEY}`}
+          strokeWidth={3}
+          strokeColor="orange"
+        />
+      );
+    }
+  };
 
   return (
     <Container>
@@ -143,7 +184,21 @@ const PlanDetailScreen: React.FC = () => {
           </View>
         )}
         <ImageCarousel plan={plan} />
-        <SimpleMapView spot={plan.spots[0]} />
+        {/* <SimpleMapView spot={plan.spots[0]} /> */}
+        <MapView
+          region={{
+            latitude: plan.spots[0].latitude,
+            longitude: plan.spots[0].longitude,
+            latitudeDelta: 0.02,
+            longitudeDelta: 0.05,
+          }}
+          style={thisStyle.map}
+        >
+          {plan.spots.map((place: any, index: any) =>
+            renderDirection(place, index),
+          )}
+          {plan.spots.map((place: any) => renderMarker(place, 'orange'))}
+        </MapView>
         {PlanDescription}
         <CommentGrid comments={comments.comment_list} />
         {comments.total > 0 && (
@@ -157,7 +212,7 @@ const PlanDetailScreen: React.FC = () => {
           </View>
         )}
       </Content>
-      <EditPlanFab />
+      <EditPlanFab plan={plan} />
     </Container>
   );
 };
@@ -209,6 +264,10 @@ const thisStyle = StyleSheet.create({
   myPlanHeader: {
     alignItems: 'center',
     backgroundColor: COLOR.baseBackgroundColor,
+  },
+  map: {
+    flex: 1,
+    height: 200,
   },
 });
 
