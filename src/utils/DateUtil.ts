@@ -27,6 +27,9 @@ export function formatDate(
  */
 export const getToday = (): string => moment().format('YYYY-MM-DD');
 
+export const getNextDay = (): string =>
+  moment().add(1, 'd').format('YYYY-MM-DD');
+
 /**
  * 日付をDateオブジェクトに変換する
  * @param value 入力値

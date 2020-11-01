@@ -1,222 +1,129 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Image, StyleSheet, View, Text } from 'react-native';
-import { Col, Row, Grid } from 'react-native-easy-grid';
-import { ICandidateSpot } from 'app/src/interfaces/app/Spot';
-import { Container } from 'native-base';
 // from app
-import { IMAGE, LAYOUT } from 'app/src/constants';
-import { SpotSwiper } from '../Content/dist/SpotSwiper';
+import { LAYOUT, COLOR } from 'app/src/constants';
 import { useGooglePlace } from 'app/src/hooks';
-import moment from 'moment';
-import { ScrollView } from 'react-native-gesture-handler';
-import { initialWindowSafeAreaInsets } from 'react-native-safe-area-context';
+import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
+import { IPlaceNode } from 'app/src/Reducer';
 
 // interface Props {}
 interface Props {
-  realSpots: Array<ICandidateSpot>;
+  realSpots: IPlaceNode[];
+  possibilitySpots: IPlaceNode[];
+  updateSelectedSpots(spots: IPlaceNode[]): void;
 }
 /** 画像選択グリッド */
 export const ImageGrid: React.FC<Props> = (props: Props) => {
-  const { realSpots } = props;
-  const { getPlaceOpeningHours } = useGooglePlace();
+  const { realSpots, possibilitySpots, updateSelectedSpots } = props;
+  const { getPlacePhoto } = useGooglePlace();
 
-  const [total, setTotal] = useState<ICandidateSpot>(realSpots.total);
-  const [setting, setSetting] = useState([]);
+  const [spots, setSpots] = useState<IPlaceNode[]>(realSpots);
 
-  useEffect(() => {
-    let arr = [];
-    for (let i = 0; i < total.length; i++) {
-      let arr1 = [];
-      if (getOpenHours(total[i].openinghour)) {
-        if (total[i].like) {
-          arr1 = ['orange', 0.2];
-          setTotal((prev) => {
-            let arr = prev;
-            arr[i].check = true;
-            return arr;
-          });
-        } else {
-          arr1 = ['orange', 1];
-        }
-      } else {
-        arr1 = ['black', 0.2];
-      }
-      arr.push(arr1);
-    }
-    setSetting(arr);
-  }, []);
-
-  function getOpenState(
-    startTimeH,
-    startTimeM,
-    currentTimeH,
-    currentTimeM,
-    endTimeH,
-    endTimeM,
-  ) {
-    let currentTime = eval(currentTimeH * 60 + currentTimeM);
-    let startTime = eval(startTimeH * 60 + startTimeM);
-    let endTime = eval(endTimeH * 60 + endTimeM);
-    if (startTime < currentTime && currentTime < endTime) {
-      return true;
-    } else {
-      return false;
-    }
+  function selectItem(index: number) {
+    if (!spots[index].check && possibilitySpots.indexOf(spots[index]) < 0)
+      return;
+    const newSpots = [...spots];
+    newSpots[index].check = !newSpots[index].check;
+    setSpots(newSpots);
+    updateSelectedSpots(
+      newSpots.filter((value) => {
+        return value.check;
+      }),
+    );
   }
-
-  function getOpenHours(openhour) {
-    if (openhour) {
-      if (openhour == '24時間営業') {
-        return true;
-      } else {
-        let startTime = openhour.split('-')[0];
-        let endTime = openhour.split('-')[1];
-        let currentTime = moment().format('HH:MM');
-        let startTimeH = startTime.split(':')[0];
-        let startTimeM = startTime.split(':')[1];
-        let endTimeH = endTime.split(':')[0];
-        let endTimeM = endTime.split(':')[1];
-        let currentTimeH = currentTime.split(':')[0];
-        let currentTimeM = currentTime.split(':')[1];
-
-        if (parseInt(startTimeH) < parseInt(endTimeH)) {
-          if (parseInt(currentTimeH) == 0) {
-            currentTimeH = parseInt(currentTimeH) + 24;
-          }
-          getOpenState(
-            startTimeH,
-            startTimeM,
-            currentTimeH,
-            currentTimeM,
-            endTimeH,
-            endTimeM,
-          );
-        } else {
-          endTimeH = parseInt(endTimeH) + 24;
-          if (
-            parseInt(startTimeH) < parseInt(currentTimeH) &&
-            parseInt(currentTimeH) < parseInt(endTimeH)
-          ) {
-            getOpenState(
-              startTimeH,
-              startTimeM,
-              currentTimeH,
-              currentTimeM,
-              endTimeH,
-              endTimeM,
-            );
-          } else {
-            currentTimeH = parseInt(currentTimeH) + 24;
-            getOpenState(
-              startTimeH,
-              startTimeM,
-              currentTimeH,
-              currentTimeM,
-              endTimeH,
-              endTimeM,
-            );
-          }
-        }
-      }
-    } else {
-      return true;
-    }
-  }
-  const imgCheck = (index, id) => {
-    if (setting[index][0] != 'black') {
-      setTotal((prev) => {
-        let arr = prev;
-        if (arr.filter((item) => item.id == id)[0].like == true) {
-          arr.filter((item) => item.id == id)[0].like = false;
-          arr.filter((item) => item.id == id)[0].check = false;
-        } else {
-          arr.filter((item) => item.id == id)[0].like = true;
-          arr.filter((item) => item.id == id)[0].check = true;
-        }
-        return arr;
-      });
-    }
-    let arr = [...setting];
-    if (arr[index][0] != 'black') {
-      if (arr[index][1] == 0.2) {
-        arr[index][1] = 1;
-      } else {
-        arr[index][1] = 0.2;
-      }
-    }
-    setSetting(arr);
-  };
-
-  const renderSpots1 = (spot, index) => {
-    return index % 2 == 0 ? (
-      <Row style={thisStyle.box} onPress={() => imgCheck(index, spot.id)}>
-        <View
-          style={[
-            thisStyle.image,
-            {
-              position: 'absolute',
-              backgroundColor:
-                setting.length == total.length ? setting[index][0] : '',
-            },
-          ]}
-        ></View>
-        <Image
-          style={[
-            thisStyle.image,
-            {
-              opacity: setting.length == total.length ? setting[index][1] : 1,
-            },
-          ]}
-          source={{ uri: spot.imageUrl }}
-        />
-      </Row>
-    ) : null;
-  };
-  const renderSpots2 = (spot, index) => {
-    return index % 2 != 0 ? (
-      <Row style={thisStyle.box} onPress={() => imgCheck(index, spot.id)}>
-        <View
-          style={[
-            thisStyle.image,
-            {
-              position: 'absolute',
-              backgroundColor:
-                setting.length == total.length ? setting[index][0] : '',
-            },
-          ]}
-        ></View>
-        <Image
-          style={[
-            thisStyle.image,
-            {
-              opacity: setting.length == total.length ? setting[index][1] : 1,
-            },
-          ]}
-          source={{ uri: spot.imageUrl }}
-        />
-      </Row>
-    ) : null;
-  };
 
   return (
-    <ScrollView>
-      <Grid style={{ padding: 20 }}>
-        <Col>{total.map((spot, index) => renderSpots1(spot, index))}</Col>
-        <Col>{total.map((spot, index) => renderSpots2(spot, index))}</Col>
-      </Grid>
-    </ScrollView>
+    <FlatList
+      data={spots}
+      keyExtractor={(item) => item.place.place_id}
+      numColumns={2}
+      renderItem={({ item, index }) => (
+        <TouchableOpacity
+          style={thisStyle.box}
+          onPress={() => selectItem(index)}
+        >
+          <Image
+            style={thisStyle.image}
+            source={{
+              uri:
+                item.place.photos && item.place.photos.length > 0
+                  ? getPlacePhoto(item.place.photos[0].photo_reference)
+                  : 'https://via.placeholder.com/120x90?text=No+Image',
+            }}
+          />
+          {item.check && <View style={thisStyle.selectMask} />}
+          {!item.check && possibilitySpots.indexOf(item) < 0 && (
+            <View style={thisStyle.disableMask} />
+          )}
+        </TouchableOpacity>
+      )}
+      style={thisStyle.list}
+    />
   );
 };
 
 /** スタイリング */
 const thisStyle = StyleSheet.create({
+  list: {
+    marginLeft: LAYOUT.window.width * 0.05,
+    marginRight: LAYOUT.window.width * 0.05,
+    marginTop: LAYOUT.window.height * 0.03,
+  },
   box: {
-    height: LAYOUT.window.width / 3,
-    width: LAYOUT.window.width / 2.1,
-    justifyContent: 'center',
+    height: LAYOUT.window.height * 0.2,
+    width: LAYOUT.window.width * 0.45,
+    padding: 5,
   },
   image: {
-    height: '90%',
-    width: '90%',
+    height: '100%',
+    width: '100%',
+  },
+  textPane: {
+    height: '100%',
+    width: '100%',
+    position: 'absolute',
+    top: 5,
+    left: 5,
+    justifyContent: 'center',
+  },
+  mask: {
+    height: '100%',
+    width: '100%',
+    backgroundColor: COLOR.maskColor,
+    position: 'absolute',
+    top: 5,
+    left: 5,
+    opacity: 0.5,
+  },
+  maskText: {
+    fontSize: 40,
+    color: 'darkorange',
+    textAlign: 'center',
+    opacity: 1,
+    textShadowColor: 'white',
+    textShadowOffset: {
+      width: 1,
+      height: 1,
+    },
+    textShadowRadius: 1,
+    transform: [{ rotate: '-10deg' }],
+  },
+  selectMask: {
+    height: '100%',
+    width: '100%',
+    backgroundColor: 'orange',
+    position: 'absolute',
+    top: 5,
+    left: 5,
+    opacity: 0.5,
+  },
+  disableMask: {
+    height: '100%',
+    width: '100%',
+    backgroundColor: 'black',
+    position: 'absolute',
+    top: 5,
+    left: 5,
+    opacity: 0.5,
   },
 });

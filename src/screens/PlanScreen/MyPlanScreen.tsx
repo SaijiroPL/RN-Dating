@@ -9,7 +9,7 @@ import {
   Left,
   Right,
   Thumbnail,
-  ListItem
+  ListItem,
 } from 'native-base';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Col, Row, Grid } from 'react-native-easy-grid';
@@ -37,23 +37,26 @@ const HomeScreen: React.FC = () => {
     navigate('Road');
   }, []);
   const myPlan = useGlobalState('myPlan');
-  const {
-    API_KEY,
-  } = useGooglePlace();
+  const { API_KEY } = useGooglePlace();
   const [heart, setHeart] = useState<boolean>(false);
   const [star, setStar] = useState<boolean>(false);
   const [comment, setComment] = useState<boolean>(false);
   const [head_menu, setHead_menu] = useState<boolean>(false);
   let origin = {};
 
+  useEffect(() => {
+    console.log(myPlan, '00000000000000000000');
+  }, []);
+
   const PlannerHeader = (
     <CardItem>
       <Left style={thisStyle.planner}>
-        <Thumbnail source={{ uri: "https://www.w3schools.com/howto/img_avatar.png" }} small />
+        <Thumbnail
+          source={{ uri: 'https://www.w3schools.com/howto/img_avatar.png' }}
+          small
+        />
         <Body style={thisStyle.body}>
-          <Text
-            style={(thisStyle.mainText, [{ fontSize: 18 }])}
-          >
+          <Text style={(thisStyle.mainText, [{ fontSize: 18 }])}>
             {myPlan.plan.user_name}
           </Text>
           <Text note style={(thisStyle.mainText, [{ marginLeft: 10 }])}>
@@ -62,11 +65,7 @@ const HomeScreen: React.FC = () => {
         </Body>
       </Left>
       <Right style={{ zIndex: 100 }}>
-        <Entypo
-          name="triangle-down"
-          size={30}
-          color={COLOR.tintColor}
-        />
+        <Entypo name="triangle-down" size={30} color={COLOR.tintColor} />
       </Right>
     </CardItem>
   );
@@ -85,8 +84,8 @@ const HomeScreen: React.FC = () => {
             {heart ? (
               <FontAwesome5 name="heart" size={24} color={COLOR.tintColor} />
             ) : (
-                <FontAwesome5 name="heart" size={24} color={COLOR.greyColor} />
-              )}
+              <FontAwesome5 name="heart" size={24} color={COLOR.greyColor} />
+            )}
           </Button>
           <Button
             style={thisStyle.likebutton}
@@ -96,8 +95,8 @@ const HomeScreen: React.FC = () => {
             {star ? (
               <Entypo name="star-outlined" size={24} color={COLOR.tintColor} />
             ) : (
-                <Entypo name="star-outlined" size={24} color={COLOR.greyColor} />
-              )}
+              <Entypo name="star-outlined" size={24} color={COLOR.greyColor} />
+            )}
           </Button>
           <Button
             style={thisStyle.likebutton}
@@ -107,8 +106,8 @@ const HomeScreen: React.FC = () => {
             {comment ? (
               <FontAwesome name="comment-o" size={24} color={COLOR.tintColor} />
             ) : (
-                <FontAwesome name="comment-o" size={24} color={COLOR.greyColor} />
-              )}
+              <FontAwesome name="comment-o" size={24} color={COLOR.greyColor} />
+            )}
           </Button>
         </Body>
       </Right>
@@ -121,7 +120,12 @@ const HomeScreen: React.FC = () => {
         <Col>
           <ListItem thumbnail>
             <Left style={thisStyle.planner}>
-              <Thumbnail source={{ uri: "https://www.w3schools.com/howto/img_avatar.png" }} small />
+              <Thumbnail
+                source={{
+                  uri: 'https://www.w3schools.com/howto/img_avatar.png',
+                }}
+                small
+              />
             </Left>
             <Body style={{ width: LAYOUT.window.width * 0.3 }}>
               <Text style={thisStyle.footerText}>{myPlan.plan.user_name}</Text>
@@ -134,12 +138,17 @@ const HomeScreen: React.FC = () => {
                 11h
               </Text>
             </Right>
-          </ListItem >
+          </ListItem>
         </Col>
         <Col>
           <ListItem thumbnail>
             <Left style={thisStyle.planner}>
-              <Thumbnail source={{ uri: "https://www.w3schools.com/howto/img_avatar.png" }} small />
+              <Thumbnail
+                source={{
+                  uri: 'https://www.w3schools.com/howto/img_avatar.png',
+                }}
+                small
+              />
             </Left>
             <Body style={{ width: LAYOUT.window.width * 0.3 }}>
               <Text style={thisStyle.footerText}>{myPlan.plan.user_name}</Text>
@@ -152,14 +161,19 @@ const HomeScreen: React.FC = () => {
                 11h
               </Text>
             </Right>
-          </ListItem >
+          </ListItem>
         </Col>
       </Row>
       <Row>
         <Col>
           <ListItem thumbnail>
             <Left style={thisStyle.planner}>
-              <Thumbnail source={{ uri: "https://www.w3schools.com/howto/img_avatar.png" }} small />
+              <Thumbnail
+                source={{
+                  uri: 'https://www.w3schools.com/howto/img_avatar.png',
+                }}
+                small
+              />
             </Left>
             <Body style={{ width: LAYOUT.window.width * 0.3 }}>
               <Text style={thisStyle.footerText}>{myPlan.plan.user_name}</Text>
@@ -172,12 +186,17 @@ const HomeScreen: React.FC = () => {
                 11h
               </Text>
             </Right>
-          </ListItem >
+          </ListItem>
         </Col>
         <Col>
           <ListItem thumbnail>
             <Left style={thisStyle.planner}>
-              <Thumbnail source={{ uri: "https://www.w3schools.com/howto/img_avatar.png" }} small />
+              <Thumbnail
+                source={{
+                  uri: 'https://www.w3schools.com/howto/img_avatar.png',
+                }}
+                small
+              />
             </Left>
             <Body style={{ width: LAYOUT.window.width * 0.3 }}>
               <Text style={thisStyle.footerText}>{myPlan.plan.user_name}</Text>
@@ -190,7 +209,7 @@ const HomeScreen: React.FC = () => {
                 11h
               </Text>
             </Right>
-          </ListItem >
+          </ListItem>
         </Col>
       </Row>
     </Grid>
@@ -203,14 +222,12 @@ const HomeScreen: React.FC = () => {
       }}
       pinColor={color}
       key={place.id}
-    >
-    </Marker >
+    ></Marker>
   );
   const renderDirection = (place: any, index: any) => {
     if (index == 0) {
       origin = place;
-    }
-    else {
+    } else {
       let temp_origin = origin;
       origin = place;
       return (
@@ -226,11 +243,10 @@ const HomeScreen: React.FC = () => {
           apikey={`${API_KEY}`}
           strokeWidth={3}
           strokeColor="orange"
-        >
-        </MapViewDirections>
-      )
+        ></MapViewDirections>
+      );
     }
-  }
+  };
   return (
     <View style={thisStyle.container}>
       <Card style={thisStyle.card}>
@@ -248,8 +264,12 @@ const HomeScreen: React.FC = () => {
             }}
             style={thisStyle.map}
           >
-            {myPlan.plan.spots.map((place: any, index: any) => renderDirection(place, index))}
-            {myPlan.plan.spots.map((place: any) => renderMarker(place, 'orange'))}
+            {myPlan.plan.spots.map((place: any, index: any) =>
+              renderDirection(place, index),
+            )}
+            {myPlan.plan.spots.map((place: any) =>
+              renderMarker(place, 'orange'),
+            )}
           </MapView>
         </CardItem>
         <CardItem style={thisStyle.description}>
@@ -267,11 +287,11 @@ const HomeScreen: React.FC = () => {
         {PlannerLike}
         {PlannerFooter}
       </Card>
-      <View style={{ alignItems: 'center', paddingTop: 5 }}>
-        <Button style={thisStyle.footerButton}
-          onPress={onCompleteButtonPress}
-        >
-          <Text style={{ fontSize: 16, color: COLOR.baseBackgroundColor }}>プランを使用する</Text>
+      <View style={{ paddingTop: 5, paddingLeft: LAYOUT.window.width * 0.3 }}>
+        <Button style={thisStyle.footerButton} onPress={onCompleteButtonPress}>
+          <Text style={{ fontSize: 16, color: COLOR.baseBackgroundColor }}>
+            プランを使用する
+          </Text>
         </Button>
       </View>
     </View>
@@ -295,7 +315,7 @@ const thisStyle = StyleSheet.create({
     },
     shadowOpacity: 1,
     shadowRadius: 2,
-    height: LAYOUT.window.height * 0.8
+    height: LAYOUT.window.height * 0.8,
   },
   planner: {
     justifyContent: 'center',
@@ -332,7 +352,7 @@ const thisStyle = StyleSheet.create({
   footerText: {
     fontFamily: 'genju-medium',
     fontSize: 10,
-    height: LAYOUT.window.height * 0.015
+    height: LAYOUT.window.height * 0.015,
   },
   descriptionText: {
     fontFamily: 'genju-light',
@@ -360,7 +380,8 @@ const thisStyle = StyleSheet.create({
     backgroundColor: COLOR.tintColor,
     width: LAYOUT.window.width * 0.4,
     borderRadius: 10,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

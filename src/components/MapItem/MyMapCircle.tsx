@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Circle } from 'react-native-maps';
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 }
 
 /** 範囲円 */
-export const MapCircle: React.FC<Props> = (props: Props) => {
+export const MyMapCircle: React.FC<Props> = (props: Props) => {
   const { location, color, radius } = props;
 
   return (
@@ -20,6 +20,7 @@ export const MapCircle: React.FC<Props> = (props: Props) => {
         latitude: location.latitude,
         longitude: location.longitude,
       }}
+
       strokeColor="transparent"
       fillColor={color}
       radius={radius}

@@ -1,7 +1,8 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Text } from 'native-base';
+import moment from 'moment';
 
 // from app
 import { useDispatch } from 'app/src/Store';
@@ -24,9 +25,33 @@ const CreatePlanTopScreen: React.FC = () => {
   const [bus, setBus] = useState<boolean>(false);
   const [walk, setWalk] = useState<boolean>(false);
 
+  useEffect(() => {
+    updateFrom(
+      moment()
+        .add(1, 'day')
+        .set('minute', 0)
+        .set('second', 0)
+        .format('YYYY/MM/DD HH:mm'),
+    );
+    updateTo(
+      moment()
+        .add(1, 'day')
+        .add(8, 'hours')
+        .set('minute', 0)
+        .set('second', 0)
+        .format('YYYY/MM/DD HH:mm'),
+    );
+  }, []);
+
   /** デート予定日と交通手段を永続化 */
-  const setCreatePlan = useCallback(() => {
-    var transportationList = [];
+  function setCreatePlan() {
+    const dateFrom = new Date(fromDate);
+    const dateTo = new Date(toDate);
+    if (dateFrom > dateTo) {
+      return;
+    }
+
+    let transportationList = [];
     if (car) {
       transportationList = [];
       transportationList.push('car');
@@ -44,17 +69,17 @@ const CreatePlanTopScreen: React.FC = () => {
     dispatch({
       type: ActionType.SET_CREATE_PLAN,
       payload: {
-        toDate,
-        fromDate,
-        trasportations: transportationList,
+        dateFrom: fromDate,
+        dateTo: toDate,
+        transportations: transportationList,
       },
     });
-  }, [car, train, bus, walk, toDate]);
+  }
 
-  const onCompleteButtonPress = useCallback(() => {
+  function onCompleteButtonPress() {
     setCreatePlan();
     navigate('Map');
-  }, [setCreatePlan]);
+  }
 
   /** 移動手段選択ボタン */
   const TransportationButtonGroup: JSX.Element = (
@@ -74,20 +99,6 @@ const CreatePlanTopScreen: React.FC = () => {
         setOtherValues={[setBus, setCar, setWalk]}
         buttonName="電車"
       />
-      <SelectButton
-        value={bus}
-        setValue={setBus}
-        reversible
-        setOtherValues={[setTrain, setCar, setWalk]}
-        buttonName="バス"
-      />
-      <SelectButton
-        value={walk}
-        setValue={setWalk}
-        setOtherValues={[setBus, setCar, setTrain]}
-        reversible
-        buttonName="徒歩"
-      />
     </View>
   );
 
@@ -103,7 +114,7 @@ const CreatePlanTopScreen: React.FC = () => {
             minDate={getToday()}
           />
         </View>
-        <Text style={thisStyle.dateView}>→</Text>
+        <Text>→</Text>
         <View style={thisStyle.dateView}>
           <Text style={thisStyle.itemTitleText}>終了予定時間日時</Text>
           <DateTimePickerLabel
@@ -115,7 +126,10 @@ const CreatePlanTopScreen: React.FC = () => {
       </View>
       {TransportationButtonGroup}
       <View style={appStyle.emptySpace} />
-      {fromDate === '' || toDate === '' || (!car && !train && !bus && !walk) ? (
+      {fromDate > toDate ||
+      fromDate === '' ||
+      toDate === '' ||
+      (!car && !train && !bus && !walk) ? (
         <SmallCompleteButton title="決定" disabled />
       ) : (
         <SmallCompleteButton title="決定" onPress={onCompleteButtonPress} />
@@ -142,14 +156,14 @@ const thisStyle = StyleSheet.create({
   },
   dateView: {
     alignItems: 'center',
-    marginLeft: 20,
-    marginRight: 15,
+    marginLeft: 10,
+    marginRight: 5,
   },
   itemTitleText: {
     color: COLOR.textTintColor,
     fontFamily: 'genju-medium',
     fontSize: 14,
-    marginRight: 30,
+    marginRight: 10,
   },
 });
 

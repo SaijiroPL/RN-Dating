@@ -56,6 +56,8 @@ export interface IPlace {
   photos: Array<IPlacePhoto>;
   place_id: string;
   types: Array<string>;
+  vicinity: string;
+  user_ratings_total: number;
 }
 
 export interface IPlaceOpenHour {
@@ -89,4 +91,59 @@ export interface IGoogleResult {
   results?: IPlace[];
   result?: IPlace;
   status: string;
+}
+
+export interface IGoogleMatrixResult {
+  status: string;
+  origin_addresses: string[];
+  destination_addresses: string[];
+  rows: IGoogleMatrixRow[];
+}
+
+export interface IGoogleDistanceVector {
+  value: number;
+  text: string;
+}
+
+export interface IGoogleMatrixRow {
+  elements: {
+    status: string;
+    duration: IGoogleDistanceVector;
+    distance: IGoogleDistanceVector;
+  }[];
+}
+
+export interface IGoogleDirection {
+  status: string;
+  geocoded_waypoints: {
+    geocoder_status: string;
+    place_id: string;
+    types: string[];
+  }[];
+  routes: {
+    summary: string;
+    legs: {
+      steps: {
+        travel_mode: string;
+        start_location: ISimpleLocation;
+        end_location: ISimpleLocation;
+        polyline: {
+          points: string;
+        };
+        duration: IGoogleDistanceVector;
+        distance: IGoogleDistanceVector;
+        html_instructions: string;
+      }[];
+      duration: IGoogleDistanceVector;
+      distance: IGoogleDistanceVector;
+    }[];
+    overview_polyline: {
+      points: string;
+    };
+    waypoint_order: number[];
+    bounds: {
+      southwest: ISimpleLocation;
+      northeast: ISimpleLocation;
+    };
+  }[];
 }

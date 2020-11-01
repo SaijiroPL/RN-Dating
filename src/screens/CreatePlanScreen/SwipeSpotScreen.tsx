@@ -1,285 +1,281 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 
-import {
-  DeckSwiper,
-  Card,
-  CardItem,
-  Content,
-  Text,
-  Left,
-  Body,
-  Right,
-  Container,
-  Footer,
-} from 'native-base';
-import {
-  View,
-  Image,
-  StyleSheet,
-  FlatList,
-  ActivityIndicator,
-} from 'react-native';
+import { CardItem, Text, Body, Container } from 'native-base';
+import { View, Image, StyleSheet, FlatList, SectionList } from 'react-native';
 
+import CardStack, { Card } from 'react-native-card-stack-swiper';
 // from app
-import { ICandidateSpot } from 'app/src/interfaces/app/Spot';
-import { SpotSwiper } from 'app/src/components/Content';
-import { CompleteFooterButton } from 'app/src/components/Button';
+
 import { useGooglePlace } from 'app/src/hooks';
 import { useDispatch, useGlobalState } from 'app/src/Store';
 import { useNavigation } from '@react-navigation/native';
 import { ActionType } from 'app/src/Reducer';
-import SelectSpotScreen from './dist/SelectSpotScreen';
-import { ILocation, IPlace, IPlaceOpenHour } from 'app/src/interfaces/app/Map';
-import { COLOR, SPOT_TYPE, LAYOUT } from 'app/src/constants';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Slider, Button, Overlay, CheckBox } from 'react-native-elements';
-import {
-  FontAwesome,
-  FontAwesome5,
-  Entypo,
-  Ionicons,
-} from '@expo/vector-icons';
-import { IGoogleResult } from 'app/src/interfaces/app/Map';
-import axios from 'axios';
-import { LoadingSpinner } from 'app/src/components/Spinners';
 
+import {
+  COLOR,
+  SPOT_TYPE,
+  SPOT_TYPE_GROUP,
+  LAYOUT,
+  getTypeIndex,
+  getRightSpotType,
+  getSpotTypesByGroup,
+  SpotType,
+} from 'app/src/constants';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Button, Overlay, CheckBox } from 'react-native-elements';
+import { FontAwesome5 } from '@expo/vector-icons';
+
+import { LoadingSpinner } from 'app/src/components/Spinners';
+import { IPlace } from 'app/src/interfaces/app/Map';
 
 /** デートスポット候補スワイプ画面 */
 const SwipeSpotScreen: React.FC = () => {
-  const [spots, setSpots] = useState([]);
-  const [typesPopup, setTypesPopup] = useState(false);
-  const [spotChecked, setSpotChecked] = useState([]);
-  const [deletedSpots, setDeletedSpots] = useState<ICandidateSpot>([]);
-  const [isPlacesLoading, setIsPlacesLoading] = useState<boolean>(true);
-
-  const {
-    // searchNearbyPlace,
-    getPlacePhoto,
-    getPlaceDetail,
-    getPlaceOpeningHours,
-    // places,
-    // setPlaces,
-    API_KEY,
-    baseUrl,
-  } = useGooglePlace();
+  const { searchNearbyPlace, getPlacePhoto, places } = useGooglePlace();
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
 
-  const createTempSpots = useGlobalState('createTempSpots');
+  const createPlan = useGlobalState('createPlan');
+
+  const [typesPopup, setTypesPopup] = useState(false);
+  const [isPlacesLoading, setIsPlacesLoading] = useState<boolean>(true);
+  const [spots, setSpots] = useState<IPlace[]>(createPlan.spots);
+  const [excludeTypes, setExcludeTypes] = useState<number[]>([]);
+  const [currentSwipped, setCurrentSwipped] = useState<number>(-1);
+
+  const [deletedSpots, setDeletedSpots] = useState<string[]>([]);
+  const [likedSpots, setLikedSpots] = useState<string[]>([]);
+  const [heartedSpots, setHeartedSpots] = useState<string[]>([]);
+
+  const cardStack = useRef();
+
+  const showSpots = useMemo(() => {
+    const result = [...spots];
+
+    const includeTypes: number[] = [];
+    for (let i = 0; i < SPOT_TYPE.length; i += 1) {
+      if (excludeTypes.indexOf(i) < 0) includeTypes.push(i);
+    }
+
+    return result.filter((value) => {
+      for (let i = 0; i < value.types.length; i += 1) {
+        const type = value.types[i];
+        const typeIdx = getTypeIndex(type);
+        if (includeTypes.indexOf(typeIdx) >= 0) {
+          return true;
+        }
+      }
+
+      return false;
+    });
+  }, [excludeTypes, deletedSpots, spots]);
+
+  function onPressSpotType(index: number) {
+    const orgExcludeTypes = [...excludeTypes];
+    const exists = excludeTypes.indexOf(index);
+    if (exists >= 0) {
+      orgExcludeTypes.splice(exists, 1);
+      setExcludeTypes(orgExcludeTypes);
+    } else {
+      setExcludeTypes((prev) => [...prev, index]);
+    }
+  }
+
+  function loadSpotByTypeIndex(idx: number) {
+    if (idx < SPOT_TYPE.length) {
+      searchNearbyPlace(
+        createPlan.center,
+        createPlan.radius * 100,
+        SPOT_TYPE[idx].id,
+      );
+      setTimeout(() => {
+        loadSpotByTypeIndex(idx + 1);
+      }, 100);
+    } else {
+      setIsPlacesLoading(false);
+    }
+  }
 
   useEffect(() => {
     setIsPlacesLoading(true);
-    place_load();
-  }, [spotChecked]);
-  
-  async function place_load(){
-    let tempSpots = [], tokenState = true, nextToken=undefined;
-    createTempSpots.tempSpots.filter((item)=>tempSpots.push(item));
-    let type = spotChecked;
-    if(type.length){
-      for (let i = 0; i < type.length; i++) {
-        if (tokenState && !nextToken) {
-          let data = await getPlaces1(type[i]);
-          if (data.results?.length) {
-            console.log(data.results.length, '22222222222222222222')
-            data.results.filter((item: any, index:any) => {
-              let obj = {
-                spotName: item['name'],
-                address: item['vicinity'],
-                rating: item['user_ratings_total'],
-                imageUrl:
-                  item.photos && item.photos.length > 0
-                    ? getPlacePhoto(item.photos[0].photo_reference)
-                    : 'https://via.placeholder.com/120x90?text=No+Image',
-                latitude: item['geometry']['location']['lat'],
-                longitude: item['geometry']['location']['lng'],
-                id: item['place_id'],
-                heart: false,
-                like: false,
-                check: false,
-                openinghour: '',
-              };
-              if(tempSpots.length){
-                for(let j = 0; j < tempSpots.length; j++){
-                  if(tempSpots[j].id == obj.id){
-                    break;
-                  }
-                  else if(j == tempSpots.length - 1){
-                    tempSpots.push(obj);
-                  }
-                }
-              }
-              else{
-                tempSpots.push(obj);
-              }
-            });
-            if (data.next_page_token) {
-              nextToken = data.next_page_token;
-              i--;
-            }
-            else{
-              nextToken = undefined;
-            }
-          }
-          tokenState = false;
-        } else if (nextToken) {
-          let data = await getPlaces2(type[i], nextToken);
-          if (data.results?.length) {
-            data.results.filter((item: any) => {
-              let obj = {
-                spotName: item['name'],
-                address: item['vicinity'],
-                rating: item['user_ratings_total'],
-                imageUrl:
-                  item.photos && item.photos.length > 0
-                    ? getPlacePhoto(item.photos[0].photo_reference)
-                    : 'https://via.placeholder.com/120x90?text=No+Image',
-                latitude: item['geometry']['location']['lat'],
-                longitude: item['geometry']['location']['lng'],
-                id: item['place_id'],
-                heart: false,
-                like: false,
-                check: false,
-                openinghour: '',
-              };
-              if(tempSpots.length){
-                for(let j = 0; j < tempSpots.length; j++){
-                  if(tempSpots[j].id == obj.id){
-                    break;
-                  }
-                  else if(j == tempSpots.length - 1){
-                    tempSpots.push(obj);
-                  }
-                }
-              }
-              else{
-                tempSpots.push(obj);
-              }
-            });
-            if (data.next_page_token) {
-              nextToken = data.next_page_token;
-              i--;
-            }
-            else{
-              nextToken = undefined;
-            }
-          }
-        } else {
-          tokenState = true;
-        }
-      }
-      for (let i = 0; i < tempSpots.length; i++) {
-        let data = await getOpenHours(tempSpots[i].id);
-        tempSpots.filter((item) => item.id == tempSpots[i].id)[0].openinghour = data;
-      }
-      await setSpots(tempSpots);
-      await setIsPlacesLoading(false);
-    }
-  }
-  async function getPlaces1(type) {
-    let location = createTempSpots.location;
-    let radius = createTempSpots.radius;
-    const url = `${baseUrl}/nearbysearch/json?location=${location.latitude},${location.longitude}&radius=${radius}&type=${type}&language=ja&key=${API_KEY}`;
-    const { data } = await axios.get<IGoogleResult>(url);
-    return data;
-  }
-  async function getPlaces2(type, next_token) {
-    let location = createTempSpots.location;
-    let radius = createTempSpots.radius;
-    const url = `${baseUrl}/nearbysearch/json?location=${location.latitude},${location.longitude}&radius=${radius}&type=${type}&language=ja&key=${API_KEY}&pagetoken=${next_token}`;
-    const { data } = await axios.get<IGoogleResult>(url);
-    return data;
-  }
+    loadSpotByTypeIndex(0);
+  }, []);
+
   useEffect(() => {
-    const checked = [];
-    for (let i = 0; i < SPOT_TYPE.length; i += 1) {
-      if(SPOT_TYPE[i].id == 'restaurant'){
-        checked.push(SPOT_TYPE[i].id);
-      }
-    }
-    setSpotChecked(checked);
-  }, [SPOT_TYPE]);
+    if (places.length > 0) {
+      // get places from api
+      const newSpots = [...spots];
+      for (let i = 0; i < places.length; i += 1) {
+        const item = places[i];
 
-  const onCompleteButtonPress = () => {
-    let total = [];
-    for (let i = 0; i < spots.length; i++) {
-      if (spots[i].heart || spots[i].like) {
-        total.push(spots[i]);
+        let exists = false;
+        for (let j = 0; j < newSpots.length; j += 1) {
+          if (newSpots[j].place_id === item.place_id) {
+            exists = true;
+          }
+        }
+        if (!exists) newSpots.push({ ...item });
       }
+      setSpots(newSpots);
     }
-    if (total.length > 20) {
-      alert('Too Much!');
-      return;
-    } else if (total.length == 0) {
-      alert('Select Correctly!');
-      return;
-    } else {
-      dispatch({
-        type: ActionType.SET_CREATE_REAL_SPOTS,
-        payload: {
-          total,
-        },
-      });
-      navigate('Select');
-    }
-  };
-
-  const formatOpHour = (value: string) =>
-    `${value.slice(0, 2)}:${value.slice(2, 4)}`;
-  async function getOpenHours(id) {
-    const openHours = await getPlaceOpeningHours(id);
-    return formatPlaceOpeningHours(openHours);
-  }
-  function formatPlaceOpeningHours(opHour) {
-    if (opHour) {
-      const dayHour = opHour.periods[0];
-      if (dayHour && dayHour.close) {
-        return `${formatOpHour(dayHour.open.time)}-${formatOpHour(
-          dayHour.close.time,
-        )}`;
-      }
-      return '24時間営業';
-    }
-    return '';
-  }
-
-  const setSpotFilter = () => {
-    setTypesPopup(true);
-  };
-  const setSpotRestore = () => {
-    if (deletedSpots.length) {
-      let resoteId = deletedSpots[0].id;
-      setSpots((prev) => [...prev, deletedSpots[0]]);
-      setDeletedSpots((prev) => prev.filter((item) => item.id !== resoteId));
-    }
-  };
-  const setSpotDelete = (spot) => {
-    setDeletedSpots((prev) => [...prev, spot]);
-    setSpots((prev) => prev.filter((item) => item.id !== spot.id));
-  };
-  const setSpotSelect = (spot) => {
-    let arr = [...spots];
-    arr.filter((item) => item.id == spot.id)[0].heart = true;
-    arr.filter((item) => item.id == spot.id)[0].like = false;
-    setSpots(arr);
-  };
-  const setSpotLike = (spot) => {
-    let arr = [...spots];
-    arr.filter((item) => item.id == spot.id)[0].heart = false;
-    arr.filter((item) => item.id == spot.id)[0].like = true;
-    setSpots(arr);
-  };
+  }, [places]);
 
   if (isPlacesLoading) {
     return LoadingSpinner;
   }
 
+  function deleteSpot(idx: number) {
+    setDeletedSpots((prev) => [...prev, showSpots[idx].place_id]);
+  }
+
+  function likeSpot(idx: number) {
+    setLikedSpots((prev) => [...prev, showSpots[idx].place_id]);
+  }
+
+  function rewindSpot() {
+    if (currentSwipped < 0) return;
+    setDeletedSpots((prev) =>
+      prev.filter((item) => item !== showSpots[currentSwipped].place_id),
+    );
+    setLikedSpots((prev) =>
+      prev.filter((item) => item !== showSpots[currentSwipped].place_id),
+    );
+    setHeartedSpots((prev) =>
+      prev.filter((item) => item !== showSpots[currentSwipped].place_id),
+    );
+    if (deletedSpots.indexOf(showSpots[currentSwipped].place_id) >= 0)
+      cardStack.current.goBackFromLeft();
+    else if (likedSpots.indexOf(showSpots[currentSwipped].place_id) >= 0)
+      cardStack.current.goBackFromRight();
+    setCurrentSwipped((prev) => prev - 1);
+  }
+
+  function onCompleteButtonPress() {
+    const candidates = spots
+      .filter((item) => {
+        return likedSpots.indexOf(item.place_id) >= 0;
+      })
+      .map((item) => {
+        return {
+          place: item,
+          cost: SPOT_TYPE[getRightSpotType(item.types)].elapse,
+          check: heartedSpots.indexOf(item.place_id) >= 0,
+        };
+      });
+    const hearted = spots
+      .filter((item) => {
+        return heartedSpots.indexOf(item.place_id) >= 0;
+      })
+      .map((item) => {
+        return {
+          place: item,
+          cost: SPOT_TYPE[getRightSpotType(item.types)].elapse,
+          check: true,
+        };
+      });
+    dispatch({
+      type: ActionType.SET_CREATE_PLAN,
+      payload: {
+        ...createPlan,
+        candidatedSpots: candidates,
+        heartedSpots: hearted,
+      },
+    });
+    navigate('Select');
+  }
+
+  function getSectionData() {
+    const result: {
+      title: string;
+      data: SpotType[];
+    }[] = [];
+    SPOT_TYPE_GROUP.forEach((item, index) => {
+      result.push({
+        title: item,
+        data: getSpotTypesByGroup(index),
+      });
+    });
+
+    return result;
+  }
+
   const PlannerLike = (
     <Body style={thisStyle.bodylike}>
-      <FontAwesome5 name="heart" size={24} color={COLOR.greyColor} />
-      <Entypo name="star-outlined" size={24} color={COLOR.greyColor} />
-      <FontAwesome name="comment-o" size={24} color={COLOR.greyColor} />
+      <FontAwesome5
+        name="heart"
+        size={24}
+        color={COLOR.greyColor}
+        style={{ marginRight: 3 }}
+      />
+      <FontAwesome5
+        name="star"
+        size={24}
+        color={COLOR.greyColor}
+        style={{ marginRight: 3 }}
+      />
+      <FontAwesome5
+        name="comment"
+        size={24}
+        color={COLOR.greyColor}
+        style={{ marginRight: 3 }}
+      />
     </Body>
+  );
+
+  const renderItem = (item: IPlace) => (
+    <View>
+      <Image
+        style={{
+          height: LAYOUT.window.height * 0.35,
+          borderTopLeftRadius: 10,
+          borderTopRightRadius: 10,
+        }}
+        source={{
+          uri:
+            item.photos && item.photos.length > 0
+              ? getPlacePhoto(item.photos[0].photo_reference)
+              : 'https://via.placeholder.com/120x90?text=No+Image',
+        }}
+      />
+      <CardItem
+        style={{
+          borderBottomLeftRadius: 10,
+          borderBottomRightRadius: 10,
+          borderStyle: 'solid',
+          borderWidth: 1,
+          borderColor: COLOR.greyColor,
+        }}
+      >
+        <View
+          style={{
+            flexDirection: 'column',
+            width: LAYOUT.window.width * 0.55,
+          }}
+        >
+          <Text note style={thisStyle.centerText}>
+            {item.name}
+          </Text>
+          <Text note style={thisStyle.centerText}>
+            {item.vicinity}
+          </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: 'column',
+          }}
+        >
+          <View
+            style={{
+              height: LAYOUT.window.height * 0.05,
+            }}
+          >
+            {PlannerLike}
+          </View>
+          <Text note style={thisStyle.footerText}>
+            {item.user_ratings_total}
+          </Text>
+        </View>
+      </CardItem>
+    </View>
   );
 
   return (
@@ -288,150 +284,84 @@ const SwipeSpotScreen: React.FC = () => {
         style={{
           justifyContent: 'flex-end',
           flexDirection: 'row',
-          marginBottom: 10,
         }}
       >
         <TouchableOpacity
           style={[thisStyle.filter]}
-          onPress={() => setSpotFilter()}
+          onPress={() => setTypesPopup(true)}
         >
-          <Entypo name="list" size={30} color={COLOR.greyColor} />
+          <FontAwesome5 name="list" size={20} color={COLOR.greyColor} />
         </TouchableOpacity>
       </View>
-      {spots.length ? (
-        <View style={{ height: LAYOUT.window.height * 0.7, padding: 10 }}>
-          <DeckSwiper
-            dataSource={spots}
-            renderItem={(item: any) => {
-              return (
-                <Card>
-                  <Image
-                    style={{ height: LAYOUT.window.height * 0.4 }}
-                    source={{
-                      uri: item.imageUrl,
-                    }}
-                  />
-                  <CardItem>
-                    <View
-                      style={{
-                        flexDirection: 'column',
-                        width: LAYOUT.window.width * 0.7,
-                      }}
-                    >
-                      <Text note style={thisStyle.centerText}>
-                        {item.spotName}
-                      </Text>
-                      <Text note style={thisStyle.centerText}>
-                        {item.address}
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        flexDirection: 'column',
-                        width: LAYOUT.window.width * 0.3,
-                        paddingRight: 50,
-                      }}
-                    >
-                      <View
-                        style={{
-                          height: LAYOUT.window.height * 0.04,
-                          padding: 10,
-                        }}
-                      >
-                        {PlannerLike}
-                      </View>
-                      <Text note style={thisStyle.footerText}>
-                        {item.rating}
-                      </Text>
-                    </View>
-                  </CardItem>
-                  <CardItem>
-                    <TouchableOpacity
-                      style={thisStyle.footerIcon1}
-                      onPress={() => setSpotRestore()}
-                    >
-                      <Ionicons
-                        name="md-refresh"
-                        size={30}
-                        color={COLOR.tintColor}
-                      />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={thisStyle.footerIcon2}
-                      onPress={() => setSpotDelete(item)}
-                    >
-                      <Ionicons
-                        name="ios-close"
-                        size={50}
-                        color={COLOR.tintColor}
-                      />
-                    </TouchableOpacity>
-                    {item.heart ? (
-                      <TouchableOpacity
-                        style={[
-                          thisStyle.footerIcon2,
-                          thisStyle.footerIconActive,
-                        ]}
-                        onPress={() => setSpotSelect(item)}
-                      >
-                        <FontAwesome5
-                          name="heart"
-                          size={40}
-                          color={COLOR.greyColor}
-                        />
-                      </TouchableOpacity>
-                    ) : (
-                      <TouchableOpacity
-                        style={thisStyle.footerIcon2}
-                        onPress={() => setSpotSelect(item)}
-                      >
-                        <FontAwesome5
-                          name="heart"
-                          size={40}
-                          color={COLOR.tintColor}
-                        />
-                      </TouchableOpacity>
-                    )}
-                    {item.like ? (
-                      <TouchableOpacity
-                        style={[
-                          thisStyle.footerIcon1,
-                          thisStyle.footerIconActive,
-                        ]}
-                        onPress={() => setSpotLike(item)}
-                      >
-                        <FontAwesome5
-                          name="star"
-                          size={30}
-                          color={COLOR.greyColor}
-                        />
-                      </TouchableOpacity>
-                    ) : (
-                      <TouchableOpacity
-                        style={thisStyle.footerIcon1}
-                        onPress={() => setSpotLike(item)}
-                      >
-                        <FontAwesome5
-                          name="star"
-                          size={30}
-                          color={COLOR.tintColor}
-                        />
-                      </TouchableOpacity>
-                    )}
-                  </CardItem>
-                </Card>
-              );
-            }}
-          ></DeckSwiper>
-        </View>
-      ) : null}
-      <Footer style={thisStyle.touchable}>
+      <View
+        style={{
+          height: LAYOUT.window.height * 0.55,
+          width: LAYOUT.window.width * 0.9,
+          marginLeft: LAYOUT.window.width * 0.05,
+          padding: 5,
+        }}
+      >
+        <CardStack
+          ref={cardStack}
+          disableBottomSwipe
+          disableTopSwipe
+          verticalSwipe={false}
+          onSwipedLeft={deleteSpot}
+          onSwipedRight={likeSpot}
+          onSwiped={(idx) => setCurrentSwipped(idx)}
+        >
+          {showSpots.map((item) => (
+            <Card>{renderItem(item)}</Card>
+          ))}
+        </CardStack>
+      </View>
+      <View
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+        }}
+      >
+        <TouchableOpacity
+          style={thisStyle.footerIcon1}
+          onPress={() => rewindSpot()}
+        >
+          <FontAwesome5 name="redo-alt" size={20} color={COLOR.tintColor} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={thisStyle.footerIcon2}
+          onPress={() => cardStack.current.swipeLeft()}
+        >
+          <FontAwesome5 name="times" size={30} color={COLOR.tintColor} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={thisStyle.footerIcon2}
+          onPress={() => cardStack.current.swipeRight()}
+        >
+          <FontAwesome5 name="heart" size={30} color={COLOR.tintColor} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={thisStyle.footerIcon1}
+          onPress={() => {
+            cardStack.current.swipeRight();
+            if (currentSwipped < showSpots.length - 1) {
+              setHeartedSpots((prev) => [
+                ...prev,
+                showSpots[currentSwipped + 1].place_id,
+              ]);
+            }
+          }}
+        >
+          <FontAwesome5 name="star" size={20} color={COLOR.tintColor} />
+        </TouchableOpacity>
+      </View>
+      <View style={thisStyle.touchable}>
         <Button
           buttonStyle={thisStyle.footerButton}
-          title="保存して案内"
+          title="決定"
           onPress={onCompleteButtonPress}
         />
-      </Footer>
+      </View>
       <Overlay
         isVisible={typesPopup}
         windowBackgroundColor="rgba(0, 0, 0, .5)"
@@ -442,28 +372,28 @@ const SwipeSpotScreen: React.FC = () => {
         width="auto"
         height={500}
       >
-        <FlatList
-          data={SPOT_TYPE}
-          renderItem={({ item, index }) => (
+        <SectionList
+          sections={getSectionData()}
+          renderSectionHeader={({ section: { title } }) => (
+            <Text style={thisStyle.sectionHeader}>{title}</Text>
+          )}
+          renderItem={({ item }) => (
             <CheckBox
               title={item.title}
-              checked={spotChecked[index]}
-              onPress={() => {
-                const arrChecked = [...spotChecked];
-                arrChecked[index] = !arrChecked[index];
-                setSpotChecked(arrChecked);
-              }}
+              checked={excludeTypes.indexOf(getTypeIndex(item.id)) < 0}
+              onPress={() => onPressSpotType(getTypeIndex(item.id))}
             />
           )}
-          keyExtractor={(item) => item.id}
         />
       </Overlay>
     </Container>
   );
 };
 
-export default SwipeSpotScreen;
 const thisStyle = StyleSheet.create({
+  sectionHeader: {
+    backgroundColor: 'white',
+  },
   filter: {
     width: LAYOUT.window.width * 0.1,
     height: LAYOUT.window.width * 0.1,
@@ -502,9 +432,7 @@ const thisStyle = StyleSheet.create({
   footer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'flex-end',
-    marginTop: LAYOUT.window.height * 0.01,
-    marginBottom: LAYOUT.window.height * 0.01,
+    alignItems: 'center',
     height: LAYOUT.window.height * 0.1,
   },
   footerText: {
@@ -514,19 +442,19 @@ const thisStyle = StyleSheet.create({
     backgroundColor: COLOR.greyColor,
     width: LAYOUT.window.width * 0.1,
     height: LAYOUT.window.width * 0.1,
-    padding: 10,
+    // padding: 5,
     borderRadius: LAYOUT.window.width * 0.1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: LAYOUT.window.width * 0.05,
-    marginRight: LAYOUT.window.width * 0.05,
+    marginLeft: LAYOUT.window.width * 0.01,
+    marginRight: LAYOUT.window.width * 0.01,
   },
   footerIcon2: {
     backgroundColor: COLOR.greyColor,
     width: LAYOUT.window.width * 0.13,
     height: LAYOUT.window.width * 0.13,
-    padding: 10,
-    borderRadius: LAYOUT.window.width * 0.13,
+    // padding: 5,
+    borderRadius: LAYOUT.window.width * 0.16,
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: LAYOUT.window.width * 0.05,
@@ -536,9 +464,13 @@ const thisStyle = StyleSheet.create({
     backgroundColor: COLOR.tintColor,
   },
   touchable: {
+    display: 'flex',
+    flexDirection: 'column',
     backgroundColor: COLOR.backgroundColor,
-    height: LAYOUT.window.height * 0.1,
-    padding: 10,
+    height: LAYOUT.window.height * 0.07,
+    padding: 0,
+    marginBottom: 0,
+    marginTop: 15,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -547,6 +479,7 @@ const thisStyle = StyleSheet.create({
     backgroundColor: COLOR.tintColor,
     width: LAYOUT.window.width * 0.3,
     borderRadius: 10,
-    marginBottom: 5,
+    marginBottom: 0,
   },
 });
+export default SwipeSpotScreen;

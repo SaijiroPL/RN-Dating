@@ -4,6 +4,7 @@ import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 // from app
 import { Provider } from 'app/src/Store';
 import { IMAGE, FONT } from 'app/src/constants';

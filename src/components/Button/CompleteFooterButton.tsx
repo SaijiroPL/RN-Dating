@@ -12,25 +12,27 @@ interface Props {
   title: string;
   onPress?: () => void;
   disabled?: boolean;
-  spotCount: Array<ICandidateSpot>;
-  plan: any;
+  spotCount: number;
+  remainTime: string;
 }
 
 /** フッター完了ボタン */
 export const CompleteFooterButton: React.FC<Props> = (props: Props) => {
-  const { disabled, title, onPress, realSpots, plan } = props;
-  const [time, setTime] = useState('');
-  useEffect(() => {
-    var time = moment(plan.toDate).format("X") - moment().format('X');
-    setTime(Math.floor(time / 3600) + " : " + Math.floor((time % 3600) / 60));
-  }, [])
+  const { disabled, title, onPress, spotCount, remainTime } = props;
+
   return (
     <Footer style={thisStyle.touchable}>
       <Left style={{ flexDirection: 'row' }}>
-        <Text note>ト厳選画面</Text>
-        <Text note style={{ marginLeft: 10 }}>{realSpots.total.length}ト</Text>
-        <Text note style={{ marginLeft: 20 }}>ト厳選画面</Text>
-        <Text note style={{ marginLeft: 10 }}>{time}</Text>
+        <Text note>スポット数</Text>
+        <Text note style={{ marginLeft: 10 }}>
+          {spotCount}
+        </Text>
+        <Text note style={{ marginLeft: 20 }}>
+          残り時間
+        </Text>
+        <Text note style={{ marginLeft: 10 }}>
+          {remainTime}
+        </Text>
       </Left>
       <Right>
         <Button onPress={onPress} style={thisStyle.button}>
@@ -50,19 +52,19 @@ CompleteFooterButton.defaultProps = {
 const thisStyle = StyleSheet.create({
   touchable: {
     backgroundColor: COLOR.greyColor,
-    height: LAYOUT.window.height * 0.04,
-    padding: 10,
+    height: 60,
+    padding: 5,
     alignItems: 'center',
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
   },
   disTouchable: {
     backgroundColor: COLOR.greyColor,
     height: LAYOUT.window.height * 0.04,
-    padding: 5
   },
   button: {
     justifyContent: 'center',
     backgroundColor: COLOR.tintColor,
     width: LAYOUT.window.width * 0.3,
+    height: 40,
   },
 });

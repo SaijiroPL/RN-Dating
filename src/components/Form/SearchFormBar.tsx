@@ -4,7 +4,7 @@ import { SearchBar } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 
 // from app
-import { COLOR } from 'app/src/constants';
+import { COLOR, LAYOUT } from 'app/src/constants';
 
 interface Props {
   value: string;
