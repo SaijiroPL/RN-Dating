@@ -9,6 +9,7 @@ import {
   IGoogleResult,
   IGoogleMatrixResult,
   IGoogleDirection,
+  ISimpleLocation,
 } from 'app/src/interfaces/app/Map';
 import { LatLng } from 'react-native-maps';
 
@@ -17,9 +18,10 @@ export const useGooglePlace = () => {
   const [distanceMatrix, setDistanceMatrix] = useState<IGoogleMatrixResult>();
   const [direction, setDirection] = useState<IGoogleDirection>();
   const [nextToken, setNextToken] = useState<string | undefined>(undefined);
-  const baseUrl = GOOGLE_MAP_ENDPOINT.PLACE;
+  const placeUrl = GOOGLE_MAP_ENDPOINT.PLACE;
   const distanceUrl = GOOGLE_MAP_ENDPOINT.DISTANCE;
   const directionUrl = GOOGLE_MAP_ENDPOINT.DIRECTION;
+  const baseUrl = GOOGLE_MAP_ENDPOINT.BASE;
   const API_KEY = GOOGLE_MAP_ENDPOINT.KEY;
 
   const searchNearbyPlace = async (
@@ -28,9 +30,9 @@ export const useGooglePlace = () => {
     type?: string,
   ): Promise<void> => {
     setNextToken(undefined);
-    let url = `${baseUrl}/nearbysearch/json?location=${location.latitude},${location.longitude}&radius=${radius}&rankby=prominence&language=ja&key=${API_KEY}`;
+    let url = `${placeUrl}/nearbysearch/json?location=${location.latitude},${location.longitude}&radius=${radius}&rankby=prominence&language=ja&key=${API_KEY}`;
     if (type) {
-      url = `${baseUrl}/nearbysearch/json?location=${location.latitude},${location.longitude}&radius=${radius}&type=${type}&language=ja&key=${API_KEY}`;
+      url = `${placeUrl}/nearbysearch/json?location=${location.latitude},${location.longitude}&radius=${radius}&type=${type}&language=ja&key=${API_KEY}`;
     }
     const { data } = await axios.get<IGoogleResult>(url);
     // if (data.results) setPlaces((prev) => prev.concat(data.results));
@@ -61,8 +63,21 @@ export const useGooglePlace = () => {
     return data;
   };
 
+  const getDirectionByLocation = async (
+    origin: string,
+    destination: string,
+    mode: string,
+  ): Promise<IGoogleDirection> => {
+    const url = `${directionUrl}/json?origin=${origin}&destination=${destination}&mode=${mode}&key=${API_KEY}`;
+    console.log(url);
+    const { data } = await axios.get<IGoogleDirection>(url);
+    setDirection(data);
+
+    return data;
+  };
+
   const getNextPlaces = async (token: string): Promise<void> => {
-    const url = `${baseUrl}/nearbysearch/json?pagetoken=${token}&key=${API_KEY}`;
+    const url = `${placeUrl}/nearbysearch/json?pagetoken=${token}&key=${API_KEY}`;
     const { data } = await axios.get<IGoogleResult>(url);
     console.log(url, data);
     if (data.results) setPlaces((prev) => prev.concat(data.results));
@@ -71,13 +86,13 @@ export const useGooglePlace = () => {
   };
 
   const getPlacePhoto = (photoreference: string) => {
-    return `${baseUrl}/photo?maxwidth=400&photoreference=${photoreference}&key=${API_KEY}`;
+    return `${placeUrl}/photo?maxwidth=400&photoreference=${photoreference}&key=${API_KEY}`;
   };
 
   const getPlaceOpeningHours = async (
     placeId: string,
   ): Promise<IPlaceOpenHour | undefined> => {
-    const url = `${baseUrl}/details/json?place_id=${placeId}&fields=opening_hours&key=${API_KEY}`;
+    const url = `${placeUrl}/details/json?place_id=${placeId}&fields=opening_hours&key=${API_KEY}`;
 
     const { data } = await axios.get<IGoogleResult>(url);
     if (data.result && data.result.opening_hours) {
@@ -90,7 +105,7 @@ export const useGooglePlace = () => {
   const getPlaceDetail = async (
     placeId: string,
   ): Promise<IPlace | undefined> => {
-    const url = `${baseUrl}/details/json?place_id=${placeId}&key=${API_KEY}`;
+    const url = `${placeUrl}/details/json?place_id=${placeId}&key=${API_KEY}`;
 
     const { data } = await axios.get<IGoogleResult>(url);
     if (data.result) {
@@ -126,6 +141,7 @@ export const useGooglePlace = () => {
     distanceMatrix,
     setDistanceMatrix,
     getDirection,
+    getDirectionByLocation,
     direction,
     getPlacePhoto,
     getPlaceOpeningHours,
@@ -134,6 +150,6 @@ export const useGooglePlace = () => {
     formatPlaceOpeningHours,
     nextToken,
     API_KEY,
-    baseUrl,
+    placeUrl,
   };
 };

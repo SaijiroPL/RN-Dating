@@ -1,11 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import {
-  View,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  Picker,
-} from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {
   Body,
@@ -20,24 +14,20 @@ import {
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import MapView, { Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
-import {
-  FontAwesome,
-  FontAwesome5,
-  SimpleLineIcons,
-  Entypo,
-} from '@expo/vector-icons';
+import { FontAwesome5, Entypo } from '@expo/vector-icons';
 
 // from app
-import { COLOR, IMAGE, LAYOUT } from 'app/src/constants';
-import { IPlan } from 'app/src/interfaces/api/Plan';
+import { COLOR } from 'app/src/constants';
+import { IPlan, ISpot } from 'app/src/interfaces/api/Plan';
 import { ScrollView } from 'react-native-gesture-handler';
-import { useGooglePlace } from 'app/src/hooks';
+import { useGooglePlace, useLikePlan, useGetPlanDetail } from 'app/src/hooks';
 import { useDispatch, useGlobalState } from 'app/src/Store';
 import { ActionType } from 'app/src/Reducer';
+import { CompleteButton } from '../Button';
 
 interface Props {
   plan: IPlan;
-  myPlan?: boolean;
+  liked?: boolean;
 }
 
 /** デートプランカード */
@@ -45,17 +35,20 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
   const { navigate } = useNavigation();
   const dispatch = useDispatch();
 
-  const { plan, myPlan } = props;
+  const { plan, liked } = props;
   const loginUser = useGlobalState('loginUser');
+  const planDetail = useGetPlanDetail(plan.plan_id, loginUser.id);
 
   const [heart, setHeart] = useState<boolean>(false);
-  const [star, setStar] = useState<boolean>(false);
+  const [star, setStar] = useState<boolean>(liked);
   const [comment, setComment] = useState<boolean>(false);
   const [head_menu, setHead_menu] = useState<boolean>(false);
 
   const { API_KEY } = useGooglePlace();
-  let origin = {};
-  /** プラン押下時の処理 */
+  const { likePlan, unlikePlan } = useLikePlan(loginUser.id);
+
+  let origin: ISpot = { spot_name: '', latitude: 0, longitude: 0 };
+  // /** プラン押下時の処理 */
   const onPlanPress = useCallback(() => {
     navigate('Detail', { planId: plan.plan_id });
   }, [plan]);
@@ -76,19 +69,27 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
   }, [plan]);
 
   useEffect(() => {
-    if (plan.user_id == loginUser.id) {
-      dispatch({
-        type: ActionType.SET_MY_PLAN,
-        payload: {
-          plan,
-        },
-      });
-    }
-    // async function getPhotos() {
-    //   let detail = await getPlaceDetail(plan.plan_id);
-    // }
-    // getPhotos();
+    planDetail.getPlanDetail();
   }, []);
+
+  const onLike = async () => {
+    if (!heart) {
+      const res = await likePlan(plan.plan_id);
+      if (res) setHeart(true);
+    } else {
+      const res = await unlikePlan(plan.plan_id);
+      if (res) setHeart(false);
+    }
+  };
+
+  const onGuide = () => {
+    dispatch({
+      type: ActionType.SET_MY_PLAN,
+      payload: plan,
+    });
+    navigate('Road');
+  };
+
   /** プラン作成者ヘッダー */
   const PlannerHeader = (
     <CardItem>
@@ -121,26 +122,23 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
       <Body />
       <Right>
         <Body style={thisStyle.bodylike}>
-          <Button
-            style={thisStyle.likebutton}
-            transparent
-            onPress={() => setHeart(!heart)}
-          >
+          <Button style={thisStyle.likebutton} transparent>
             {heart ? (
               <FontAwesome5 name="heart" size={24} color={COLOR.tintColor} />
             ) : (
               <FontAwesome5 name="heart" size={24} color={COLOR.greyColor} />
             )}
           </Button>
-          <Button
-            style={thisStyle.likebutton}
-            transparent
-            onPress={() => setStar(!star)}
-          >
-            {star ? (
-              <Entypo name="star-outlined" size={24} color={COLOR.tintColor} />
+          <Button style={thisStyle.likebutton} transparent onPress={onLike}>
+            {planDetail.plan.is_liked ? (
+              <FontAwesome5
+                name="star"
+                size={24}
+                color={COLOR.tintColor}
+                solid
+              />
             ) : (
-              <Entypo name="star-outlined" size={24} color={COLOR.greyColor} />
+              <FontAwesome5 name="star" size={24} color={COLOR.greyColor} />
             )}
           </Button>
           <Button
@@ -149,9 +147,9 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
             onPress={() => setComment(!comment)}
           >
             {comment ? (
-              <FontAwesome name="comment-o" size={24} color={COLOR.tintColor} />
+              <FontAwesome5 name="comment" size={24} color={COLOR.tintColor} />
             ) : (
-              <FontAwesome name="comment-o" size={24} color={COLOR.greyColor} />
+              <FontAwesome5 name="comment" size={24} color={COLOR.greyColor} />
             )}
           </Button>
         </Body>
@@ -269,73 +267,79 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
       key={place.id}
     />
   );
-  const renderDirection = (place: any, index: any) => {
-    if (index == 0) {
-      origin = place;
-    } else {
-      const temp_origin = origin;
+  const renderDirection = (place: ISpot, index: number) => {
+    if (index === 0) {
       origin = place;
 
-      return (
-        <MapViewDirections
-          origin={{
-            latitude: temp_origin.latitude,
-            longitude: temp_origin.longitude,
-          }}
-          destination={{
-            latitude: place.latitude,
-            longitude: place.longitude,
-          }}
-          apikey={`${API_KEY}`}
-          strokeWidth={3}
-          strokeColor="orange"
-        />
-      );
+      return null;
     }
+    const temp_origin = origin;
+    origin = place;
+
+    return (
+      <MapViewDirections
+        origin={{
+          latitude: temp_origin.latitude,
+          longitude: temp_origin.longitude,
+        }}
+        destination={{
+          latitude: place.latitude,
+          longitude: place.longitude,
+        }}
+        apikey={`${API_KEY}`}
+        strokeWidth={3}
+        strokeColor="orange"
+      />
+    );
   };
 
   return (
-    <TouchableOpacity onPress={onPlanPress}>
-      <Card style={thisStyle.card}>
-        {PlannerHeader}
-        <CardItem cardBody>
-          <Image
-            source={{ uri: plan.user_image_url }}
-            style={thisStyle.image}
-          />
-        </CardItem>
-        <CardItem cardBody>
-          <MapView
-            region={{
-              latitude: plan.spots[0].latitude,
-              longitude: plan.spots[0].longitude,
-              latitudeDelta: 0.02,
-              longitudeDelta: 0.05,
-            }}
-            style={thisStyle.map}
-          >
-            {plan.spots.map((place: any, index: any) =>
-              renderDirection(place, index),
-            )}
-            {plan.spots.map((place: any) => renderMarker(place, 'orange'))}
-          </MapView>
-        </CardItem>
-        <CardItem style={thisStyle.description}>
-          <Left>
-            <Text style={thisStyle.mainText}>{plan.title}</Text>
-          </Left>
-          <Right>
-            <ScrollView horizontal>
-              <Text note style={thisStyle.descriptionText}>
-                {plan.spots.map((spot) => spot.spot_name).join(' > ')}
-              </Text>
-            </ScrollView>
-          </Right>
-        </CardItem>
-        {myPlan && PlannerLike}
-        {myPlan && PlannerFooter}
-      </Card>
-    </TouchableOpacity>
+    <Card style={thisStyle.card}>
+      {PlannerHeader}
+      <CardItem cardBody>
+        <Image source={{ uri: plan.user_image_url }} style={thisStyle.image} />
+      </CardItem>
+      <CardItem cardBody>
+        <MapView
+          region={{
+            latitude: plan.spots[0].latitude,
+            longitude: plan.spots[0].longitude,
+            latitudeDelta: 0.02,
+            longitudeDelta: 0.05,
+          }}
+          style={thisStyle.map}
+        >
+          {plan.spots.map((place: ISpot, index: number) =>
+            renderDirection(place, index),
+          )}
+          {plan.spots.map((place: any) => renderMarker(place, 'orange'))}
+        </MapView>
+      </CardItem>
+      <CardItem style={thisStyle.description}>
+        <Left>
+          <Text style={thisStyle.mainText}>{plan.title}</Text>
+        </Left>
+        <Right>
+          <ScrollView horizontal>
+            <Text note style={thisStyle.descriptionText}>
+              {plan.spots.map((spot) => spot.spot_name).join(' > ')}
+            </Text>
+          </ScrollView>
+        </Right>
+      </CardItem>
+      {PlannerLike}
+      {PlannerFooter}
+      {liked && (
+        <View
+          style={{
+            alignItems: 'center',
+            padding: 15,
+          }}
+        >
+          <CompleteButton title="プランを使用する" onPress={onGuide} />
+        </View>
+      )}
+    </Card>
   );
 };
 
@@ -413,5 +417,9 @@ const thisStyle = StyleSheet.create({
     paddingLeft: 0,
   },
 });
+
+PlanCard.defaultProps = {
+  liked: false,
+};
 
 export default PlanCard;

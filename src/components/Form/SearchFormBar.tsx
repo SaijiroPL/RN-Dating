@@ -4,7 +4,7 @@ import { SearchBar } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 
 // from app
-import { COLOR, LAYOUT } from 'app/src/constants';
+import { COLOR } from 'app/src/constants';
 
 interface Props {
   value: string;
@@ -49,13 +49,8 @@ export const SearchFormBar: React.FC<Props> = (props: Props) => {
 const thisStyle = StyleSheet.create({
   searchBar: {
     backgroundColor: 'white',
-    shadowColor: '#ccc',
-    shadowOffset: {
-      height: 1,
-      width: 1,
-    },
-    shadowOpacity: 1,
-    shadowRadius: 2,
+    borderBottomColor: 'transparent',
+    borderTopColor: 'transparent',
   },
   searchInput: {
     backgroundColor: '#eee',

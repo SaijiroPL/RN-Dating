@@ -17,7 +17,7 @@ import {
 } from 'native-base';
 import { Button } from 'react-native-elements';
 // from app
-import { useGlobalState } from 'app/src/Store';
+import { useGlobalState, useDispatch } from 'app/src/Store';
 import { LAYOUT, COLOR } from 'app/src/constants';
 import { LoadingSpinner } from 'app/src/components/Spinners';
 import { PlanCardList } from 'app/src/components/List';
@@ -26,68 +26,78 @@ import { appTextStyle } from 'app/src/styles';
 import MapView, { Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { useNavigation } from '@react-navigation/native';
+import { ActionType } from 'app/src/Reducer';
 
-const API_KEY = 'AIzaSyCsM1NTvST-ahQ3VC8qRJ6l8QUckrjDMRI';
 /** マイプラン画面 */
 const MyPlanArrivalScreen: React.FC = () => {
-  const { navigate } = useNavigation();
+  const { navigate, goBack } = useNavigation();
 
-  /** ログイン中のユーザー */
   const loginUser = useGlobalState('loginUser');
   const myPlan = useGlobalState('myPlan');
+  const myPlanArrival = useGlobalState('myPlanArrival');
+  const dispatch = useDispatch();
 
-  let place1 = {};
+  // const place1 = {};
 
   /** 自分のお気に入りデートプラン一覧取得 */
 
   const onCompleteButtonPress = () => {
-    navigate('Home');
-  };
-
-  useEffect(() => {
-    ToastAndroid.showWithGravityAndOffset(
-      '目的地に到着しました。',
-      ToastAndroid.LONG,
-      ToastAndroid.CENTER,
-      25,
-      50,
-    );
-  }, []);
-
-  const renderMarker = (place: any, color: string) => (
-    <Marker
-      coordinate={{
-        latitude: place.latitude,
-        longitude: place.longitude,
-      }}
-      pinColor={color}
-      key={place.id}
-    ></Marker>
-  );
-  const renderDirection = (place: any, index: any) => {
-    if (index == 0) {
-      place1 = place;
+    if (myPlanArrival < myPlan.spots.length - 2) {
+      dispatch({
+        type: ActionType.SET_MY_PLAN_ARRIVAL,
+        payload: myPlanArrival + 1,
+      });
+      goBack();
     } else {
-      let temp = place1;
-      place1 = place;
-      return (
-        <MapViewDirections
-          origin={{
-            latitude: temp.latitude,
-            longitude: temp.longitude,
-          }}
-          destination={{
-            latitude: place.latitude,
-            longitude: place.longitude,
-          }}
-          apikey={`${API_KEY}`}
-          strokeWidth={3}
-          strokeColor="orange"
-          mode="DRIVING"
-        />
-      );
+      navigate('Home');
     }
   };
+
+  // useEffect(() => {
+  //   ToastAndroid.showWithGravityAndOffset(
+  //     '目的地に到着しました。',
+  //     ToastAndroid.LONG,
+  //     ToastAndroid.CENTER,
+  //     25,
+  //     50,
+  //   );
+  // }, []);
+
+  // const renderMarker = (place: any, color: string) => (
+  //   <Marker
+  //     coordinate={{
+  //       latitude: place.latitude,
+  //       longitude: place.longitude,
+  //     }}
+  //     pinColor={color}
+  //     key={place.id}
+  //   />
+  // );
+  // const renderDirection = (place: any, index: any) => {
+  //   if (index == 0) {
+  //     place1 = place;
+  //   } else {
+  //     const temp = place1;
+  //     place1 = place;
+
+  //     return (
+  //       <MapViewDirections
+  //         origin={{
+  //           latitude: temp.latitude,
+  //           longitude: temp.longitude,
+  //         }}
+  //         destination={{
+  //           latitude: place.latitude,
+  //           longitude: place.longitude,
+  //         }}
+  //         apikey={`${API_KEY}`}
+  //         strokeWidth={3}
+  //         strokeColor="orange"
+  //         mode="DRIVING"
+  //       />
+  //     );
+  //   }
+  // };
 
   return (
     <View style={thisStyle.container}>
@@ -97,7 +107,7 @@ const MyPlanArrivalScreen: React.FC = () => {
           marginLeft: LAYOUT.window.width * 0.03,
         }}
       >
-        <DeckSwiper
+        {/* <DeckSwiper
           dataSource={myPlan.plan.spots}
           renderItem={(item: any) => (
             <Image
@@ -108,7 +118,7 @@ const MyPlanArrivalScreen: React.FC = () => {
               source={{ uri: item.imageUrl }}
             />
           )}
-        />
+        /> */}
       </View>
       <View
         style={{
@@ -120,17 +130,17 @@ const MyPlanArrivalScreen: React.FC = () => {
       >
         <MapView
           region={{
-            latitude: myPlan.plan.spots[0].latitude,
-            longitude: myPlan.plan.spots[0].longitude,
+            latitude: myPlan.spots[0].latitude,
+            longitude: myPlan.spots[0].longitude,
             latitudeDelta: 0.02,
             longitudeDelta: 0.05,
           }}
           style={{ height: LAYOUT.window.height * 0.27 }}
         >
-          {myPlan.plan.spots.map((place: any, index: any) =>
+          {/* {myPlan.spots.map((place: any, index: any) =>
             renderDirection(place, index),
           )}
-          {myPlan.plan.spots.map((place: any) => renderMarker(place, 'orange'))}
+          {myPlan.spots.map((place: any) => renderMarker(place, 'orange'))} */}
         </MapView>
         <Text
           note
@@ -144,7 +154,7 @@ const MyPlanArrivalScreen: React.FC = () => {
             height: LAYOUT.window.height * 0.03,
           }}
         >
-          {myPlan.plan.spots.map((spot) => spot.spot_name).join(' > ')}
+          {myPlan.spots.map((spot) => spot.spot_name).join(' > ')}
         </Text>
       </View>
       <View

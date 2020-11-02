@@ -31,9 +31,7 @@ const initialState: State = {
       cost: 0,
     },
   },
-  createRealSpots: {
-    spots: [],
-  },
+  myPlanArrival: 0,
 };
 
 const StoreContext = createContext<State>(initialState);

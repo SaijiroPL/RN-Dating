@@ -36,7 +36,12 @@ const SearchScreen: React.FC = () => {
             onSearch={searchPlanList}
           />
         </View>
-        <View style={{ flex: 1 }}>
+        <View
+          style={{
+            flex: 1.2,
+            justifyContent: 'center',
+          }}
+        >
           <TouchableOpacity
             style={thisStyle.spotButton}
             onPress={() => {

@@ -1,213 +1,146 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import { StyleSheet, Image, View, TouchableOpacity, Alert } from 'react-native';
-import {
-  Container,
-  Content,
-  Form,
-  Item,
-  Label,
-  Input,
-  Left,
-  Body,
-  Text,
-  Right,
-  ListItem,
-  Switch,
-  DeckSwiper,
-  Card,
-} from 'native-base';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Image, View, ScrollView } from 'react-native';
+import { Text } from 'native-base';
 import { Button } from 'react-native-elements';
 // from app
 import { useGlobalState } from 'app/src/Store';
 import { LAYOUT, COLOR } from 'app/src/constants';
 import { LoadingSpinner } from 'app/src/components/Spinners';
-import { PlanCardList } from 'app/src/components/List';
-import { useGetLikePlanList } from 'app/src/hooks';
-import { appTextStyle } from 'app/src/styles';
+import { useGooglePlace, useGetPlanDetail } from 'app/src/hooks';
 import MapView, { Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { useNavigation } from '@react-navigation/native';
-import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
-import { useGooglePlace } from 'app/src/hooks';
-import TermsScreen from '../TopScreen/TermsScreen';
-import moment from 'moment';
-import axios from 'axios';
-import { or } from 'react-native-reanimated';
-import { GOOGLE_MAP_ENDPOINT } from 'app/src/constants/Url';
+import { FontAwesome5 } from '@expo/vector-icons';
+import { ISpotFull } from 'app/src/interfaces/api/Plan';
+
 /** マイプラン画面 */
 const MyPlanRoadScreen: React.FC = () => {
   const { navigate } = useNavigation();
 
-  /** ログイン中のユーザー */
   const loginUser = useGlobalState('loginUser');
   const myPlan = useGlobalState('myPlan');
+  const myPlanArrival = useGlobalState('myPlanArrival');
+  const { isPlanLoading, plan, getPlanDetail } = useGetPlanDetail(
+    myPlan.plan_id,
+    loginUser.id,
+  );
+  const { getDirectionByLocation, API_KEY } = useGooglePlace();
 
-  const [origin, setOrigin] = useState({
-    latitude: 35.658942,
-    longitude: 139.697566,
-    spot_name: 'Dougen-Zaka',
-    current: 'current',
-  });
-  const [destination, setDestination] = useState(myPlan.plan.spots[0]);
-  const [myRoad, setMyRoad] = useState([]);
-  const [time, setTime] = useState(null);
-  const [distance, setDistance] = useState(null);
-  let place1 = {};
-
-  const { API_KEY } = useGooglePlace();
+  const [duration, setDuration] = useState(0);
+  const [distance, setDistance] = useState(0);
 
   useEffect(() => {
-    load_data();
+    getPlanDetail();
   }, []);
 
-  function load_data() {
-    let arr = [];
-    arr.push(origin);
-    for (let i = 0; i < myPlan.plan.spots.length; i++) {
-      myPlan.plan.spots[i].current = 'after';
-      arr.push(myPlan.plan.spots[i]);
-    }
-    setMyRoad(arr);
-    getDuration();
-  }
-  async function getDuration() {
-    var url = GOOGLE_MAP_ENDPOINT.DISTANCE.replace('$1', origin.latitude)
-      .replace('$2', origin.longitude)
-      .replace('$3', destination.latitude)
-      .replace('$4', destination.longitude)
-      .replace('$5', 'driving');
-    let response = await axios.get(url);
-    let time = response.data.rows[0].elements[0].duration.text.split(' ')[0];
-    let distance = response.data.rows[0].elements[0].distance.value;
-    setTime(time);
-    setDistance(distance);
-  }
-  const nextRoad = async () => {
-    let arr = [];
-    for (let i = 0; i < myRoad.length; i++) {
-      if (myRoad[i].current == 'current') {
-        if (i == myRoad.length - 2) {
-          navigate('Arrival');
-        } else {
-          myRoad[i].current = 'before';
-          arr.push(myRoad[i]);
-          myRoad[i + 1].current = 'current';
-          arr.push(myRoad[i + 1]);
-          await setOrigin(myRoad[i + 1]);
-          await setDestination(myRoad[i + 2]);
-          i++;
-        }
-      } else {
-        arr.push(myRoad[i]);
-      }
-    }
-    console.log(arr, 'hello');
-    setMyRoad(arr);
-    getDuration();
-  };
-  // const onCompleteButtonPress = () => {
-  //   navigate('Follow');
-  // };
-  const renderMarker = (place: any, index: any) => {
-    if (place.current == 'current') {
-      return (
-        <Marker
-          coordinate={{
-            latitude: place.latitude,
-            longitude: place.longitude,
-          }}
-          pinColor={'green'}
-          key={index}
-        ></Marker>
+  useEffect(() => {
+    async function calcCost() {
+      const currentSpot = plan.spots[myPlanArrival];
+      const goalSpot = plan.spots[myPlanArrival + 1];
+      const result = await getDirectionByLocation(
+        `${currentSpot.latitude},${currentSpot.longitude}`,
+        `${goalSpot.latitude},${goalSpot.longitude}`,
+        plan.transportation[0] === 'car' ? 'driving' : 'transit',
       );
-    } else {
-      return (
-        <Marker
-          coordinate={{
-            latitude: place.latitude,
-            longitude: place.longitude,
-          }}
-          pinColor={'orange'}
-          key={index}
-        ></Marker>
-      );
+      setDuration(Math.round(result.routes[0].legs[0].duration.value / 60));
+      setDistance(result.routes[0].legs[0].distance.value);
     }
+    if (!isPlanLoading) calcCost();
+  }, [myPlanArrival, isPlanLoading]);
+
+  // const angle = useMemo(() => {
+  //   if (plan) {
+  //     const currentSpot = plan.spots[myPlanArrival];
+  //     const goalSpot = plan.spots[myPlanArrival + 1];
+
+  //     if (currentSpot && goalSpot)
+  //       return Math.atan(
+  //         (goalSpot.longitude - currentSpot.longitude) /
+  //           (goalSpot.latitude - currentSpot.latitude),
+  //       );
+  //   }
+
+  //   return 0;
+  // }, [plan, myPlanArrival]);
+
+  const renderPath = (index: number) =>
+    index < plan.spots.length - 1 ? (
+      <MapViewDirections
+        origin={{
+          latitude: plan.spots[index].latitude,
+          longitude: plan.spots[index].longitude,
+        }}
+        destination={{
+          latitude: plan.spots[index + 1].latitude,
+          longitude: plan.spots[index + 1].longitude,
+        }}
+        apikey={`${API_KEY}`}
+        strokeWidth={3}
+        strokeColor={index < myPlanArrival ? 'orange' : '#aaa'}
+      />
+    ) : null;
+
+  const renderMarker = (place: ISpotFull, index: number) => {
+    return (
+      <Marker
+        coordinate={{
+          latitude: place.latitude,
+          longitude: place.longitude,
+        }}
+        pinColor={index === myPlanArrival ? 'green' : 'orange'}
+        key={index}
+      />
+    );
   };
-  const renderDirection = (place: any, index: any) => {
-    if (index == 0) {
-      place1 = place;
-    } else {
-      let temp_origin = place1;
-      place1 = place;
-      if (temp_origin.current == 'before') {
-        return (
-          <MapViewDirections
-            origin={{
-              latitude: temp_origin.latitude,
-              longitude: temp_origin.longitude,
-            }}
-            destination={{
-              latitude: place.latitude,
-              longitude: place.longitude,
-            }}
-            apikey={`${API_KEY}`}
-            strokeWidth={5}
-            strokeColor="#ddd"
-          ></MapViewDirections>
-        );
-      } else {
-        return (
-          <MapViewDirections
-            origin={{
-              latitude: temp_origin.latitude,
-              longitude: temp_origin.longitude,
-            }}
-            destination={{
-              latitude: place.latitude,
-              longitude: place.longitude,
-            }}
-            apikey={`${API_KEY}`}
-            strokeWidth={5}
-            strokeColor="orange"
-          ></MapViewDirections>
-        );
-      }
-    }
+
+  const nextSpot = () => {
+    // if (currentSpotIndex >= myPlan.spots.length - 2) return;
+    // setCurrentSpotIndex((prev) => prev + 1);
+    navigate('Arrival');
   };
+
+  if (isPlanLoading) {
+    return LoadingSpinner;
+  }
+
+  const formatDistance = () =>
+    distance > 1000 ? `${(distance / 1000).toFixed(1)}km` : `${distance}m`;
+
+  const formatDuration = () =>
+    duration > 60
+      ? `${Math.floor(duration / 60)}時間${duration % 60}分`
+      : `${duration}分`;
+
   return (
-    <View style={thisStyle.container}>
+    <ScrollView contentContainerStyle={thisStyle.container}>
       <View
         style={{
-          height: LAYOUT.window.height * 0.7,
+          height: LAYOUT.window.height * 0.6,
           borderColor: COLOR.textTintColor,
           borderWidth: 1,
           borderRadius: 5,
+          padding: 1,
         }}
       >
         <MapView
-          region={{
-            latitude: myRoad.length ? myRoad[0].latitude : null,
-            longitude: myRoad.length ? myRoad[0].longitude : null,
-            latitudeDelta: 0.02,
-            longitudeDelta: 0.05,
+          initialRegion={{
+            latitude: plan.spots[myPlanArrival].latitude,
+            longitude: plan.spots[myPlanArrival].longitude,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
           }}
-          style={{ height: LAYOUT.window.height * 0.7 }}
+          style={{ height: '100%' }}
         >
-          {myRoad.length
-            ? myRoad.map((place: any, index: any) =>
-                renderDirection(place, index),
-              )
-            : null}
-          {myRoad.length
-            ? myRoad.map((place: any, index: any) => renderMarker(place, index))
-            : null}
+          {plan.spots.map((item, index) => renderPath(index))}
+          {plan.spots.map((item, index) => renderMarker(item, index))}
         </MapView>
-        <Card style={thisStyle.footerIcon1}>
-          <Ionicons name="ios-send" size={40} color={COLOR.greyColor} />
-        </Card>
       </View>
       <View style={thisStyle.button1}>
-        <Button title={origin.spot_name} buttonStyle={thisStyle.button} />
+        <Button
+          title={plan.spots[myPlanArrival].spot_name}
+          buttonStyle={thisStyle.button}
+          titleStyle={thisStyle.buttonTitleStyle}
+        />
         <View style={thisStyle.arrowH}>
           <Image
             source={{
@@ -217,7 +150,11 @@ const MyPlanRoadScreen: React.FC = () => {
             style={thisStyle.arrowHImg}
           />
         </View>
-        <Button buttonStyle={thisStyle.button} title={destination.spot_name} />
+        <Button
+          buttonStyle={thisStyle.button}
+          title={plan.spots[myPlanArrival + 1].spot_name}
+          titleStyle={thisStyle.buttonTitleStyle}
+        />
       </View>
       <View style={thisStyle.emptySpace}>
         <View
@@ -230,12 +167,12 @@ const MyPlanRoadScreen: React.FC = () => {
         >
           <Text style={thisStyle.itemTitleText}>次の地点まであと</Text>
           <Text style={thisStyle.itemTitleText}>
-            {distance}m {time}分
+            {formatDistance()} {formatDuration()}
           </Text>
         </View>
         <View
           style={{
-            width: LAYOUT.window.width * 0.5,
+            width: LAYOUT.window.width * 0.45,
             padding: 10,
             alignItems: 'center',
             justifyContent: 'flex-end',
@@ -246,12 +183,16 @@ const MyPlanRoadScreen: React.FC = () => {
           <Text style={thisStyle.text2}>北へ淮む</Text>
         </View>
         <Button
-          onPress={nextRoad}
-          buttonStyle={[thisStyle.button, { width: LAYOUT.window.width * 0.1 }]}
-          title="力フ"
+          onPress={nextSpot}
+          buttonStyle={[
+            thisStyle.button,
+            { width: LAYOUT.window.width * 0.15 },
+          ]}
+          title="到着"
+          titleStyle={thisStyle.buttonTitleStyle}
         />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -263,12 +204,6 @@ const thisStyle = StyleSheet.create({
     justifyContent: 'flex-start',
     padding: 20,
     paddingTop: 20,
-  },
-  button: {
-    width: LAYOUT.window.width * 0.5,
-    height: LAYOUT.window.height * 0.05,
-    borderRadius: 10,
-    margin: 20,
   },
   footerIcon1: {
     backgroundColor: 'white',
@@ -295,17 +230,19 @@ const thisStyle = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    marginBottom: 5,
-    padding: 15,
+    marginTop: 10,
+    // marginBottom: 5,
+    // padding: 15,
   },
   text2: {
     color: COLOR.textTintColor,
-    fontSize: 16,
+    fontSize: 14,
   },
   button: {
     backgroundColor: COLOR.tintColor,
     width: LAYOUT.window.width * 0.3,
     borderRadius: 10,
+    fontSize: 12,
   },
   columnTitle: {
     backgroundColor: COLOR.tintColor,
@@ -321,15 +258,20 @@ const thisStyle = StyleSheet.create({
     fontSize: 12,
   },
   emptySpace: {
+    marginTop: 5,
     marginBottom: 5,
     flexDirection: 'row',
-    padding: 5,
+    // padding: 5,
   },
   itemTitleText: {
     color: COLOR.textTintColor,
     fontFamily: 'genju-medium',
     fontSize: 12,
     marginRight: 10,
+  },
+  buttonTitleStyle: {
+    fontSize: 12,
+    fontWeight: 'bold',
   },
 });
 
