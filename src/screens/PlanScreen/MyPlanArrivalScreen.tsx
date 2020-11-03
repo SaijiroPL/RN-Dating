@@ -1,5 +1,11 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { StyleSheet, Image, View, ToastAndroid } from 'react-native';
+import {
+  StyleSheet,
+  Image,
+  View,
+  ToastAndroid,
+  ScrollView,
+} from 'react-native';
 import {
   Container,
   Content,
@@ -142,20 +148,30 @@ const MyPlanArrivalScreen: React.FC = () => {
           )}
           {myPlan.spots.map((place: any) => renderMarker(place, 'orange'))} */}
         </MapView>
-        <Text
-          note
-          style={{
-            textAlign: 'right',
-            padding: 3,
-            paddingRight: 10,
-            borderColor: COLOR.textTintColor,
-            borderTopWidth: 1,
-            borderRadius: 3,
-            height: LAYOUT.window.height * 0.03,
-          }}
-        >
-          {myPlan.spots.map((spot) => spot.spot_name).join(' > ')}
-        </Text>
+        <View style={{ display: 'flex', flexDirection: 'row' }}>
+          <View style={{ flex: 1 }}>
+            <Text style={thisStyle.mainText}>{myPlan.title}</Text>
+          </View>
+          <View style={{ flex: 3 }}>
+            <ScrollView horizontal>
+              {myPlan.spots.map((spot, index) => (
+                <View style={thisStyle.spotContainer}>
+                  <Text
+                    style={{
+                      ...thisStyle.buttonTitleStyle,
+                      color: index === myPlanArrival ? 'orange' : 'black',
+                    }}
+                  >
+                    {spot.spot_name}
+                  </Text>
+                  {index < myPlan.spots.length - 1 && (
+                    <Text style={thisStyle.arrowText}>→</Text>
+                  )}
+                </View>
+              ))}
+            </ScrollView>
+          </View>
+        </View>
       </View>
       <View
         style={{
@@ -188,6 +204,27 @@ const thisStyle = StyleSheet.create({
     height: LAYOUT.window.height * 0.05,
     borderRadius: 10,
     margin: 20,
+  },
+  mainText: {
+    fontFamily: 'genju-medium',
+    fontSize: 14,
+  },
+  buttonTitleStyle: {
+    // maxWidth: LAYOUT.window.width * 0.3,
+    fontSize: 10,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  arrowText: {
+    justifyContent: 'center',
+    textAlignVertical: 'center',
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  spotContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });
 

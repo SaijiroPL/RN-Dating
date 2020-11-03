@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, useContext } from 'react';
-
+import { MenuProvider } from 'react-native-popup-menu';
 // from app
 import Reducer, { State, Action } from 'app/src/Reducer';
 import { LatLng } from 'react-native-maps';
@@ -46,7 +46,7 @@ const Provider = (props: any) => {
   return (
     <StoreContext.Provider value={state}>
       <DispatchContext.Provider value={dispatch}>
-        {children}
+        <MenuProvider>{children}</MenuProvider>
       </DispatchContext.Provider>
     </StoreContext.Provider>
   );

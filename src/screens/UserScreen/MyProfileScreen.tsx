@@ -82,6 +82,9 @@ const MyProfileScreen: React.FC = () => {
         reload={getUserDetail}
       />
       <Card style={thisStyle.card}>
+        <View style={{ alignItems: 'center', marginTop: 10 }}>
+          <Text>作成ルート数: {user.plan_count}</Text>
+        </View>
         {PlannerHeader}
         <CardItem cardBody>
           <Image

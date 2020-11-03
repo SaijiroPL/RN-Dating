@@ -69,21 +69,21 @@ export const UserProfile: React.FC<Props> = (props: Props) => {
         <View style={[thisStyle.countItem, { margin: 10 }]}>
           <Text style={thisStyle.nameText}>フォロー</Text>
           <Text style={thisStyle.nameText} onPress={onFollowPress}>
-            {user.follow_count}
+            {user.follow_count}人
           </Text>
         </View>
         <View style={thisStyle.countItem}>
           <Text style={thisStyle.nameText}>フォロワー</Text>
           <Text style={thisStyle.nameText} onPress={onFollowerPress}>
-            {user.follower_count}
+            {user.follower_count}人
           </Text>
         </View>
-      </View>
-      <View style={thisStyle.userInfoContainer}>
-        <Text style={thisStyle.nameText}>プラン数</Text>
-        <Text style={thisStyle.nameText} onPress={onPlanPress}>
-          {user.plan_count}
-        </Text>
+        <View style={thisStyle.userInfoContainer}>
+          <Text style={thisStyle.nameText}>プラン数</Text>
+          <Text style={thisStyle.nameText} onPress={onPlanPress}>
+            {user.plan_count}
+          </Text>
+        </View>
       </View>
       {!me && follow && unfollow && (
         <View style={thisStyle.followContainer}>
@@ -113,7 +113,7 @@ const thisStyle = StyleSheet.create({
   },
   userInfoContainer: {
     alignItems: 'center',
-    marginBottom: 10,
+    marginTop: 10,
   },
   countContainer: {
     alignContent: 'space-around',
