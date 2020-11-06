@@ -10,6 +10,7 @@ import {
   DatePicker,
   InputForm,
   PrefecturePicker,
+  IdPreferenceForm,
 } from 'app/src/components/Form';
 import { useSignin, useSignup } from 'app/src/hooks';
 import { getToday } from 'app/src/utils';
@@ -32,6 +33,8 @@ const EntryScreen: React.FC = () => {
     setBirthday,
     prefecture,
     setPrefecture,
+    onedid,
+    setOnedid,
     createUser,
     errors,
   } = useSignup();
@@ -113,6 +116,22 @@ const EntryScreen: React.FC = () => {
     </View>
   );
 
+  /** 1DID設定フォームの描画 */
+  const OnedidForm: JSX.Element = (
+    <View style={thisStyle.formGroup}>
+      <View style={{ marginRight: 20 }}>
+        <Text style={thisStyle.entryText}>ユーザーID</Text>
+      </View>
+      <View style={{ width: LAYOUT.window.width * 0.4 }}>
+        <IdPreferenceForm
+        placeholder=""
+        value={onedid}
+        setValue={setOnedid}
+        />
+      </View>
+    </View>
+  );
+
   /** 入力完了ボタンの描画 */
   const InputCompleteButton: JSX.Element = (
     <View style={appStyle.emptySpace}>
@@ -132,6 +151,7 @@ const EntryScreen: React.FC = () => {
       {SexButtons}
       {BirthdayForm}
       {AddressForm}
+      {OnedidForm}
       {InputCompleteButton}
       <View style={appStyle.emptySpace} />
     </View>
