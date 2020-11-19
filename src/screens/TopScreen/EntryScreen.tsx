@@ -123,7 +123,7 @@ const EntryScreen: React.FC = () => {
     if (errors && errors.detail_message.length > 0) {
       errors.detail_message.forEach((item) => {
         if (item.match(/OnedateID/)) {
-          onedidErrors.push(item);
+          onedidErrors.push(item.replace('OnedateIDは', ''));
         }
       });
     }

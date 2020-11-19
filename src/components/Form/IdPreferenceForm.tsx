@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, Input, Item } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
-import { validateAlphaNumeric  } from 'app/src/utils';
+import { validateAlphaNumeric, validateStringLength  } from 'app/src/utils';
 
 interface Props {
   placeholder: string;
@@ -34,14 +34,19 @@ export const IdPreferenceForm: React.FC<Props> = (props: Props) => {
           style={{ width: LAYOUT.window.width * 0.75 }}
           />
         </Item>
-        <Text style={appTextStyle.standardLightText}>※後で設定できます</Text>
         {NoInput}
+        <Text style={appTextStyle.standardLightText}>※後で設定できます</Text>
       </View>
     );
   }
 
   if (!validateAlphaNumeric(value)) {
     errors.push('半角英数を入力してください');
+  }
+
+
+  if (validateStringLength(value)) {
+    errors.push('6文字以上20文字以内にしてください');
   }
 
    // 異常入力
