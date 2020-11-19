@@ -1,12 +1,13 @@
 import React from 'react';
-import { Content, Form, Text, Textarea, View, Input, Item } from 'native-base';
+import { Text, View, Input, Item } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
+import { validateAlphaNumeric  } from 'app/src/utils';
 
 interface Props {
   placeholder: string;
-  id: string;
-  setId: React.Dispatch<React.SetStateAction<string>>;
-  errors?: Array<string>;
+  value: string;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
+  errors: Array<string>;
 }
 
 // from app
@@ -17,18 +18,68 @@ import { appTextStyle } from 'app/src/styles';
 export const IdPreferenceForm: React.FC<Props> = (props: Props) => {
   const { placeholder, value, setValue, errors }　= props;
 
+  const NoInput = <View />;
+  const SuccessMark = <AntDesign name="checkcircle" color="green" />;
+  const ErrorMark = <AntDesign name="closecircle" color="red" />;
 
+  // 未入力
+  if (value === '') {
+    return (
+      <View>
+        <Item>
+          <Input
+          placeholder={placeholder}
+          onChangeText={(value) => setValue(value)}
+          value={value}
+          style={{ width: LAYOUT.window.width * 0.75 }}
+          />
+        </Item>
+        <Text style={appTextStyle.standardLightText}>※後で設定できます</Text>
+        {NoInput}
+      </View>
+    );
+  }
+
+  if (!validateAlphaNumeric(value)) {
+    errors.push('半角英数を入力してください');
+  }
+
+   // 異常入力
+    if (errors && errors.length > 0) {
+      const ErrorList = errors.map((item) => (
+      <Text key={item} style={appTextStyle.errorText}>
+        {item}
+      </Text>
+    ));
+
+    return (
+      <View>
+        <Item error>
+          <Input
+          placeholder={placeholder}
+          onChangeText={(value) => setValue(value)}
+          value={value}
+          style={{ width: LAYOUT.window.width * 0.75 }}
+          />
+          {ErrorMark}
+        </Item>
+        {ErrorList}
+    </View>
+    );
+  }
+
+  // 正常入力
   return (
     <View>
-      <Item>
+      <Item success>
         <Input
-        placeholder={placeholder}
-        onChangeText={(value) => setValue(value)}
-        value={value}
-        style={{ width: LAYOUT.window.width * 0.75 }}
-         />
+          placeholder={placeholder}
+          onChangeText={(value) => setValue(value)}
+          value={value}
+          style={{ width: LAYOUT.window.width * 0.75 }}
+          />
+          {SuccessMark}
       </Item>
-      <Text style={appTextStyle.standardLightText}>※後で設定できます</Text>
     </View>
   );
 };

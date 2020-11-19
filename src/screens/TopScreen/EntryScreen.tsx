@@ -116,21 +116,33 @@ const EntryScreen: React.FC = () => {
     </View>
   );
 
+
   /** 1DID設定フォームの描画 */
-  const OnedidForm: JSX.Element = (
-    <View style={thisStyle.formGroup}>
-      <View style={{ marginRight: 20 }}>
-        <Text style={thisStyle.entryText}>ユーザーID</Text>
+  const OnedidForm = (): JSX.Element => {
+    const onedidErrors: Array<string> = [];
+    if (errors && errors.detail_message.length > 0) {
+      errors.detail_message.forEach((item) => {
+        if (item.match(/OnedateID/)) {
+          onedidErrors.push(item);
+        }
+      });
+    }
+    return (
+      <View style={thisStyle.formGroup}>
+        <View style={{ marginRight: 20 }}>
+          <Text style={thisStyle.entryText}>OnedateID</Text>
+        </View>
+        <View style={{ width: LAYOUT.window.width * 0.4 }}>
+          <IdPreferenceForm
+            placeholder=""
+            value={onedid}
+            setValue={setOnedid}
+            errors={onedidErrors}
+          />
+        </View>
       </View>
-      <View style={{ width: LAYOUT.window.width * 0.4 }}>
-        <IdPreferenceForm
-        placeholder=""
-        value={onedid}
-        setValue={setOnedid}
-        />
-      </View>
-    </View>
-  );
+    )
+  };
 
   /** 入力完了ボタンの描画 */
   const InputCompleteButton: JSX.Element = (
@@ -151,7 +163,7 @@ const EntryScreen: React.FC = () => {
       {SexButtons}
       {BirthdayForm}
       {AddressForm}
-      {OnedidForm}
+      {OnedidForm()}
       {InputCompleteButton}
       <View style={appStyle.emptySpace} />
     </View>

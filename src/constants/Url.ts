@@ -3,7 +3,7 @@ import Constants from 'expo-constants';
 const API_HOST =
   process.env.EXPO_API_ENV === 'development'
     ? Constants.manifest.extra.apiEndpoint.dev
-    : Constants.manifest.extra.apiEndpoint.dev;
+    : Constants.manifest.extra.apiEndpoint.local;
 const WEB_HOST = Constants.manifest.extra.webEndpoint;
 const GOOGLE_MAP_API = Constants.manifest.extra.googlemapEndpoint.api;
 const GOOGLE_MAP_KEY = Constants.manifest.extra.googlemapEndpoint.key;
