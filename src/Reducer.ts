@@ -25,6 +25,7 @@ export interface IPlaceNode {
 interface CreatePlan {
   dateFrom: string;
   dateTo: string;
+  neededTime: number;
   transportations: Array<string>;
   center: LatLng;
   radius: number;

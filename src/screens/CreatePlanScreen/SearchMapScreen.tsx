@@ -135,6 +135,9 @@ const SearchMapScreen: React.FC = () => {
         key: API_KEY,
         language: 'ja',
       }}
+      GooglePlacesSearchQuery={{
+        rankby: 'distance',
+      }}
       styles={{
         container: thisStyle.headerContainer,
         textInputContainer: thisStyle.headerTextInputContainer,

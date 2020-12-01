@@ -21,13 +21,15 @@ import {
   useUploadImage,
 } from 'app/src/hooks';
 import MapView from 'react-native-maps';
-import { COLOR, LAYOUT } from 'app/src/constants';
+import { Entypo } from '@expo/vector-icons';
 import {
-  FontAwesome,
-  FontAwesome5,
-  SimpleLineIcons,
-  Entypo,
-} from '@expo/vector-icons';
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+} from 'react-native-popup-menu';
+// from app
+import { COLOR, LAYOUT } from 'app/src/constants';
 /** マイプロフィール画面 */
 const MyProfileScreen: React.FC = () => {
   /** ログイン中のユーザー */
@@ -67,7 +69,16 @@ const MyProfileScreen: React.FC = () => {
         </Body>
       </Left>
       <Right style={{ zIndex: 100 }}>
-        <Entypo name="triangle-down" size={30} color={COLOR.tintColor} />
+        <Menu>
+          <MenuTrigger>
+            <Entypo name="triangle-down" size={30} color={COLOR.tintColor} />
+          </MenuTrigger>
+          <MenuOptions>
+            <MenuOption text="削除" />
+            <MenuOption text="編集" />
+            <MenuOption text="リンクコピー" />
+          </MenuOptions>
+        </Menu>
       </Right>
     </CardItem>
   );

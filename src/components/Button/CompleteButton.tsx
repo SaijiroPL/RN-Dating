@@ -27,6 +27,7 @@ export const CompleteButton: React.FC<Props> = (props: Props) => {
 /** デフォルト値 */
 CompleteButton.defaultProps = {
   disabled: false,
+  onPress: undefined,
 };
 
 /** スタイリング */

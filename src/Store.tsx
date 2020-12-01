@@ -17,6 +17,7 @@ const initialState: State = {
   createPlan: {
     dateFrom: '',
     dateTo: '',
+    neededTime: 180,
     transportations: [],
     center: {
       latitude: 35.658606737323325,
