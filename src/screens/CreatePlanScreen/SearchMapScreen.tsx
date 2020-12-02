@@ -154,6 +154,7 @@ const SearchMapScreen: React.FC = () => {
         onFocus: () => setSearching(true),
         onBlur: () => setSearching(false),
       }}
+      renderRow={(data) => <Text>{data.description}</Text>}
     />
   );
 
