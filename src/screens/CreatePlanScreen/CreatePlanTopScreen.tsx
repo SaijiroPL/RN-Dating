@@ -27,7 +27,7 @@ const CreatePlanTopScreen: React.FC = () => {
   const [walk, setWalk] = useState<boolean>(false);
   const [needTime, setNeedTime] = useState<number>(180);
   const [timeModal, showTimeModal] = useState<boolean>(false);
-  const [timeModalValue, setTimeModalValue] = useState<string>('');
+  const [timeModalValue, setTimeModalValue] = useState<string>('180');
 
   useEffect(() => {
     updateFrom(
