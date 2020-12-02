@@ -9,26 +9,35 @@ import {
   ScrollView,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Button, Input } from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import Carousel from 'react-native-snap-carousel';
 import polyline from '@mapbox/polyline';
 import moment from 'moment';
+import axios from 'axios';
 // from app
-import { LAYOUT, COLOR, SPOT_TYPE, getRightSpotType } from 'app/src/constants';
+import {
+  LAYOUT,
+  COLOR,
+  SPOT_TYPE,
+  getRightSpotType,
+  API_ENDPOINT,
+} from 'app/src/constants';
 import MapView, { Marker, Polyline, LatLng, Region } from 'react-native-maps';
 import { useDispatch, useGlobalState } from 'app/src/Store';
 
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useGooglePlace } from 'app/src/hooks';
+import { useGooglePlace, usePostPlan, IPostPlan } from 'app/src/hooks';
 import { IPlaceNode } from 'app/src/Reducer';
 import { IGoogleDirection } from 'app/src/interfaces/app/Map';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { ISpotFull, IPlan } from 'app/src/interfaces/api/Plan';
 
 /** デートスポット順番並べ替え画面 */
 const ArrangeRouteScreen: React.FC = () => {
   const { navigate } = useNavigation();
-  const { getDirection, getPlacePhoto, API_KEY } = useGooglePlace();
+  const { getDirection, getPlacePhoto } = useGooglePlace();
+  const { setPlan, createPost } = usePostPlan();
   const dispatch = useDispatch();
 
   const createPlan = useGlobalState('createPlan');
@@ -45,7 +54,6 @@ const ArrangeRouteScreen: React.FC = () => {
   const [switch2, setSwitch2] = useState<boolean>(false);
 
   const carousel = useRef();
-  // const paths = useRef<{ [key: string]: IGoogleDirection }>({});
 
   function onCompleteButtonPress() {
     navigate('Home');
@@ -188,8 +196,37 @@ const ArrangeRouteScreen: React.FC = () => {
     );
   }
 
-  const onGotoHome = () => {
-    navigate('Home');
+  function saveData() {
+    const spotsForApi: ISpotFull[] = [];
+    spots.forEach((item, index) => {
+      const obj = {
+        spot_name: item.place.name,
+        latitude: item.place.geometry.location.lat,
+        longitude: item.place.geometry.location.lng,
+        order: index + 1,
+        need_time: item.cost,
+      };
+      spotsForApi.push(obj);
+    });
+    const data: IPostPlan = {
+      user_id: loginUser.id,
+      title: 'test Title',
+      description: 'test Description',
+      date: moment(createPlan.dateFrom).format('YYYY-MM-DD'),
+      need_time: totalTime,
+      transportation: createPlan.transportations,
+      spots: spotsForApi,
+      status: 'public',
+    };
+
+    return data;
+  }
+
+  const onGotoHome = async () => {
+    const data = saveData();
+    setPlan(data);
+    const result = await createPost();
+    if (result) navigate('Home');
   };
 
   return (
@@ -306,7 +343,7 @@ const ArrangeRouteScreen: React.FC = () => {
             keyExtractor={(item) => item.place.place_id}
             horizontal
             onDragEnd={({ data }) => setSpots(data)}
-            renderItem={({ item, index, drag, isActive }) => {
+            renderItem={({ item, index, drag }) => {
               return (
                 <View
                   style={{

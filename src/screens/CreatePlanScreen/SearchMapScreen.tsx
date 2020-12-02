@@ -23,6 +23,7 @@ import { COLOR, LAYOUT } from 'app/src/constants';
 import { ActionType } from 'app/src/Reducer';
 import { useDispatch, useGlobalState } from 'app/src/Store';
 import { getDistance, earthRadius } from 'geolib';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 /** マップからスポット範囲指定画面 */
 const SearchMapScreen: React.FC = () => {
@@ -60,10 +61,6 @@ const SearchMapScreen: React.FC = () => {
 
   const mapRef = useRef(null);
   const createPlan = useGlobalState('createPlan');
-
-  useEffect(() => {
-    console.log(createPlan.dateFrom);
-  }, []);
 
   function onCompleteButtonPress() {
     dispatch({
@@ -138,6 +135,9 @@ const SearchMapScreen: React.FC = () => {
         key: API_KEY,
         language: 'ja',
       }}
+      GooglePlacesSearchQuery={{
+        rankby: 'distance',
+      }}
       styles={{
         container: thisStyle.headerContainer,
         textInputContainer: thisStyle.headerTextInputContainer,
@@ -154,6 +154,7 @@ const SearchMapScreen: React.FC = () => {
         onFocus: () => setSearching(true),
         onBlur: () => setSearching(false),
       }}
+      renderRow={(data) => <Text>{data.description}</Text>}
     />
   );
 
@@ -232,14 +233,30 @@ const SearchMapScreen: React.FC = () => {
       key={place.place_id}
       onPress={() => onSpotPress(place)}
     >
+      <View>
+        <FontAwesome5 name="map-marker" size={30} color={color} />
+        <View style={{ position: 'absolute', top: 5, left: 4 }}>
+          <Image
+            source={{ uri: place.icon }}
+            style={{ width: 15, height: 15 }}
+          />
+        </View>
+      </View>
       <Callout alphaHitTest>
-        <View>
+        <View
+          style={{
+            width: 220,
+            height: 110,
+            backgroundColor: 'white',
+          }}
+        >
           <Text style={{ width: 200, flexWrap: 'wrap' }}>{place.name}</Text>
           <View
             style={{
               // display: 'flex',
               flexDirection: 'row',
               marginTop: 5,
+              marginRight: 5,
             }}
           >
             <Text>
@@ -297,7 +314,7 @@ const SearchMapScreen: React.FC = () => {
           fillColor="#FFA50040"
           radius={radius * 100}
         />
-        {places.map((place) => renderMarker(place, 'green'))}
+        {places.map((place) => renderMarker(place, 'orange'))}
         {spots.map((place) => renderMarker(place, 'green'))}
       </MapView>
       <View

@@ -25,16 +25,6 @@ const HomeScreen: React.FC = () => {
     return LoadingSpinner;
   }
 
-  // if (true) {
-  //   ToastAndroid.showWithGravityAndOffset(
-  //     'プラソを保存しました。',
-  //     ToastAndroid.SHORT,
-  //     ToastAndroid.CENTER,
-  //     25,
-  //     50
-  //   );
-  // }
-
   return (
     <View style={thisStyle.container}>
       <Text style={appTextStyle.countText}>
@@ -44,7 +34,7 @@ const HomeScreen: React.FC = () => {
         planList={plans.plan_list}
         isRefreshing={isRefreshing}
         onRefresh={onRefresh}
-        myPlan={true}
+        liked={false}
       />
       <CreatePlanFab />
     </View>

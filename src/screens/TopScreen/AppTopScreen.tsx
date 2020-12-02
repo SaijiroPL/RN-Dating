@@ -75,7 +75,7 @@ const AppTopScreen: React.FC = () => {
   /** メールアドレスでログイン押下時の処理 */
   const openMailAddressScreen = useCallback(() => {
     // デートマスターを初期値に設定しておく
-    const masterMailAddress = 'master@onedate.com';
+    const masterMailAddress = 'follower@onedate.com';
     const masterPassword = 'password';
     setEmailAtSignin(masterMailAddress);
     setPassAtSignin(masterPassword);

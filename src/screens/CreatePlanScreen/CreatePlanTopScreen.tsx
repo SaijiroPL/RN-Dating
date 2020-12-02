@@ -1,7 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, TextInput, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Text } from 'native-base';
+import { Button } from 'react-native-elements';
 import moment from 'moment';
 
 // from app
@@ -24,6 +25,9 @@ const CreatePlanTopScreen: React.FC = () => {
   const [train, setTrain] = useState<boolean>(false);
   const [bus, setBus] = useState<boolean>(false);
   const [walk, setWalk] = useState<boolean>(false);
+  const [needTime, setNeedTime] = useState<number>(180);
+  const [timeModal, showTimeModal] = useState<boolean>(false);
+  const [timeModalValue, setTimeModalValue] = useState<string>('180');
 
   useEffect(() => {
     updateFrom(
@@ -71,6 +75,7 @@ const CreatePlanTopScreen: React.FC = () => {
       payload: {
         dateFrom: fromDate,
         dateTo: toDate,
+        neededTime: needTime,
         transportations: transportationList,
       },
     });
@@ -97,7 +102,7 @@ const CreatePlanTopScreen: React.FC = () => {
         setValue={setTrain}
         reversible
         setOtherValues={[setBus, setCar, setWalk]}
-        buttonName="電車"
+        buttonName="電車・徒歩"
       />
     </View>
   );
@@ -107,21 +112,21 @@ const CreatePlanTopScreen: React.FC = () => {
       <View style={appStyle.emptySpace} />
       <View style={thisStyle.dateGroup}>
         <View style={thisStyle.dateView}>
-          <Text style={thisStyle.itemTitleText}>開始予定時間日時</Text>
+          <Text style={thisStyle.timeTitleText}>開始予定時間日時</Text>
           <DateTimePickerLabel
             date={fromDate}
             setDate={updateFrom}
             minDate={getToday()}
           />
         </View>
-        <Text>→</Text>
         <View style={thisStyle.dateView}>
-          <Text style={thisStyle.itemTitleText}>終了予定時間日時</Text>
-          <DateTimePickerLabel
-            date={toDate}
-            setDate={updateTo}
-            minDate={getToday()}
-          />
+          <Text style={thisStyle.timeTitleText}>所要時間</Text>
+          <Text
+            style={thisStyle.displayText}
+            onPress={() => showTimeModal(true)}
+          >
+            {needTime}分
+          </Text>
         </View>
       </View>
       {TransportationButtonGroup}
@@ -135,6 +140,66 @@ const CreatePlanTopScreen: React.FC = () => {
         <SmallCompleteButton title="決定" onPress={onCompleteButtonPress} />
       )}
       <View style={{ marginBottom: 10 }} />
+
+      <Modal animationType="slide" transparent visible={timeModal}>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <View
+              style={{
+                alignItems: 'center',
+                width: LAYOUT.window.width * 0.35,
+                height: 120,
+                backgroundColor: COLOR.backgroundColor,
+                padding: 10,
+                borderRadius: 10,
+              }}
+            >
+              <View
+                style={{
+                  marginTop: 10,
+                  marginBottom: 15,
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'baseline',
+                }}
+              >
+                <TextInput
+                  placeholder="所要時間"
+                  style={{
+                    fontSize: 20,
+                  }}
+                  defaultValue={needTime.toString()}
+                  keyboardType="numeric"
+                  onChangeText={(text) => setTimeModalValue(text)}
+                />
+                <Text style={{ fontSize: 18 }}>分</Text>
+              </View>
+              <View>
+                <Button
+                  title="OK"
+                  buttonStyle={{ backgroundColor: 'orange', width: 75 }}
+                  onPress={() => {
+                    showTimeModal(false);
+                    setNeedTime(Number.parseInt(timeModalValue, 10));
+                  }}
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -149,7 +214,6 @@ const thisStyle = StyleSheet.create({
   },
   dateGroup: {
     alignItems: 'center',
-    flexDirection: 'row',
     borderBottomColor: COLOR.textTintColor,
     borderBottomWidth: 2,
     paddingBottom: LAYOUT.window.height * 0.03,
@@ -158,11 +222,26 @@ const thisStyle = StyleSheet.create({
     alignItems: 'center',
     marginLeft: 10,
     marginRight: 5,
+    display: 'flex',
+    flexDirection: 'row',
   },
   itemTitleText: {
     color: COLOR.textTintColor,
     fontFamily: 'genju-medium',
     fontSize: 14,
+    marginRight: 10,
+  },
+  timeTitleText: {
+    color: COLOR.textTintColor,
+    fontFamily: 'genju-medium',
+    fontSize: 14,
+    marginRight: 10,
+    width: 150,
+  },
+  displayText: {
+    color: COLOR.tintColor,
+    fontFamily: 'genju-medium',
+    fontSize: 20,
     marginRight: 10,
   },
 });

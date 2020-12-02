@@ -1,11 +1,5 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import {
-  View,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  Picker,
-} from 'react-native';
+import React, { useCallback, useState, useEffect, useMemo } from 'react';
+import { View, Image, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {
   Body,
@@ -20,42 +14,61 @@ import {
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import MapView, { Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
+import { FontAwesome5, Entypo } from '@expo/vector-icons';
+import TimeAgo from 'react-native-timeago';
 import {
-  FontAwesome,
-  FontAwesome5,
-  SimpleLineIcons,
-  Entypo,
-} from '@expo/vector-icons';
-
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+} from 'react-native-popup-menu';
 // from app
-import { COLOR, IMAGE, LAYOUT } from 'app/src/constants';
-import { IPlan } from 'app/src/interfaces/api/Plan';
+import { COLOR, LAYOUT } from 'app/src/constants';
+import { IPlan, ISpot } from 'app/src/interfaces/api/Plan';
 import { ScrollView } from 'react-native-gesture-handler';
-import { useGooglePlace } from 'app/src/hooks';
+import {
+  useGooglePlace,
+  useLikePlan,
+  useGetPlanDetail,
+  useGetCommentList,
+} from 'app/src/hooks';
 import { useDispatch, useGlobalState } from 'app/src/Store';
 import { ActionType } from 'app/src/Reducer';
+import { CompleteButton } from '../Button';
 
 interface Props {
   plan: IPlan;
-  myPlan?: boolean;
+  liked?: boolean;
 }
+const moment = require('moment');
+require('moment/locale/ja');
 
+moment.locale('ja');
 /** デートプランカード */
 export const PlanCard: React.FC<Props> = (props: Props) => {
   const { navigate } = useNavigation();
   const dispatch = useDispatch();
 
-  const { plan, myPlan } = props;
+  const { plan, liked } = props;
   const loginUser = useGlobalState('loginUser');
+  const planDetail = useGetPlanDetail(plan.plan_id, loginUser.id);
+  const { isCommentsLoading, comments } = useGetCommentList(plan.plan_id);
+
+  const [selectedSpot, setSelectedSpot] = useState(0);
 
   const [heart, setHeart] = useState<boolean>(false);
-  const [star, setStar] = useState<boolean>(false);
   const [comment, setComment] = useState<boolean>(false);
-  const [head_menu, setHead_menu] = useState<boolean>(false);
 
   const { API_KEY } = useGooglePlace();
-  let origin = {};
-  /** プラン押下時の処理 */
+  const { likePlan, unlikePlan } = useLikePlan(loginUser.id);
+
+  let origin: ISpot = { spot_name: '', latitude: 0, longitude: 0 };
+
+  useEffect(() => {
+    console.log(comments);
+  }, [comments]);
+
+  // /** プラン押下時の処理 */
   const onPlanPress = useCallback(() => {
     navigate('Detail', { planId: plan.plan_id });
   }, [plan]);
@@ -76,19 +89,27 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
   }, [plan]);
 
   useEffect(() => {
-    if (plan.user_id == loginUser.id) {
-      dispatch({
-        type: ActionType.SET_MY_PLAN,
-        payload: {
-          plan,
-        },
-      });
-    }
-    // async function getPhotos() {
-    //   let detail = await getPlaceDetail(plan.plan_id);
-    // }
-    // getPhotos();
+    planDetail.getPlanDetail();
   }, []);
+
+  const onLike = async () => {
+    if (!heart) {
+      const res = await likePlan(plan.plan_id);
+      if (res) setHeart(true);
+    } else {
+      const res = await unlikePlan(plan.plan_id);
+      if (res) setHeart(false);
+    }
+  };
+
+  const onGuide = () => {
+    dispatch({
+      type: ActionType.SET_MY_PLAN,
+      payload: plan,
+    });
+    navigate('Road');
+  };
+
   /** プラン作成者ヘッダー */
   const PlannerHeader = (
     <CardItem>
@@ -110,7 +131,16 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
         </Body>
       </Left>
       <Right style={{ zIndex: 100 }}>
-        <Entypo name="triangle-down" size={30} color={COLOR.tintColor} />
+        <Menu>
+          <MenuTrigger>
+            <Entypo name="triangle-down" size={30} color={COLOR.tintColor} />
+          </MenuTrigger>
+          <MenuOptions>
+            <MenuOption text="ミュート" />
+            <MenuOption text="報告" />
+            <MenuOption text="リンクコピー" />
+          </MenuOptions>
+        </Menu>
       </Right>
     </CardItem>
   );
@@ -121,26 +151,23 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
       <Body />
       <Right>
         <Body style={thisStyle.bodylike}>
-          <Button
-            style={thisStyle.likebutton}
-            transparent
-            onPress={() => setHeart(!heart)}
-          >
+          <Button style={thisStyle.likebutton} transparent>
             {heart ? (
               <FontAwesome5 name="heart" size={24} color={COLOR.tintColor} />
             ) : (
               <FontAwesome5 name="heart" size={24} color={COLOR.greyColor} />
             )}
           </Button>
-          <Button
-            style={thisStyle.likebutton}
-            transparent
-            onPress={() => setStar(!star)}
-          >
-            {star ? (
-              <Entypo name="star-outlined" size={24} color={COLOR.tintColor} />
+          <Button style={thisStyle.likebutton} transparent onPress={onLike}>
+            {planDetail.plan.is_liked ? (
+              <FontAwesome5
+                name="star"
+                size={24}
+                color={COLOR.tintColor}
+                solid
+              />
             ) : (
-              <Entypo name="star-outlined" size={24} color={COLOR.greyColor} />
+              <FontAwesome5 name="star" size={24} color={COLOR.greyColor} />
             )}
           </Button>
           <Button
@@ -149,9 +176,9 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
             onPress={() => setComment(!comment)}
           >
             {comment ? (
-              <FontAwesome name="comment-o" size={24} color={COLOR.tintColor} />
+              <FontAwesome5 name="comment" size={24} color={COLOR.tintColor} />
             ) : (
-              <FontAwesome name="comment-o" size={24} color={COLOR.greyColor} />
+              <FontAwesome5 name="comment" size={24} color={COLOR.greyColor} />
             )}
           </Button>
         </Body>
@@ -159,106 +186,102 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
     </CardItem>
   );
   // plan footer
-  const PlannerFooter = (
-    <Grid>
-      <Row>
-        <Col onPress={onCommentPress}>
-          <CardItem style={thisStyle.footer}>
-            <Left style={thisStyle.planner}>
-              <Thumbnail
-                source={{
-                  uri: 'https://www.w3schools.com/howto/img_avatar.png',
+  // const commentRows = useMemo(() => {
+  //   const elements = [];
+
+  //   return elements;
+  // });
+
+  const commentRows = useMemo(() => {
+    const elements = [];
+
+    for (let i = 0; i < comments.total / 2; i += 2) {
+      elements.push(
+        <Row>
+          <Col onPress={onCommentPress}>
+            <CardItem style={thisStyle.footer}>
+              <View style={thisStyle.planner}>
+                <Thumbnail
+                  source={{
+                    uri: 'https://www.w3schools.com/howto/img_avatar.png',
+                  }}
+                  small
+                />
+              </View>
+              <View
+                style={{
+                  ...thisStyle.planner,
+                  width: LAYOUT.window.width * 0.2,
                 }}
-                small
-              />
-            </Left>
-            <Body>
-              <Text style={thisStyle.footerText}>{plan.user_name}</Text>
-              <Text note style={thisStyle.footerText}>
-                {plan.user_attr}
-              </Text>
-            </Body>
-            <Right>
-              <Text note style={thisStyle.footerText}>
-                11h
-              </Text>
-            </Right>
-          </CardItem>
-        </Col>
-        <Col onPress={onCommentPress}>
-          <CardItem style={thisStyle.footer}>
-            <Left style={thisStyle.planner}>
-              <Thumbnail
-                source={{
-                  uri: 'https://www.w3schools.com/howto/img_avatar.png',
-                }}
-                small
-              />
-            </Left>
-            <Body>
-              <Text style={thisStyle.footerText}>{plan.user_name}</Text>
-              <Text note style={thisStyle.footerText}>
-                {plan.user_attr}
-              </Text>
-            </Body>
-            <Right>
-              <Text note style={thisStyle.footerText}>
-                11h
-              </Text>
-            </Right>
-          </CardItem>
-        </Col>
-      </Row>
-      <Row>
-        <Col onPress={onCommentPress}>
-          <CardItem style={thisStyle.footer}>
-            <Left style={thisStyle.planner}>
-              <Thumbnail
-                source={{
-                  uri: 'https://www.w3schools.com/howto/img_avatar.png',
-                }}
-                small
-              />
-            </Left>
-            <Body>
-              <Text style={thisStyle.footerText}>{plan.user_name}</Text>
-              <Text note style={thisStyle.footerText}>
-                {plan.user_attr}
-              </Text>
-            </Body>
-            <Right>
-              <Text note style={thisStyle.footerText}>
-                11h
-              </Text>
-            </Right>
-          </CardItem>
-        </Col>
-        <Col onPress={onCommentPress}>
-          <CardItem style={thisStyle.footer}>
-            <Left style={thisStyle.planner}>
-              <Thumbnail
-                source={{
-                  uri: 'https://www.w3schools.com/howto/img_avatar.png',
-                }}
-                small
-              />
-            </Left>
-            <Body>
-              <Text style={thisStyle.footerText}>{plan.user_name}</Text>
-              <Text note style={thisStyle.footerText}>
-                {plan.user_attr}
-              </Text>
-            </Body>
-            <Right>
-              <Text note style={thisStyle.footerText}>
-                11h
-              </Text>
-            </Right>
-          </CardItem>
-        </Col>
-      </Row>
-    </Grid>
-  );
+              >
+                <Text style={thisStyle.footerText}>
+                  {comments.comment_list[i].user_name}
+                </Text>
+                <Text note style={thisStyle.footerText}>
+                  {comments.comment_list[i].comment.length > 15
+                    ? `${comments.comment_list[i].comment.substr(0, 12)}...`
+                    : comments.comment_list[i].comment}
+                </Text>
+              </View>
+              <View style={thisStyle.planner}>
+                <Text note style={thisStyle.footerText}>
+                  <TimeAgo
+                    time={comments.comment_list[i].create_date}
+                    hideAgo
+                  />
+                </Text>
+              </View>
+            </CardItem>
+          </Col>
+          {i < comments.total - 1 ? (
+            <Col onPress={onCommentPress}>
+              <CardItem style={thisStyle.footer}>
+                <View style={thisStyle.planner}>
+                  <Thumbnail
+                    source={{
+                      uri: 'https://www.w3schools.com/howto/img_avatar.png',
+                    }}
+                    small
+                  />
+                </View>
+                <View
+                  style={{
+                    ...thisStyle.planner,
+                    width: LAYOUT.window.width * 0.2,
+                  }}
+                >
+                  <Text style={thisStyle.footerText}>
+                    {comments.comment_list[i + 1].user_name}
+                  </Text>
+                  <Text note style={thisStyle.footerText}>
+                    {comments.comment_list[i + 1].comment.length > 15
+                      ? `${comments.comment_list[i + 1].comment.substr(
+                          0,
+                          12,
+                        )}...`
+                      : comments.comment_list[i + 1].comment}
+                  </Text>
+                </View>
+                <View style={thisStyle.planner}>
+                  <Text note style={thisStyle.footerText}>
+                    <TimeAgo
+                      time={comments.comment_list[i + 1].create_date}
+                      hideAgo
+                    />
+                  </Text>
+                </View>
+              </CardItem>
+            </Col>
+          ) : (
+            <Col />
+          )}
+        </Row>,
+      );
+    }
+
+    return elements;
+  }, [comments]);
+  const PlannerFooter = <Grid>{commentRows}</Grid>;
   const renderMarker = (place: any, color: string) => (
     <Marker
       coordinate={{
@@ -269,73 +292,92 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
       key={place.id}
     />
   );
-  const renderDirection = (place: any, index: any) => {
-    if (index == 0) {
-      origin = place;
-    } else {
-      const temp_origin = origin;
+  const renderDirection = (place: ISpot, index: number) => {
+    if (index === 0) {
       origin = place;
 
-      return (
-        <MapViewDirections
-          origin={{
-            latitude: temp_origin.latitude,
-            longitude: temp_origin.longitude,
-          }}
-          destination={{
-            latitude: place.latitude,
-            longitude: place.longitude,
-          }}
-          apikey={`${API_KEY}`}
-          strokeWidth={3}
-          strokeColor="orange"
-        />
-      );
+      return null;
     }
+    const temp_origin = origin;
+    origin = place;
+
+    return (
+      <MapViewDirections
+        origin={{
+          latitude: temp_origin.latitude,
+          longitude: temp_origin.longitude,
+        }}
+        destination={{
+          latitude: place.latitude,
+          longitude: place.longitude,
+        }}
+        apikey={`${API_KEY}`}
+        strokeWidth={3}
+        strokeColor={index <= selectedSpot ? 'orange' : 'grey'}
+      />
+    );
   };
 
   return (
-    <TouchableOpacity onPress={onPlanPress}>
-      <Card style={thisStyle.card}>
-        {PlannerHeader}
-        <CardItem cardBody>
-          <Image
-            source={{ uri: plan.user_image_url }}
-            style={thisStyle.image}
-          />
-        </CardItem>
-        <CardItem cardBody>
-          <MapView
-            region={{
-              latitude: plan.spots[0].latitude,
-              longitude: plan.spots[0].longitude,
-              latitudeDelta: 0.02,
-              longitudeDelta: 0.05,
-            }}
-            style={thisStyle.map}
-          >
-            {plan.spots.map((place: any, index: any) =>
-              renderDirection(place, index),
-            )}
-            {plan.spots.map((place: any) => renderMarker(place, 'orange'))}
-          </MapView>
-        </CardItem>
-        <CardItem style={thisStyle.description}>
-          <Left>
-            <Text style={thisStyle.mainText}>{plan.title}</Text>
-          </Left>
-          <Right>
-            <ScrollView horizontal>
-              <Text note style={thisStyle.descriptionText}>
-                {plan.spots.map((spot) => spot.spot_name).join(' > ')}
-              </Text>
-            </ScrollView>
-          </Right>
-        </CardItem>
-        {myPlan && PlannerLike}
-        {myPlan && PlannerFooter}
-      </Card>
-    </TouchableOpacity>
+    <Card style={thisStyle.card}>
+      {PlannerHeader}
+      <CardItem cardBody>
+        <Image source={{ uri: plan.user_image_url }} style={thisStyle.image} />
+      </CardItem>
+      <CardItem cardBody>
+        <MapView
+          region={{
+            latitude: plan.spots[selectedSpot].latitude,
+            longitude: plan.spots[selectedSpot].longitude,
+            latitudeDelta: 0.005,
+            longitudeDelta: 0.005,
+          }}
+          style={thisStyle.map}
+        >
+          {plan.spots.map((place, index) => renderDirection(place, index))}
+          {plan.spots.map((place, index) =>
+            renderMarker(place, index <= selectedSpot ? 'orange' : 'grey'),
+          )}
+        </MapView>
+      </CardItem>
+      <CardItem style={thisStyle.description}>
+        <View style={{ flex: 1 }}>
+          <Text style={thisStyle.mainText}>{plan.title}</Text>
+        </View>
+        <View style={{ flex: 2 }}>
+          <ScrollView horizontal>
+            {plan.spots.map((spot, index) => (
+              <View style={thisStyle.spotContainer}>
+                <Text
+                  style={{
+                    ...thisStyle.buttonTitleStyle,
+                    color: index === selectedSpot ? 'orange' : 'black',
+                  }}
+                  onPress={() => setSelectedSpot(index)}
+                >
+                  {spot.spot_name}
+                </Text>
+                {index < plan.spots.length - 1 && (
+                  <Text style={thisStyle.arrowText}>→</Text>
+                )}
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+      </CardItem>
+      {PlannerLike}
+      {PlannerFooter}
+      {liked && (
+        <View
+          style={{
+            alignItems: 'center',
+            padding: 15,
+          }}
+        >
+          <CompleteButton title="プランを使用する" onPress={onGuide} />
+        </View>
+      )}
+    </Card>
   );
 };
 
@@ -355,6 +397,7 @@ const thisStyle = StyleSheet.create({
   },
   planner: {
     justifyContent: 'center',
+    marginLeft: 10,
   },
   image: {
     flex: 1,
@@ -412,6 +455,27 @@ const thisStyle = StyleSheet.create({
   footer: {
     paddingLeft: 0,
   },
+  buttonTitleStyle: {
+    maxWidth: LAYOUT.window.width * 0.3,
+    fontSize: 10,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  arrowText: {
+    justifyContent: 'center',
+    textAlignVertical: 'center',
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  spotContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
 });
+
+PlanCard.defaultProps = {
+  liked: false,
+};
 
 export default PlanCard;

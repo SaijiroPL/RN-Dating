@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, useContext } from 'react';
-
+import { MenuProvider } from 'react-native-popup-menu';
 // from app
 import Reducer, { State, Action } from 'app/src/Reducer';
 import { LatLng } from 'react-native-maps';
@@ -17,6 +17,7 @@ const initialState: State = {
   createPlan: {
     dateFrom: '',
     dateTo: '',
+    neededTime: 180,
     transportations: [],
     center: {
       latitude: 35.658606737323325,
@@ -31,9 +32,7 @@ const initialState: State = {
       cost: 0,
     },
   },
-  createRealSpots: {
-    spots: [],
-  },
+  myPlanArrival: 0,
 };
 
 const StoreContext = createContext<State>(initialState);
@@ -48,7 +47,7 @@ const Provider = (props: any) => {
   return (
     <StoreContext.Provider value={state}>
       <DispatchContext.Provider value={dispatch}>
-        {children}
+        <MenuProvider>{children}</MenuProvider>
       </DispatchContext.Provider>
     </StoreContext.Provider>
   );

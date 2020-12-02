@@ -8,21 +8,17 @@ import { PlanCard } from 'app/src/components/Element';
 
 interface Props {
   planList: Array<IPlan>;
-  myPlan?: boolean;
+  liked?: boolean;
   isRefreshing: boolean;
   onRefresh: () => Promise<void>;
 }
 
 /** デートプランリスト */
 export const PlanCardList: React.FC<Props> = (props: Props) => {
-  const { planList, myPlan, isRefreshing, onRefresh } = props;
+  const { planList, liked, isRefreshing, onRefresh } = props;
 
   const renderPlanCard = ({ item }: { item: IPlan }): JSX.Element => {
-    if (myPlan) {
-      return <PlanCard plan={item} myPlan />;
-    }
-
-    return <PlanCard plan={item} />;
+    return <PlanCard plan={item} liked={liked} />;
   };
 
   return (
@@ -33,4 +29,8 @@ export const PlanCardList: React.FC<Props> = (props: Props) => {
       keyExtractor={(item) => item.plan_id}
     />
   );
+};
+
+PlanCardList.defaultProps = {
+  liked: false,
 };

@@ -1,5 +1,6 @@
 import { LatLng } from 'react-native-maps';
 import { IPlace } from './interfaces/app/Map';
+import { IPlanFull } from './interfaces/api/Plan';
 
 /** ログイン中のユーザー */
 interface LoginUser {
@@ -24,6 +25,7 @@ export interface IPlaceNode {
 interface CreatePlan {
   dateFrom: string;
   dateTo: string;
+  neededTime: number;
   transportations: Array<string>;
   center: LatLng;
   radius: number;
@@ -38,20 +40,14 @@ interface CreatePlan {
 interface MyPlan {
   plan: object;
 }
-interface CreateTempSpots {
-  spots: IPlace[];
-}
-interface CreateRealSpots {
-  spots: Array<object>;
-}
 
 /** Global State */
 export interface State {
   loginUser: LoginUser;
   registerUser: RegisterUser;
   createPlan: CreatePlan;
-  myPlan: MyPlan;
-  createRealSpots: CreateRealSpots;
+  myPlan: IPlanFull;
+  myPlanArrival: number;
 }
 
 export enum ActionType {
@@ -59,7 +55,7 @@ export enum ActionType {
   SET_REGISTER_USER = 'SET_REGISTER_USER',
   SET_CREATE_PLAN = 'SET_CREATE_PLAN',
   SET_MY_PLAN = 'SET_MY_PLAN',
-  SET_CREATE_REAL_SPOTS = 'SET_CREATE_REAL_SPOTS',
+  SET_MY_PLAN_ARRIVAL = 'SET_MY_PLAN_ARRIVAL',
 }
 
 export interface Action {
@@ -92,10 +88,10 @@ const Reducer = (state: State, action: Action): any => {
         ...state,
         myPlan: payload,
       };
-    case ActionType.SET_CREATE_REAL_SPOTS:
+    case ActionType.SET_MY_PLAN_ARRIVAL:
       return {
         ...state,
-        createRealSpots: payload,
+        myPlanArrival: payload,
       };
     default:
       break;
