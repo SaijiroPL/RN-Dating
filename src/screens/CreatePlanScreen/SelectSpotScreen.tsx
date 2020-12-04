@@ -96,10 +96,7 @@ const SelectSpotScreen: React.FC = () => {
   }, [selectedSpots]);
 
   const remainTime = useMemo(() => {
-    const orgTime = moment(createPlan.dateTo).diff(
-      moment(createPlan.dateFrom),
-      'minutes',
-    );
+    const orgTime = createPlan.neededTime;
     if (selectedSpots.length === 1) {
       const typeIdx = getRightSpotType(selectedSpots[0].place.types);
 
