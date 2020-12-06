@@ -22,16 +22,17 @@ export const CompleteFooterButton: React.FC<Props> = (props: Props) => {
 
   return (
     <Footer style={thisStyle.touchable}>
-      <Left style={{ flexDirection: 'row' }}>
-        <Text note>スポット数</Text>
+      <Left
+        style={{
+          flexDirection: 'row',
+          marginTop: 20,
+        }}
+      >
         <Text note style={{ marginLeft: 10 }}>
-          {spotCount}
-        </Text>
-        <Text note style={{ marginLeft: 20 }}>
-          残り時間
+          スポット数 {spotCount}
         </Text>
         <Text note style={{ marginLeft: 10 }}>
-          {remainTime}
+          残り時間 {remainTime}
         </Text>
       </Left>
       <Right>

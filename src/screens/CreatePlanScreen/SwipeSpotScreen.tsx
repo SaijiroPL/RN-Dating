@@ -226,8 +226,8 @@ const SwipeSpotScreen: React.FC = () => {
       <Image
         style={{
           height: LAYOUT.window.height * 0.35,
-          borderTopLeftRadius: 10,
-          borderTopRightRadius: 10,
+          borderTopLeftRadius: 2,
+          borderTopRightRadius: 2,
         }}
         source={{
           uri:
@@ -284,6 +284,7 @@ const SwipeSpotScreen: React.FC = () => {
         style={{
           justifyContent: 'flex-end',
           flexDirection: 'row',
+          paddingRight: LAYOUT.window.width * 0.02,
         }}
       >
         <TouchableOpacity
@@ -295,10 +296,11 @@ const SwipeSpotScreen: React.FC = () => {
       </View>
       <View
         style={{
-          height: LAYOUT.window.height * 0.55,
+          height: LAYOUT.window.height * 0.53,
           width: LAYOUT.window.width * 0.9,
-          marginLeft: LAYOUT.window.width * 0.05,
+          marginLeft: LAYOUT.window.width * 0.06,
           padding: 5,
+          marginTop: 10,
         }}
       >
         <CardStack
@@ -393,6 +395,10 @@ const SwipeSpotScreen: React.FC = () => {
 const thisStyle = StyleSheet.create({
   sectionHeader: {
     backgroundColor: 'white',
+    paddingTop: 10,
+    paddingLeft: 10,
+    fontWeight: 'bold',
+    fontSize: 18,
   },
   filter: {
     width: LAYOUT.window.width * 0.1,

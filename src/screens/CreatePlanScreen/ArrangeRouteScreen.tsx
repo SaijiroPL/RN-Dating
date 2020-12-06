@@ -14,15 +14,9 @@ import DraggableFlatList from 'react-native-draggable-flatlist';
 import Carousel from 'react-native-snap-carousel';
 import polyline from '@mapbox/polyline';
 import moment from 'moment';
-import axios from 'axios';
+// import axios from 'axios';
 // from app
-import {
-  LAYOUT,
-  COLOR,
-  SPOT_TYPE,
-  getRightSpotType,
-  API_ENDPOINT,
-} from 'app/src/constants';
+import { LAYOUT, COLOR, SPOT_TYPE, getRightSpotType } from 'app/src/constants';
 import MapView, { Marker, Polyline, LatLng, Region } from 'react-native-maps';
 import { useDispatch, useGlobalState } from 'app/src/Store';
 
@@ -244,7 +238,7 @@ const ArrangeRouteScreen: React.FC = () => {
             itemWidth={LAYOUT.window.width * 0.85}
             renderItem={({ item }: { item: IPlaceNode }) => renderItem(item)}
             layout="stack"
-            scrollEnabled={false}
+            onSnapToItem={(sliderIndex) => setCurrentIndex(sliderIndex)}
           />
         </View>
         <View>
@@ -302,8 +296,8 @@ const ArrangeRouteScreen: React.FC = () => {
             {routeSeq.map((item, index) => (
               <Polyline
                 coordinates={item}
-                strokeWidth={3}
-                strokeColor={index === currentIndex - 1 ? '#00B4AB' : 'orange'}
+                strokeWidth={5}
+                strokeColor="orange"
               />
             ))}
             {routeMarkLocation && (
@@ -332,7 +326,7 @@ const ArrangeRouteScreen: React.FC = () => {
         </View>
         <View
           style={{
-            height: 75,
+            height: 65,
             marginTop: 10,
             borderColor: 'grey',
             borderBottomWidth: 1,
@@ -365,7 +359,11 @@ const ArrangeRouteScreen: React.FC = () => {
                     onLongPress={drag}
                     onPress={() => {
                       setCurrentIndex(index || 0);
-                      console.log(item.place);
+                      setChangedElaspe(
+                        currentIndex >= 0
+                          ? spots[currentIndex].cost.toString()
+                          : '',
+                      );
                       if (index === currentIndex) {
                         setElapseModal(true);
                       }
@@ -404,7 +402,7 @@ const ArrangeRouteScreen: React.FC = () => {
         </View>
         <View
           style={{
-            height: 60,
+            height: 80,
             borderColor: 'grey',
             borderBottomWidth: 1,
           }}
@@ -463,27 +461,29 @@ const ArrangeRouteScreen: React.FC = () => {
               </Text>
               <Text style={thisStyle.timeTextStyle}>
                 {`${moment(createPlan.dateFrom).format('H:mm')}~${moment(
-                  createPlan.dateTo,
-                ).format('H:mm')}`}
+                  createPlan.dateFrom,
+                )
+                  .add('minute', createPlan.neededTime)
+                  .format('H:mm')}`}
               </Text>
               <Text style={thisStyle.timeTextStyle}>
-                {`${moment(createPlan.dateTo).diff(
-                  moment(createPlan.dateFrom),
-                  'hours',
-                )}時間`}
+                {`${createPlan.neededTime / 60}時間`}
               </Text>
             </View>
           </View>
-        </View>
-        <View style={{ marginTop: 5 }}>
           <TextInput
             placeholder="プラン名変更"
-            style={{ paddingLeft: 20, fontSize: 18 }}
+            style={{ paddingLeft: 20, fontSize: 15 }}
           />
+        </View>
+        <View
+          style={{ marginTop: 5, borderColor: 'grey', borderBottomWidth: 1 }}
+        >
           <TextInput
             placeholder="ポイントを書く"
-            style={{ paddingLeft: 20, fontSize: 15 }}
+            style={{ paddingLeft: 20, fontSize: 12, height: 45 }}
             numberOfLines={3}
+            multiline
           />
         </View>
         <View
@@ -560,7 +560,7 @@ const ArrangeRouteScreen: React.FC = () => {
                 }}
               >
                 <TextInput
-                  placeholder="所要時間"
+                  placeholder="滞在時間"
                   style={{
                     fontSize: 20,
                   }}
@@ -570,12 +570,17 @@ const ArrangeRouteScreen: React.FC = () => {
                   keyboardType="numeric"
                   onChangeText={(text) => setChangedElaspe(text)}
                 />
-                <Text style={{ fontSize: 18 }}>分</Text>
+                <Text style={{ fontSize: 15 }}>分</Text>
               </View>
               <View>
                 <Button
                   title="OK"
-                  buttonStyle={{ backgroundColor: 'orange', width: 75 }}
+                  buttonStyle={{
+                    backgroundColor: 'orange',
+                    width: 75,
+                    paddingTop: 5,
+                    paddingBottom: 5,
+                  }}
                   onPress={() => {
                     setElapseModal(false);
                     updateElapse(currentIndex, changedElapse);
@@ -603,8 +608,8 @@ const thisStyle = StyleSheet.create({
     backgroundColor: COLOR.tintColor,
     width: LAYOUT.window.width * 0.35,
     borderRadius: 10,
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft: 30,
+    marginRight: 30,
     fontSize: 10,
   },
   timeButtonStyle: {
