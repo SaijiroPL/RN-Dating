@@ -113,9 +113,15 @@ const SwipeSpotScreen: React.FC = () => {
             exists = true;
           }
         }
-        if (!exists) newSpots.push({ ...item });
+        if (!exists && item.photos) newSpots.push({ ...item });
       }
-      setSpots(newSpots);
+      const randomSpots = [];
+      while (newSpots.length > 0) {
+        const randomIdx = Math.floor(Math.random() * newSpots.length);
+        randomSpots.push(newSpots[randomIdx]);
+        newSpots.splice(randomIdx, 1);
+      }
+      setSpots(randomSpots);
     }
   }, [places]);
 
@@ -230,10 +236,7 @@ const SwipeSpotScreen: React.FC = () => {
           borderTopRightRadius: 2,
         }}
         source={{
-          uri:
-            item.photos && item.photos.length > 0
-              ? getPlacePhoto(item.photos[0].photo_reference)
-              : 'https://via.placeholder.com/120x90?text=No+Image',
+          uri: getPlacePhoto(item.photos[0].photo_reference),
         }}
       />
       <CardItem
