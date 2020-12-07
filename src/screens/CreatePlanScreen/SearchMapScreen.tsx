@@ -1,6 +1,15 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Image, View, Text, FlatList, Modal } from 'react-native';
+import {
+  StyleSheet,
+  Image,
+  View,
+  Text,
+  FlatList,
+  Modal,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Slider } from 'react-native-elements';
 import MapView, {
@@ -14,8 +23,14 @@ import MapView, {
 
 import debounce from 'lodash/debounce';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import Autocomplete from 'react-native-autocomplete-input';
+import { FontAwesome5 } from '@expo/vector-icons';
 // from app
-import { ILocation, IPlace } from 'app/src/interfaces/app/Map';
+import {
+  ILocation,
+  IPlace,
+  IGooglePrediection,
+} from 'app/src/interfaces/app/Map';
 import { SmallCompleteButton } from 'app/src/components/Button/SmallCompleteButton';
 import { useGooglePlace } from 'app/src/hooks';
 import { COLOR, LAYOUT } from 'app/src/constants';
@@ -23,7 +38,6 @@ import { COLOR, LAYOUT } from 'app/src/constants';
 import { ActionType } from 'app/src/Reducer';
 import { useDispatch, useGlobalState } from 'app/src/Store';
 import { getDistance, earthRadius } from 'geolib';
-import { FontAwesome5 } from '@expo/vector-icons';
 
 /** マップからスポット範囲指定画面 */
 const SearchMapScreen: React.FC = () => {
@@ -50,13 +64,16 @@ const SearchMapScreen: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [place, setPlace] = useState<IPlace | null>(null);
   const [searching, setSearching] = useState(false);
+  const [queryText, setQueryText] = useState('');
 
   const {
     getPlacePhoto,
     getPlaceDetail,
     getPlaceOpeningHours,
     formatPlaceOpeningHours,
-    API_KEY,
+    getAutoComplete,
+    predictions,
+    setPredictions,
   } = useGooglePlace();
 
   const mapRef = useRef(null);
@@ -116,45 +133,97 @@ const SearchMapScreen: React.FC = () => {
   }, [radius]);
 
   // Autocomplete
-  async function onAutoComplete(details: any) {
+  // const handleQuery = debounce((input: string) => {
+  //   getAutoComplete(input, center, radius);
+  // }, 50);
+
+  async function onChangeQuery(query: string) {
+    getAutoComplete(query, center, radius);
+    setQueryText(query);
+  }
+
+  async function onAutoComplete(details: IGooglePrediection) {
     const detail = await getPlaceDetail(details.place_id);
     if (detail) {
+      onChangeQuery('');
       setModalVisible(true);
       setPlace(detail);
     }
   }
 
   const autoComplete = () => (
-    <GooglePlacesAutocomplete
-      placeholder="Search"
-      onPress={(details) => {
-        onAutoComplete(details);
-        setSearching(false);
-      }}
-      query={{
-        key: API_KEY,
-        language: 'ja',
-      }}
-      GooglePlacesSearchQuery={{
-        rankby: 'distance',
-      }}
-      styles={{
-        container: thisStyle.headerContainer,
-        textInputContainer: thisStyle.headerTextInputContainer,
-        textInput: thisStyle.headerTextInput,
-        listView: thisStyle.headerListView,
-        powered: {
-          height: 0,
-        },
-        poweredContainer: {
-          height: 0,
-        },
-      }}
-      textInputProps={{
-        onFocus: () => setSearching(true),
-        onBlur: () => setSearching(false),
-      }}
-      renderRow={(data) => <Text>{data.description}</Text>}
+    <Autocomplete
+      containerStyle={thisStyle.headerContainer}
+      inputContainerStyle={thisStyle.headerTextInputContainer}
+      data={predictions}
+      onChangeText={(text) => onChangeQuery(text)}
+      renderTextInput={(props) => (
+        <View style={{ display: 'flex', flexDirection: 'row' }}>
+          <TextInput
+            placeholder="検索"
+            style={{
+              flex: 1,
+              padding: 0,
+              paddingBottom: 5,
+              paddingTop: 5,
+              fontSize: 18,
+              color: 'black',
+              marginLeft: 5,
+              marginRight: 10,
+              marginTop: 7,
+              marginBottom: 5,
+              backgroundColor: 'white',
+            }}
+            onChangeText={(text) => onChangeQuery(text)}
+            value={queryText}
+          />
+          <TouchableOpacity
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginRight: 5,
+            }}
+            onPress={() => onChangeQuery('')}
+          >
+            <FontAwesome5 name="times" size={20} color="grey" />
+          </TouchableOpacity>
+        </View>
+      )}
+      renderItem={({ item, index }) => (
+        <TouchableOpacity
+          style={{ display: 'flex', flexDirection: 'row' }}
+          onPress={() => onAutoComplete(item)}
+        >
+          <View style={{ paddingLeft: 10, paddingTop: 7 }}>
+            <View
+              style={{
+                width: 30,
+                height: 30,
+                backgroundColor: 'darkgrey',
+                borderRadius: 15,
+                alignItems: 'center',
+              }}
+            >
+              <View style={{ marginTop: 5 }}>
+                <FontAwesome5 name="map-marker-alt" size={20} color="white" />
+              </View>
+            </View>
+            <Text style={{ color: 'grey', marginTop: 2 }}>
+              {item.distance_meters > 1000
+                ? `${(item.distance_meters / 1000).toFixed(1)}km`
+                : `${item.distance_meters}m`}
+            </Text>
+          </View>
+          <View style={{ padding: 5 }}>
+            <Text style={{ fontSize: 16, marginTop: 5 }}>
+              {item.structured_formatting.main_text}
+            </Text>
+            <Text style={{ color: 'grey', marginTop: 10 }}>
+              {item.structured_formatting.secondary_text}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      )}
     />
   );
 
@@ -323,7 +392,7 @@ const SearchMapScreen: React.FC = () => {
           top: 20,
           width: '90%',
           marginHorizontal: '5%',
-          opacity: searching ? 1 : 0.5,
+          // opacity: searching ? 1 : 0.5,
         }}
       >
         {autoComplete()}
@@ -469,10 +538,10 @@ const thisStyle = StyleSheet.create({
   },
   headerTextInputContainer: {
     backgroundColor: 'rgba(0, 0, 0, 0)',
-    // backgroundColor: '#000',
-    borderTopWidth: 0,
-    borderBottomWidth: 0,
-    alignItems: 'center',
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 0,
+    paddingBottom: 0,
   },
   headerTextInput: {
     marginLeft: 0,
