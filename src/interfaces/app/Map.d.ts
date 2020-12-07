@@ -147,3 +147,18 @@ export interface IGoogleDirection {
     };
   }[];
 }
+
+export interface IGooglePrediection {
+  description: string;
+  distance_meters: number;
+  place_id: string;
+  structured_formatting: {
+    main_text: string;
+    secondary_text: string;
+  };
+}
+
+export interface IGoogleAutoCompleteResult {
+  status: string;
+  predictions: IGooglePrediection[];
+}
