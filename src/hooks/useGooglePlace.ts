@@ -9,7 +9,8 @@ import {
   IGoogleResult,
   IGoogleMatrixResult,
   IGoogleDirection,
-  ISimpleLocation,
+  IGooglePrediection,
+  IGoogleAutoCompleteResult,
 } from 'app/src/interfaces/app/Map';
 import { LatLng } from 'react-native-maps';
 
@@ -18,9 +19,11 @@ export const useGooglePlace = () => {
   const [distanceMatrix, setDistanceMatrix] = useState<IGoogleMatrixResult>();
   const [direction, setDirection] = useState<IGoogleDirection>();
   const [nextToken, setNextToken] = useState<string | undefined>(undefined);
+  const [predictions, setPredictions] = useState<IGooglePrediection[]>([]);
   const placeUrl = GOOGLE_MAP_ENDPOINT.PLACE;
   const distanceUrl = GOOGLE_MAP_ENDPOINT.DISTANCE;
   const directionUrl = GOOGLE_MAP_ENDPOINT.DIRECTION;
+  const autoUrl = GOOGLE_MAP_ENDPOINT.AUTO;
   const baseUrl = GOOGLE_MAP_ENDPOINT.BASE;
   const API_KEY = GOOGLE_MAP_ENDPOINT.KEY;
 
@@ -115,6 +118,17 @@ export const useGooglePlace = () => {
     return undefined;
   };
 
+  const getAutoComplete = async (
+    input: string,
+    location: LatLng,
+    radius: number,
+  ): Promise<void> => {
+    const strLocation = `${location.latitude},${location.longitude}`;
+    const url = `${autoUrl}?key=${API_KEY}&input=${input}&location=${strLocation}&origin=${strLocation}&radius=${radius}&language=ja`;
+    const { data } = await axios.get<IGoogleAutoCompleteResult>(url);
+    setPredictions(data.predictions);
+  };
+
   const formatOpHour = (value: string) =>
     `${value.slice(0, 2)}:${value.slice(2, 4)}`;
 
@@ -151,5 +165,8 @@ export const useGooglePlace = () => {
     nextToken,
     API_KEY,
     placeUrl,
+    getAutoComplete,
+    predictions,
+    setPredictions,
   };
 };

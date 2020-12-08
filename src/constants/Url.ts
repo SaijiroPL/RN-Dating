@@ -72,6 +72,7 @@ export const GOOGLE_MAP_ENDPOINT = {
   // COURSE: `${EKI_API}/json/search/course/extreme?key=${EKI_KEY}&viaList=$1,$2,wgs84:$3,$4`,
   PLACE_PHOTO: `https://maps.googleapis.com/maps/api/place/photo`,
   BASE: `https://maps.googleapis.com/maps/api`,
+  AUTO: `https://maps.googleapis.com/maps/api/place/autocomplete/json`,
   PWD: '[9v~6V*Ec.;eVEC{',
   KEY: `${GOOGLE_MAP_KEY}`,
 };
