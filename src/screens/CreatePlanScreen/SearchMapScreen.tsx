@@ -33,7 +33,13 @@ import {
 } from 'app/src/interfaces/app/Map';
 import { SmallCompleteButton } from 'app/src/components/Button/SmallCompleteButton';
 import { useGooglePlace } from 'app/src/hooks';
-import { COLOR, LAYOUT } from 'app/src/constants';
+import {
+  COLOR,
+  LAYOUT,
+  SPOT_TYPE,
+  getTypeIndex,
+  getIconUrl,
+} from 'app/src/constants';
 
 import { ActionType } from 'app/src/Reducer';
 import { useDispatch, useGlobalState } from 'app/src/Store';
@@ -77,6 +83,7 @@ const SearchMapScreen: React.FC = () => {
   } = useGooglePlace();
 
   const mapRef = useRef(null);
+  const markerRef = useRef<{ [key: string]: Marker | null }>({});
   const createPlan = useGlobalState('createPlan');
 
   function onCompleteButtonPress() {
@@ -240,6 +247,7 @@ const SearchMapScreen: React.FC = () => {
         latitude: place.geometry.location.lat,
         longitude: place.geometry.location.lng,
       } as LatLng);
+      setPlaces((prev) => [...prev, place]);
     }
     setModalVisible(false);
   };
@@ -252,8 +260,7 @@ const SearchMapScreen: React.FC = () => {
           longitude: place.geometry.location.lng,
         },
       );
-      console.log(place.user_ratings_total);
-      if (dis < 50000) {
+      if (dis < 4000) {
         setPlaces((prev) => [...prev, place]);
         const rad = Math.round(dis / 100);
         if (rad > radius) {
@@ -301,14 +308,27 @@ const SearchMapScreen: React.FC = () => {
       pinColor={color}
       key={place.place_id}
       onPress={() => onSpotPress(place)}
+      onCalloutPress={() => {
+        markerRef.current[place.place_id]?.hideCallout();
+      }}
+      ref={(_marker) => {
+        markerRef.current[place.place_id] = _marker;
+      }}
     >
       <View>
         <FontAwesome5 name="map-marker" size={30} color={color} />
         <View style={{ position: 'absolute', top: 5, left: 4 }}>
-          <Image
-            source={{ uri: place.icon }}
-            style={{ width: 15, height: 15 }}
-          />
+          {getIconUrl(place) != null ? (
+            <Image
+              source={getIconUrl(place)}
+              style={{ width: 15, height: 15 }}
+            />
+          ) : (
+            <Image
+              source={{ uri: place.icon }}
+              style={{ width: 15, height: 15 }}
+            />
+          )}
         </View>
       </View>
       <Callout alphaHitTest>
@@ -343,7 +363,10 @@ const SearchMapScreen: React.FC = () => {
 
               <CalloutSubview
                 key="test"
-                onPress={() => onAddSpot(place)}
+                onPress={() => {
+                  onAddSpot(place);
+                  markerRef.current[place.place_id]?.hideCallout();
+                }}
                 style={[thisStyle.calloutButton]}
               >
                 <Text style={{ color: '#fff' }}>追加</Text>
@@ -419,15 +442,110 @@ const SearchMapScreen: React.FC = () => {
             />
           </View>
           <View style={{ flex: 1 }}>
-            <Slider
-              value={radius}
-              minimumValue={0}
-              maximumValue={200}
-              thumbStyle={{ width: 10, height: 10, backgroundColor: '#000' }}
-              trackStyle={{ height: 1 }}
-              onValueChange={onRadiusScroll}
-              style={{ marginLeft: 20, marginRight: 20 }}
-            />
+            <View
+              style={{
+                marginLeft: 20,
+                marginRight: 20,
+                marginTop: 15,
+              }}
+            >
+              <View
+                style={{
+                  position: 'absolute',
+                  left: '25%',
+                  top: '30%',
+                  height: '20%',
+                  borderColor: 'grey',
+                  borderWidth: 0.5,
+                }}
+              />
+              <View
+                style={{
+                  position: 'absolute',
+                  left: '50%',
+                  top: '10%',
+                  height: '40%',
+                  borderColor: 'grey',
+                  borderWidth: 0.5,
+                }}
+              />
+              <View
+                style={{
+                  position: 'absolute',
+                  left: '75%',
+                  top: '-10%',
+                  height: '60%',
+                  borderColor: 'grey',
+                  borderWidth: 0.5,
+                }}
+              />
+              <View
+                style={{
+                  position: 'absolute',
+                  left: '100%',
+                  top: '-30%',
+                  height: '80%',
+                  borderColor: 'grey',
+                  borderWidth: 0.5,
+                }}
+              />
+              <Text
+                style={{
+                  position: 'absolute',
+                  left: '20%',
+                  top: '50%',
+                  fontSize: 8,
+                }}
+              >
+                1km
+              </Text>
+              <Text
+                style={{
+                  position: 'absolute',
+                  left: '45%',
+                  top: '50%',
+                  fontSize: 8,
+                }}
+              >
+                2km
+              </Text>
+              <Text
+                style={{
+                  position: 'absolute',
+                  left: '70%',
+                  top: '50%',
+                  fontSize: 8,
+                }}
+              >
+                3km
+              </Text>
+              <Text
+                style={{
+                  position: 'absolute',
+                  left: '95%',
+                  top: '50%',
+                  fontSize: 8,
+                }}
+              >
+                4km
+              </Text>
+              <Slider
+                value={radius}
+                minimumValue={0}
+                maximumValue={40}
+                thumbStyle={{
+                  width: 10,
+                  height: 10,
+                  backgroundColor: '#FFF',
+                  borderRadius: 5,
+                  borderColor: 'orange',
+                  borderWidth: 2,
+                }}
+                trackStyle={{ height: 1 }}
+                onValueChange={onRadiusScroll}
+              />
+            </View>
+
             <View style={thisStyle.buttonContainer}>
               <SmallCompleteButton
                 onPress={onCompleteButtonPress}
@@ -504,7 +622,7 @@ const thisStyle = StyleSheet.create({
   },
   buttonContainer: {
     alignItems: 'center',
-    padding: 5,
+    // padding: 5,
   },
   spotsContainer: {
     display: 'flex',

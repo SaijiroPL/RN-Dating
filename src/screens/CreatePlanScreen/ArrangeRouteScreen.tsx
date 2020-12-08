@@ -16,7 +16,13 @@ import polyline from '@mapbox/polyline';
 import moment from 'moment';
 // import axios from 'axios';
 // from app
-import { LAYOUT, COLOR, SPOT_TYPE, getRightSpotType } from 'app/src/constants';
+import {
+  LAYOUT,
+  COLOR,
+  SPOT_TYPE,
+  getRightSpotType,
+  getIconUrl,
+} from 'app/src/constants';
 import MapView, { Marker, Polyline, LatLng, Region } from 'react-native-maps';
 import { useDispatch, useGlobalState } from 'app/src/Store';
 
@@ -284,10 +290,17 @@ const ArrangeRouteScreen: React.FC = () => {
                       color={COLOR.tintColor}
                     />
                     <View style={{ position: 'absolute', top: 5, left: 4 }}>
-                      <Image
-                        source={{ uri: item.place.icon }}
-                        style={{ width: 15, height: 15 }}
-                      />
+                      {getIconUrl(item.place) != null ? (
+                        <Image
+                          source={getIconUrl(item.place)}
+                          style={{ width: 15, height: 15 }}
+                        />
+                      ) : (
+                        <Image
+                          source={{ uri: item.place.icon }}
+                          style={{ width: 15, height: 15 }}
+                        />
+                      )}
                     </View>
                   </View>
                 </Marker>
