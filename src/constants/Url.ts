@@ -76,3 +76,9 @@ export const GOOGLE_MAP_ENDPOINT = {
   PWD: '[9v~6V*Ec.;eVEC{',
   KEY: `${GOOGLE_MAP_KEY}`,
 };
+
+export const HOT_PEPPER = {
+  SEARCH: `http://webservice.recruit.co.jp/hotpepper/shop/v1`,
+  DETAIL: `http://webservice.recruit.co.jp/hotpepper/gourmet/v1`,
+  KEY: `aa1863c09c328729`,
+};
