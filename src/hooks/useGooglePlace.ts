@@ -108,7 +108,7 @@ export const useGooglePlace = () => {
   const getPlaceDetail = async (
     placeId: string,
   ): Promise<IPlace | undefined> => {
-    const url = `${placeUrl}/details/json?place_id=${placeId}&key=${API_KEY}`;
+    const url = `${placeUrl}/details/json?place_id=${placeId}&key=${API_KEY}&language=ja`;
 
     const { data } = await axios.get<IGoogleResult>(url);
     if (data.result) {
@@ -124,9 +124,25 @@ export const useGooglePlace = () => {
     radius: number,
   ): Promise<void> => {
     const strLocation = `${location.latitude},${location.longitude}`;
-    const url = `${autoUrl}?key=${API_KEY}&input=${input}&location=${strLocation}&origin=${strLocation}&radius=${radius}&language=ja`;
+    const url = `${autoUrl}?key=${API_KEY}&input=${input}&location=${strLocation}&origin=${strLocation}&radius=${radius}&language=ja&components=country:jp`;
     const { data } = await axios.get<IGoogleAutoCompleteResult>(url);
-    setPredictions(data.predictions);
+
+    const org = [...data.predictions];
+    const sorted = [];
+    while (org.length > 0) {
+      let minIdx = 0;
+      let minVal = org[0].distance_meters;
+      for (let i = 1; i < org.length; i += 1) {
+        if (org[i].distance_meters < minVal) {
+          minIdx = i;
+          minVal = org[i].distance_meters;
+        }
+      }
+      sorted.push(org[minIdx]);
+      org.splice(minIdx, 1);
+    }
+
+    setPredictions(sorted);
   };
 
   const formatOpHour = (value: string) =>
