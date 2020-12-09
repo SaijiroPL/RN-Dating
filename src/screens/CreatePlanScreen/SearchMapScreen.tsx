@@ -9,6 +9,7 @@ import {
   Modal,
   TouchableOpacity,
   TextInput,
+  Keyboard,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Slider } from 'react-native-elements';
@@ -150,6 +151,7 @@ const SearchMapScreen: React.FC = () => {
   }
 
   async function onAutoComplete(details: IGooglePrediection) {
+    Keyboard.dismiss();
     const detail = await getPlaceDetail(details.place_id);
     if (detail) {
       onChangeQuery('');
@@ -277,7 +279,6 @@ const SearchMapScreen: React.FC = () => {
       : 'https://via.placeholder.com/120x90?text=No+Image';
 
   async function onAddSpot(place: IPlace) {
-    console.log('onAdd');
     if (spots.indexOf(place) < 0) {
       setSpots((prev) => [...prev, place]);
     }
@@ -318,17 +319,10 @@ const SearchMapScreen: React.FC = () => {
       <View>
         <FontAwesome5 name="map-marker" size={30} color={color} />
         <View style={{ position: 'absolute', top: 5, left: 4 }}>
-          {getIconUrl(place) != null ? (
-            <Image
-              source={getIconUrl(place)}
-              style={{ width: 15, height: 15 }}
-            />
-          ) : (
-            <Image
-              source={{ uri: place.icon }}
-              style={{ width: 15, height: 15 }}
-            />
-          )}
+          <Image
+            source={{ uri: place.icon }}
+            style={{ width: 15, height: 15 }}
+          />
         </View>
       </View>
       <Callout alphaHitTest>
@@ -398,6 +392,7 @@ const SearchMapScreen: React.FC = () => {
         region={location}
         onRegionChange={onRegionChange}
         mapPadding={{ top: 20, left: 0, right: 0, bottom: 40 }}
+        onPress={Keyboard.dismiss}
       >
         <Circle
           key="center"
@@ -407,7 +402,7 @@ const SearchMapScreen: React.FC = () => {
           radius={radius * 100}
         />
         {places.map((place) => renderMarker(place, 'orange'))}
-        {spots.map((place) => renderMarker(place, 'green'))}
+        {spots.map((place) => renderMarker(place, 'lightgrey'))}
       </MapView>
       <View
         style={{
@@ -546,7 +541,7 @@ const SearchMapScreen: React.FC = () => {
               />
             </View>
 
-            <View style={thisStyle.buttonContainer}>
+            <View style={{ alignItems: 'center' }}>
               <SmallCompleteButton
                 onPress={onCompleteButtonPress}
                 title="決定"
@@ -622,7 +617,7 @@ const thisStyle = StyleSheet.create({
   },
   buttonContainer: {
     alignItems: 'center',
-    // padding: 5,
+    padding: 5,
   },
   spotsContainer: {
     display: 'flex',

@@ -290,17 +290,10 @@ const ArrangeRouteScreen: React.FC = () => {
                       color={COLOR.tintColor}
                     />
                     <View style={{ position: 'absolute', top: 5, left: 4 }}>
-                      {getIconUrl(item.place) != null ? (
-                        <Image
-                          source={getIconUrl(item.place)}
-                          style={{ width: 15, height: 15 }}
-                        />
-                      ) : (
-                        <Image
-                          source={{ uri: item.place.icon }}
-                          style={{ width: 15, height: 15 }}
-                        />
-                      )}
+                      <Image
+                        source={{ uri: item.place.icon }}
+                        style={{ width: 15, height: 15 }}
+                      />
                     </View>
                   </View>
                 </Marker>
