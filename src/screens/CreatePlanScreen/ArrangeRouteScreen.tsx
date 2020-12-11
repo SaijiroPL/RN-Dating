@@ -101,10 +101,9 @@ const ArrangeRouteScreen: React.FC = () => {
           borderRadius: 10,
         }}
         source={{
-          uri:
-            item.place.photos && item.place.photos.length > 0
-              ? getPlacePhoto(item.place.photos[0].photo_reference)
-              : 'https://via.placeholder.com/120x90?text=No+Image',
+          uri: item.place.hpImage
+            ? item.place.hpImage
+            : getPlacePhoto(item.place.photos[0].photo_reference),
         }}
       />
     </View>

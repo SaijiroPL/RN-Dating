@@ -345,7 +345,7 @@ const SearchMapScreen: React.FC = () => {
             <Text>
               <Image
                 source={{
-                  uri: getPhotoUrl(place),
+                  uri: place.hpImage ? place.hpImage : getPhotoUrl(place),
                 }}
                 style={{ width: 120, height: 90 }}
                 resizeMode="stretch"

@@ -45,10 +45,9 @@ export const ImageGrid: React.FC<Props> = (props: Props) => {
           <Image
             style={thisStyle.image}
             source={{
-              uri:
-                item.place.photos && item.place.photos.length > 0
-                  ? getPlacePhoto(item.place.photos[0].photo_reference)
-                  : 'https://via.placeholder.com/120x90?text=No+Image',
+              uri: item.place.hpImage
+                ? item.place.hpImage
+                : getPlacePhoto(item.place.photos[0].photo_reference),
             }}
           />
           {item.check && <View style={thisStyle.selectMask} />}

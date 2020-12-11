@@ -58,6 +58,9 @@ export interface IPlace {
   types: Array<string>;
   vicinity: string;
   user_ratings_total: number;
+  formatted_address: string;
+  formatted_phone_number: string;
+  hpImage: string;
 }
 
 export interface IPlaceOpenHour {
@@ -161,4 +164,26 @@ export interface IGooglePrediection {
 export interface IGoogleAutoCompleteResult {
   status: string;
   predictions: IGooglePrediection[];
+}
+
+export interface IHotPepperResult {
+  results: {
+    results_available: number;
+    results_returned: number;
+    results_start: number;
+    shop: {
+      id: string;
+      photo: {
+        mobile: {
+          l: string;
+          s: string;
+        };
+        pc: {
+          l: string;
+          m: string;
+          s: string;
+        };
+      };
+    }[];
+  };
 }
