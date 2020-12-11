@@ -7,6 +7,7 @@ import MyProfileScreen from 'app/src/screens/UserScreen/MyProfileScreen';
 import FollowScreen from 'app/src/screens/UserScreen/FollowScreen';
 import FollowerScreen from 'app/src/screens/UserScreen/FollowerScreen';
 import ProfileScreen from 'app/src/screens/UserScreen/ProfileScreen';
+import CreateSpotScreen from '../screens/PostScreen/CreateSpotScreen';
 
 const MyProfileStack = createStackNavigator();
 
@@ -47,6 +48,11 @@ const MyProfileNavigator: React.FC = () => (
       name="Setting"
       component={SettingNavigator}
       options={{ headerShown: false }}
+    />
+    <MyProfileStack.Screen
+      name="CreateSpot"
+      component={CreateSpotScreen}
+      options={{ title: 'スポット作成' }}
     />
   </MyProfileStack.Navigator>
 );

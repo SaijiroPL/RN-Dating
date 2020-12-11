@@ -51,11 +51,6 @@ const SearchNavigator: React.FC = () => (
       component={FollowerScreen}
       options={{ title: 'フォロワー' }}
     />
-    <SearchStack.Screen
-      name="CreateSpot"
-      component={CreateSpotScreen}
-      options={{ title: 'スポット作成' }}
-    />
   </SearchStack.Navigator>
 );
 
