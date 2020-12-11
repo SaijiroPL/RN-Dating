@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useState } from 'react';
 import axios from 'axios';
-import { GOOGLE_MAP_ENDPOINT } from 'app/src/constants/Url';
+import { GOOGLE_MAP_ENDPOINT, HOT_PEPPER } from 'app/src/constants/Url';
 // from app
 import {
   IPlace,
@@ -11,6 +11,7 @@ import {
   IGoogleDirection,
   IGooglePrediection,
   IGoogleAutoCompleteResult,
+  IHotPepperResult,
 } from 'app/src/interfaces/app/Map';
 import { LatLng } from 'react-native-maps';
 
@@ -31,16 +32,32 @@ export const useGooglePlace = () => {
     location: LatLng,
     radius: number,
     type?: string,
-  ): Promise<void> => {
-    setNextToken(undefined);
+  ): Promise<IPlace[]> => {
     let url = `${placeUrl}/nearbysearch/json?location=${location.latitude},${location.longitude}&radius=${radius}&rankby=prominence&language=ja&key=${API_KEY}`;
     if (type) {
       url = `${placeUrl}/nearbysearch/json?location=${location.latitude},${location.longitude}&radius=${radius}&type=${type}&language=ja&key=${API_KEY}`;
     }
     const { data } = await axios.get<IGoogleResult>(url);
     // if (data.results) setPlaces((prev) => prev.concat(data.results));
-    if (data.results) setPlaces(data.results);
-    setNextToken(data.next_page_token);
+    if (data.results) {
+      let newResults: IPlace[] = [...data.results];
+      if (type === 'restaurant') {
+        newResults = [];
+        await Promise.all(
+          data.results.map(async (place) => {
+            const detail = await getPlaceDetail(place.place_id);
+            if (detail) {
+              newResults.push(detail);
+              if (detail.hpImage) console.log(detail.hpImage);
+            }
+          }),
+        );
+      }
+
+      return newResults;
+    }
+
+    return [];
   };
 
   const getDistanceMatrix = async (
@@ -82,7 +99,6 @@ export const useGooglePlace = () => {
   const getNextPlaces = async (token: string): Promise<void> => {
     const url = `${placeUrl}/nearbysearch/json?pagetoken=${token}&key=${API_KEY}`;
     const { data } = await axios.get<IGoogleResult>(url);
-    console.log(url, data);
     if (data.results) setPlaces((prev) => prev.concat(data.results));
     if (data.next_page_token) setNextToken(data.next_page_token);
     else setNextToken(undefined);
@@ -112,7 +128,27 @@ export const useGooglePlace = () => {
 
     const { data } = await axios.get<IGoogleResult>(url);
     if (data.result) {
-      return data.result;
+      const newDetail = { ...data.result };
+
+      let tel = data.result.formatted_phone_number;
+      if (tel) {
+        tel = tel.split('-').join('');
+        const { name } = data.result;
+        const hotTel = `${HOT_PEPPER.SEARCH}/?key=${HOT_PEPPER.KEY}&tel=${tel}&format=json`;
+        const telResult = await axios.get<IHotPepperResult>(hotTel);
+        const hpResults = telResult.data.results;
+        if (hpResults.shop.length > 0) {
+          const { id } = hpResults.shop[0];
+          const hotDetail = `${HOT_PEPPER.DETAIL}/?key=${HOT_PEPPER.KEY}&id=${id}&format=json`;
+          const detailResult = await axios.get<IHotPepperResult>(hotDetail);
+          if (detailResult.data.results.shop.length > 0) {
+            const { photo } = detailResult.data.results.shop[0];
+            newDetail.hpImage = photo.mobile.l;
+          }
+        }
+      }
+
+      return newDetail;
     }
 
     return undefined;

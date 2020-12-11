@@ -80,41 +80,34 @@ const SwipeSpotScreen: React.FC = () => {
     }
   }
 
-  function loadSpotByTypeIndex(idx: number) {
-    if (idx < SPOT_TYPE.length) {
-      searchNearbyPlace(
-        createPlan.center,
-        createPlan.radius * 100,
-        SPOT_TYPE[idx].id,
-      );
-      setTimeout(() => {
-        loadSpotByTypeIndex(idx + 1);
-      }, 100);
-    } else {
-      setIsPlacesLoading(false);
-    }
-  }
-
   useEffect(() => {
     setIsPlacesLoading(true);
-    loadSpotByTypeIndex(0);
-  }, []);
-
-  useEffect(() => {
-    if (places.length > 0) {
-      // get places from api
-      const newSpots = [...spots];
-      for (let i = 0; i < places.length; i += 1) {
-        const item = places[i];
-
-        let exists = false;
-        for (let j = 0; j < newSpots.length; j += 1) {
-          if (newSpots[j].place_id === item.place_id) {
-            exists = true;
+    loadSpots();
+    async function loadSpots() {
+      const newSpots: IPlace[] = [];
+      await Promise.all(
+        SPOT_TYPE.map(async (type) => {
+          const places = await searchNearbyPlace(
+            createPlan.center,
+            createPlan.radius * 100,
+            type.id,
+          );
+          if (places.length > 0) {
+            // get places from api
+            for (let i = 0; i < places.length; i += 1) {
+              const item = places[i];
+              let exists = false;
+              for (let j = 0; j < newSpots.length; j += 1) {
+                if (newSpots[j].place_id === item.place_id) {
+                  exists = true;
+                }
+              }
+              if (!exists && (item.photos || item.hpImage))
+                newSpots.push({ ...item });
+            }
           }
-        }
-        if (!exists && item.photos) newSpots.push({ ...item });
-      }
+        }),
+      );
       const randomSpots = [];
       while (newSpots.length > 0) {
         const randomIdx = Math.floor(Math.random() * newSpots.length);
@@ -122,8 +115,9 @@ const SwipeSpotScreen: React.FC = () => {
         newSpots.splice(randomIdx, 1);
       }
       setSpots(randomSpots);
+      setIsPlacesLoading(false);
     }
-  }, [places]);
+  }, []);
 
   if (isPlacesLoading) {
     return LoadingSpinner;
@@ -236,7 +230,9 @@ const SwipeSpotScreen: React.FC = () => {
           borderTopRightRadius: 2,
         }}
         source={{
-          uri: getPlacePhoto(item.photos[0].photo_reference),
+          uri: item.hpImage
+            ? item.hpImage
+            : getPlacePhoto(item.photos[0].photo_reference),
         }}
       />
       <CardItem
