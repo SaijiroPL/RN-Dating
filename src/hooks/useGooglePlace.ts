@@ -99,7 +99,6 @@ export const useGooglePlace = () => {
   const getNextPlaces = async (token: string): Promise<void> => {
     const url = `${placeUrl}/nearbysearch/json?pagetoken=${token}&key=${API_KEY}`;
     const { data } = await axios.get<IGoogleResult>(url);
-    console.log(url, data);
     if (data.results) setPlaces((prev) => prev.concat(data.results));
     if (data.next_page_token) setNextToken(data.next_page_token);
     else setNextToken(undefined);
