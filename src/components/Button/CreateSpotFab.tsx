@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { Fab } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 // from app
 import { COLOR } from 'app/src/constants';
@@ -23,7 +23,7 @@ export const CreateSpotFab: React.FC = () => {
       position="bottomRight"
       onPress={toCreate}
     >
-      <MaterialCommunityIcons name="plus" />
+      <FontAwesome5 name="map-marker" size={24} color={COLOR.greyColor} />
     </Fab>
   );
 };
