@@ -84,7 +84,7 @@ const MyProfileScreen: React.FC = () => {
   );
 
   return (
-    <View style={[{ padding: 20 }]}>
+    <View style={[{ padding: 20, flex: 1 }]}>
       <UserProfile
         user={user}
         me

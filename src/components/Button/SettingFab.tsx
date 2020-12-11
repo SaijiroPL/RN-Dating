@@ -20,7 +20,7 @@ export const SettingFab: React.FC = () => {
       active
       containerStyle={{}}
       style={{ backgroundColor: COLOR.tintColor }}
-      position="topRight"
+      position="bottomRight"
       onPress={toSetting}
     >
       <MaterialCommunityIcons name="settings" />

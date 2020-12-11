@@ -20,7 +20,7 @@ export const CreateSpotFab: React.FC = () => {
       active
       containerStyle={{}}
       style={{ backgroundColor: COLOR.tintColor }}
-      position="topRight"
+      position="bottomRight"
       onPress={toCreate}
     >
       <View
