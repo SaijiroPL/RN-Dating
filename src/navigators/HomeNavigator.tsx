@@ -68,11 +68,6 @@ const HomeNavigator: React.FC = () => (
       component={PostNavigator}
       options={{ title: '計画の編集' }}
     />
-    {/* <HomeStack.Screen */}
-    {/*  name="CreateSpot" */}
-    {/*  component={CreateSpotScreen} */}
-    {/*  options={{ title: 'スポット作成' }} */}
-    {/* /> */}
   </HomeStack.Navigator>
 );
 
