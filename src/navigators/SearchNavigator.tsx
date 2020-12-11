@@ -9,6 +9,7 @@ import LikeUserScreen from 'app/src/screens/PlanScreen/LikeUserScreen';
 import ProfileScreen from 'app/src/screens/UserScreen/ProfileScreen';
 import FollowScreen from 'app/src/screens/UserScreen/FollowScreen';
 import FollowerScreen from 'app/src/screens/UserScreen/FollowerScreen';
+import CreateSpotScreen from '../screens/PostScreen/CreateSpotScreen';
 
 const SearchStack = createStackNavigator();
 
@@ -49,6 +50,11 @@ const SearchNavigator: React.FC = () => (
       name="Follower"
       component={FollowerScreen}
       options={{ title: 'フォロワー' }}
+    />
+    <SearchStack.Screen
+      name="CreateSpot"
+      component={CreateSpotScreen}
+      options={{ title: 'スポット作成' }}
     />
   </SearchStack.Navigator>
 );
