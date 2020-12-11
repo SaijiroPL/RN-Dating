@@ -10,6 +10,7 @@ import { PlanCardList } from 'app/src/components/List';
 import { useSearchPlanList } from 'app/src/hooks';
 import { appTextStyle } from 'app/src/styles';
 import { useNavigation } from '@react-navigation/native';
+import { CreateSpotFab } from 'app/src/components/Button/CreateSpotFab';
 
 /** デートプラン検索画面 */
 const SearchScreen: React.FC = () => {
@@ -28,32 +29,11 @@ const SearchScreen: React.FC = () => {
 
   return (
     <View style={thisStyle.container}>
-      <View style={{ display: 'flex', flexDirection: 'row' }}>
-        <View style={{ flex: 8 }}>
-          <SearchFormBar
-            value={searchWord}
-            setValue={setSearchWord}
-            onSearch={searchPlanList}
-          />
-        </View>
-        <View
-          style={{
-            flex: 1.2,
-            justifyContent: 'center',
-          }}
-        >
-          <TouchableOpacity
-            style={thisStyle.spotButton}
-            onPress={() => {
-              console.log('toSpot');
-              navigate('CreateSpot');
-            }}
-          >
-            <FontAwesome5 name="map-marker" size={24} color={COLOR.greyColor} />
-            <FontAwesome5 name="plus" size={10} color={COLOR.greyColor} />
-          </TouchableOpacity>
-        </View>
-      </View>
+      <SearchFormBar
+        value={searchWord}
+        setValue={setSearchWord}
+        onSearch={searchPlanList}
+      />
       {isLoading ? (
         <View>{Indicator}</View>
       ) : (
@@ -80,6 +60,7 @@ const SearchScreen: React.FC = () => {
 const thisStyle = StyleSheet.create({
   container: {
     backgroundColor: COLOR.backgroundColor,
+    flex: 1,
   },
   planCount: {
     borderBottomColor: '#ccc',
