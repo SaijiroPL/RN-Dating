@@ -30,6 +30,7 @@ import {
 } from 'react-native-popup-menu';
 // from app
 import { COLOR, LAYOUT } from 'app/src/constants';
+import { CreateSpotFab } from 'app/src/components/Button/CreateSpotFab';
 /** マイプロフィール画面 */
 const MyProfileScreen: React.FC = () => {
   /** ログイン中のユーザー */
@@ -119,6 +120,7 @@ const MyProfileScreen: React.FC = () => {
         </CardItem>
       </Card>
       <SettingFab />
+      <CreateSpotFab />
     </View>
   );
 };

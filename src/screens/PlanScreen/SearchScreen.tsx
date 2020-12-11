@@ -52,7 +52,6 @@ const SearchScreen: React.FC = () => {
           />
         </View>
       )}
-      <CreateSpotFab />
     </View>
   );
 };
