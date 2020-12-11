@@ -131,18 +131,20 @@ export const useGooglePlace = () => {
       const newDetail = { ...data.result };
 
       let tel = data.result.formatted_phone_number;
-      tel = tel.split('-').join('');
-      const { name } = data.result;
-      const hotTel = `${HOT_PEPPER.SEARCH}/?key=${HOT_PEPPER.KEY}&tel=${tel}&format=json`;
-      const telResult = await axios.get<IHotPepperResult>(hotTel);
-      const hpResults = telResult.data.results;
-      if (hpResults.shop.length > 0) {
-        const { id } = hpResults.shop[0];
-        const hotDetail = `${HOT_PEPPER.DETAIL}/?key=${HOT_PEPPER.KEY}&id=${id}&format=json`;
-        const detailResult = await axios.get<IHotPepperResult>(hotDetail);
-        if (detailResult.data.results.shop.length > 0) {
-          const { photo } = detailResult.data.results.shop[0];
-          newDetail.hpImage = photo.mobile.l;
+      if (tel) {
+        tel = tel.split('-').join('');
+        const { name } = data.result;
+        const hotTel = `${HOT_PEPPER.SEARCH}/?key=${HOT_PEPPER.KEY}&tel=${tel}&format=json`;
+        const telResult = await axios.get<IHotPepperResult>(hotTel);
+        const hpResults = telResult.data.results;
+        if (hpResults.shop.length > 0) {
+          const { id } = hpResults.shop[0];
+          const hotDetail = `${HOT_PEPPER.DETAIL}/?key=${HOT_PEPPER.KEY}&id=${id}&format=json`;
+          const detailResult = await axios.get<IHotPepperResult>(hotDetail);
+          if (detailResult.data.results.shop.length > 0) {
+            const { photo } = detailResult.data.results.shop[0];
+            newDetail.hpImage = photo.mobile.l;
+          }
         }
       }
 
