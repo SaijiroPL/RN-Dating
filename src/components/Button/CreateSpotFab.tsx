@@ -30,8 +30,8 @@ export const CreateSpotFab: React.FC = () => {
           alignItems: 'center',
         }}
       >
-        <FontAwesome5 name="map-marker" size={24} color={COLOR.greyColor} />
-        <FontAwesome5 name="plus" size={12} color={COLOR.greyColor} />
+        <FontAwesome5 name="map-marker-alt" size={24} color="#ffffff" />
+        <FontAwesome5 name="plus" size={12} color="#ffffff" />
       </View>
     </Fab>
   );
