@@ -1,15 +1,6 @@
 import React from 'react';
-import { View, StyleSheet, Image } from 'react-native';
-import {
-  Body,
-  Card,
-  CardItem,
-  Text,
-  Button,
-  Left,
-  Right,
-  Thumbnail,
-} from 'native-base';
+import { View, StyleSheet } from 'react-native';
+import { Body, CardItem, Text, Left, Right, Thumbnail } from 'native-base';
 // from app
 import { useGlobalState } from 'app/src/Store';
 import { LoadingSpinner } from 'app/src/components/Spinners';
@@ -20,7 +11,6 @@ import {
   useGetPlanList,
   useUploadImage,
 } from 'app/src/hooks';
-import MapView from 'react-native-maps';
 import { Entypo } from '@expo/vector-icons';
 import {
   Menu,
@@ -31,6 +21,7 @@ import {
 // from app
 import { COLOR, LAYOUT } from 'app/src/constants';
 import { CreateSpotFab } from 'app/src/components/Button/CreateSpotFab';
+import { PlanCardList } from 'app/src/components/List';
 /** マイプロフィール画面 */
 const MyProfileScreen: React.FC = () => {
   /** ログイン中のユーザー */
@@ -55,37 +46,8 @@ const MyProfileScreen: React.FC = () => {
     return LoadingSpinner;
   }
 
-  const PlannerHeader = (
-    <CardItem>
-      <Left style={thisStyle.planner}>
-        <Thumbnail
-          source={{ uri: 'https://www.w3schools.com/howto/img_avatar.png' }}
-          small
-        />
-        <Body style={thisStyle.body}>
-          <Text style={(thisStyle.mainText, [{ fontSize: 18 }])}>花子</Text>
-          <Text note style={(thisStyle.mainText, [{ marginLeft: 10 }])}>
-            habako.des
-          </Text>
-        </Body>
-      </Left>
-      <Right style={{ zIndex: 100 }}>
-        <Menu>
-          <MenuTrigger>
-            <Entypo name="triangle-down" size={30} color={COLOR.tintColor} />
-          </MenuTrigger>
-          <MenuOptions>
-            <MenuOption text="削除" />
-            <MenuOption text="編集" />
-            <MenuOption text="リンクコピー" />
-          </MenuOptions>
-        </Menu>
-      </Right>
-    </CardItem>
-  );
-
   return (
-    <View style={[{ padding: 20, flex: 1 }]}>
+    <View style={[{ flex: 1 }]}>
       <UserProfile
         user={user}
         me
@@ -93,32 +55,15 @@ const MyProfileScreen: React.FC = () => {
         pickImage={pickImage}
         reload={getUserDetail}
       />
-      <Card style={thisStyle.card}>
-        <View style={{ alignItems: 'center', marginTop: 10 }}>
-          <Text>作成ルート数: {user.plan_count}</Text>
-        </View>
-        {PlannerHeader}
-        <CardItem cardBody>
-          <Image
-            source={{
-              uri:
-                'https://i.pinimg.com/originals/5b/55/88/5b5588af841070a2284ea76e2042dd9d.jpg',
-            }}
-            style={thisStyle.image}
-          />
-        </CardItem>
-        <CardItem cardBody>
-          <MapView
-            region={{
-              latitude: 35.658606737323325,
-              longitude: 139.69814462256613,
-              latitudeDelta: 0.02,
-              longitudeDelta: 0.05,
-            }}
-            style={thisStyle.map}
-          />
-        </CardItem>
-      </Card>
+      <View style={{ alignItems: 'center', marginTop: 10 }}>
+        <Text>作成ルート数: {user.plan_count}</Text>
+      </View>
+      <PlanCardList
+        planList={plans.plan_list}
+        isRefreshing={isRefreshing}
+        onRefresh={onRefresh}
+        liked={false}
+      />
       <SettingFab />
       <CreateSpotFab />
     </View>
