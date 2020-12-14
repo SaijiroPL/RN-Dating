@@ -422,27 +422,17 @@ const ArrangeRouteScreen: React.FC = () => {
             <TouchableOpacity style={thisStyle.timeButtonStyle}>
               <Text style={thisStyle.timeButtonTextStyle}>プラン所要時間</Text>
             </TouchableOpacity>
-            <View
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}
-            >
-              <Text style={thisStyle.timeTextEmptyStyle}>
-                {moment(createPlan.dateFrom).format('YYYY年MM月DD日')}
-              </Text>
-              <Text style={thisStyle.timeTextStyle}>
+            <Text style={thisStyle.timeTextStyle1}>
+                &nbsp;
                 {`${moment(createPlan.dateFrom).format('H:mm')}~${moment(
                   createPlan.dateFrom,
                 )
                   .add('minutes', totalTime)
                   .format('H:mm')}`}
+                &nbsp;
+                {`${Math.round(totalTime / 60)}時間 ${totalTime % 60}分`}
+                &nbsp;
               </Text>
-              <Text style={thisStyle.timeTextStyle}>
-                {`${Math.round(totalTime / 60)}時間`}
-              </Text>
-            </View>
           </View>
           <View
             style={{
@@ -454,27 +444,19 @@ const ArrangeRouteScreen: React.FC = () => {
             <TouchableOpacity style={thisStyle.timeButtonStyle}>
               <Text style={thisStyle.timeButtonTextStyle}>当日予定時刻</Text>
             </TouchableOpacity>
-            <View
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}
-            >
-              <Text style={thisStyle.timeTextStyle}>
+              <Text style={thisStyle.timeTextStyle1}>
                 {moment(createPlan.dateFrom).format('YYYY年MM月DD日')}
-              </Text>
-              <Text style={thisStyle.timeTextStyle}>
                 {`${moment(createPlan.dateFrom).format('H:mm')}~${moment(
-                  createPlan.dateFrom,
-                )
-                  .add('minute', createPlan.neededTime)
-                  .format('H:mm')}`}
+                  createPlan.dateTo,
+                ).format('H:mm')}`}
+                &nbsp;
+                {`${moment(createPlan.dateTo).diff(
+                  moment(createPlan.dateFrom),
+                  'hours',
+                )}時間`}
+                &nbsp;
               </Text>
-              <Text style={thisStyle.timeTextStyle}>
-                {`${createPlan.neededTime / 60}時間`}
-              </Text>
-            </View>
+
           </View>
           <TextInput
             placeholder="プラン名変更"
@@ -630,6 +612,14 @@ const thisStyle = StyleSheet.create({
     textAlign: 'center',
   },
   timeTextStyle: {
+    marginLeft: 8,
+    fontFamily: 'genju-medium',
+    fontSize: 14,
+    color: 'grey',
+  },
+  timeTextStyle1: {
+    position: 'absolute',
+    right: 5,
     marginLeft: 8,
     fontFamily: 'genju-medium',
     fontSize: 14,
