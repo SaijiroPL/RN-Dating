@@ -204,6 +204,7 @@ const ArrangeRouteScreen: React.FC = () => {
         longitude: item.place.geometry.location.lng,
         order: index + 1,
         need_time: item.cost,
+        place_id: item.place.place_id,
       };
       spotsForApi.push(obj);
     });

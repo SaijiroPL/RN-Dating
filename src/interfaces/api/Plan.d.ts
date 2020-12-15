@@ -33,6 +33,7 @@ export interface ISpotFull {
   longitude: number;
   order: number;
   need_time: number;
+  place_id: string;
 }
 
 /** デートプラン詳細取得APIレスポンス */

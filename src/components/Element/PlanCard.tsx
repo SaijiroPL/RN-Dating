@@ -64,10 +64,6 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
 
   let origin: ISpot = { spot_name: '', latitude: 0, longitude: 0 };
 
-  useEffect(() => {
-    console.log(comments);
-  }, [comments]);
-
   // /** プラン押下時の処理 */
   const onPlanPress = useCallback(() => {
     navigate('Detail', { planId: plan.plan_id });
