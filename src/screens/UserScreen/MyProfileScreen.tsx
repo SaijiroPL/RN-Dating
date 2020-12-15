@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { Body, CardItem, Text, Left, Right, Thumbnail } from 'native-base';
 // from app
 import { useGlobalState } from 'app/src/Store';
@@ -47,23 +47,25 @@ const MyProfileScreen: React.FC = () => {
   }
 
   return (
-    <View style={[{ flex: 1 }]}>
-      <UserProfile
-        user={user}
-        me
-        image={image}
-        pickImage={pickImage}
-        reload={getUserDetail}
-      />
-      <View style={{ alignItems: 'center', marginTop: 10 }}>
-        <Text>作成ルート数: {user.plan_count}</Text>
-      </View>
-      <PlanCardList
-        planList={plans.plan_list}
-        isRefreshing={isRefreshing}
-        onRefresh={onRefresh}
-        liked={false}
-      />
+    <View style={{ flex: 1 }}>
+      <ScrollView>
+        <UserProfile
+          user={user}
+          me
+          image={image}
+          pickImage={pickImage}
+          reload={getUserDetail}
+        />
+        <View style={{ alignItems: 'center', marginTop: 10 }}>
+          <Text>作成ルート数: {user.plan_count}</Text>
+        </View>
+        <PlanCardList
+          planList={plans.plan_list}
+          isRefreshing={isRefreshing}
+          onRefresh={onRefresh}
+          liked={false}
+        />
+      </ScrollView>
       <SettingFab />
       <CreateSpotFab />
     </View>
