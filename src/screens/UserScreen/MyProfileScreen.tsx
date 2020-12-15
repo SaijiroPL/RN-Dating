@@ -56,9 +56,6 @@ const MyProfileScreen: React.FC = () => {
           pickImage={pickImage}
           reload={getUserDetail}
         />
-        <View style={{ alignItems: 'center', marginTop: 10 }}>
-          <Text>作成ルート数: {user.plan_count}</Text>
-        </View>
         <PlanCardList
           planList={plans.plan_list}
           isRefreshing={isRefreshing}
