@@ -16,12 +16,7 @@ import MapView, { Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { FontAwesome5, Entypo } from '@expo/vector-icons';
 import TimeAgo from 'react-native-timeago';
-import {
-  Menu,
-  MenuOptions,
-  MenuOption,
-  MenuTrigger,
-} from 'react-native-popup-menu';
+import { useActionSheet } from '@expo/react-native-action-sheet';
 // from app
 import { COLOR, LAYOUT } from 'app/src/constants';
 import { IPlan, ISpot } from 'app/src/interfaces/api/Plan';
@@ -48,6 +43,7 @@ moment.locale('ja');
 export const PlanCard: React.FC<Props> = (props: Props) => {
   const { navigate } = useNavigation();
   const dispatch = useDispatch();
+  const { showActionSheetWithOptions } = useActionSheet();
 
   const { plan, liked } = props;
   const loginUser = useGlobalState('loginUser');
@@ -63,10 +59,6 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
   const { likePlan, unlikePlan } = useLikePlan(loginUser.id);
 
   let origin: ISpot = { spot_name: '', latitude: 0, longitude: 0 };
-
-  useEffect(() => {
-    console.log(comments);
-  }, [comments]);
 
   // /** プラン押下時の処理 */
   const onPlanPress = useCallback(() => {
@@ -110,6 +102,51 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
     navigate('Road');
   };
 
+  const optionsMyPlan = [
+    '削除',
+    '編集',
+    'リンクをコピー',
+    '別アプリでシェア',
+    'キャンセル',
+  ];
+
+  const optionsOtherPlan = [
+    '通報',
+    'リンクをコピー',
+    '別アプリでシェア',
+    '非表示',
+    'キャンセル',
+  ];
+
+  const optionsFavPlan = [
+    '通報',
+    'リンクをコピー',
+    '別アプリでシェア',
+    'お気に入り解除',
+    'キャンセル',
+  ];
+
+  function showPlanMenu() {
+    let options = optionsOtherPlan;
+    let destructiveButtonIndex = -1;
+    if (plan.user_id === loginUser.id) {
+      destructiveButtonIndex = 0;
+      options = optionsMyPlan;
+    } else if (planDetail.plan.is_liked) {
+      options = optionsFavPlan;
+    }
+    showActionSheetWithOptions(
+      {
+        options,
+        destructiveButtonIndex,
+        cancelButtonIndex: 4,
+      },
+      (buttonIndex) => {
+        // Do something here depending on the button index selected
+      },
+    );
+  }
+
   /** プラン作成者ヘッダー */
   const PlannerHeader = (
     <CardItem>
@@ -131,16 +168,9 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
         </Body>
       </Left>
       <Right style={{ zIndex: 100 }}>
-        <Menu>
-          <MenuTrigger>
-            <Entypo name="triangle-down" size={30} color={COLOR.tintColor} />
-          </MenuTrigger>
-          <MenuOptions>
-            <MenuOption text="ミュート" />
-            <MenuOption text="報告" />
-            <MenuOption text="リンクコピー" />
-          </MenuOptions>
-        </Menu>
+        <Text onPress={() => showPlanMenu()}>
+          <FontAwesome5 name="caret-down" size={36} color={COLOR.tintColor} />
+        </Text>
       </Right>
     </CardItem>
   );

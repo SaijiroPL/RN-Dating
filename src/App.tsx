@@ -3,7 +3,10 @@ import { Platform, StatusBar, View, YellowBox } from 'react-native';
 import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
-
+import {
+  ActionSheetProvider,
+  connectActionSheet,
+} from '@expo/react-native-action-sheet';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 // from app
 import { Provider } from 'app/src/Store';
@@ -12,7 +15,7 @@ import AppNavigator from 'app/src/navigators/AppNavigator';
 import { appStyle } from 'app/src/styles';
 
 interface Props {
-  skipLoadingScreen: boolean;
+  skipLoadingScreen?: boolean;
 }
 
 /** 警告を表示しない設定 */
@@ -57,7 +60,9 @@ const App: React.FC<Props> = (props: Props) => {
     <Provider>
       <View style={appStyle.appContainer}>
         {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-        <AppNavigator />
+        <ActionSheetProvider>
+          <AppNavigator />
+        </ActionSheetProvider>
       </View>
     </Provider>
   );
@@ -67,4 +72,14 @@ App.defaultProps = {
   skipLoadingScreen: false,
 };
 
-export default App;
+const ConnectedApp = connectActionSheet(App);
+
+export default class AppContainer extends React.Component {
+  render() {
+    return (
+      <ActionSheetProvider>
+        <ConnectedApp />
+      </ActionSheetProvider>
+    );
+  }
+}
