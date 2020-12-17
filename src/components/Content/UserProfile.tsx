@@ -66,12 +66,12 @@ export const UserProfile: React.FC<Props> = (props: Props) => {
         </Text>
       </View>
       <View style={thisStyle.countContainer}>
-        <View style={[thisStyle.countItem, { margin: 0 }]}>
+        <View style={[thisStyle.countItem, { margin: 1 }]}>
           <Text style={thisStyle.nameText}>{user.profile}</Text>
         </View>
       </View>
       <View style={thisStyle.countContainer}>
-        <View style={[thisStyle.countItem, { margin: 10 }]}>
+        <View style={[thisStyle.countItem]}>
           <Text style={thisStyle.nameText}>フォロー</Text>
           <Text style={thisStyle.nameText} onPress={onFollowPress}>
             {user.follow_count}人
@@ -83,7 +83,7 @@ export const UserProfile: React.FC<Props> = (props: Props) => {
             {user.follower_count}人
           </Text>
         </View>
-        <View style={thisStyle.userInfoContainer}>
+        <View style={thisStyle.countItem}>
           <Text style={thisStyle.nameText}>プラン数</Text>
           <Text style={thisStyle.nameText} onPress={onPlanPress}>
             {user.plan_count}
