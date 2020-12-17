@@ -147,6 +147,9 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
     );
   }
 
+  const formatMinute = (time: number) =>
+    `${Math.floor(time / 60)}時間${time % 60}分`;
+
   /** プラン作成者ヘッダー */
   const PlannerHeader = (
     <CardItem>
@@ -165,6 +168,30 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
           <Text note style={(thisStyle.mainText, [{ marginLeft: 10 }])}>
             {plan.user_attr}
           </Text>
+          <View>
+            <Text
+              note
+              style={{
+                color: 'black',
+                fontSize: 12,
+                textAlign: 'left',
+                fontWeight: 'bold',
+              }}
+            >
+              所要時間
+            </Text>
+            <Text
+              note
+              style={{
+                color: 'black',
+                fontSize: 15,
+                textAlign: 'left',
+                fontWeight: 'bold',
+              }}
+            >
+              {formatMinute(plan.needtime)}
+            </Text>
+          </View>
         </Body>
       </Left>
       <Right style={{ zIndex: 100 }}>

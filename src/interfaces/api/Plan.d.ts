@@ -7,10 +7,12 @@ export interface ISpot {
 
 /** デートプラン一覧取得APIレスポンス要素 */
 export interface IPlan {
+  needtime(needtime: any): import('react').ReactNode;
   plan_id: string;
   title: string;
   description: string;
   create_date: string;
+  need_time: number;
   spots: Array<ISpot>;
   user_id: string;
   user_name: string;
