@@ -20,10 +20,6 @@ const HomeScreen: React.FC = () => {
     onRefresh,
   } = useGetPlanList();
 
-  useEffect(() => {
-    console.log(plans);
-  }, [plans]);
-
   /** ローディング */
   if (isPlanListLoading) {
     return LoadingSpinner;

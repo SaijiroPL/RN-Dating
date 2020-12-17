@@ -34,6 +34,7 @@ export interface ISpotFull {
   order: number;
   need_time: number;
   place_id: string;
+  icon_url: string;
 }
 
 /** デートプラン詳細取得APIレスポンス */

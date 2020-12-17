@@ -24,7 +24,7 @@ import {
 } from 'react-native-popup-menu';
 // from app
 import { COLOR, LAYOUT } from 'app/src/constants';
-import { IPlan, ISpot } from 'app/src/interfaces/api/Plan';
+import { IPlan, ISpot, IPlanFull } from 'app/src/interfaces/api/Plan';
 import { ScrollView } from 'react-native-gesture-handler';
 import {
   useGooglePlace,
@@ -55,6 +55,7 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
   const { isCommentsLoading, comments } = useGetCommentList(plan.plan_id);
 
   const [selectedSpot, setSelectedSpot] = useState(0);
+  const [detail, setDetail] = useState<IPlanFull>(planDetail.plan);
 
   const [heart, setHeart] = useState<boolean>(false);
   const [comment, setComment] = useState<boolean>(false);
@@ -87,6 +88,10 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
   useEffect(() => {
     planDetail.getPlanDetail();
   }, []);
+
+  useEffect(() => {
+    setDetail(planDetail.plan);
+  }, [planDetail.plan]);
 
   const onLike = async () => {
     if (!heart) {
@@ -286,7 +291,19 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
       }}
       pinColor={color}
       key={place.id}
-    />
+    >
+      <View>
+        <FontAwesome5 name="map-marker" size={30} color={COLOR.tintColor} />
+        {place.icon_url && (
+          <View style={{ position: 'absolute', top: 5, left: 4 }}>
+            <Image
+              source={{ uri: place.icon_url }}
+              style={{ width: 15, height: 15 }}
+            />
+          </View>
+        )}
+      </View>
+    </Marker>
   );
   const renderDirection = (place: ISpot, index: number) => {
     if (index === 0) {
@@ -318,7 +335,10 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
     <Card style={thisStyle.card}>
       {PlannerHeader}
       <CardItem cardBody>
-        <Image source={{ uri: plan.user_image_url }} style={thisStyle.image} />
+        <Image
+          source={{ uri: detail.user_image_url }}
+          style={thisStyle.image}
+        />
       </CardItem>
       <CardItem cardBody>
         <MapView
@@ -330,8 +350,8 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
           }}
           style={thisStyle.map}
         >
-          {plan.spots.map((place, index) => renderDirection(place, index))}
-          {plan.spots.map((place, index) =>
+          {detail.spots.map((place, index) => renderDirection(place, index))}
+          {detail.spots.map((place, index) =>
             renderMarker(place, index <= selectedSpot ? 'orange' : 'grey'),
           )}
         </MapView>

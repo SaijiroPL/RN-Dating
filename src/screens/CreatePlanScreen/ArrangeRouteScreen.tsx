@@ -199,6 +199,7 @@ const ArrangeRouteScreen: React.FC = () => {
         order: index + 1,
         need_time: item.cost,
         place_id: item.place.place_id,
+        icon_url: item.place.icon,
       };
       spotsForApi.push(obj);
     });
@@ -220,7 +221,7 @@ const ArrangeRouteScreen: React.FC = () => {
     const data = saveData();
     setPlan(data);
     const result = await createPost();
-    if (result) navigation.navigate('Home');
+    if (result) navigation.dangerouslyGetParent()?.navigate('Top');
   };
 
   return (
