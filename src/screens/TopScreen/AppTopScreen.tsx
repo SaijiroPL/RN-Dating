@@ -16,7 +16,7 @@ import { appStyle, appTextStyle } from 'app/src/styles';
 /** 初回起動時の画面 */
 const AppTopScreen: React.FC = () => {
   /** ナビゲーター */
-  const { navigate } = useNavigation();
+  const { navigate, reset } = useNavigation();
 
   /**
    * 現在画面
@@ -99,7 +99,10 @@ const AppTopScreen: React.FC = () => {
   const onSignInButtonPress = useCallback(async (): Promise<void> => {
     const result = await loginByEmail(emailAtSignin, passAtSignin);
     if (result) {
-      navigate('Main');
+      reset({
+        index: 0,
+        routes: [{ name: 'Main' }],
+      });
     }
   }, [emailAtSignin, passAtSignin]);
 

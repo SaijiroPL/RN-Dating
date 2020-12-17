@@ -8,7 +8,7 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, StackActions } from '@react-navigation/native';
 import { Button } from 'react-native-elements';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import Carousel from 'react-native-snap-carousel';
@@ -16,13 +16,7 @@ import polyline from '@mapbox/polyline';
 import moment from 'moment';
 // import axios from 'axios';
 // from app
-import {
-  LAYOUT,
-  COLOR,
-  SPOT_TYPE,
-  getRightSpotType,
-  getIconUrl,
-} from 'app/src/constants';
+import { LAYOUT, COLOR, SPOT_TYPE, getRightSpotType } from 'app/src/constants';
 import MapView, { Marker, Polyline, LatLng, Region } from 'react-native-maps';
 import { useDispatch, useGlobalState } from 'app/src/Store';
 
@@ -35,7 +29,7 @@ import { ISpotFull, IPlan } from 'app/src/interfaces/api/Plan';
 
 /** デートスポット順番並べ替え画面 */
 const ArrangeRouteScreen: React.FC = () => {
-  const { navigate } = useNavigation();
+  const navigation = useNavigation();
   const { getDirection, getPlacePhoto } = useGooglePlace();
   const { setPlan, createPost } = usePostPlan();
   const dispatch = useDispatch();
@@ -56,7 +50,7 @@ const ArrangeRouteScreen: React.FC = () => {
   const carousel = useRef();
 
   function onCompleteButtonPress() {
-    navigate('Home');
+    navigation.dangerouslyGetParent()?.navigate('Top');
   }
 
   useEffect(() => {
@@ -204,6 +198,8 @@ const ArrangeRouteScreen: React.FC = () => {
         longitude: item.place.geometry.location.lng,
         order: index + 1,
         need_time: item.cost,
+        place_id: item.place.place_id,
+        icon_url: item.place.icon,
       };
       spotsForApi.push(obj);
     });
@@ -225,7 +221,7 @@ const ArrangeRouteScreen: React.FC = () => {
     const data = saveData();
     setPlan(data);
     const result = await createPost();
-    if (result) navigate('Home');
+    if (result) navigation.dangerouslyGetParent()?.navigate('Top');
   };
 
   return (

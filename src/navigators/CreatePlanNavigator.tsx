@@ -51,11 +51,6 @@ const CreatePlanNavigator: React.FC = () => (
       component={PlanDetailScreen}
       options={{ title: 'プラン詳細' }}
     />
-    <CreatePlanStack.Screen
-      name="Home"
-      component={HomeScreen}
-      options={{ title: 'ホーム' }}
-    />
   </CreatePlanStack.Navigator>
 );
 
