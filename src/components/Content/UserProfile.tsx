@@ -66,6 +66,11 @@ export const UserProfile: React.FC<Props> = (props: Props) => {
         </Text>
       </View>
       <View style={thisStyle.countContainer}>
+        <View style={[thisStyle.countItem, { margin: 0 }]}>
+          <Text style={thisStyle.nameText}>{user.profile}</Text>
+        </View>
+      </View>
+      <View style={thisStyle.countContainer}>
         <View style={[thisStyle.countItem, { margin: 10 }]}>
           <Text style={thisStyle.nameText}>フォロー</Text>
           <Text style={thisStyle.nameText} onPress={onFollowPress}>
