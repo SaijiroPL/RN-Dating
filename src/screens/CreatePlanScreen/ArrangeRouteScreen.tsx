@@ -383,9 +383,15 @@ const ArrangeRouteScreen: React.FC = () => {
                         fontWeight: 'bold',
                         fontFamily: 'genju-medium',
                         textAlign: 'center',
+                        fontSize: 20,
+                        width: 100,
+                        height:27
                       }}
                     >
-                      {SPOT_TYPE[getRightSpotType(item.place.types)].title}
+                      {/* {SPOT_TYPE[getRightSpotType(item.place.types)].title} */                      }
+                      {item.place.name.length > 5
+                      ? `${item.place.name.substr(0, 5)}...`
+                      : item.place.name}
                     </Text>
                     <Text
                       style={{
@@ -429,8 +435,9 @@ const ArrangeRouteScreen: React.FC = () => {
                 )
                   .add('minutes', totalTime)
                   .format('H:mm')}`}
-                &nbsp;
-                {`${Math.round(totalTime / 60)}時間 ${totalTime % 60}分`}
+                &nbsp;&nbsp;
+                {`${Math.round(totalTime / 60)}時間`}
+                {/* {totalTime % 60}分} */}
                 &nbsp;
               </Text>
           </View>
@@ -445,30 +452,29 @@ const ArrangeRouteScreen: React.FC = () => {
               <Text style={thisStyle.timeButtonTextStyle}>当日予定時刻</Text>
             </TouchableOpacity>
               <Text style={thisStyle.timeTextStyle1}>
-                {moment(createPlan.dateFrom).format('YYYY年MM月DD日')}
+              &nbsp;{moment(createPlan.dateFrom).format('YYYY年MM月DD日')}&nbsp;&nbsp;
                 {`${moment(createPlan.dateFrom).format('H:mm')}~${moment(
                   createPlan.dateTo,
                 ).format('H:mm')}`}
-                &nbsp;
+                &nbsp;&nbsp;
                 {`${moment(createPlan.dateTo).diff(
                   moment(createPlan.dateFrom),
                   'hours',
                 )}時間`}
                 &nbsp;
               </Text>
-
           </View>
           <TextInput
-            placeholder="プラン名変更"
-            style={{ paddingLeft: 20, fontSize: 15 }}
+            placeholder="プラン名を入力"
+            style={{ paddingLeft: 2, fontSize: 10 ,height: 45}}
           />
         </View>
         <View
           style={{ marginTop: 5, borderColor: 'grey', borderBottomWidth: 1 }}
         >
           <TextInput
-            placeholder="ポイントを書く"
-            style={{ paddingLeft: 20, fontSize: 12, height: 45 }}
+            placeholder="ポイントを記載"
+            style={{ paddingLeft: 2, fontSize: 10, height: 45 }}
             numberOfLines={3}
             multiline
           />
