@@ -379,9 +379,15 @@ const ArrangeRouteScreen: React.FC = () => {
                         fontWeight: 'bold',
                         fontFamily: 'genju-medium',
                         textAlign: 'center',
+                        fontSize: 20,
+                        width: 100,
+                        height:27
                       }}
                     >
-                      {SPOT_TYPE[getRightSpotType(item.place.types)].title}
+                      {/* {SPOT_TYPE[getRightSpotType(item.place.types)].title} */                      }
+                      {item.place.name.length > 5
+                      ? `${item.place.name.substr(0, 5)}...`
+                      : item.place.name}
                     </Text>
                     <Text
                       style={{
@@ -418,27 +424,18 @@ const ArrangeRouteScreen: React.FC = () => {
             <TouchableOpacity style={thisStyle.timeButtonStyle}>
               <Text style={thisStyle.timeButtonTextStyle}>プラン所要時間</Text>
             </TouchableOpacity>
-            <View
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}
-            >
-              <Text style={thisStyle.timeTextEmptyStyle}>
-                {moment(createPlan.dateFrom).format('YYYY年MM月DD日')}
-              </Text>
-              <Text style={thisStyle.timeTextStyle}>
+            <Text style={thisStyle.timeTextStyle1}>
+                &nbsp;
                 {`${moment(createPlan.dateFrom).format('H:mm')}~${moment(
                   createPlan.dateFrom,
                 )
                   .add('minutes', totalTime)
                   .format('H:mm')}`}
-              </Text>
-              <Text style={thisStyle.timeTextStyle}>
+                &nbsp;&nbsp;
                 {`${Math.round(totalTime / 60)}時間`}
+                {/* {totalTime % 60}分} */}
+                &nbsp;
               </Text>
-            </View>
           </View>
           <View
             style={{
@@ -450,39 +447,30 @@ const ArrangeRouteScreen: React.FC = () => {
             <TouchableOpacity style={thisStyle.timeButtonStyle}>
               <Text style={thisStyle.timeButtonTextStyle}>当日予定時刻</Text>
             </TouchableOpacity>
-            <View
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}
-            >
-              <Text style={thisStyle.timeTextStyle}>
-                {moment(createPlan.dateFrom).format('YYYY年MM月DD日')}
-              </Text>
-              <Text style={thisStyle.timeTextStyle}>
+              <Text style={thisStyle.timeTextStyle1}>
+              &nbsp;{moment(createPlan.dateFrom).format('YYYY年MM月DD日')}&nbsp;&nbsp;
                 {`${moment(createPlan.dateFrom).format('H:mm')}~${moment(
-                  createPlan.dateFrom,
-                )
-                  .add('minute', createPlan.neededTime)
-                  .format('H:mm')}`}
+                  createPlan.dateTo,
+                ).format('H:mm')}`}
+                &nbsp;&nbsp;
+                {`${moment(createPlan.dateTo).diff(
+                  moment(createPlan.dateFrom),
+                  'hours',
+                )}時間`}
+                &nbsp;
               </Text>
-              <Text style={thisStyle.timeTextStyle}>
-                {`${createPlan.neededTime / 60}時間`}
-              </Text>
-            </View>
           </View>
           <TextInput
-            placeholder="プラン名変更"
-            style={{ paddingLeft: 20, fontSize: 15 }}
+            placeholder="プラン名を入力"
+            style={{ paddingLeft: 2, fontSize: 16 ,height: 40}}
           />
         </View>
         <View
-          style={{ marginTop: 5, borderColor: 'grey', borderBottomWidth: 1 }}
+          style={{ marginTop: 0, borderColor: 'grey', borderBottomWidth: 1 }}
         >
           <TextInput
-            placeholder="ポイントを書く"
-            style={{ paddingLeft: 20, fontSize: 12, height: 45 }}
+            placeholder="ポイントを記載"
+            style={{ paddingLeft: 2, fontSize: 16, height: 65 }}
             numberOfLines={3}
             multiline
           />
@@ -491,7 +479,7 @@ const ArrangeRouteScreen: React.FC = () => {
           style={{
             flexDirection: 'row',
             justifyContent: 'flex-end',
-            padding: 10,
+            padding: 5,
           }}
         >
           <View style={{ flexDirection: 'column', alignItems: 'flex-end' }}>
@@ -626,6 +614,14 @@ const thisStyle = StyleSheet.create({
     textAlign: 'center',
   },
   timeTextStyle: {
+    marginLeft: 8,
+    fontFamily: 'genju-medium',
+    fontSize: 14,
+    color: 'grey',
+  },
+  timeTextStyle1: {
+    position: 'absolute',
+    right: 5,
     marginLeft: 8,
     fontFamily: 'genju-medium',
     fontSize: 14,
