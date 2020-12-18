@@ -466,15 +466,15 @@ const ArrangeRouteScreen: React.FC = () => {
           </View>
           <TextInput
             placeholder="プラン名を入力"
-            style={{ paddingLeft: 2, fontSize: 10 ,height: 45}}
+            style={{ paddingLeft: 2, fontSize: 16 ,height: 40}}
           />
         </View>
         <View
-          style={{ marginTop: 5, borderColor: 'grey', borderBottomWidth: 1 }}
+          style={{ marginTop: 0, borderColor: 'grey', borderBottomWidth: 1 }}
         >
           <TextInput
             placeholder="ポイントを記載"
-            style={{ paddingLeft: 2, fontSize: 10, height: 45 }}
+            style={{ paddingLeft: 2, fontSize: 16, height: 65 }}
             numberOfLines={3}
             multiline
           />
@@ -483,7 +483,7 @@ const ArrangeRouteScreen: React.FC = () => {
           style={{
             flexDirection: 'row',
             justifyContent: 'flex-end',
-            padding: 10,
+            padding: 5,
           }}
         >
           <View style={{ flexDirection: 'column', alignItems: 'flex-end' }}>
