@@ -33,8 +33,8 @@ const EntryScreen: React.FC = () => {
     setBirthday,
     prefecture,
     setPrefecture,
-    onedid,
-    setOnedid,
+    onedateId,
+    setOnedateId,
     createUser,
     errors,
   } = useSignup();
@@ -118,12 +118,12 @@ const EntryScreen: React.FC = () => {
 
 
   /** 1DID設定フォームの描画 */
-  const OnedidForm = (): JSX.Element => {
-    const onedidErrors: Array<string> = [];
+  const OnedateIdForm = (): JSX.Element => {
+    const onedateIdErrors: Array<string> = [];
     if (errors && errors.detail_message.length > 0) {
       errors.detail_message.forEach((item) => {
         if (item.match(/OnedateID/)) {
-          onedidErrors.push(item.replace('OnedateIDは', ''));
+          onedateIdErrors.push(item.replace('OnedateIDは', ''));
         }
       });
     }
@@ -135,9 +135,9 @@ const EntryScreen: React.FC = () => {
         <View style={{ width: LAYOUT.window.width * 0.4 }}>
           <IdPreferenceForm
             placeholder=""
-            value={onedid}
-            setValue={setOnedid}
-            errors={onedidErrors}
+            value={onedateId}
+            setValue={setOnedateId}
+            errors={onedateIdErrors}
           />
         </View>
       </View>
@@ -163,7 +163,7 @@ const EntryScreen: React.FC = () => {
       {SexButtons}
       {BirthdayForm}
       {AddressForm}
-      {OnedidForm()}
+      {OnedateIdForm()}
       {InputCompleteButton}
       <View style={appStyle.emptySpace} />
     </View>

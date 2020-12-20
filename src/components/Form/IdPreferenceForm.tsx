@@ -19,7 +19,6 @@ export const IdPreferenceForm: React.FC<Props> = (props: Props) => {
   const { placeholder, value, setValue, errors }　= props;
 
   const NoInput = <View />;
-  const SuccessMark = <AntDesign name="checkcircle" color="green" />;
   const ErrorMark = <AntDesign name="closecircle" color="red" />;
 
   // 未入力
@@ -40,17 +39,9 @@ export const IdPreferenceForm: React.FC<Props> = (props: Props) => {
     );
   }
 
-  if (!validateAlphaNumeric(value)) {
-    errors.push('半角英数を入力してください');
-  }
-
-
-  if (validateStringLength(value)) {
-    errors.push('6文字以上20文字以内にしてください');
-  }
-
    // 異常入力
     if (errors && errors.length > 0) {
+
       const ErrorList = errors.map((item) => (
       <Text key={item} style={appTextStyle.errorText}>
         {item}
@@ -73,6 +64,7 @@ export const IdPreferenceForm: React.FC<Props> = (props: Props) => {
     );
   }
 
+
   // 正常入力
   return (
     <View>
@@ -83,7 +75,6 @@ export const IdPreferenceForm: React.FC<Props> = (props: Props) => {
           value={value}
           style={{ width: LAYOUT.window.width * 0.75 }}
           />
-          {SuccessMark}
       </Item>
     </View>
   );
