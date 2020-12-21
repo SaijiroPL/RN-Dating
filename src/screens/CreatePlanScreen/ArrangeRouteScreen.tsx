@@ -200,6 +200,9 @@ const ArrangeRouteScreen: React.FC = () => {
         need_time: item.cost,
         place_id: item.place.place_id,
         icon_url: item.place.icon,
+        img_path: item.place.hpImage
+          ? item.place.hpImage
+          : getPlacePhoto(item.place.photos[0].photo_reference),
       };
       spotsForApi.push(obj);
     });

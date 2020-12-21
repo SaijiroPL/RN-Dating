@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
 // from app
-import EditPostScreen from 'app/src/screens/EditDatePlanScreen/EditDatePlanScreen';
+import EditDatePlanScreen from 'app/src/screens/EditDatePlanScreen/EditDatePlanScreen';
 
 const PostStack = createStackNavigator();
 
@@ -11,7 +11,7 @@ const PostNavigator: React.FC = () => (
   <PostStack.Navigator>
     <PostStack.Screen
       name="EditDatePlan"
-      component={EditPostScreen}
+      component={EditDatePlanScreen}
       options={{ title: '投稿編集' }}
     />
   </PostStack.Navigator>

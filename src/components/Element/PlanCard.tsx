@@ -41,7 +41,7 @@ require('moment/locale/ja');
 moment.locale('ja');
 /** デートプランカード */
 export const PlanCard: React.FC<Props> = (props: Props) => {
-  const { navigate } = useNavigation();
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const { showActionSheetWithOptions } = useActionSheet();
 
@@ -63,22 +63,22 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
 
   // /** プラン押下時の処理 */
   const onPlanPress = useCallback(() => {
-    navigate('Detail', { planId: plan.plan_id });
+    navigation.navigate('Detail', { planId: plan.plan_id });
   }, [plan]);
 
   /** コメント数押下時の処理 */
   const onCommentPress = useCallback(() => {
-    navigate('Comment', { planId: plan.plan_id });
+    navigation.navigate('Comment', { planId: plan.plan_id });
   }, [plan]);
 
   /** お気に入り数押下時の処理 */
   const onLikePress = useCallback(() => {
-    navigate('Like', { planId: plan.plan_id });
+    navigation.navigate('Like', { planId: plan.plan_id });
   }, [plan]);
 
   /** ユーザー押下時の処理 */
   const onUserPress = useCallback(() => {
-    navigate('Profile', { userId: plan.user_id });
+    navigation.navigate('Profile', { userId: plan.user_id });
   }, [plan]);
 
   useEffect(() => {
@@ -87,6 +87,7 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
 
   useEffect(() => {
     setDetail(planDetail.plan);
+    console.log(planDetail.plan.plan_id);
   }, [planDetail.plan]);
 
   const onLike = async () => {
@@ -104,7 +105,7 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
       type: ActionType.SET_MY_PLAN,
       payload: plan,
     });
-    navigate('Road');
+    navigation.navigate('Road');
   };
 
   const optionsMyPlan = [
@@ -148,6 +149,16 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
       },
       (buttonIndex) => {
         // Do something here depending on the button index selected
+        if (plan.user_id === loginUser.id) {
+          if (buttonIndex === 0) {
+            console.log('delete');
+          } else if (buttonIndex === 1) {
+            navigation.navigate('EditDatePlanNav', {
+              screen: 'EditDatePlan',
+              params: { plan: detail },
+            });
+          }
+        }
       },
     );
   }
@@ -194,7 +205,7 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
                 fontWeight: 'bold',
               }}
             >
-              {formatMinute(plan.needtime)}
+              {formatMinute(detail.need_time)}
             </Text>
           </View>
         </Body>
@@ -402,20 +413,22 @@ export const PlanCard: React.FC<Props> = (props: Props) => {
         />
       </CardItem>
       <CardItem cardBody>
-        <MapView
-          region={{
-            latitude: plan.spots[selectedSpot].latitude,
-            longitude: plan.spots[selectedSpot].longitude,
-            latitudeDelta: 0.005,
-            longitudeDelta: 0.005,
-          }}
-          style={thisStyle.map}
-        >
-          {detail.spots.map((place, index) => renderDirection(place, index))}
-          {detail.spots.map((place, index) =>
-            renderMarker(place, index <= selectedSpot ? 'orange' : 'grey'),
-          )}
-        </MapView>
+        {plan.spots.length > 0 && (
+          <MapView
+            region={{
+              latitude: plan.spots[selectedSpot].latitude,
+              longitude: plan.spots[selectedSpot].longitude,
+              latitudeDelta: 0.005,
+              longitudeDelta: 0.005,
+            }}
+            style={thisStyle.map}
+          >
+            {detail.spots.map((place, index) => renderDirection(place, index))}
+            {detail.spots.map((place, index) =>
+              renderMarker(place, index <= selectedSpot ? 'orange' : 'grey'),
+            )}
+          </MapView>
+        )}
       </CardItem>
       <CardItem style={thisStyle.description}>
         <View style={{ flex: 1 }}>

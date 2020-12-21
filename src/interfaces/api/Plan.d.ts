@@ -7,7 +7,7 @@ export interface ISpot {
 
 /** デートプラン一覧取得APIレスポンス要素 */
 export interface IPlan {
-  needtime(needtime: any): import('react').ReactNode;
+  need_time: number;
   plan_id: string;
   title: string;
   description: string;
@@ -37,6 +37,7 @@ export interface ISpotFull {
   need_time: number;
   place_id: string;
   icon_url: string;
+  img_path: string;
 }
 
 /** デートプラン詳細取得APIレスポンス */
