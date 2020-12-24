@@ -15,5 +15,7 @@ export * from './DateTimePickerLabel';
 export * from './PrefecturePicker';
 /** 自己紹介編集フォーム */
 export * from './InputLabelTextAreaForm';
+/** １DID設定フォーム */
+export * from './IdPreferenceForm';
 
 export * from './DateTimePickerLabel';

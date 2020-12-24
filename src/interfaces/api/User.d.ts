@@ -25,6 +25,7 @@ export interface ICreateUserBody {
   area: string;
   mail_address: string;
   password: string;
+  onedate_id: string;
 }
 
 /** アプリにログインAPIリクエストボディ */

@@ -58,3 +58,19 @@ export function validateAlphaNumeric(value: string): boolean {
 
   return false;
 }
+
+/**
+ * 文字数が6文字以上20文字以内かどうかをチェックする
+ * @param value 任意の文字列
+ * @return boolean
+ */
+
+ export function validateStringLength(value: string): boolean {
+  if (value.length < 6) {
+    return true;
+  } else if (value.length > 20) {
+    return true;
+  }
+
+  return false;
+}

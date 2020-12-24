@@ -33,6 +33,9 @@ export const useSignup = () => {
   /** 都道府県 */
   const [prefecture, setPrefecture] = useState<string>('');
 
+  /** 1DID */
+  const [onedateId, setOnedateId] = useState<string>('');
+
   /** 異常レスポンス */
   const [errors, setErrors] = useState<IApiError>();
 
@@ -47,6 +50,7 @@ export const useSignup = () => {
       area: prefecture,
       mail_address: registerUser.mailAddress,
       password: registerUser.password,
+      onedate_id: onedateId,
     };
 
     try {
@@ -92,6 +96,8 @@ export const useSignup = () => {
     setBirthday,
     prefecture,
     setPrefecture,
+    onedateId,
+    setOnedateId,
     createUser,
     errors,
   };
