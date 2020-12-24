@@ -34,7 +34,7 @@ export const IdPreferenceForm: React.FC<Props> = (props: Props) => {
           />
         </Item>
         {NoInput}
-        <Text style={appTextStyle.standardLightText}>※後で設定できます</Text>
+        <Text style={appTextStyle.standardLightText}>※後で変更できます</Text>
       </View>
     );
   }
