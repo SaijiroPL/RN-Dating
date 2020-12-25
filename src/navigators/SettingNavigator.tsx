@@ -11,6 +11,7 @@ import LinkedAccountScreen from 'app/src/screens/SettingScreen/LinkedAccountScre
 import LogoutScreen from 'app/src/screens/SettingScreen/LogoutScreen';
 import PrivacyPolicyScreen from 'app/src/screens/TopScreen/PrivacyPolicyScreen';
 import TermsScreen from 'app/src/screens/TopScreen/TermsScreen';
+import SCCScreen from 'app/src/screens/TopScreen/SCCScreen';
 import AboutScreen from 'app/src/screens/TopScreen/AboutScreen';
 
 const SettingStack = createStackNavigator();
@@ -62,6 +63,11 @@ const SettingNavigator: React.FC = () => (
       name="Privacy"
       component={PrivacyPolicyScreen}
       options={{ title: 'プライバシーポリシー' }}
+    />
+    <SettingStack.Screen
+      name="SCC"
+      component={SCCScreen}
+      options={{ title: '特定商取引法' }}
     />
     <SettingStack.Screen
       name="About"
