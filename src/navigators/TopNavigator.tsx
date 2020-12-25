@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import AppTopScreen from 'app/src/screens/TopScreen/AppTopScreen';
 import TermsScreen from 'app/src/screens/TopScreen/TermsScreen';
 import PrivacyPolycyScreen from 'app/src/screens/TopScreen/PrivacyPolicyScreen';
+import SCCScreen from 'app/src/screens/TopScreen/SCCScreen';
 
 const TopStack = createStackNavigator();
 
@@ -25,6 +26,11 @@ const TopNavigator: React.FC = () => (
       name="Privacy"
       component={PrivacyPolycyScreen}
       options={{ title: 'プライバシーポリシー' }}
+    />
+    <TopStack.Screen
+      name="SCC"
+      component={SCCScreen}
+      options={{ title: '特定商取引法' }}
     />
   </TopStack.Navigator>
 );

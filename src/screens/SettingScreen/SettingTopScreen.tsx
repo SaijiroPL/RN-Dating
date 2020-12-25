@@ -44,6 +44,7 @@ const SettingTopScreen: React.FC = () => {
           {renderLink('ヘルプセンター', 'Faq')}
           {renderLink('利用規約', 'Terms')}
           {renderLink('プライバシーポリシー', 'Privacy')}
+          {renderLink('特定商取引法', 'SCC')}
           {renderLink('運営主体について', 'About')}
           {renderLink('検索履歴の削除', 'History')}
         </List>

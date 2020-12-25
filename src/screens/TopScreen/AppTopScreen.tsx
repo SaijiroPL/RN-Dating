@@ -51,6 +51,10 @@ const AppTopScreen: React.FC = () => {
     false,
   );
 
+   const [acceptSCC, setAcceptSCC] = useState<boolean>(
+    false,
+  );
+
   /** パスワード確認バリデーションエラー(新規登録用)  */
   const [confirmPassErrAtSignup, setConfirmPassErrAtSignup] = useState<
     Array<string>
@@ -70,6 +74,11 @@ const AppTopScreen: React.FC = () => {
   /** プライバシーポリシーリンク押下時の処理 */
   const toPrivacy = useCallback(() => {
     navigate('Privacy');
+  }, []);
+
+   /** 特定商取引法押下時の処理 */
+  const toSCC = useCallback(() => {
+    navigate('SCC');
   }, []);
 
   /** メールアドレスでログイン押下時の処理 */
@@ -232,11 +241,21 @@ const AppTopScreen: React.FC = () => {
         }}
         title="利用規約とプライバシーポリシーに同意します"
       />
+      <CheckBox
+        checked={acceptSCC}
+        wrapperStyle={{ margin: 0, padding: 0 }}
+        containerStyle={[thisStyle.checkBoxStyle, thisStyle.checkBoxMarginStyle]}
+        onPress={() => {
+          setAcceptSCC(!acceptSCC);
+        }}
+        title="特定商取引法に同意します"
+      />
       <View style={thisStyle.completeButtonContainer}>
         {/* 未入力項目がある場合はボタン押下不可 */}
         {emailAtSignup.length > 0 &&
         passAtSignup.length > 0 &&
         acceptTermsAndPrivacy &&
+        acceptSCC &&
         confirmPassAtSignup.length > 0 ? (
           <CompleteButton title="新規登録" onPress={onSignUpButtonPress} />
         ) : (
@@ -255,6 +274,10 @@ const AppTopScreen: React.FC = () => {
       <View style={{ width: 20 }} />
       <Text onPress={toPrivacy} style={appTextStyle.linkText}>
         プライバシーポリシー
+      </Text>
+      <View style={{ width: 20 }} />
+      <Text onPress={toSCC} style={appTextStyle.linkText}>
+        特定商取引法
       </Text>
     </View>
   );
@@ -301,11 +324,14 @@ const thisStyle = StyleSheet.create({
     flexDirection: 'row',
   },
   checkBoxStyle: {
-    marginBottom: 30,
     backgroundColor: 'transparent',
     borderWidth: 0,
     marginLeft: 0,
     paddingLeft: 5,
+  },
+  checkBoxMarginStyle: {
+    marginBottom: 30,
+    marginTop: -10,
   },
   welcomeText: {
     color: COLOR.textTintColor,

@@ -58,6 +58,8 @@ export const WEB_ENDPOINT = {
   TERMS: `${WEB_HOST}/terms`,
   // プライバシーポリシー
   PRIVACY_POLICY: `${WEB_HOST}/privacy`,
+  // 特定商取引法
+  SCC: `${WEB_HOST}/scc`,
 };
 
 export const EKI_ENDPOINT = {
